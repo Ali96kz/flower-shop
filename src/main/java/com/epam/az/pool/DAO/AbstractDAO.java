@@ -5,6 +5,8 @@ import com.epam.az.pool.pool.ConnectionPool;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public abstract class AbstractDAO<E> implements DAO<E> {
@@ -34,9 +36,8 @@ public abstract class AbstractDAO<E> implements DAO<E> {
                 }
             }
             sql.append(")VALUES(" + values + ");");
-            Statement statement = connectionPool.getConn().createStatement();
-            statement.execute(sql.toString());
-        } catch (SQLException | IllegalAccessException e1) {
+            executeSql(sql.toString());
+        } catch (IllegalAccessException e1) {
             e1.printStackTrace();
         }
     }
@@ -54,9 +55,9 @@ public abstract class AbstractDAO<E> implements DAO<E> {
                 Object value = fields[i].get(item);
                 if (i == fields.length - 1) {
                     if (value instanceof String) {
-                        sql.append(fields[i].getName() + " = " + "\"" + value + "\"" );
+                        sql.append(fields[i].getName() + " = " + "\"" + value + "\"");
                     } else
-                        sql.append(fields[i].getName() + " = " + value );
+                        sql.append(fields[i].getName() + " = " + value);
                 } else {
                     if (value instanceof String) {
                         sql.append(fields[i].getName() + " = " + "\"" + value + "\"" + ", ");
@@ -64,11 +65,17 @@ public abstract class AbstractDAO<E> implements DAO<E> {
                         sql.append(fields[i].getName() + " = " + value + ", ");
                 }
             }
-            sql.append(" where id = "+ fields[0].get(item)+";");
-            Statement statement = connectionPool.getConn().createStatement();
-            statement.execute(sql.toString());
+            sql.append(" where id = " + fields[0].get(item) + ";");
+            executeSql(sql.toString());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void executeSql(String sql) {
+        try {
+            Statement statement =  connectionPool.getConn().createStatement();
+            statement.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,6 +86,21 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     }
 
     public void delete(E item) {
+        try {
+            Field field = item.getClass().getDeclaredField("id");
+            field.setAccessible(true);
+
+            Calendar c = new GregorianCalendar();
+            java.util.Date utilDate = c.getTime();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            String sql = ("UPDATE " + item.getClass().getSimpleName() + " set deleteDAY = '" + sqlDate + "' where id = "+field.get(item)+";");
+            System.out.println(sql);
+            executeSql(sql);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 }
