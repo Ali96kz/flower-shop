@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
         AbstractDAO abstractDAO = new OriginDAO();
         Origin origin = new Origin();
-        origin.setCountry("sad");
-        origin.setProvince("asd");
+        origin.setCountry("sss");
+        origin.setProvince("asdasd");
         origin.setId(1);
-        abstractDAO.insert(origin);
+        abstractDAO.update(origin);
     }
 }

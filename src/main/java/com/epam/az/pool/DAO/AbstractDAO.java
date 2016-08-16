@@ -11,12 +11,11 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     ConnectionPool connectionPool = new ConnectionPool();
 
     public void insert(E e) {
-        Class aClass = e.getClass();
         try {
-            Field[] fields = aClass.getDeclaredFields();
+            Field[] fields = e.getClass().getDeclaredFields();
             StringBuilder sql = new StringBuilder();
             StringBuilder values = new StringBuilder();
-            sql.append("INSERT INTO " + aClass.getSimpleName() + "(");
+            sql.append("INSERT INTO " + e.getClass().getSimpleName() + "(");
 
             for (int i = 0; i < fields.length; i++) {
                 sql.append(fields[i].getName());
@@ -47,7 +46,32 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     }
 
     public void update(E item) {
-
+        StringBuilder sql = new StringBuilder("UPDATE " + item.getClass().getSimpleName() + " SET ");
+        Field[] fields = item.getClass().getDeclaredFields();
+        try {
+            for (int i = 0; i < fields.length; i++) {
+                fields[i].setAccessible(true);
+                Object value = fields[i].get(item);
+                if (i == fields.length - 1) {
+                    if (value instanceof String) {
+                        sql.append(fields[i].getName() + " = " + "\"" + value + "\"" );
+                    } else
+                        sql.append(fields[i].getName() + " = " + value );
+                } else {
+                    if (value instanceof String) {
+                        sql.append(fields[i].getName() + " = " + "\"" + value + "\"" + ", ");
+                    } else
+                        sql.append(fields[i].getName() + " = " + value + ", ");
+                }
+            }
+            sql.append(" where id = "+ fields[0].get(item)+";");
+            Statement statement = connectionPool.getConn().createStatement();
+            statement.execute(sql.toString());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<E> getAll() {
