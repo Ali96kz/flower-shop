@@ -1,16 +1,27 @@
 package com.epam.az.pool.entity;
 
+
+import java.sql.Date;
+
 public abstract class BaseEntity {
     private int id;
     private int price;
     private int count;
-
+    private Date deleteDate;
     private String description;
     private String name;
     private String colour;
     private Origin origin;
 
     public BaseEntity() {
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public int getCount() {

@@ -8,4 +8,5 @@ public interface DAO<E> {
     public void update(E item);
     public List<E> getAll();
     public void delete(E item);
+
 }

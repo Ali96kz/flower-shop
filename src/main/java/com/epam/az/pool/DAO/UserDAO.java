@@ -1,4 +1,9 @@
 package com.epam.az.pool.DAO;
 
-public class UserDAO {
+import com.epam.az.pool.entity.User;
+
+public class UserDAO extends AbstractDAO<User>{
+    public UserDAO(){
+        setMainClas(User.class);
+    }
 }
