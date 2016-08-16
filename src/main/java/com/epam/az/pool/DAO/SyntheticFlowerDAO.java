@@ -1,4 +1,6 @@
 package com.epam.az.pool.DAO;
 
-public class SyntheticFlowerDAO {
+import com.epam.az.pool.entity.SyntheticFlower;
+
+public class SyntheticFlowerDAO extends AbstractDAO<SyntheticFlower>{
 }

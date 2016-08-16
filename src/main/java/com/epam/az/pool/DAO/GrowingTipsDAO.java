@@ -1,4 +1,6 @@
 package com.epam.az.pool.DAO;
 
-public class GrowingTipsDAO {
+import com.epam.az.pool.entity.GrowingTips;
+
+public class GrowingTipsDAO extends AbstractDAO<GrowingTips>{
 }
