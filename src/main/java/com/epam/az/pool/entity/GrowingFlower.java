@@ -3,6 +3,7 @@ package com.epam.az.pool.entity;
 public  class GrowingFlower extends Flower{
     private GrowingTips growingTips;
     private String type;
+
     public GrowingTips getGrowingTips() {
         return growingTips;
     }
@@ -11,4 +12,11 @@ public  class GrowingFlower extends Flower{
         this.growingTips = growingTips;
     }
 
- }
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+}

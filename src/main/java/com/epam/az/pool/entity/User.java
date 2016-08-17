@@ -2,21 +2,13 @@ package com.epam.az.pool.entity;
 
 import java.util.Date;
 
-public class User {
-    private Integer id;
+public class User extends BaseEntity {
     private String NickName;
-    private String name;
     private String lastname;
     private Date dateBirhday;
-    public User(){
 
-    }
-    public Integer getId() {
-        return id;
-    }
+    public User() {
 
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNickName() {
@@ -25,14 +17,6 @@ public class User {
 
     public void setNickName(String nickName) {
         NickName = nickName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLastname() {

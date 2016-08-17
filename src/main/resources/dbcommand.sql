@@ -43,12 +43,12 @@ CREATE TABLE `order`
   id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   userId INT(11),
   productId INT(11),
-  CONSTRAINT productID FOREIGN KEY (productId) REFERENCES product (id),
+  CONSTRAINT productID FOREIGN KEY (productId) REFERENCES baseEntity (id),
   CONSTRAINT userID FOREIGN KEY (userId) REFERENCES user (id)
 );
 CREATE INDEX productID ON `order` (productId);
 CREATE INDEX userID ON `order` (userId);
-CREATE TABLE product
+CREATE TABLE baseEntity
 (
   id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name CHAR(16),
@@ -57,7 +57,7 @@ CREATE TABLE product
   productId INT(11),
   CONSTRAINT product___fk FOREIGN KEY (productId) REFERENCES aliveFlower (id)
 );
-CREATE INDEX product___fk ON product (productId);
+CREATE INDEX product___fk ON baseEntity (productId);
 CREATE TABLE syntheticFlower
 (
   id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,

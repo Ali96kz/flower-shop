@@ -1,19 +1,11 @@
 package com.epam.az.pool.entity;
 
-public class Order {
-    private Integer id;
+public class Order extends BaseEntity{
     private User user;
-    private Product product;
+    private BaseEntity baseEntity;
 
     public Order(){
 
-    }
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public User getUser() {
@@ -24,11 +16,11 @@ public class Order {
         this.user = user;
     }
 
-    public Product getProduct() {
-        return product;
+    public BaseEntity getBaseEntity() {
+        return baseEntity;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setBaseEntity(BaseEntity baseEntity) {
+        this.baseEntity = baseEntity;
     }
 }
