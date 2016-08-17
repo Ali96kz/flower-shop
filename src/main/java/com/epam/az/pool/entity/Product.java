@@ -3,7 +3,7 @@ package com.epam.az.pool.entity;
 
 import java.sql.Date;
 
-public abstract class BaseEntity {
+public abstract class Product {
     private int id;
     private int price;
     private int count;
@@ -13,7 +13,7 @@ public abstract class BaseEntity {
     private String colour;
     private Origin origin;
 
-    public BaseEntity() {
+    public Product() {
     }
 
     public Date getDeleteDate() {

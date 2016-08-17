@@ -1,13 +1,13 @@
 package com.epam.az.pool.entity;
 
-public abstract class Flower extends BaseEntity {
-    private String soil;
+public abstract class Flower extends Product {
+    private VisualParameters visualParameters;
 
-    public String getSoil() {
-        return soil;
+    public VisualParameters getVisualParameters() {
+        return visualParameters;
     }
 
-    public void setSoil(String soil) {
-        this.soil = soil;
+    public void setVisualParameters(VisualParameters visualParameters) {
+        this.visualParameters = visualParameters;
     }
 }
