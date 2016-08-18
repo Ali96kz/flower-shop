@@ -1,4 +1,7 @@
-    .idea/
+    .
     *.iml
     .target/
     /logs/application.log
+.idea/
+target/
+task-4-db.iml
