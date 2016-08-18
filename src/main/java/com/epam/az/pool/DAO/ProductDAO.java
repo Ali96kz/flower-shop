@@ -21,4 +21,5 @@ public class ProductDAO extends AbstractDAO<Product> {
                 ", type = '"+product.getType()+"';";
         executeSql(sql);
     }
+
 }
