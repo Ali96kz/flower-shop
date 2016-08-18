@@ -240,6 +240,8 @@ public abstract class AbstractDAO<E> implements DAO<E> {
                     int value = resultSet.getInt(fields[i].getName());
                     fields[i].set(e, value);
 
+                } else if(!fields[i].getType().isPrimitive()){
+
                 } else {
                     String value = resultSet.getString(fields[i].getName());
                     fields[i].set(e, value);

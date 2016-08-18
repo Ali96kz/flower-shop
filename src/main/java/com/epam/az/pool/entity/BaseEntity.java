@@ -29,8 +29,8 @@ public abstract class BaseEntity {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
+    public Integer getId() {
+        return id.intValue();
     }
 
     public void setId(Integer id) {

@@ -2,6 +2,7 @@ package com.epam.az.pool.DAO;
 
 import com.epam.az.pool.entity.Origin;
 import com.epam.az.pool.pool.ConnectionPool;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -9,6 +10,7 @@ import static org.junit.Assert.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class OriginDAOTest {
     static AbstractDAO originDAO;
@@ -44,7 +46,7 @@ public class OriginDAOTest {
         Statement statement = connectionPool.getConnection().createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT id, country, province FROM Origin WHERE ID = " + origin.getId());
         if (resultSet.next()){
-            assertEquals("Incorrect id", origin.getId(), resultSet.getInt("id"));
+            assertEquals("Incorrect id", origin.getId().intValue(), resultSet.getInt("id"));
             assertEquals("Didn't update", origin.getCountry(), resultSet.getString("country"));
             assertEquals("Didn't update", origin.getProvince(), resultSet.getString("province"));
         }
@@ -56,7 +58,7 @@ public class OriginDAOTest {
         Statement statement = connectionPool.getConnection().createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT id, country, province FROM Origin WHERE ID = " + 1);
         if (resultSet.next()){
-            assertEquals("Incorrect id", origin.getId(), resultSet.getInt("id"));
+            assertEquals("Incorrect id", origin.getId().intValue(), resultSet.getInt("id"));
             assertEquals("Incorrect country", origin.getCountry(), resultSet.getString("country"));
             assertEquals("Incorrect province", origin.getProvince(), resultSet.getString("province"));
         }
@@ -75,4 +77,13 @@ public class OriginDAOTest {
             assertNotNull("Origin doesn't delete", origin.getDeleteDate());
         }
     }
+    @Test
+    public void getAllTest() throws SQLException {
+        List<Origin> origins = originDAO.getAll();
+        Statement statement = connectionPool.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT deleteDAY FROM Origin");
+        //TODO assert with resultSet size
+//        assertEquals("", ,origins.size());
+    }
+
 }
