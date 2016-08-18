@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
+public abstract class AbstractDAO<E> implements DAO<E> {
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Class genericClass;
 

@@ -11,10 +11,12 @@ import java.util.List;
 public class ProductService<T extends Product> {
     AbstractDAO <Product> productDAO = new ProductDAO();
     AbstractDAO <T> flowerDao =new FlowerDAO();
-    public void insert(Product product) {
+
+    public int insert(Product product) {
         int id = productDAO.insert(product);
         product.setId(id);
         flowerDao.insert((T) product);
+        return id;
     }
 
     public void update(Product product) {

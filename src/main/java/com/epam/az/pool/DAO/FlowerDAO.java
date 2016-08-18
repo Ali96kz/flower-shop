@@ -9,8 +9,8 @@ public class FlowerDAO<T extends Flower> extends AbstractDAO<T> {
 
     public int insert(Flower flower) {
         StringBuilder sql = new StringBuilder("INSERT INTO " + flower.getClass().getSimpleName()
-                + " (id, ");
-        StringBuilder values = new StringBuilder("Values(" + flower.getId() + ", ");
+                + " (id, visualParametersId ,  ");
+        StringBuilder values = new StringBuilder("Values(" + flower.getId() + ", "+flower.getVisualParameters().getId()+", ");
         Field[] fields = flower.getClass().getDeclaredFields();
         try {
             for (Field field : fields) {

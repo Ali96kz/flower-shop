@@ -6,8 +6,8 @@ public class ProductDAO extends AbstractDAO<Product> {
 
     public int insert(Product product) {
         String sql = ("INSERT INTO Product(originId, name, description, type)" +
-                "VALUES(" + product.getOrigin().getId() + ", \'" + product.getName() + "\',\' " +
-                product.getDescription() + "\', \'" + product.getType() +"\');");
+                "VALUES(" + product.getOrigin().getId() + ", \'" + product.getName() + "\',\'" +
+                product.getDescription() + "\', \'" + product.getType()+ "\');");
 
         return executeSql(sql.toString());
     }

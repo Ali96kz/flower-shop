@@ -1,6 +1,6 @@
 package com.epam.az.pool.entity;
 
-public class VisualParameters {
+public class VisualParameters extends BaseEntity{
     private String colorSteam;
     private String colorLeaves;
     private int averageHeight;
