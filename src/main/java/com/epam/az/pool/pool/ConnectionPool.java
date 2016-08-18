@@ -40,7 +40,7 @@ public class ConnectionPool  {
     }
 
     public Connection getConnection() {
-        if (!stack.isEmpty()) {
+        if (stack.isEmpty()) {
             addConnectionInStack(increment);
             getConnection();
         }

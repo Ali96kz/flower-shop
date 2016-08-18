@@ -6,13 +6,16 @@ import com.epam.az.pool.pool.ConnectionPool;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public abstract class AbstractDAO<E > implements DAO<E> {
+public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Class genericClass;
 
@@ -34,34 +37,41 @@ public abstract class AbstractDAO<E > implements DAO<E> {
         return genericClass;
     }
 
-    public void insert(E e) {
+    public int insert(E e) {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
-        sql.append("INSERT INTO " + e.getClass().getSimpleName() + "(");
+        sql.append("INSERT INTO " + getGenericClass().getSimpleName()+ "(");
         fillSqlAndVAlue(sql, values, e);
-        executeSql(sql + ")values(" + values + ");");
+
+        return executeSql(sql + ")values(" + values + ");");
+
     }
 
-
-    private void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
-        Field[] fields = e.getClass().getDeclaredFields();
+    public void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
+        Field[] fields = getGenericClass().getDeclaredFields();
         try {
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
-                sql.append(fields[i].getName() + ", ");
-                Object value = null;
-                value = fields[i].get(e);
-                if (value instanceof String) {
-                    values.append("\"" + value + "\", ");
-                } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
-                    values.append(value + ", ");
+                Object value = fields[i].get(e);
+                if (fields[i].getName().equalsIgnoreCase("id")) {
+                    if(value != null) {
+                        sql.append("id, ");
+                        values.append(value + " , ");
+                    }
                 } else {
-                    Integer id = getObjectId(fields[i], e);
-                    values.append(id);
+                    sql.append(fields[i].getName() + ", ");
+                    if (value instanceof String) {
+                        values.append("\'" + value + "\', ");
+                    } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
+                        values.append(value + ", ");
+                    } else {
+                        Integer id = getObjectId(fields[i], e);
+                        values.append(id);
+                    }
                 }
-                deleteLastDot(sql);
-                deleteLastDot(values);
             }
+            deleteLastDot(sql);
+            deleteLastDot(values);
         } catch (IllegalAccessException e1) {
             e1.printStackTrace();
         }
@@ -117,16 +127,23 @@ public abstract class AbstractDAO<E > implements DAO<E> {
         }
     }
 
-    public void executeSql(String sql) {
+    protected int executeSql(String sql) {
         Connection connection = connectionPool.getConnection();
+        int result = 0;
+        System.out.println(sql);
         try {
             Statement statement = connection.createStatement();
-            statement.execute(sql);
+            statement.execute(sql,Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             connectionPool.returnConnection(connection);
         }
+        return result;
     }
 
     protected String createSelectSQL(Field[] fields) {
@@ -149,6 +166,7 @@ public abstract class AbstractDAO<E > implements DAO<E> {
         Connection connection = connectionPool.getConnection();
         try {
             statement = connection.createStatement();
+            System.out.println(sql.toString());
             resultSet = statement.executeQuery(sql.toString());
 
         } catch (SQLException e) {
@@ -184,7 +202,7 @@ public abstract class AbstractDAO<E > implements DAO<E> {
         try {
             result = getGenericClass().newInstance();
             String selectSQL = createSelectSQL(getGenericClass().getDeclaredFields());
-            ResultSet resultSet = executeSqlQuery(selectSQL + "where id = " + id);
+            ResultSet resultSet = executeSqlQuery(selectSQL + " where id = " + id + ";");
             if (resultSet.next())
                 parseResultSet(result, resultSet);
         } catch (SQLException | InstantiationException | IllegalAccessException e) {

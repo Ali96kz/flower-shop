@@ -3,6 +3,15 @@ package com.epam.az.pool.entity;
 public abstract class Product extends BaseEntity{
     private int price;
     private Origin origin;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Origin getOrigin() {
         return this.origin;

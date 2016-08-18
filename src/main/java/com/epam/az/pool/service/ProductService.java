@@ -1,32 +1,32 @@
 package com.epam.az.pool.service;
 
 import com.epam.az.pool.DAO.AbstractDAO;
+import com.epam.az.pool.DAO.FlowerDAO;
 import com.epam.az.pool.DAO.ProductDAO;
 import com.epam.az.pool.DAO.UnityDAO;
+import com.epam.az.pool.entity.BaseEntity;
 import com.epam.az.pool.entity.Product;
+import com.epam.az.pool.entity.SyntheticFlower;
 
 import java.util.List;
 
 public class ProductService<T extends Product> {
-    AbstractDAO<Product> abstractDAO = new ProductDAO();
-
+    AbstractDAO <Product> abstractDAO = new ProductDAO();
+    AbstractDAO <Product> flowerDao =new FlowerDAO();
     public void insert(Product product) {
-        abstractDAO.insert(product);
-        int id = 152;//TODO get This id from product table
+
+        int id = abstractDAO.insert(product);
         product.setId(id);
-        UnityDAO unityDAO = new UnityDAO(product.getClass());
-        unityDAO.insert(product);
+        flowerDao.insert(product);
     }
 
     public void update(Product product) {
         abstractDAO.update(product);
-        int id = 152;//TODO get This id from product table
-        UnityDAO unityDAO = new UnityDAO(product.getClass());
-        unityDAO.insert(product);
+        flowerDao.update(product);
     }
 
     public T findById(int id) {
-        //TODO JOIN
+
         Product product = abstractDAO.findById(id);
         UnityDAO unityDAO = new UnityDAO(product.getClass());
         T result = (T) unityDAO.findById(id);
@@ -34,10 +34,10 @@ public class ProductService<T extends Product> {
         return result;
     }
 
-    public List<T> getAll(Class productClass) {
-        UnityDAO unityDAO = new UnityDAO(productClass);
+    public List<T> getAll() {
+
         List<T> products = (List<T>) abstractDAO.getAll();
-        List<T> result = unityDAO.getAll();
+        List<T> result = (List<T>) flowerDao.getAll();
         int i = 0;
 
         for (T t : result) {

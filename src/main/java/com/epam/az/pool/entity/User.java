@@ -6,9 +6,17 @@ public class User extends BaseEntity {
     private String NickName;
     private String lastname;
     private Date dateBirhday;
-
+    private int balance;
     public User() {
 
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public String getNickName() {
