@@ -43,7 +43,7 @@ public abstract class AbstractDAO<E > implements DAO<E> {
     }
 
 
-    public void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
+    private void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
         Field[] fields = e.getClass().getDeclaredFields();
         try {
             for (int i = 0; i < fields.length; i++) {
@@ -182,7 +182,7 @@ public abstract class AbstractDAO<E > implements DAO<E> {
     public E findById(int id) {
         E result = null;
         try {
-            result = (E) getGenericClass().newInstance();
+            result = getGenericClass().newInstance();
             String selectSQL = createSelectSQL(getGenericClass().getDeclaredFields());
             ResultSet resultSet = executeSqlQuery(selectSQL + "where id = " + id);
             if (resultSet.next())

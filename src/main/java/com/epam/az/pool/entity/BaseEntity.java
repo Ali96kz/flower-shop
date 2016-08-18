@@ -7,7 +7,6 @@ public abstract class BaseEntity {
     private Integer id;
     private String description;
     private String name;
-    private Origin origin;
     private Date deleteDate;
 
     public BaseEntity() {
@@ -21,13 +20,6 @@ public abstract class BaseEntity {
         this.deleteDate = deleteDate;
     }
 
-    public Origin getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(Origin origin) {
-        this.origin = origin;
-    }
 
     public String getDescription() {
         return description;
