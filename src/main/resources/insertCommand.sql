@@ -1,20 +1,3 @@
-INSERT INTO colour(name) VALUES ('pink');
-INSERT INTO colour(name) VALUES ('green');
-INSERT INTO colour(name) VALUES ('blue');
-INSERT INTO colour(name) VALUES ('white');
-INSERT INTO colour(name) VALUES ('orange');
-INSERT INTO colour(name) VALUES ('grey');
-INSERT INTO colour(name) VALUES ('yellow');
-INSERT INTO colour(name) VALUES ('green-blue');
-INSERT INTO colour(name) VALUES ('white-grey');
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  36);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  78);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  82);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  90);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  123);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  45);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  89);
-INSERT INTO visualParameters(colorLeaveId, colorSteamId, averageHeight) VALUES (1, 2,  73);
 INSERT INTO Origin(country, province) VALUES ('Kazakhstan','Astana');
 INSERT INTO Origin(country, province) VALUES ('France','Paris');
 INSERT INTO Origin(country, province) VALUES ('Kazakhstan','Aktobe');
@@ -23,6 +6,7 @@ INSERT INTO Origin(country, province) VALUES ('Kazakhstan','Atyrau');
 INSERT INTO Origin(country, province) VALUES ('Kazakhstan','Kokshetau');
 INSERT INTO Origin(country, province) VALUES ('Russia','Moscow');
 INSERT INTO Origin(country, province) VALUES ('Russia','Volgograd');
+
 INSERT INTO temperature(min, max) VALUES (0, 5);
 INSERT INTO temperature(min, max) VALUES (5, 10);
 INSERT INTO temperature(min, max) VALUES (10 , 15);
@@ -34,6 +18,7 @@ INSERT INTO temperature(min, max) VALUES (35, 40);
 INSERT INTO temperature(min, max) VALUES (40, 45);
 INSERT INTO temperature(min, max) VALUES (45, 50);
 INSERT INTO temperature(min, max) VALUES (55, 60);
+
 INSERT INTO waterinWeek(min, max) VALUES (50, 100);
 INSERT INTO waterinWeek(min, max) VALUES (100, 150);
 INSERT INTO waterinWeek(min, max) VALUES ( 150, 200);
@@ -41,6 +26,8 @@ INSERT INTO waterinWeek(min, max) VALUES (200, 250);
 INSERT INTO waterinWeek(min, max) VALUES (250, 300);
 INSERT INTO waterinWeek(min, max) VALUES (300, 350);
 INSERT INTO waterinWeek(min, max) VALUES (350, 400);
-INSERT INTO syntheticMaterial(name)VALUES ('asdasd');
+
+INSERT INTO syntheticMaterial(name)VALUES ('ice');
 INSERT INTO syntheticMaterial(name)VALUES ('plastic');
+INSERT INTO syntheticMaterial(name)VALUES ('steel');
 INSERT INTO syntheticMaterial(name)VALUES ('steel');
