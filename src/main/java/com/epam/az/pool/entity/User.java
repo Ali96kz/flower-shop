@@ -1,14 +1,25 @@
 package com.epam.az.pool.entity;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class User extends BaseEntity {
-    private String NickName;
+    private String nickName;
     private String lastname;
+    private String firstname;
     private Date dateBirhday;
     private int balance;
+
     public User() {
 
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public int getBalance() {
@@ -20,11 +31,11 @@ public class User extends BaseEntity {
     }
 
     public String getNickName() {
-        return NickName;
+        return nickName;
     }
 
     public void setNickName(String nickName) {
-        NickName = nickName;
+        this.nickName = nickName;
     }
 
     public String getLastname() {

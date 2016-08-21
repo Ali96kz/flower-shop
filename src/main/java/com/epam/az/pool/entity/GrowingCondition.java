@@ -1,11 +1,25 @@
 package com.epam.az.pool.entity;
 
-public class GrowingTips {
+public class GrowingCondition extends BaseEntity{
     private WaterInWeek waterInWeek;
     private Temperature temperature;
     private boolean lovelight;
+    public String name;
 
-    public GrowingTips() {
+
+    public GrowingCondition() {
+    }
+
+    public boolean isLovelight() {
+        return lovelight;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public WaterInWeek getWaterInWeek() {

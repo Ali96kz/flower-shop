@@ -13,7 +13,7 @@ CREATE TABLE aliveFlower
   aliveDay INT(11),
   idOrigin INT(11) NOT NULL,
   idVisualParameter INT(11),
-  CONSTRAINT aliveFlowerfk FOREIGN KEY (growingTipsId) REFERENCES growingTips (id),
+  CONSTRAINT aliveFlowerfk FOREIGN KEY (growingTipsId) REFERENCES growingCondition (id),
   CONSTRAINT OriginID FOREIGN KEY (idOrigin) REFERENCES Origin (id),
   CONSTRAINT visualParameterId FOREIGN KEY (idVisualParameter) REFERENCES visualParameters (id)
 );
@@ -27,7 +27,7 @@ CREATE TABLE gardenFlower
   idGrowCondetion INT(11),
   typeID INT(11) NOT NULL
 );
-CREATE TABLE growingTips
+CREATE TABLE growingCondition
 (
   id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   idWaterInWeek INT(11),
@@ -36,8 +36,8 @@ CREATE TABLE growingTips
   CONSTRAINT temperatureID FOREIGN KEY (idTemperature) REFERENCES temperature (id),
   CONSTRAINT waterinWeekID FOREIGN KEY (idWaterInWeek) REFERENCES waterinWeek (id)
 );
-CREATE INDEX temperatureID ON growingTips (idTemperature);
-CREATE INDEX waterinWeekID ON growingTips (idWaterInWeek);
+CREATE INDEX temperatureID ON growingCondition (idTemperature);
+CREATE INDEX waterinWeekID ON growingCondition (idWaterInWeek);
 CREATE TABLE `order`
 (
   id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,

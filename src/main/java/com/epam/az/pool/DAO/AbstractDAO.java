@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public abstract class AbstractDAO<E> implements DAO<E> {
+public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Class genericClass;
 
@@ -23,7 +23,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
         this.genericClass = genericClass;
     }
 
-    private Class<E> getGenericClass() {
+    public Class<E> getGenericClass() {
         if (genericClass == null) {
             Type mySuperClass = getClass().getGenericSuperclass();
             Type tType = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];
@@ -40,7 +40,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     public int insert(E e) {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
-        sql.append("INSERT INTO " + getGenericClass().getSimpleName()+ "(");
+        sql.append("INSERT INTO " + getGenericClass().getSimpleName() + "(");
         fillSqlAndVAlue(sql, values, e);
 
         return executeSql(sql + ")values(" + values + ");");
@@ -54,7 +54,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
                 fields[i].setAccessible(true);
                 Object value = fields[i].get(e);
                 if (fields[i].getName().equalsIgnoreCase("id")) {
-                    if(value != null) {
+                    if (value != null) {
                         sql.append("id, ");
                         values.append(value + " , ");
                     }
@@ -133,7 +133,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
         System.out.println(sql);
         try {
             Statement statement = connection.createStatement();
-            statement.execute(sql,Statement.RETURN_GENERATED_KEYS);
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
@@ -146,19 +146,37 @@ public abstract class AbstractDAO<E> implements DAO<E> {
         return result;
     }
 
-    protected String createSelectSQL(Field[] fields) {
+    protected String createSelectSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT ");
+        StringBuilder join = new StringBuilder();
 
-
-        for (int i = 0; i < fields.length; i++) {
-            sql.append(fields[i].getName() + ", ");
-        }
+        createSql(sql, join, clazz);
 
         deleteLastDot(sql);
-        sql.append(" From " + getGenericClass().getSimpleName());
+        System.out.println("SELECT " + sql.toString() + " FROM " + join);
+        return sql.toString() + " FROM" + getGenericClass().getSimpleName() + " " + join.toString() + ";";
+    }
+
+    protected String createSelectSQL(Class clazz, StringBuilder join) {
+        StringBuilder sql = new StringBuilder();
+        createSql(sql, join, clazz);
+        deleteLastDot(sql);
         return sql.toString();
     }
+
+    protected void createSql(StringBuilder sql, StringBuilder join, Class clazz) {
+        Field[] fields = clazz.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i].getType().getSuperclass() == BaseEntity.class) {
+                join.append(" INNER JOIN " + fields[i].getType().getSimpleName() + " on " +
+                        fields[i].getType().getSimpleName() + ".Id = " + clazz.getSimpleName() + "." + lowFirstLetter(fields[i].getType().getSimpleName()) + "Id");
+                sql.append(createSelectSQL(fields[i].getType(), join) + ", ");
+            } else {
+                sql.append(clazz.getSimpleName() + "." + fields[i].getName() + ", ");
+            }
+        }
+    }
+
 
     public ResultSet executeSqlQuery(String sql) {
         Statement statement;
@@ -201,7 +219,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
         E result = null;
         try {
             result = getGenericClass().newInstance();
-            String selectSQL = createSelectSQL(getGenericClass().getDeclaredFields());
+            String selectSQL = createSelectSQL(getGenericClass());
             ResultSet resultSet = executeSqlQuery(selectSQL + " where id = " + id + ";");
             if (resultSet.next())
                 parseResultSet(result, resultSet);
@@ -214,7 +232,7 @@ public abstract class AbstractDAO<E> implements DAO<E> {
     @Override
     public List<E> getAll() {
         List<E> resultList = new ArrayList<>();
-        String selectSQL = createSelectSQL(getGenericClass().getDeclaredFields());
+        String selectSQL = createSelectSQL(getGenericClass());
         try {
             ResultSet resultSet = executeSqlQuery(selectSQL + ";");
             while (resultSet.next()) {
@@ -236,22 +254,33 @@ public abstract class AbstractDAO<E> implements DAO<E> {
             Field[] fields = e.getClass().getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
+                System.out.println(fields[i].getName());
                 if (fields[i].getType() == Integer.class) {
                     int value = resultSet.getInt(fields[i].getName());
                     fields[i].set(e, value);
-
-                } else if(!fields[i].getType().isPrimitive()){
-
-                } else {
+                } else if (fields[i].getType() == String.class || fields[i].getType().isPrimitive()) {
                     String value = resultSet.getString(fields[i].getName());
                     fields[i].set(e, value);
-                    System.out.println(value);
+                } else {
+                    Class clazz = fields[i].getType();
+                    E value = (E) clazz.newInstance();
+                    parseResultSet(value, resultSet);
+                    fields[i].set(e, value);
                 }
             }
         } catch (SQLException | IllegalAccessException e1) {
             e1.printStackTrace();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
         }
 
         return e;
+    }
+
+    public String lowFirstLetter(String string) {
+        char[] charArray = string.toCharArray();
+        charArray[0] = Character.toLowerCase(charArray[0]);
+        String result = new String(charArray);
+        return result;
     }
 }

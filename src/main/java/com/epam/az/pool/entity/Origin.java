@@ -1,10 +1,14 @@
 package com.epam.az.pool.entity;
 
-public class Origin extends BaseEntity{
-    private Integer id;
-    private String country;
-    private String province;
+import com.epam.az.pool.annotation.Column;
+import com.epam.az.pool.annotation.Table;
 
+public class Origin extends BaseEntity{
+    @Column(name = "country")
+    private String country;
+    @Column(name = "province")
+    private String province;
+    @Table(name = "Origin")
     public Origin() {
     }
 

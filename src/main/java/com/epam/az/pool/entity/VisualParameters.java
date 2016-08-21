@@ -5,7 +5,6 @@ public class VisualParameters extends BaseEntity{
     private String colorLeaves;
     private int averageHeight;
 
-
     public VisualParameters() {
     }
 

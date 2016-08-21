@@ -1,11 +1,9 @@
 package com.epam.az.pool.entity;
 
-import javax.xml.bind.annotation.XmlElement;
 
-public class Temperature {
+public class Temperature extends BaseEntity{
     private int min;
     private int max;
-
     public Temperature() {
 
     }
@@ -14,7 +12,6 @@ public class Temperature {
         return min;
     }
 
-    @XmlElement
     public void setMin(int min) {
         this.min = min;
     }
@@ -23,7 +20,6 @@ public class Temperature {
         return max;
     }
 
-    @XmlElement
     public void setMax(int max) {
         this.max = max;
     }
