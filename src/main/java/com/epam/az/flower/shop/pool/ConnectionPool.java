@@ -45,15 +45,16 @@ public class ConnectionPool  implements DataSource{
 
     @Override
     public Connection getConnection() throws SQLException {
-        return null;
-    }
-
-    public Connection getConnection(String username, String password) {
         if (stack.isEmpty()) {
             addConnectionInStack(increment);
             getConnection("root", "root");
         }
         return stack.pop();
+    }
+
+    @Override
+    public Connection getConnection(String username, String password) throws SQLException {
+        return null;
     }
 
 

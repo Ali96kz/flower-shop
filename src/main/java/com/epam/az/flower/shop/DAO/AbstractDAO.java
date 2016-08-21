@@ -159,7 +159,12 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     }
 
     protected int executeSql(String sql) {
-        Connection connection = connectionPool.getConnection();
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection("root", "root");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         int result = 0;
         System.out.println(sql);
         try {
@@ -212,7 +217,12 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public ResultSet executeSqlQuery(String sql) {
         Statement statement;
         ResultSet resultSet = null;
-        Connection connection = connectionPool.getConnection();
+        Connection connection = null;
+        try {
+            connection = connectionPool.getConnection("root", "root");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try {
             statement = connection.createStatement();
             System.out.println(sql.toString());
