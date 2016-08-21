@@ -24,8 +24,8 @@ CREATE TABLE User
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nickname CHAR(16),
-    firstname CHAR(16),
-    lastname CHAR(16),
+    firstName CHAR(16),
+    lastName CHAR(16),
     Gender CHAR(8),
     Birthday DATE,
     originId INT(11),
