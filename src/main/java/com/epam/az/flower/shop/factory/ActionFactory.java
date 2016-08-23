@@ -1,24 +1,32 @@
 package com.epam.az.flower.shop.factory;
 
-import com.epam.az.flower.shop.Main;
 import com.epam.az.flower.shop.action.Action;
-import com.epam.az.flower.shop.action.LoginAction;
 import com.epam.az.flower.shop.action.RegisterAction;
+import com.epam.az.flower.shop.action.ShowPageAction;
 
-import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.epam.az.flower.shop.action.ShowProfileAction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ActionFactory {
-    private Map<String, Action> actions ;
-    public void initActions(){
+    private Map<String, Action> actions;
+    static final Logger log = LoggerFactory.getLogger(String.valueOf(RegisterAction.class));
+
+    public void initActions() {
         actions = new HashMap<>();
-        actions.put("POST/register", new LoginAction());
-        actions.put("POST/register", new RegisterAction());
+        actions.put("POST/registration", new RegisterAction());
+
+        actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("GET/profile", new ShowProfileAction());
+        actions.put("GET/basket", new ShowPageAction("basket"));
     }
-    public Action getAction(HttpServletRequest request){
-        if(actions == null){
+
+    public Action getAction(HttpServletRequest request) {
+        if (actions == null) {
             initActions();
         }
         return actions.get(request.getMethod() + request.getPathInfo());

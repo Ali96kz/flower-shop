@@ -5,10 +5,14 @@ import com.epam.az.flower.shop.entity.ActionResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginAction implements Action{
-
+public class ShowPageAction implements Action {
+    private String url;
+    public ShowPageAction(String url){
+        this.url = url;
+    }
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        return null;
+        ActionResult actionResult = new ActionResult(url);
+        return actionResult;
     }
 }

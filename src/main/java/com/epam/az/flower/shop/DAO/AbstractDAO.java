@@ -6,10 +6,7 @@ import com.epam.az.flower.shop.pool.ConnectionPool;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -118,13 +115,13 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                     }
                 } else {
                     sql.append(fields[i].getName() + ", ");
-                    if (value instanceof String) {
+                    if (value instanceof String ) {
                         values.append("\'" + value + "\', ");
                     } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
                         values.append(value + ", ");
-                    } else {
-                        Integer id = getObjectId(fields[i], e);
-                        values.append(id);
+                    }else if(value instanceof  Date){
+                        Date date = (Date)value;
+                        values.append("\'" + date.toString() + "\', ");
                     }
                 }
             }
@@ -163,7 +160,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         int result = 0;
         System.out.println(sql);
         try {
-
             connection = connectionPool.getConnection();
             Statement statement = connection.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -186,8 +182,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         createSql(sql, join, clazz);
 
         deleteLastDot(sql);
-        System.out.println("SELECT " + sql.toString() + " FROM " + join);
-        return sql.toString() + " FROM" + getGenericClass().getSimpleName() + " " + join.toString() + ";";
+        return sql.toString() + " FROM " + getGenericClass().getSimpleName() + " " + join.toString() + "";
     }
 
 
