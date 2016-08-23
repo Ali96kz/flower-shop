@@ -76,4 +76,15 @@ public class Product extends BaseEntity{
         this.price = price;
     }
 
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Flower getFlower() {
+        return flower;
+    }
+
+    public void setFlower(Flower flower) {
+        this.flower = flower;
+    }
 }

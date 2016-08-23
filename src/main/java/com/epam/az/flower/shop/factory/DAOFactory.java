@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.DAO;
+package com.epam.az.flower.shop.factory;
 
 
 public class DAOFactory {

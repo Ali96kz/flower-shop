@@ -40,7 +40,7 @@ CREATE TABLE `Order`
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     userId INT(11),
     productId INT(11),
-    date DATE,
+    orderDate DATE,
     CONSTRAINT productID FOREIGN KEY (productId) REFERENCES Product (id),
     CONSTRAINT userID FOREIGN KEY (userId) REFERENCES User (id)
 );
@@ -89,3 +89,20 @@ CREATE TABLE WaterInWeek
     min INT(11),
     max INT(11)
 );
+CREATE TABLE Transaction
+(
+    id INT(11) PRIMARY KEY NOT NULL,
+    name CHAR(32)
+);
+CREATE TABLE UserBalance
+(
+    id INT(11) PRIMARY KEY NOT NULL,
+    userId INT(11),
+    transactionId INT(11),
+    balance INT(11),
+    transactionDate DATE,
+    CONSTRAINT UserBalance_ibfk_1 FOREIGN KEY (transactionId) REFERENCES Transaction (id),
+    CONSTRAINT UserBalance_ibfk_2 FOREIGN KEY (userId) REFERENCES User (id)
+);
+CREATE INDEX transactionId ON UserBalance (transactionId);
+CREATE INDEX userId ON UserBalance (userId);

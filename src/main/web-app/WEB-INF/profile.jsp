@@ -1,13 +1,14 @@
+<%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>${user.name} Profile</title>
+    <title>${user.firstName} Profile</title>
 </head>
 <body>
 <div>
-    Name: ${user.name}
-    Last name: ${user.lastName}
+    Name: ${user.firstName}
+    Last name: ${user.nickName}
     Birthday: ${user.dateBirthday}
     Balance: ${user.balance}
 </div>

@@ -160,14 +160,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     protected int executeSql(String sql) {
         Connection connection = null;
-        try {
-            connection = connectionPool.getConnection("root", "root");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         int result = 0;
         System.out.println(sql);
         try {
+
+            connection = connectionPool.getConnection();
             Statement statement = connection.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -220,14 +217,9 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         Connection connection = null;
         try {
             connection = connectionPool.getConnection("root", "root");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
             statement = connection.createStatement();
             System.out.println(sql.toString());
             resultSet = statement.executeQuery(sql.toString());
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
