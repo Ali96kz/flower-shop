@@ -9,9 +9,17 @@ public class User extends BaseEntity {
     private String firstName;
     private Date dateBirthday;
     private int balance;
-
+    private String gender;
     public User() {
 
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getFirstName() {

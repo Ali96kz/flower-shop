@@ -26,7 +26,6 @@ public class OriginDAOTest {
         ResultSet resultSet = executeSqlQuery("SELECT id, province, country, deleteDay FROM " +
                 "Origin WHERE id = " + id);
         assertTrue("Empty ResultSet", resultSet.next());
-
         assertEquals("Incorrect province", origin.getProvince(), resultSet.getString("province"));
         assertEquals("Incorrect country", origin.getCountry(), resultSet.getString("country"));
         assertEquals("Incorrect id", id, resultSet.getString("id"));
@@ -34,11 +33,19 @@ public class OriginDAOTest {
 
     }
 
-    public void execute() {
+    @Test
+    public void testUpdate(){
+
+    }
+    @Test
+    public void testDelete(){
 
     }
 
+    @Test
+    public void findById(){
 
+    }
     public ResultSet executeSqlQuery(String sql) {
         Statement statement;
         ResultSet resultSet = null;
@@ -47,8 +54,8 @@ public class OriginDAOTest {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/flowershoptest", "root", "root");
             statement = connection.createStatement();
-            System.out.println(sql.toString());
-            resultSet = statement.executeQuery(sql.toString());
+            System.out.println(sql);
+            resultSet = statement.executeQuery(sql.toString()+";");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }

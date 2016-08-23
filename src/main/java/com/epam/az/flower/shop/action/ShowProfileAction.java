@@ -12,8 +12,7 @@ public class ShowProfileAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        ActionResult actionResult = new ActionResult("profile", true);
-        System.out.println(userService.getUserByID(1).getFirstName());
+        ActionResult actionResult = new ActionResult("profile");
         req.setAttribute("user", userService.getUserByID(1));
         return actionResult;
     }
