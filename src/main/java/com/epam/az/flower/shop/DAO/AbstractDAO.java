@@ -71,7 +71,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         List<E> resultList = new ArrayList<>();
         String selectSQL = createSelectSQL(getGenericClass());
         try {
-            ResultSet resultSet = executeSqlQuery(selectSQL + ";");
+            ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + ";");
             while (resultSet.next()) {
                 E e = parseResultSet(getGenericClass().newInstance(), resultSet);
                 resultList.add(e);
@@ -172,6 +172,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
         return result;
     }
+
 
     protected String createSelectSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();

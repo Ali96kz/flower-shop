@@ -4,7 +4,6 @@ package com.epam.az.flower.shop.entity;
 public  class Flower extends BaseEntity{
     private String name;
 
-
     private VisualParameters visualParameters;
     private GrowingCondition growingCondition;
 

@@ -9,30 +9,10 @@ public class Product extends BaseEntity{
     private String type;
     private Flower flower;
     private String description;
-    private String name;
-    private Date deleteDate;
-    private VisualParameters visualParameters;
 
     public Product(){
 
     }
-
-    public VisualParameters getVisualParameters() {
-        return visualParameters;
-    }
-
-    public void setVisualParameters(VisualParameters visualParameters) {
-        this.visualParameters = visualParameters;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
-
 
     public String getDescription() {
         return description;
@@ -41,16 +21,6 @@ public class Product extends BaseEntity{
     public void setDescription(String description) {
         this.description = description;
     }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
 
     public String getType() {
         return type;
