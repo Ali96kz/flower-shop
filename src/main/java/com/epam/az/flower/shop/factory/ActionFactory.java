@@ -16,11 +16,13 @@ public class ActionFactory {
     public void initActions() {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
+        actions.put("POST/addMoneyToBalance", new AddMoneyAction());
 
         actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("GET/cash", new ShowCash());
         actions.put("GET/vitrine", new ShowVitrineAction());
         actions.put("GET/profile", new ShowProfileAction());
-        actions.put("GET/basket", new ShowPageAction("basket"));
+        actions.put("GET/basket", new ShowBasketAction());
     }
 
     public Action getAction(HttpServletRequest request) {
