@@ -209,6 +209,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         Statement statement;
         ResultSet resultSet = null;
         Connection connection = null;
+        System.out.println(sql);
         try {
             connection = connectionPool.getConnection();
             statement = connection.createStatement();

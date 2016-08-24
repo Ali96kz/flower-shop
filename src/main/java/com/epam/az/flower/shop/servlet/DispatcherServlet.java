@@ -2,7 +2,7 @@ package com.epam.az.flower.shop.servlet;
 
 import com.epam.az.flower.shop.action.Action;
 import com.epam.az.flower.shop.entity.ActionResult;
-import com.epam.az.flower.shop.factory.ActionFactory;
+import com.epam.az.flower.shop.action.ActionFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Executable;
 
 @WebServlet("/flower-shop/*")
 public class DispatcherServlet extends HttpServlet {
@@ -34,6 +33,16 @@ public class DispatcherServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/jsp/" + result.getView() + ".jsp").forward(req, resp);
         } catch (Exception e) {
             throw new ServletException("Cannot execute action", e);
+        }
+        doForwardOrRedirect(result, req, resp);
+    }
+    private void doForwardOrRedirect(ActionResult result, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        if (result.isRedirect()){
+            String location = req.getContextPath() + "/" + result.getView();
+            resp.sendRedirect(location);
+        } else {
+            String path = String.format("/WEB-INF/jsp/" + result.getView() + ".jsp");
+            req.getRequestDispatcher(path).forward(req, resp);
         }
     }
 

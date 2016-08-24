@@ -6,12 +6,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class StringAdapter {
-    public static Date toSqlDate(String date){
+    public Date toSqlDate(String date){
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         Date sqlDate = null;
         try {
             sqlDate = new Date(df.parse(date).getTime());
-            System.out.println(sqlDate);
+            return sqlDate;
         } catch (ParseException e) {
             e.printStackTrace();
         }

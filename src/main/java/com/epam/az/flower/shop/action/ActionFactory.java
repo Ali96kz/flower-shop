@@ -1,6 +1,4 @@
-package com.epam.az.flower.shop.factory;
-
-import com.epam.az.flower.shop.action.*;
+package com.epam.az.flower.shop.action;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -12,11 +10,12 @@ import org.slf4j.LoggerFactory;
 public class ActionFactory {
     private Map<String, Action> actions;
     static final Logger log = LoggerFactory.getLogger(String.valueOf(RegisterAction.class));
-
+    //TODO put this in property
     public void initActions() {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
+
 
         actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/cash", new ShowCash());
