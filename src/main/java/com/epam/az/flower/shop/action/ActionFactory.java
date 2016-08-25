@@ -17,8 +17,9 @@ public class ActionFactory {
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
         actions.put("POST/login", new LoginAction());
 
-        actions.put("GET/registration", new ShowPageAction("registration"));
-        actions.put("GET/login", new ShowPageAction("login"));
+        actions.put("GET/registration", new ShowRegisterAction());
+        actions.put("GET/vitrine", new ShowVitrineAction());
+        actions.put("GET/login", new ShowLoginAction());
         actions.put("GET/cash", new ShowCash());
         actions.put("GET/vitrine", new ShowVitrineAction());
         actions.put("GET/profile", new ShowProfileAction());

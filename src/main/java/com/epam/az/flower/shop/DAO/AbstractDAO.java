@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.*;
 
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
+    protected ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Class genericClass;
 
     @Override
@@ -180,7 +180,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected String createSelectSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
         StringBuilder join = new StringBuilder();
-        sql.append("id, ");
+        sql.append(clazz.getSimpleName()+".id, ");
         createSql(sql, join, clazz);
         deleteLastDot(sql);
         deleteLastDot(join);
@@ -225,7 +225,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
         return resultSet;
     }
-
+    @Override
     public void delete(E item) {
         try {
             Field field = item.getClass().getDeclaredField("id");

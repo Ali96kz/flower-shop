@@ -8,8 +8,10 @@
 </head>
 <body>
 <c:forEach items = "${products}" var = "product">
-    <c:out value = "${product}" /><br>
-    ${product}
+    <c:out value = "${product.flower.name}" /><br>
+    <c:out value = "${product.price}" /><br>
+    <c:out value = "${product.description}" /><br>
+    <br>
 </c:forEach>
 ${product1}
 ${product1}

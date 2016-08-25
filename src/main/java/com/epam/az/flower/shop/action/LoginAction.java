@@ -19,12 +19,8 @@ public class LoginAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        Integer id = (Integer) session.getAttribute("userId");
 
-        if (id != null) {
-            log.info("id = {}", id);
-            return new ActionResult("profile", true);
-        }
+        Integer id = (Integer) session.getAttribute("userId");
 
         Validator validator = new LogInValidator();
         List<String> errorMsg = validator.isValidate(req);
@@ -33,9 +29,10 @@ public class LoginAction implements Action {
         if (errorMsg.size() == 0) {
             String nickName = req.getParameter("nickName");
             String password = req.getParameter("password");
-            User user = userService.getUserByCredentials(nickName, password);
-            session.setAttribute("userId", user.getId());
-            log.info("User if = {}", user.getId());
+
+            int userId = userService.getUserByCredentials(nickName, password);
+
+            session.setAttribute("userId", userId);
             return new ActionResult("profile", true);
         } else {
             req.setAttribute("errorMsg", errorMsg);

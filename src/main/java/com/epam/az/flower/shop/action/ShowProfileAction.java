@@ -20,7 +20,7 @@ public class ShowProfileAction implements Action {
             return new ActionResult("login");
         }
         if(httpSession.getAttribute("userId") == null){
-            return new ActionResult("login");
+            return new ActionResult("login", true);
         }
         int i = (int) httpSession.getAttribute("userId");
         User user = userService.getUserByID(i);

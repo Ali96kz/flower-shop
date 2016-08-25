@@ -9,15 +9,7 @@ import java.util.List;
 public class ProductService {
     ProductDAO productDAO = new ProductDAO();
     public List<Product> getAllProduct(){
-//        List<Product> products = productDAO.getAll();
-        List<Product> products =  new ArrayList<>();
-        Product product = new Product();
-        product.setId(45);
-        products.add(product);
-
-        product = new Product();
-        product.setId(26);
-        products.add(product);
+        List<Product> products = productDAO.getAll();
         return products;
     }
     public void addNewProduct(Product product){

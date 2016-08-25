@@ -27,19 +27,19 @@ public class DispatcherServlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
             return;
         }
+
         ActionResult result;
         try {
             result = action.execute(req, resp);
-            req.getRequestDispatcher("/WEB-INF/jsp/" + result.getView() + ".jsp").forward(req, resp);
         } catch (Exception e) {
             throw new ServletException("Cannot execute action", e);
         }
+
         doForwardOrRedirect(result, req, resp);
     }
     private void doForwardOrRedirect(ActionResult result, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         if (result.isRedirect()){
-            System.out.println(result.getView());
-            resp.sendRedirect( req.getContextPath() + "/" + result.getView());
+            resp.sendRedirect(result.getView());
         } else {
             String path = String.format("/WEB-INF/jsp/" + result.getView() + ".jsp");
             req.getRequestDispatcher(path).forward(req, resp);

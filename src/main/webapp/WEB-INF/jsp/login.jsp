@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<form action="profile" method="POST">
+<form method="POST">
     nick Name: <input type="text" size="16" name="nickName"><br>
     password: <input type="text" size="16" name="password"><br>
     <button type="submit"></button>

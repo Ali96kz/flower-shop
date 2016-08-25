@@ -4,9 +4,8 @@ package com.epam.az.flower.shop.entity;
 import java.sql.Date;
 
 public class Product extends BaseEntity{
-    private Integer price;
+    private int price;
     private Origin origin;
-    private String type;
     private Flower flower;
     private String description;
 
@@ -22,13 +21,6 @@ public class Product extends BaseEntity{
         this.description = description;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Origin getOrigin() {
         return this.origin;
@@ -46,9 +38,6 @@ public class Product extends BaseEntity{
         this.price = price;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
 
     public Flower getFlower() {
         return flower;

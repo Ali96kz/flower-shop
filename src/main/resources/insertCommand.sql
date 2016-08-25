@@ -27,7 +27,24 @@ INSERT INTO waterinWeek(min, max) VALUES (250, 300);
 INSERT INTO waterinWeek(min, max) VALUES (300, 350);
 INSERT INTO waterinWeek(min, max) VALUES (350, 400);
 
-INSERT INTO syntheticMaterial(name)VALUES ('ice');
-INSERT INTO syntheticMaterial(name)VALUES ('plastic');
-INSERT INTO syntheticMaterial(name)VALUES ('steel');
-INSERT INTO syntheticMaterial(name)VALUES ('steel');
+
+INSERT INTO GrowingCondition (waterInWeekId, temperatureId, name, lovelight) VALUES (1, 1, 'rooms', TRUE );
+INSERT INTO GrowingCondition (waterInWeekId, temperatureId, name, lovelight) VALUES (2, 5, 'tropic', FALSE );
+INSERT INTO GrowingCondition (waterInWeekId, temperatureId, name, lovelight) VALUES (7, 9, 'paname', FALSE );
+INSERT INTO GrowingCondition (waterInWeekId, temperatureId, name, lovelight) VALUES (6, 10, 'word', TRUE );
+INSERT INTO GrowingCondition (waterInWeekId, temperatureId, name, lovelight) VALUES (4, 6, 'words', FALSE );
+INSERT INTO GrowingCondition (waterInWeekId, temperatureId, name, lovelight) VALUES (4, 3, 'some words', TRUE );
+
+INSERT INTO FlowerType(name) VALUES ('Home flower');
+INSERT INTO FlowerType(name) VALUES ('Synthetic flower');
+INSERT INTO FlowerType(name) VALUES ('Garden flower');
+INSERT INTO FlowerType(name) VALUES ('Street flower');
+INSERT INTO FlowerType(name) VALUES ('Present flower');
+INSERT INTO FlowerType(name) VALUES ('Growing flower');
+
+INSERT INTO Flower(name, growingConditionId, visualParametersId, flowerTypeId) VALUES ('rose', 2, 3, 1);
+INSERT INTO Flower(name, growingConditionId, visualParametersId, flowerTypeId) VALUES ('red rose', 2, 3, 1);
+INSERT INTO Flower(name, growingConditionId, visualParametersId, flowerTypeId) VALUES ('white rose', 2, 3, 1);
+INSERT INTO Flower(name, growingConditionId, visualParametersId, flowerTypeId) VALUES ('black rose', 2, 3, 1);
+INSERT INTO Flower(name, growingConditionId, visualParametersId, flowerTypeId) VALUES ('grey rose', 2, 3, 1);
+INSERT INTO Flower(name, growingConditionId, visualParametersId, flowerTypeId) VALUES ('green rose', 2, 3, 1);

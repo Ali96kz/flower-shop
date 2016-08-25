@@ -13,11 +13,7 @@ import java.io.IOException;
 public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("result",
-                "Employee Not Inserted: " + request.getAttribute("error"));
-        RequestDispatcher view = request
-                .getRequestDispatcher("displayEmployee.jsp");
-        view.forward(request, response);
+        response.sendRedirect("flower-shop/registration");
     }
 
     @Override
