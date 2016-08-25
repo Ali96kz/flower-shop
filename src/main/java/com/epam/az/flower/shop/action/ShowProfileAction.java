@@ -17,11 +17,15 @@ public class ShowProfileAction implements Action {
         HttpSession httpSession = req.getSession(false);
 
         if (httpSession == null) {
-            return new ActionResult("registration");
+            return new ActionResult("login");
+        }
+        if(httpSession.getAttribute("userId") == null){
+            return new ActionResult("login");
         }
         int i = (int) httpSession.getAttribute("userId");
         User user = userService.getUserByID(i);
         req.setAttribute("user", user);
+
         return actionResult;
     }
 }

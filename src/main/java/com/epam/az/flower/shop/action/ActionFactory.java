@@ -15,15 +15,15 @@ public class ActionFactory {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
-
+        actions.put("POST/login", new LoginAction());
 
         actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("GET/login", new ShowPageAction("login"));
         actions.put("GET/cash", new ShowCash());
         actions.put("GET/vitrine", new ShowVitrineAction());
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/basket", new ShowBasketAction());
     }
-
     public Action getAction(HttpServletRequest request) {
         if (actions == null) {
             initActions();

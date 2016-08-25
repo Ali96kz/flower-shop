@@ -12,9 +12,9 @@
     Your last name: <input type="text" size="45" name="lastName"><br>
     your nick Name: <input type="text" size="45" name="nickName"><br>
     your birthday: <input type="text" size="45" name="birthdayDate"><br>
-    your gender: <input type="text" size="45" name="gender"><br>
+    create password: <input type="text" size="45" name="password"><br>
+    confirm password: <input type="text" size="45" name="confirmPassword"><br>
     <button type="submit"></button>
-
 </form>
 
 <c:forEach items = "${errorMsg}" var = "msg">

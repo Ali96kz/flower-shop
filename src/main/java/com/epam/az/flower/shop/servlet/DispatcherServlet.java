@@ -38,8 +38,8 @@ public class DispatcherServlet extends HttpServlet {
     }
     private void doForwardOrRedirect(ActionResult result, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         if (result.isRedirect()){
-            String location = req.getContextPath() + "/" + result.getView();
-            resp.sendRedirect(location);
+            System.out.println(result.getView());
+            resp.sendRedirect( req.getContextPath() + "/" + result.getView());
         } else {
             String path = String.format("/WEB-INF/jsp/" + result.getView() + ".jsp");
             req.getRequestDispatcher(path).forward(req, resp);

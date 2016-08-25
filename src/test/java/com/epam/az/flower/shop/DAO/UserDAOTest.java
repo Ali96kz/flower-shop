@@ -27,8 +27,10 @@ public class UserDAOTest {
 
     public void checkWithDatabaseVersion(User user) throws SQLException {
         ResultSet resultSet = executeQuery("SELECT id, lastName, nickName, firstName, dateBirthday, balance FROM User");
+        int userId = user.getId();
 
         assertTrue("Resultset empty" , resultSet.next());
+        assertEquals(resultSet.getInt("id"), userId);
         assertEquals(resultSet.getString("lastName"), user.getLastName());
         assertEquals(resultSet.getString("firstName"), user.getFirstName());
         assertEquals(resultSet.getString("nickName"), user.getNickName());
@@ -36,6 +38,8 @@ public class UserDAOTest {
         assertEquals(resultSet.getInt("balance"), user.getBalance());
 //        assertEquals(resultSet.getString("gender"), user.getGender());
     }
+
+
     public ResultSet executeQuery(String sql) throws SQLException {
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();

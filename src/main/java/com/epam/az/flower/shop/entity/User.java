@@ -7,19 +7,19 @@ public class User extends BaseEntity {
     private String nickName;
     private String lastName;
     private String firstName;
+    private String password;
     private Date dateBirthday;
     private int balance;
-    private String gender;
     public User() {
 
     }
 
-    public String getGender() {
-        return gender;
+    public String getPassword() {
+        return password;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {

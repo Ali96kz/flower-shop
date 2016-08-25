@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterProfileValidator {
+public class RegisterProfileValidator implements Validator{
 
     public List<String> isValidate(HttpServletRequest request){
         List<String> errorMsg = new ArrayList<>();
@@ -15,10 +15,16 @@ public class RegisterProfileValidator {
         String lastName = request.getParameter("lastName");
         StringAdapter stringAdapter = new StringAdapter();
         Date date = stringAdapter.toSqlDate(request.getParameter("birthdayDate"));
-        String gender = request.getParameter("gender");
+
+        String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
+
         if (date == null) {
             errorMsg.add("You insert incorrect date " +
-                    "Example: 1996.12.11\n");
+                    "Example: 1996/12/11\n");
+        }
+        if(!password.equals(confirmPassword)){
+            errorMsg.add("Confirm password have a different value \n");
         }
         if (nickName.matches("\\W") || nickName.length() < 3) {
             errorMsg.add("You insert incorrect nick name. " +
@@ -40,11 +46,7 @@ public class RegisterProfileValidator {
                     "name must contain min 3 and max 8 characters " +
                     "name must contain A-Z,a-z, \n");
         }
-        if (gender.matches("\\W") || name.length() < 3) {
-            errorMsg.add("You insert incorrect  name. " +
-                    "name must contain min 3 and max 8 characters " +
-                    "name must contain A-Z,a-z, \n");
-        }
+
         return errorMsg;
     }
 }

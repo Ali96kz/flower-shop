@@ -21,8 +21,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             result = getGenericClass().newInstance();
             String selectSQL = createSelectSQL(getGenericClass());
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where id = " + id + ";");
+
             if (resultSet.next())
-                parseResultSet(result, resultSet);
+                result = parseResultSet(result, resultSet);
+
+            return result;
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -177,10 +180,10 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected String createSelectSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
         StringBuilder join = new StringBuilder();
-
+        sql.append("id, ");
         createSql(sql, join, clazz);
-
         deleteLastDot(sql);
+        deleteLastDot(join);
         return sql.toString() + " FROM " + getGenericClass().getSimpleName() + " " + join.toString() + "";
     }
 
@@ -245,12 +248,12 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public E parseResultSet(E e, ResultSet resultSet) {
         try {
             Field[] fields = e.getClass().getDeclaredFields();
+
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
                 if (fields[i].getType() == Integer.class || fields[i].getType() == int.class) {
                     int value = resultSet.getInt(fields[i].getName());
                     fields[i].set(e, value);
-//                    TODO
                 } else if (fields[i].getType() == String.class) {
                     String value = resultSet.getString(fields[i].getName());
                     fields[i].set(e, value);
@@ -266,12 +269,17 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                     }
                 }
             }
+            Field field = BaseEntity.class.getDeclaredField("id");
+            field.setAccessible(true);
+            field.set(e, resultSet.getInt("id"));
+            return e;
         } catch (SQLException | IllegalAccessException e1) {
             e1.printStackTrace();
         } catch (InstantiationException e1) {
             e1.printStackTrace();
+        } catch (NoSuchFieldException e1) {
+            e1.printStackTrace();
         }
-
         return e;
     }
 
