@@ -11,6 +11,9 @@
     <c:out value = "${product.flower.name}" /><br>
     <c:out value = "${product.price}" /><br>
     <c:out value = "${product.description}" /><br>
+    <form method="POST">
+
+    </form>
     <br>
 </c:forEach>
 ${product1}

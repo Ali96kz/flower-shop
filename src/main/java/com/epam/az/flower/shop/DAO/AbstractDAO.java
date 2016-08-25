@@ -180,7 +180,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected String createSelectSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
         StringBuilder join = new StringBuilder();
-        sql.append(clazz.getSimpleName()+".id, ");
+        sql.append(clazz.getSimpleName() + ".id, ");
         createSql(sql, join, clazz);
         deleteLastDot(sql);
         deleteLastDot(join);
@@ -225,6 +225,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
         return resultSet;
     }
+
     @Override
     public void delete(E item) {
         try {
@@ -251,38 +252,44 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
-                if (fields[i].getType() == Integer.class || fields[i].getType() == int.class) {
-                    int value = resultSet.getInt(fields[i].getName());
-                    fields[i].set(e, value);
-                } else if (fields[i].getType() == String.class) {
-                    String value = resultSet.getString(fields[i].getName());
-                    fields[i].set(e, value);
-                } else {
-                    Class clazz = fields[i].getType();
-                    if (clazz == Date.class) {
-                        Date date = resultSet.getDate(fields[i].getName());
-                        fields[i].set(e, date);
-                    } else {
-                        E value = (E) clazz.newInstance();
-                        parseResultSet(value, resultSet);
-                        fields[i].set(e, value);
-                    }
-                }
+                Object value = getValue(fields[i], resultSet);
+                fields[i].set(e, value);
             }
             Field field = BaseEntity.class.getDeclaredField("id");
+            Field deleteDayField = BaseEntity.class.getDeclaredField("deleteDay");
             field.setAccessible(true);
+            deleteDayField.setAccessible(true);
             field.set(e, resultSet.getInt("id"));
+            deleteDayField.set(e, resultSet.getDate("deleteDay"));
             return e;
-        } catch (SQLException | IllegalAccessException e1) {
-            e1.printStackTrace();
-        } catch (InstantiationException e1) {
-            e1.printStackTrace();
-        } catch (NoSuchFieldException e1) {
+        } catch (SQLException | IllegalAccessException | NoSuchFieldException | InstantiationException   e1) {
             e1.printStackTrace();
         }
         return e;
     }
 
+    public Object getValue(Field field, ResultSet resultSet) throws SQLException, IllegalAccessException, InstantiationException {
+        if (field.getType() == Integer.class || field.getType() == int.class) {
+            int value = resultSet.getInt(field.getName());
+            return value;
+        } else if (field.getType() == String.class) {
+            String value = resultSet.getString(field.getName());
+            return value;
+        } else if (field.getType() == boolean.class) {
+            boolean value =  resultSet.getBoolean(field.getName());
+            return value;
+        } else {
+            Class clazz = field.getType();
+            if (clazz == Date.class) {
+                Date value = resultSet.getDate(field.getName());
+                return value;
+            } else {
+                E value = (E) clazz.newInstance();
+                parseResultSet(value, resultSet);
+                return value;
+            }
+        }
+    }
     public String lowFirstLetter(String string) {
         char[] charArray = string.toCharArray();
         charArray[0] = Character.toLowerCase(charArray[0]);

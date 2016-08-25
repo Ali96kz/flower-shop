@@ -17,4 +17,7 @@ public class StringAdapter {
         }
         return sqlDate;
     }
+    public int toInt(String s){
+        return Integer.parseInt(s);
+    }
 }
