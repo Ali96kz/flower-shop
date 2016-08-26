@@ -20,7 +20,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         try {
             result = getGenericClass().newInstance();
             String selectSQL = createSelectSQL(getGenericClass());
-            ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where id = " + id + ";");
+            ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where " + getGenericClass().getSimpleName()
+                    + ".id = " + id + ";");
 
             if (resultSet.next())
                 result = parseResultSet(result, resultSet);
@@ -262,7 +263,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             field.set(e, resultSet.getInt("id"));
             deleteDayField.set(e, resultSet.getDate("deleteDay"));
             return e;
-        } catch (SQLException | IllegalAccessException | NoSuchFieldException | InstantiationException   e1) {
+        } catch (SQLException | IllegalAccessException | NoSuchFieldException | InstantiationException e1) {
             e1.printStackTrace();
         }
         return e;
@@ -276,7 +277,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             String value = resultSet.getString(field.getName());
             return value;
         } else if (field.getType() == boolean.class) {
-            boolean value =  resultSet.getBoolean(field.getName());
+            boolean value = resultSet.getBoolean(field.getName());
             return value;
         } else {
             Class clazz = field.getType();
@@ -290,6 +291,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             }
         }
     }
+
     public String lowFirstLetter(String string) {
         char[] charArray = string.toCharArray();
         charArray[0] = Character.toLowerCase(charArray[0]);

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-Product type : ${product.type}<br>
+Product type : ${product.flower.name}<br>
 <br>
 Description : ${product.description}
 Made place : ${product.origin.country} - ${product.origin.province}

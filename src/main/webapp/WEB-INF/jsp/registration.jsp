@@ -8,18 +8,18 @@
 </head>
 <body>
 <form method="POST">
-    Your first name: <input type="text" size="45" name="firstName"><br>
-    Your last name: <input type="text" size="45" name="lastName"><br>
-    your nick Name: <input type="text" size="45" name="nickName"><br>
-    your birthday: <input type="text" size="45" name="birthdayDate"><br>
-    create password: <input type="text" size="45" name="password"><br>
-    confirm password: <input type="text" size="45" name="confirmPassword"><br>
+    Your first name: <input type="text" size="16" value="${user.firstName}" name="firstName"><br>
+    Your last name: <input type="text" size="16" value="${user.lastName}"><br>
+    your nick Name: <input type="text" size="16" value="${user.nickName}"><br>
+    your birthday: <input type="text" size="16" value="${user.dateBirthday}"><br>
+    create password: <input type="password" size="16" name="password"><br>
+    confirm password: <input type="password" size="16" name="confirmPassword"><br>
     <button type="submit"></button>
 </form>
-
-<c:forEach items = "${errorMsg}" var = "msg">
-    <c:out value = "${msg}" /><br>
+<c:forEach items="${errorMsg}" var="msg">
+    <c:out value="${msg}"/><br>
 </c:forEach>
+<a href="/"></a>
 
 </body>
 </html>
