@@ -3,13 +3,14 @@ package com.epam.az.flower.shop.action;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ActionFactory {
+    static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
-    static final Logger log = LoggerFactory.getLogger(String.valueOf(RegisterAction.class));
     //TODO put this in property
     public void initActions() {
         actions = new HashMap<>();
@@ -31,4 +32,5 @@ public class ActionFactory {
         }
         return actions.get(request.getMethod() + request.getPathInfo());
     }
+
 }
