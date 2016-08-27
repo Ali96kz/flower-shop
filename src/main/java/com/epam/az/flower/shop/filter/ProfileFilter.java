@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.filter;
 
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,12 @@ public class ProfileFilter implements Filter {
 
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("userId") == null) {
-            //forward to login page
+        if (session != null) {
+            if (session.getAttribute("userId") == null) {
+                response.sendRedirect("login");
+            }
+        } else {
+            response.sendRedirect("login");
         }
         chain.doFilter(request, response);
     }

@@ -16,13 +16,6 @@ public class ShowProfileAction implements Action {
         ActionResult actionResult = new ActionResult("profile");
         HttpSession httpSession = req.getSession(false);
 
-        if (httpSession == null) {
-            if (httpSession.getAttribute("userId") == null) {
-                return new ActionResult("login", true);
-            }
-        }
-
-
         int i = (int) httpSession.getAttribute("userId");
         User user = userService.getUserByID(i);
         req.setAttribute("user", user);

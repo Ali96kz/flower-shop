@@ -21,7 +21,13 @@ public class AdminPageFilter implements Filter {
 
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession(false);
+        if (session == null) {
+            response.sendRedirect("login");
+        } else if (session.getAttribute("userId") == null) {
+            response.sendRedirect("login");
+        } else  if(!session.getAttribute("userId").equals("5")){
 
+        }
         chain.doFilter(request, response);
     }
 

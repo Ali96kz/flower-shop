@@ -9,9 +9,9 @@
 
 <body>
 
-All user in system${users}
+All user in system
 <c:forEach items="${users}" var="user">
-    <a href="product-inf?id=${user.id}">
+    <a href="product?id=${user.id}">
         First name: <c:out value="${user.firstName}"/><br>
         Last name <c:out value="${user.lastName}"/><br>
         Nick name <c:out value="${user.nickName}"/><br>
