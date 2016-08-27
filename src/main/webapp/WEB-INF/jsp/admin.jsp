@@ -11,15 +11,13 @@
 
 All user in system
 <c:forEach items="${users}" var="user">
-    <a href="product?id=${user.id}">
         First name: <c:out value="${user.firstName}"/><br>
         Last name <c:out value="${user.lastName}"/><br>
         Nick name <c:out value="${user.nickName}"/><br>
-    </a>
     <br>
     <br>
 </c:forEach>
-
+<%--TODO problem with SQL--%>
 All order in system
 <c:forEach items="${orders}" var="order">
     <c:out value="${order.user.nickName}"/> buy a
@@ -27,6 +25,17 @@ All order in system
     <br>
     <br>
 </c:forEach>
+<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
+All product
+<c:forEach items="${products}" var="product">
+    <a href="product-inf?id=${product.id}">
+        name: <c:out value="${product.flower.name}"/><br>
+        price: <c:out value="${product.price}"/><br>
+    </a>
+    <br>
+    <br>
+</c:forEach>
+
 
 </body>
 
