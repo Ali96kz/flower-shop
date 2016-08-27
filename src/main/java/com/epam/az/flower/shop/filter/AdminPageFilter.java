@@ -18,13 +18,13 @@ public class AdminPageFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         doFilter(request, response, chain);
     }
+
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession(false);
-        if(session == null || !session.getAttribute("userId").equals("5")){
-            //forward login page
-        }
+
         chain.doFilter(request, response);
     }
+
     public void destroy() {
     }
 

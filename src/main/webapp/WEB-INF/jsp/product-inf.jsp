@@ -22,7 +22,7 @@ Growing condition: ${product.flower.growingCondition.name}<br>
 Love light: ${product.flower.growingCondition.lovelight}<br>
 temperature: ${product.flower.growingCondition.temperature.min} - ${product.flower.growingCondition.temperature.max}<br>
 Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}<br>
-
+<%--TODO add button to add this product in basket--%>
 
 </body>
 </html>
