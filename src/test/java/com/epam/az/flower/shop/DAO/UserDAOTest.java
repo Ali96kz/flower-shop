@@ -17,8 +17,8 @@ public class UserDAOTest {
     @Test
     public void testFindById() throws SQLException {
         int id = 1;
-        UniersalDAO uniersalDAO = new UniersalDAO(User.class);
-        User user = (User) uniersalDAO.findById(id);
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.findById(id);
         checkWithDatabaseVersion(user);
     }
     @Test

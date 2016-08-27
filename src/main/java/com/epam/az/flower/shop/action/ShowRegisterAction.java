@@ -10,11 +10,8 @@ public class ShowRegisterAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
-        if (session != null) {
-            if (session.getAttribute("userId") != null) {
-                ActionResult actionResult = new ActionResult("profile", true);
-                return actionResult;
-            }
+        if (session != null || session.getAttribute("userId") != null) {
+            return new ActionResult("profile", true);
         }
         ActionResult actionResult = new ActionResult("registration");
         return actionResult;

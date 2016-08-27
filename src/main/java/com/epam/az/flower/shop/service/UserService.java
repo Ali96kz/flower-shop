@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.DAO.UniersalDAO;
 import com.epam.az.flower.shop.DAO.UserDAO;
 import com.epam.az.flower.shop.entity.User;
 
