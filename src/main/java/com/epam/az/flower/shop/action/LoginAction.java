@@ -20,8 +20,6 @@ public class LoginAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
 
-        Integer id = (Integer) session.getAttribute("userId");
-
         Validator validator = new LogInValidator();
         List<String> errorMsg = validator.isValidate(req);
         UserService userService = new UserService();

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "AdminPageFilter", urlPatterns = "/flower-shop/admin")
+@WebFilter(filterName = "AdminPageFilter", urlPatterns = "/admin")
 public class AdminPageFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
 

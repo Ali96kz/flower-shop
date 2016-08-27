@@ -10,12 +10,12 @@ public class RegisterProfileValidator implements Validator{
 
     public List<String> isValidate(HttpServletRequest request){
         List<String> errorMsg = new ArrayList<>();
+        StringAdapter stringAdapter = new StringAdapter();
+
         String name = request.getParameter("firstName");
         String nickName = request.getParameter("nickName");
         String lastName = request.getParameter("lastName");
-        StringAdapter stringAdapter = new StringAdapter();
-        Date date = stringAdapter.toSqlDate(request.getParameter("birthdayDate"));
-
+        Date date = stringAdapter.toSqlDate(request.getParameter("dateBirthday"));
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
@@ -26,10 +26,12 @@ public class RegisterProfileValidator implements Validator{
         if(!password.equals(confirmPassword)){
             errorMsg.add("Confirm password have a different value \n");
         }
-        if (nickName.matches("\\W") || nickName.length() < 3) {
-            errorMsg.add("You insert incorrect nick name. " +
-                    "nick name must contain min 3 and max 8 characters " +
-                    "name must contain A-Z,a-z,\n");
+        if (nickName != null) {
+            if (nickName.matches("\\W") || nickName.length() < 3) {
+                errorMsg.add("You insert incorrect nick name. " +
+                        "nick name must contain min 3 and max 8 characters " +
+                        "name must contain A-Z,a-z,\n");
+            }
         }
         if (lastName.matches("\\W") || lastName.length() < 3) {
             errorMsg.add("You insert incorrect nick name. " +
