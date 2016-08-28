@@ -7,6 +7,7 @@ import com.epam.az.flower.shop.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class ShowProfileAction implements Action {
     UserService userService = new UserService();
@@ -14,9 +15,19 @@ public class ShowProfileAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         ActionResult actionResult = new ActionResult("profile");
-        HttpSession httpSession = req.getSession(false);
+        HttpSession session= req.getSession();
 
-        int i = (int) httpSession.getAttribute("userId");
+        if (session == null) {
+            return new ActionResult("login", true);
+        }
+
+        if (session != null) {
+            if (session.getAttribute("userId") == null) {
+                return new ActionResult("login", true);
+            }
+        }
+
+        int i = (int) session.getAttribute("userId");
         User user = userService.getUserByID(i);
         req.setAttribute("user", user);
 

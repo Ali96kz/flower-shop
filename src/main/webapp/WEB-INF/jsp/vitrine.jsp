@@ -14,6 +14,12 @@
         <c:out value="${product.description}"/><br>
     </a>
     <br>
+
+    <a href="productInBasket?productId=${product.id}">
+        <c:out value="add in basket"/><br>
+    </a>
+
+    <br>
     <br>
 </c:forEach>
 </body>

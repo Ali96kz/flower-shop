@@ -9,7 +9,7 @@
 <body>
 A number of products in your basket: ${basket.products.size()}
 <c:forEach items="${basket.products}" var="product">
-        <c:out value="${product.flower.name}"/><br>
+    <br><c:out value="${product.flower.name}"/><br>
         <c:out value="${product.price}"/><br>
         <c:out value="${product.description}"/><br>
     </a>
