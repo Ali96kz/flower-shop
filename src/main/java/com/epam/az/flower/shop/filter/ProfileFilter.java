@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "ProfileFilter", urlPatterns = "/profile")
+@WebFilter(filterName = "ProfileFilter", urlPatterns = "/flower-shop/profile")
 public class ProfileFilter implements Filter {
     public void destroy() {
     }
@@ -23,10 +23,12 @@ public class ProfileFilter implements Filter {
         HttpSession session = request.getSession(false);
         if (session == null) {
             response.sendRedirect("login");
+            return;
         }
         if (session != null) {
             if (session.getAttribute("userId") == null) {
                 response.sendRedirect("login");
+                return;
             }
         }
         chain.doFilter(request, response);
