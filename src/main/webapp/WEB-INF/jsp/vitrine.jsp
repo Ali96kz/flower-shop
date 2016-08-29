@@ -15,7 +15,7 @@
     </a>
     <br>
 
-    <a href="productInBasket?productId=${product.id}">
+    <a href="product-in-basket?productId=${product.id}">
         <c:out value="add in basket"/><br>
     </a>
 

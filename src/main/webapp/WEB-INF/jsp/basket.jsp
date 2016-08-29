@@ -13,6 +13,8 @@ A number of products in your basket: ${basket.products.size()}
         <c:out value="${product.price}"/><br>
         <c:out value="${product.description}"/><br>
     </a>
+    <a href="basket/delete/product?id=${product.id}">
+        delete from basket
     <br>
     <br>
 </c:forEach>

@@ -22,9 +22,11 @@ public class ActionFactory {
         actions.put("GET/login", new ShowPageAction("login"));
         actions.put("GET/product-inf", new ShowProductPage());
         actions.put("GET/edit/product", new ShowProductEditAction());
+        actions.put("GET/basket/delete/product", new DeleteProductFromBasket());
+        actions.put("GET/product-in-basket", new ProductInBasketAction());
+
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/bill", new ShowBill());
-        actions.put("GET/product-in-basket", new ProductInBasketAction());
         actions.put("GET/admin", new ShowAdminPage());
         actions.put("GET/basket", new ShowBasketAction());
         actions.put("GET/registration", new ShowPageAction("registration"));
