@@ -7,12 +7,22 @@
     <title>${user.firstName} Profile</title>
 </head>
 <body>
+
 <div>
     Name: ${user.firstName}
     Last name: ${user.nickName}
     Birthday: ${user.dateBirthday}
     Balance: ${user.balance}
 </div>
+
+<a href="basket">
+    My basket
+</a>
+<br>
+<a href="cash">
+    Cash
+</a>
+<br>
 <a href="logout">
     <c:out value="logout"/><br>
 </a>

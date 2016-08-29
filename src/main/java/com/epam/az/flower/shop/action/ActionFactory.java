@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 public class ActionFactory {
     static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
-    //TODO put this in property
     public void initActions() {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
@@ -20,17 +19,19 @@ public class ActionFactory {
         actions.put("POST/add-product", new ShowProductPage());
 
         actions.put("GET/login", new ShowPageAction("login"));
-        actions.put("GET/product-inf", new ShowProductPage());
-        actions.put("GET/edit/product", new ShowProductEditAction());
-        actions.put("GET/basket/delete/product", new DeleteProductFromBasket());
-        actions.put("GET/product-in-basket", new ProductInBasketAction());
-        actions.put("GET/buy-all-basket", new BuyBasketAction());
         actions.put("GET/main", new ShowPageAction("main-page"));
+        actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("GET/product-inf", new ShowProductPage());
+        actions.put("GET/product-in-basket", new ProductInBasketAction());
+        actions.put("GET/edit/product", new ShowProductEditAction());
+        actions.put("GET/cash", new ShowCash());
+
+        actions.put("GET/basket/delete/product", new DeleteProductFromBasket());
+        actions.put("GET/buy-all-basket", new BuyBasketAction());
 
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/admin", new ShowAdminPage());
         actions.put("GET/basket", new ShowBasketAction());
-        actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/vitrine", new ShowVitrineAction());
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/basket", new ShowBasketAction());
