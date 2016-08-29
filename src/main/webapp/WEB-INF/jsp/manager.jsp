@@ -13,10 +13,10 @@
     </a>
     <br>
 
-    <a href="edit/product?id=${product.id}">
+    <a href="edit-product?id=${product.id}">
         <c:out value="edit"/>
     </a>
-    <a href="">
+    <a href="delete-product?id=${product.id}">
         <c:out value="delete"/><br>
     </a>
 

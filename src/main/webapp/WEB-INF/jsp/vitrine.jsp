@@ -22,5 +22,11 @@
     <br>
     <br>
 </c:forEach>
+
+<c:forEach items="${pageList}" var="number">
+    <a href="vitrine?page=${number}">
+        <c:out value="${number}"/><br>
+</c:forEach>
+
 </body>
 </html>
