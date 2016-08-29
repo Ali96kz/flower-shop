@@ -18,3 +18,4 @@ public class DeleteProductFromBasket implements Action {
         return new ActionResult("basket", true);
     }
 }
+

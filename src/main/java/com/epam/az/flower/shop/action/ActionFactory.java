@@ -24,14 +24,14 @@ public class ActionFactory {
         actions.put("GET/edit/product", new ShowProductEditAction());
         actions.put("GET/basket/delete/product", new DeleteProductFromBasket());
         actions.put("GET/product-in-basket", new ProductInBasketAction());
+        actions.put("GET/buy-all-basket", new BuyBasketAction());
+        actions.put("GET/main", new ShowPageAction("main-page"));
 
         actions.put("GET/logout", new LogoutAction());
-        actions.put("GET/bill", new ShowBill());
         actions.put("GET/admin", new ShowAdminPage());
         actions.put("GET/basket", new ShowBasketAction());
         actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/vitrine", new ShowVitrineAction());
-        actions.put("GET/cash", new ShowBill());
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/basket", new ShowBasketAction());
     }
