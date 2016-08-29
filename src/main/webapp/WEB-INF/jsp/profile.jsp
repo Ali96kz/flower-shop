@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 <!doctype html>
 <html lang="en">
@@ -12,5 +13,9 @@
     Birthday: ${user.dateBirthday}
     Balance: ${user.balance}
 </div>
+<a href="logout">
+    <c:out value="logout"/><br>
+</a>
+
 </body>
 </html>

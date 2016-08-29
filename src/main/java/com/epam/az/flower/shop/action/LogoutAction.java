@@ -11,6 +11,7 @@ public class LogoutAction implements Action{
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         session.setAttribute("userId", null);
-        return null;
+        session.setAttribute("basket", null);
+        return new ActionResult("registration", true);
     }
 }

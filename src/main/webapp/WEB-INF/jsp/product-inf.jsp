@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
 <!doctype html>
 <html lang="en">
