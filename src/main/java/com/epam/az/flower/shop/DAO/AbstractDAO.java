@@ -40,7 +40,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         StringBuilder values = new StringBuilder();
         sql.append("INSERT INTO " + getGenericClass().getSimpleName() + "(");
         fillSqlAndValue(sql, values, e);
-
         return executeSql(sql + ")values(" + values + ");");
 
     }
@@ -104,7 +103,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     public void fillSqlAndValue(StringBuilder sql, StringBuilder values, E e) {
         Field[] fields = getGenericClass().getDeclaredFields();
-
         try {
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
@@ -118,7 +116,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                     Date date = (Date) value;
                     values.append("\'" + date.toString() + "\', ");
                 } else {
-                    System.out.println(value.getClass().getName());
                     values.append(getObjectId(value) + ", ");
                 }
             }

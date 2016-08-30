@@ -24,7 +24,10 @@
 </a>
 <br>
 <a href="logout">
-    <c:out value="logout"/><br>
+    logout
+</a>
+<a href="vitrine">
+    online vitrine
 </a>
 
 </body>

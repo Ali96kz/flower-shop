@@ -8,6 +8,7 @@ import com.epam.az.flower.shop.entity.UserBalance;
 
 public class UserService {
     private UserDAO userDAO = new UserDAO();
+
     public void addMoneyToBalance(User user, int summ) {
         user.setBalance(user.getBalance() + summ);
         userDAO.update(user);
