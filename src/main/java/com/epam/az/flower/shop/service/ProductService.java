@@ -2,6 +2,7 @@ package com.epam.az.flower.shop.service;
 
 import com.epam.az.flower.shop.DAO.ProductDAO;
 import com.epam.az.flower.shop.entity.Product;
+import com.epam.az.flower.shop.entity.ProductList;
 import com.epam.az.flower.shop.entity.ProductPagination;
 
 import java.util.ArrayList;
@@ -16,15 +17,17 @@ public class ProductService {
     public ProductPagination getPagination(){
         List<Product> products = getAllProduct();
         ProductPagination pagination = new ProductPagination();
-        List<Product> list = new ArrayList<>();
+        ProductList productList = new ProductList();
+
         for (int i = 0; i < products.size(); i++) {
             if((i+1) % 10 == 0){
-                list.add(products.get(i));
-                pagination.addProducts(list);
-                list = new ArrayList<>();
+                productList.add(products.get(i));
+                pagination.addProducts(productList);
+                productList = new ProductList();
             }
-            list.add(products.get(i));
+            productList.add(products.get(i));
         }
+
         return pagination;
     }
     public void addNewProduct(Product product){

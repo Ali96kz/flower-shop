@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductPagination {
-    private List<List<Product>> productPagination = new ArrayList<>();
+    private List<ProductList> productPagination = new ArrayList<>();
 
-    public void addProducts(List<Product> products){
-        productPagination.add(products);
+    public void addProducts(ProductList productList){
+        productPagination.add(productList);
     }
 
-    public List<Product> get(int i){
-        return productPagination.get(i);
+    public ProductList getProductList(int id) {
+        return productPagination.get(id);
     }
+
     public int listSize(){
         return productPagination.size();
     }

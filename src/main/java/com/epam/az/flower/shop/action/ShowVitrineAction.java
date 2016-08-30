@@ -3,6 +3,7 @@ package com.epam.az.flower.shop.action;
 import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.entity.Product;
+import com.epam.az.flower.shop.entity.ProductList;
 import com.epam.az.flower.shop.entity.ProductPagination;
 import com.epam.az.flower.shop.service.ProductService;
 
@@ -32,8 +33,8 @@ public class ShowVitrineAction implements Action {
             String page = req.getParameter("page");
             id = stringAdapter.toInt(page);
         }
-
-        req.setAttribute("products", productPagination.get(id));
+        ProductList productList = productPagination.getProductList(id);
+        req.setAttribute("products", productList.products());
         req.setAttribute("pageList", pageNumber);
 
         return new ActionResult("vitrine");

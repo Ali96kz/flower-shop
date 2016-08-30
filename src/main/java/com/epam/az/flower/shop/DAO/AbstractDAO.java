@@ -256,36 +256,39 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 Object value = getValue(fields[i], resultSet);
                 fields[i].set(e, value);
             }
-            Field field = BaseEntity.class.getDeclaredField("id");
-            Field deleteDayField = BaseEntity.class.getDeclaredField("deleteDay");
-            field.setAccessible(true);
-            deleteDayField.setAccessible(true);
-            field.set(e, resultSet.getInt("id"));
-            deleteDayField.set(e, resultSet.getDate("deleteDay"));
+
+            Field[] baseEntityFields = BaseEntity.class.getDeclaredFields();
+
+            for (int i = 0; i < fields.length; i++) {
+                baseEntityFields[i].setAccessible(true);
+                Object value = getValue(baseEntityFields[i], resultSet);
+                baseEntityFields[i].set(e, value);
+            }
+
             return e;
-        } catch (SQLException | IllegalAccessException | NoSuchFieldException | InstantiationException e1) {
+        } catch (SQLException | IllegalAccessException | InstantiationException e1) {
             e1.printStackTrace();
         }
         return e;
     }
 
     public Object getValue(Field field, ResultSet resultSet) throws SQLException, IllegalAccessException, InstantiationException {
-        if (field.getType() == Integer.class || field.getType() == int.class) {
+        Class fieldType = field.getType();
+        if (fieldType == Integer.class || fieldType == int.class) {
             int value = resultSet.getInt(field.getName());
             return value;
-        } else if (field.getType() == String.class) {
+        } else if (fieldType == String.class) {
             String value = resultSet.getString(field.getName());
             return value;
-        } else if (field.getType() == boolean.class) {
+        } else if (fieldType == boolean.class) {
             boolean value = resultSet.getBoolean(field.getName());
             return value;
         } else {
-            Class clazz = field.getType();
-            if (clazz == Date.class) {
+            if (fieldType == Date.class) {
                 Date value = resultSet.getDate(field.getName());
                 return value;
             } else {
-                E value = (E) clazz.newInstance();
+                E value = (E) fieldType.newInstance();
                 parseResultSet(value, resultSet);
                 return value;
             }
