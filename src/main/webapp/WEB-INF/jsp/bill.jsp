@@ -5,6 +5,6 @@
     <title>Bill</title>
 </head>
 <body>
-    You buy success
+    You buy success${price}
 </body>
 </html>

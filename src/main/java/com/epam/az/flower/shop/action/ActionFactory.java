@@ -21,13 +21,15 @@ public class ActionFactory {
         actions.put("GET/login", new ShowPageAction("login"));
         actions.put("GET/main", new ShowPageAction("main-page"));
         actions.put("GET/registration", new ShowPageAction("registration"));
+        actions.put("GET/template", new ShowPageAction("template"));
         actions.put("GET/product-inf", new ShowProductPage());
         actions.put("GET/product-in-basket", new ProductInBasketAction());
         actions.put("GET/edit/product", new ShowProductEditAction());
         actions.put("GET/cash", new ShowCash());
 
-        actions.put("GET/basket/delete/product", new DeleteProductFromBasket());
+        actions.put("GET/deleteProduct", new DeleteProductFromBasket());
         actions.put("GET/buy-all-basket", new BuyBasketAction());
+        actions.put("GET/buy-product", new BuyProductAction());
 
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/admin", new ShowAdminPage());
