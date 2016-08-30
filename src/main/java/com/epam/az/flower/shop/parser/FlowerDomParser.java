@@ -19,9 +19,7 @@ public class FlowerDomParser extends FlowersXmlParser {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-
             NodeList nList = doc.getElementsByTagName("flowers");
-
             extractFromNodeList(nList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,8 +30,8 @@ public class FlowerDomParser extends FlowersXmlParser {
     public void extractFromNodeList(NodeList nodeList) {
         for (int temp = 0; temp < nodeList.getLength(); temp++) {
             Node tempNode = nodeList.item(temp);
-
             if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
+
             }
         }
     }

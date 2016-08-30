@@ -2,10 +2,9 @@ package com.epam.az.flower.shop.action;
 
 
 import com.epam.az.flower.shop.entity.ActionResult;
-import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.validator.LogInValidator;
-import com.epam.az.flower.shop.validator.Validator;
+import com.epam.az.flower.shop.util.validator.LogInValidator;
+import com.epam.az.flower.shop.util.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

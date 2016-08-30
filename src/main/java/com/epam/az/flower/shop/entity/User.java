@@ -10,18 +10,18 @@ public class User extends BaseEntity {
     private String password;
     private Date dateBirthday;
     private int balance;
-    private UserRole role;
+    private UserRole userRole;
 
     public User() {
 
     }
 
-    public UserRole getRole() {
-        return role;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public String getPassword() {

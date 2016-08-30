@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop;
+package com.epam.az.flower.shop.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

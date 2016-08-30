@@ -10,7 +10,7 @@ Your balance ${user.balance}
 <br>
 <form action="addMoneyToBalance" method="POST">
     Add money to balance <input type="text" size="8" name="money"><br>
-    <button type="submit"></button>
+    <button type="submit" name = "add"></button>
 </form>
 Your transactions
 </body>

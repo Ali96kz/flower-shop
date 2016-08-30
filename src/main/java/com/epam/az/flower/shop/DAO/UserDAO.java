@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.DAO;
 
-import com.epam.az.flower.shop.Hasher;
+import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.entity.User;
 
 import java.sql.ResultSet;

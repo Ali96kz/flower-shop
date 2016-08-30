@@ -1,6 +1,5 @@
-package com.epam.az.flower.shop.validator;
+package com.epam.az.flower.shop.util.validator;
 
-import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,16 +1,15 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.Hasher;
+import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.validator.RegisterProfileValidator;
+import com.epam.az.flower.shop.util.validator.RegisterProfileValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.Date;
 import java.util.List;
 
 public class RegisterAction implements Action {

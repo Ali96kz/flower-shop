@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.DAO;
 
+import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import com.epam.az.flower.shop.pool.ConnectionPool;
 
@@ -38,7 +39,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
         sql.append("INSERT INTO " + getGenericClass().getSimpleName() + "(");
-        fillSqlAndVAlue(sql, values, e);
+        fillSqlAndValue(sql, values, e);
 
         return executeSql(sql + ")values(" + values + ");");
 
@@ -53,17 +54,18 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 fields[i].setAccessible(true);
                 Object value = fields[i].get(item);
                 if (value instanceof String) {
-                    sql.append(fields[i].getName() + " = " + "\"" + value + "\"" + ", ");
+                    sql.append(fields[i].getName() + " = " + "\'" + value + "\'" + ", ");
                 } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
                     sql.append(fields[i].getName() + " = " + value + ", ");
+                } else if (value instanceof Date) {
+                    Date date = (Date) value;
+                    sql.append(fields[i].getName() + " = \'" + date + "\', ");
                 } else {
-                    sql.append(fields[i].getName() + " = " + value + ", ");
-                    Integer id = getObjectId(fields[i], item);
-                    sql.append(id);
+                    sql.append(fields[i].getName() + "Id = " + getObjectId(value) + ", ");
                 }
             }
             deleteLastDot(sql);
-            sql.append(" where id = " + fields[0].get(item) + ";");
+            sql.append(" where id = " + getObjectId(item) + ";");
             executeSql(sql.toString());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -86,10 +88,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return resultList;
     }
 
-    public void setGenericClass(Class genericClass) {
-        this.genericClass = genericClass;
-    }
-
     public Class<E> getGenericClass() {
         if (genericClass == null) {
             Type mySuperClass = getClass().getGenericSuperclass();
@@ -104,36 +102,32 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return genericClass;
     }
 
-    public void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
+    public void fillSqlAndValue(StringBuilder sql, StringBuilder values, E e) {
         Field[] fields = getGenericClass().getDeclaredFields();
+
         try {
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
                 Object value = fields[i].get(e);
-                if (fields[i].getName().equalsIgnoreCase("id")) {
-                    if (value != null) {
-                        sql.append("id, ");
-                        values.append(value + " , ");
-                    }
+                sql.append(fields[i].getName() + ", ");
+                if (value instanceof String) {
+                    values.append("\'" + value + "\', ");
+                } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
+                    values.append(value + ", ");
+                } else if (value instanceof Date) {
+                    Date date = (Date) value;
+                    values.append("\'" + date.toString() + "\', ");
                 } else {
-                    sql.append(fields[i].getName() + ", ");
-                    if (value instanceof String) {
-                        values.append("\'" + value + "\', ");
-                    } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
-                        values.append(value + ", ");
-                    } else if (value instanceof Date) {
-                        Date date = (Date) value;
-                        values.append("\'" + date.toString() + "\', ");
-                    }
+                    System.out.println(value.getClass().getName());
+                    values.append(getObjectId(value) + ", ");
                 }
             }
+
             deleteLastDot(sql);
             deleteLastDot(values);
         } catch (IllegalAccessException e1) {
             e1.printStackTrace();
         }
-
-
     }
 
     public void deleteLastDot(StringBuilder stringBuilder) {
@@ -145,10 +139,10 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
-    private Integer getObjectId(Field field, E object) {
+    private Integer getObjectId(Object object) {
         Integer result = null;
         try {
-            Field id = field.getClass().getDeclaredField("id");
+            Field id = BaseEntity.class.getDeclaredField("id");
             id.setAccessible(true);
             result = (Integer) id.get(object);
         } catch (IllegalAccessException | NoSuchFieldException e1) {

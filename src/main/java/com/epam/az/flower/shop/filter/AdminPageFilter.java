@@ -34,7 +34,7 @@ public class AdminPageFilter implements Filter {
             return;
         }
         User user = userService.getUserByID((Integer) session.getAttribute("userId"));
-        if (!user.getRole().name.equals("admin")) {
+        if (!user.getUserRole().name.equals("admin")) {
             response.sendRedirect("profile");
             return;
         }
