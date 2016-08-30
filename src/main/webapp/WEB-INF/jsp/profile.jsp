@@ -26,6 +26,7 @@
 <a href="logout">
     logout
 </a>
+<br>
 <a href="vitrine">
     online vitrine
 </a>

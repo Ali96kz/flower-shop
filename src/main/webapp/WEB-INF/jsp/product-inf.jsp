@@ -24,7 +24,7 @@ Love light: ${product.flower.growingCondition.lovelight}<br>
 temperature: ${product.flower.growingCondition.temperature.min} - ${product.flower.growingCondition.temperature.max}<br>
 Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}<br>
 
-<a href="productInBasket?productId=${product.id}">
+<a href="product-in-basket?productId=${product.id}">
     <c:out value="add in basket"/><br>
 </a>
 

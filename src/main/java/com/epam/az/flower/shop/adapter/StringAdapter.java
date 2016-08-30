@@ -13,7 +13,7 @@ public class StringAdapter {
         Date sqlDate = null;
         try {
             sqlDate = new Date(df.parse(date).getTime());
-            return null;
+            return sqlDate;
         } catch (ParseException e) {
             e.printStackTrace();
         }

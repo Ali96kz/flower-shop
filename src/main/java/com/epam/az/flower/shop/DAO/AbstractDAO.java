@@ -39,7 +39,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
         sql.append("INSERT INTO " + getGenericClass().getSimpleName() + "(");
-        fillSqlAndValue(sql, values, e);
+        fillSqlAndVAlue(sql, values, e);
         return executeSql(sql + ")values(" + values + ");");
 
     }
@@ -101,13 +101,13 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return genericClass;
     }
 
-    public void fillSqlAndValue(StringBuilder sql, StringBuilder values, E e) {
+    public void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
         Field[] fields = getGenericClass().getDeclaredFields();
         try {
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
                 Object value = fields[i].get(e);
-                sql.append(fields[i].getName() + ", ");
+                String name = fields[i].getName();
                 if (value instanceof String) {
                     values.append("\'" + value + "\', ");
                 } else if (fields[i].getType().isPrimitive() || value instanceof Integer) {
@@ -115,17 +115,22 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 } else if (value instanceof Date) {
                     Date date = (Date) value;
                     values.append("\'" + date.toString() + "\', ");
-                } else {
-                    values.append(getObjectId(value) + ", ");
+                } else if(value instanceof BaseEntity){
+                    int id = getObjectId(value);
+                    name += "Id";
+                    values.append(id + ", ");
                 }
-            }
+                sql.append( name+ ", ");
 
-            deleteLastDot(sql);
-            deleteLastDot(values);
-        } catch (IllegalAccessException e1) {
-            e1.printStackTrace();
+            }
+        } catch (IllegalAccessException e2) {
+            e2.printStackTrace();
         }
+        deleteLastDot(sql);
+        deleteLastDot(values);
     }
+
+
 
     public void deleteLastDot(StringBuilder stringBuilder) {
         for (int i = stringBuilder.length() - 1; i >= 0; i--) {

@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.action;
 
+import com.epam.az.flower.shop.entity.UserRole;
 import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.ActionResult;
@@ -30,11 +31,14 @@ public class RegisterAction implements Action {
             user.setLastName(request.getParameter("lastName"));
             user.setNickName(request.getParameter("nickName"));
             user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter("dateBirthday")));
-            int userId = userService.registerUser(user);
+            //TODO change this
+            UserRole userRole = new UserRole();
+            userRole.setId(4);
+            user.setUserRole(userRole);
 
+            int userId = userService.registerUser(user);
             session.setAttribute("userId", userId);
             ActionResult actionResult = new ActionResult("profile", true);
-
             return actionResult;
         } else {
             ActionResult actionResult = new ActionResult("registration");
