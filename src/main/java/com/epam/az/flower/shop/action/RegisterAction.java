@@ -23,24 +23,7 @@ public class RegisterAction implements Action {
         List<String> errorMsg = validator.isValidate(request);
         Hasher hasher = new Hasher();
 
-        if (errorMsg.size() == 0) {
-            HttpSession session = request.getSession();
-            User user = new User();
-            user.setPassword(hasher.hash(request.getParameter("password")));
-            user.setFirstName(request.getParameter("firstName"));
-            user.setLastName(request.getParameter("lastName"));
-            user.setNickName(request.getParameter("nickName"));
-            user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter("dateBirthday")));
-            //TODO change this
-            UserRole userRole = new UserRole();
-            userRole.setId(4);
-            user.setUserRole(userRole);
-
-            int userId = userService.registerUser(user);
-            session.setAttribute("userId", userId);
-            ActionResult actionResult = new ActionResult("profile", true);
-            return actionResult;
-        } else {
+        if (errorMsg.size() > 0) {
             ActionResult actionResult = new ActionResult("registration");
             String name = request.getParameter("firstName");
             String nickName = request.getParameter("nickName");
@@ -54,6 +37,25 @@ public class RegisterAction implements Action {
             request.setAttribute("user", user);
             request.setAttribute("errorMsg", errorMsg);
             return actionResult;
+
         }
+
+        HttpSession session = request.getSession();
+        User user = new User();
+        user.setPassword(hasher.hash(request.getParameter("password")));
+        user.setFirstName(request.getParameter("firstName"));
+        user.setLastName(request.getParameter("lastName"));
+        user.setNickName(request.getParameter("nickName"));
+        user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter("dateBirthday")));
+        //TODO change this
+        UserRole userRole = new UserRole();
+        userRole.setId(4);
+        user.setUserRole(userRole);
+
+        int userId = userService.registerUser(user);
+        session.setAttribute("userId", userId);
+        ActionResult actionResult = new ActionResult("profile", true);
+        return actionResult;
     }
 }
+

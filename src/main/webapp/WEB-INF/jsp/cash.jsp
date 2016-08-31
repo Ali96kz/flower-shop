@@ -12,6 +12,20 @@ Your balance ${user.balance}
     Add money to balance <input type="text" size="8" name="money"><br>
     <button type="submit" name = "add"></button>
 </form>
-Your transactions
+<c:forEach items="${errorMsg}" var="msg">
+    <c:out value="${msg}"/><br>
+</c:forEach>
+
+<a href="basket">
+    My basket
+</a>
+<br>
+<a href="logout">
+    logout
+</a>
+<br>
+<a href="vitrine">
+    online vitrine
+</a>
 </body>
 </html>

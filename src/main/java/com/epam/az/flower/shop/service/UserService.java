@@ -5,6 +5,7 @@ import com.epam.az.flower.shop.DAO.UserDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserBalance;
+import com.epam.az.flower.shop.entity.UserRole;
 
 public class UserService {
     private UserDAO userDAO = new UserDAO();
@@ -18,6 +19,9 @@ public class UserService {
     }
 
     public int registerUser(User user) {
+        UserRole userRole = new UserRole();
+        userRole.setId(4);
+        user.setUserRole(userRole);
         int index = userDAO.insert(user);
         return index;
     }

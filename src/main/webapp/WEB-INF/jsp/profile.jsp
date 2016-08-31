@@ -13,6 +13,7 @@
     Last name: ${user.nickName}
     Birthday: ${user.dateBirthday}
     Balance: ${user.balance}
+    Your role: ${user.userRole.name}
 </div>
 
 <a href="basket">
@@ -29,6 +30,10 @@
 <br>
 <a href="vitrine">
     online vitrine
+</a>
+<br>
+<a href="delete">
+    DELETE ACCOUNT
 </a>
 
 </body>

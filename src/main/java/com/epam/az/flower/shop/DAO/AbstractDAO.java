@@ -115,12 +115,12 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 } else if (value instanceof Date) {
                     Date date = (Date) value;
                     values.append("\'" + date.toString() + "\', ");
-                } else if(value instanceof BaseEntity){
+                } else if (value instanceof BaseEntity) {
                     int id = getObjectId(value);
                     name += "Id";
                     values.append(id + ", ");
                 }
-                sql.append( name+ ", ");
+                sql.append(name + ", ");
 
             }
         } catch (IllegalAccessException e2) {
@@ -129,7 +129,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         deleteLastDot(sql);
         deleteLastDot(values);
     }
-
 
 
     public void deleteLastDot(StringBuilder stringBuilder) {
@@ -253,14 +252,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 fields[i].set(e, value);
             }
 
-            Field[] baseEntityFields = BaseEntity.class.getDeclaredFields();
-
-            for (int i = 0; i < fields.length; i++) {
-                baseEntityFields[i].setAccessible(true);
-                Object value = getValue(baseEntityFields[i], resultSet);
-                baseEntityFields[i].set(e, value);
-            }
-
+            e.setId(resultSet.getInt(e.getClass().getSimpleName() + ".id"));
             return e;
         } catch (SQLException | IllegalAccessException | InstantiationException e1) {
             e1.printStackTrace();
@@ -279,15 +271,13 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         } else if (fieldType == boolean.class) {
             boolean value = resultSet.getBoolean(field.getName());
             return value;
+        } else if (fieldType == Date.class) {
+            Date value = resultSet.getDate(field.getName());
+            return value;
         } else {
-            if (fieldType == Date.class) {
-                Date value = resultSet.getDate(field.getName());
-                return value;
-            } else {
-                E value = (E) fieldType.newInstance();
-                parseResultSet(value, resultSet);
-                return value;
-            }
+            E value = (E) fieldType.newInstance();
+            parseResultSet(value, resultSet);
+            return value;
         }
     }
 

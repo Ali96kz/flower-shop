@@ -21,6 +21,7 @@ public class UserDAOTest {
         User user = userDAO.findById(id);
         checkWithDatabaseVersion(user);
     }
+
     @Test
     public void  testUpdate(){
     }

@@ -8,8 +8,8 @@ public class User extends BaseEntity {
     private String lastName;
     private String firstName;
     private String password;
-    private Date dateBirthday;
     private int balance;
+    private Date dateBirthday;
     private UserRole userRole;
 
     public User() {
