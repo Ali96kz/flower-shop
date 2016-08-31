@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.util.validator;
+package com.epam.az.flower.shop.validator;
 
 import com.epam.az.flower.shop.service.UserService;
 

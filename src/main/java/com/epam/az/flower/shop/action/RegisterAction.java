@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.util.validator.RegisterProfileValidator;
+import com.epam.az.flower.shop.validator.RegisterProfileValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

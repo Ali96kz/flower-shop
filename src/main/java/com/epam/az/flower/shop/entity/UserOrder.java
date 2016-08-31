@@ -1,11 +1,21 @@
 package com.epam.az.flower.shop.entity;
 
 
-public class Order extends BaseEntity{
+import java.sql.Date;
+
+public class UserOrder extends BaseEntity{
     private User user;
     private Product product;
+    private Date orderDate;
+    public UserOrder(){
+    }
 
-    public Order(){
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {

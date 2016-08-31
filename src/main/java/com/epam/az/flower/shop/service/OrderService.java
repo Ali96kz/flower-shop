@@ -6,7 +6,6 @@ import com.epam.az.flower.shop.DAO.UserBalanceDAO;
 import com.epam.az.flower.shop.DAO.UserDAO;
 import com.epam.az.flower.shop.entity.*;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -17,10 +16,11 @@ public class OrderService {
     private Transaction transaction = new Transaction();
     private UserBalanceDAO userBalanceDAO = new UserBalanceDAO();
     public void createOrder(User user, Product product){
-        Order order = new Order();
-        order.setUser(user);
-        order.setProduct(product);
-        orderDAO.insert(order);
+        UserOrder userOrder = new UserOrder();
+        userOrder.setUser(user);
+        userOrder.setProduct(product);
+        userOrder.setOrderDate(getDate());
+        orderDAO.insert(userOrder);
 
         user.setBalance(user.getBalance()-product.getPrice());
         userDAO.update(user);

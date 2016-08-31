@@ -1,4 +1,4 @@
-<%--@elvariable id="order" type="com.epam.az.flower.shop.entity.Order"--%>
+<%--@elvariable id="order" type="com.epam.az.flower.shop.entity.UserOrder"--%>
 <%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 <%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -20,10 +20,10 @@ All user in system
     <br>
 </c:forEach>
 <%--TODO problem with SQL--%>
-All order in system
-<c:forEach items="${orders}" var="order">
-    <c:out value="${order.user.nickName}"/> buy a
-    <c:out value="${order.product.flower.name}"/>
+All userOrder in system
+<c:forEach items="${userOrders}" var="userOrder">
+    <c:out value="${userOrder.user.nickName}"/> buy a
+    <c:out value="${userOrder.product.flower.name}"/>
     <br>
     <br>
 </c:forEach>

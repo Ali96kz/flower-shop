@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.DAO;
 
-import com.epam.az.flower.shop.entity.Order;
+import com.epam.az.flower.shop.entity.UserOrder;
 
-public class OrderDAO extends AbstractDAO<Order> {
+public class OrderDAO extends AbstractDAO<UserOrder> {
 }
