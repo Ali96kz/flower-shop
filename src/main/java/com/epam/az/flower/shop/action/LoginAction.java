@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginAction implements Action {
-    Logger log = LoggerFactory.getLogger(LoginAction.class);
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
@@ -22,18 +21,18 @@ public class LoginAction implements Action {
         Validator validator = new LogInValidator();
         List<String> errorMsg = validator.isValidate(req);
         UserService userService = new UserService();
-
-        if (errorMsg.size() == 0) {
-            String nickName = req.getParameter("nickName");
-            String password = req.getParameter("password");
-
-            int userId = userService.getUserByCredentials(nickName, password);
-
-            session.setAttribute("userId", userId);
-            return new ActionResult("profile", true);
-        } else {
+        if (errorMsg.size() > 0) {
             req.setAttribute("errorMsg", errorMsg);
+            System.out.println(errorMsg.get(0));
             return new ActionResult("login");
         }
-    }
+        String nickName = req.getParameter("nickName");
+        String password = req.getParameter("password");
+
+        int userId = userService.getUserByCredentials(nickName, password);
+
+        session.setAttribute("userId", userId);
+        return new ActionResult("profile", true);
+        }
+    Logger log = LoggerFactory.getLogger(LoginAction.class);
 }

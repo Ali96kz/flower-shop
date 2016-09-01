@@ -18,10 +18,13 @@ public class LogInValidator implements Validator {
 
         if (nickName.matches("\\W")) {
             errorMsg.add("nick name contain incorrect characters");
+
         }
+
         if (password.length() <  6 ) {
             errorMsg.add("password must contain 6 or 16 more characters");
         }
+
         if (userId == null) {
             errorMsg.add("you insert incorrect nickname or password");
         }

@@ -176,7 +176,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected String createSelectSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
         StringBuilder join = new StringBuilder();
-        sql.append(clazz.getSimpleName() + ".id, ");
         createSql(sql, join, clazz);
         deleteLastDot(sql);
         deleteLastDot(join);
@@ -193,6 +192,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     protected void createSql(StringBuilder sql, StringBuilder join, Class clazz) {
         Field[] fields = clazz.getDeclaredFields();
+        sql.append(clazz.getSimpleName() + ".id, ");
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getType().getSuperclass() == BaseEntity.class) {
                 join.append(" INNER JOIN " + fields[i].getType().getSimpleName() + " on " +
