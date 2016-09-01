@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.DAO;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import com.epam.az.flower.shop.pool.ConnectionPool;
 
@@ -20,7 +19,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         E result = null;
         try {
             result = getGenericClass().newInstance();
-            String selectSQL = createSelectSQL(getGenericClass());
+            String selectSQL = createJoin(getGenericClass());
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where " + getGenericClass().getSimpleName()
                     + ".id = " + id + ";");
 
@@ -74,7 +73,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public List<E> getAll() {
         List<E> resultList = new ArrayList<>();
-        String selectSQL = createSelectSQL(getGenericClass());
+        String selectSQL = createJoin(getGenericClass());
         try {
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + ";");
             while (resultSet.next()) {
@@ -173,31 +172,31 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     }
 
 
-    protected String createSelectSQL(Class clazz) {
+    protected String createJoin(Class clazz) {
         StringBuilder sql = new StringBuilder();
         StringBuilder join = new StringBuilder();
-        createSql(sql, join, clazz);
+        fillSql(sql, join, clazz);
         deleteLastDot(sql);
         deleteLastDot(join);
         return sql.toString() + " FROM " + getGenericClass().getSimpleName() + " " + join.toString() + "";
     }
 
 
-    protected String createSelectSQL(Class clazz, StringBuilder join) {
+    protected String createJoin(Class clazz, StringBuilder join) {
         StringBuilder sql = new StringBuilder();
-        createSql(sql, join, clazz);
+        fillSql(sql, join, clazz);
         deleteLastDot(sql);
         return sql.toString();
     }
 
-    protected void createSql(StringBuilder sql, StringBuilder join, Class clazz) {
+    protected void fillSql(StringBuilder sql, StringBuilder join, Class clazz) {
         Field[] fields = clazz.getDeclaredFields();
         sql.append(clazz.getSimpleName() + ".id, ");
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getType().getSuperclass() == BaseEntity.class) {
                 join.append(" INNER JOIN " + fields[i].getType().getSimpleName() + " on " +
                         fields[i].getType().getSimpleName() + ".Id = " + clazz.getSimpleName() + "." + lowFirstLetter(fields[i].getType().getSimpleName()) + "Id");
-                sql.append(createSelectSQL(fields[i].getType(), join) + ", ");
+                sql.append(createJoin(fields[i].getType(), join) + ", ");
             } else {
                 sql.append(clazz.getSimpleName() + "." + fields[i].getName() + ", ");
             }

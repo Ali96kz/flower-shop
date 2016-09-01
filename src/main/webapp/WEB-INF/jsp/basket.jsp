@@ -21,5 +21,9 @@ Your bill ${bill}<br>
 </c:forEach>
 <a href="buy-all-basket">pay for this</a>
 
+<c:forEach items="${errorMsg}" var="msg">
+    <c:out value="${msg}"/><br>
+</c:forEach>
+
 </body>
 </html>

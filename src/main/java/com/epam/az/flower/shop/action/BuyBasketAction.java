@@ -6,10 +6,13 @@ import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.OrderService;
 import com.epam.az.flower.shop.service.UserService;
+import com.epam.az.flower.shop.validator.ShopValidator;
+import com.epam.az.flower.shop.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public class BuyBasketAction implements Action{
     UserService userService = new UserService();
@@ -18,6 +21,13 @@ public class BuyBasketAction implements Action{
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
+        Validator validator = new ShopValidator();
+        List<String> errorMsg = validator.isValidate(req);
+        if (errorMsg.size() >  0){
+            req.setAttribute("errorMsg", errorMsg);
+            return new ActionResult("basket", true);
+        }
+
         Basket basket = (Basket) session.getAttribute("basket");
         int summ = 0;
         int userId = (int) session.getAttribute("userId");

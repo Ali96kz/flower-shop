@@ -10,7 +10,7 @@ public class UserDAO extends AbstractDAO<User> {
     public Integer findByCredentials(String nickName, String password) {
         Hasher hasher = new Hasher();
         password = hasher.hash(password);
-        String sql = "Select "+createSelectSQL(User.class) + " WHERE User.nickName = " +"'" +nickName +"'";
+        String sql = "Select "+ createJoin(User.class) + " WHERE User.nickName = " +"'" +nickName +"'";
         ResultSet resultSet = executeSqlQuery(sql);
         Integer userId = null;
         try {
