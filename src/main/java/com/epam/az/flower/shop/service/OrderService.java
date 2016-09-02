@@ -1,20 +1,18 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.OrderDAO;
-import com.epam.az.flower.shop.dao.TransactionDAO;
-import com.epam.az.flower.shop.dao.UserBalanceDAO;
-import com.epam.az.flower.shop.dao.UserDAO;
+import com.epam.az.flower.shop.dao.*;
 import com.epam.az.flower.shop.entity.*;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class OrderService {
-    private OrderDAO orderDAO = new OrderDAO();
-    private UserDAO userDAO = new UserDAO();
-    private TransactionDAO transactionDAO = new TransactionDAO();
-    private Transaction transaction = new Transaction();
-    private UserBalanceDAO userBalanceDAO = new UserBalanceDAO();
+    DAOFactory daoFactory = DAOFactory.getInstance();
+    private OrderDAO orderDAO = daoFactory.getDao(OrderDAO.class);
+    private UserDAO userDAO = daoFactory.getDao(UserDAO.class);
+    private UserBalanceDAO userBalanceDAO = daoFactory.getDao(UserBalanceDAO.class);
+    Transaction transaction = new Transaction();
+
     public void createOrder(User user, Product product){
         UserOrder userOrder = new UserOrder();
         userOrder.setUser(user);

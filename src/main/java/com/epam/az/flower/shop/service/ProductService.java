@@ -1,6 +1,8 @@
 package com.epam.az.flower.shop.service;
 
+import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.ProductDAO;
+import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.ProductList;
 import com.epam.az.flower.shop.entity.ProductPagination;
@@ -8,7 +10,8 @@ import com.epam.az.flower.shop.entity.ProductPagination;
 import java.util.List;
 
 public class ProductService {
-    ProductDAO productDAO = new ProductDAO();
+    DAOFactory daoFactory = DAOFactory.getInstance();
+    ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
 
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();

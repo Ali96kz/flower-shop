@@ -5,7 +5,13 @@ import java.util.Map;
 
 public class DAOFactory {
     private Map<Class, AbstractDAO> daomaps = new HashMap<>();
+    private static DAOFactory daoFactory = new DAOFactory();
+    private DAOFactory() {
 
+    }
+    public static DAOFactory getInstance(){
+        return daoFactory;
+    }
     public <E> E getDao(Class aClass) {
         if (daomaps.get(aClass) == null) {
             try {
