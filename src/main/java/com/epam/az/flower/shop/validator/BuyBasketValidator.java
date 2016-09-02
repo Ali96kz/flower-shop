@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopValidator implements Validator {
+public class BuyBasketValidator implements Validator {
     UserService userService = new UserService();
     StringAdapter stringAdapter = new StringAdapter();
 
@@ -19,6 +19,7 @@ public class ShopValidator implements Validator {
     public List<String> isValidate(HttpServletRequest request) {
         List<String> errorMsg = new ArrayList<>();
         HttpSession session = request.getSession();
+
         if (session.getAttribute("userId") == null) {
             errorMsg.add("You must sign in to buy something in own shop");
             return errorMsg;
@@ -28,6 +29,8 @@ public class ShopValidator implements Validator {
             errorMsg.add("You must add some products in your basket");
             return errorMsg;
         }
+
+
         return errorMsg;
     }
 }

@@ -25,7 +25,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     @Override
     public void update(E item) {
         super.update(item);
-        cache.put(item.getId(), null);
+        cache.put(item.getId(), item);
     }
 
     @Override

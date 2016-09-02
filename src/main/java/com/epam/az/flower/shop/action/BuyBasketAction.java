@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.OrderService;
 import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.validator.ShopValidator;
+import com.epam.az.flower.shop.validator.BuyBasketValidator;
 import com.epam.az.flower.shop.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class BuyBasketAction implements Action{
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        Validator validator = new ShopValidator();
+        Validator validator = new BuyBasketValidator();
         List<String> errorMsg = validator.isValidate(req);
         if (errorMsg.size() >  0){
             req.setAttribute("errorMsg", errorMsg);
@@ -37,7 +37,7 @@ public class BuyBasketAction implements Action{
             summ += product.getPrice();
             orderService.createOrder(user, product);
         }
-
+        session.setAttribute("basket", null);
         req.setAttribute("summ", summ);
         return new ActionResult("bill");
     }
