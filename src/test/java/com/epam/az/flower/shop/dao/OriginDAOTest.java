@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.DAO;
+package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.entity.Origin;
 import org.junit.Before;

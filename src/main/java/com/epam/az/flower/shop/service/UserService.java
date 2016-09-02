@@ -1,10 +1,7 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.DAO.UserBalanceDAO;
-import com.epam.az.flower.shop.DAO.UserDAO;
-import com.epam.az.flower.shop.entity.Transaction;
+import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.User;
-import com.epam.az.flower.shop.entity.UserBalance;
 import com.epam.az.flower.shop.entity.UserRole;
 
 public class UserService {

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ShopValidator implements Validator {
+public class ShopValidator implements Validator {
     UserService userService = new UserService();
     StringAdapter stringAdapter = new StringAdapter();
 

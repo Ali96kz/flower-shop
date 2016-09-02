@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.DAO;
+package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.entity.BaseEntity;
 import com.epam.az.flower.shop.pool.ConnectionPool;
@@ -73,6 +73,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public List<E> getAll() {
         List<E> resultList = new ArrayList<>();
+
         String selectSQL = createJoin(getGenericClass());
         try {
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + ";");
@@ -83,6 +84,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
         return resultList;
     }
 

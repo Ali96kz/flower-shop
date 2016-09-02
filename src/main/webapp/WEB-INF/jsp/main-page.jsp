@@ -4,10 +4,11 @@
 <head>
     <title>Online flower shop</title>
 </head>
-<body>
-    <a href="admin">
+<body STYLE="background-color:#ffe85b; ">
+<div style="margin-top: 200px;">
+    <div STYLE="display:block;padding:0 auto; background-color:#ff7647; width:250px; height: 20px"><a href="admin">
         <c:out value="Admin panel"></c:out><br>
-    </a>
+    </a></div>
 
     <a href="registration">
         <c:out value="registration form"></c:out><br>
@@ -24,6 +25,6 @@
     <a href="basket">
         <c:out value="your basket"></c:out><br>
     </a>
-
+</div>
 </body>
 </html>

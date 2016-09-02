@@ -1,9 +1,9 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.DAO.OrderDAO;
-import com.epam.az.flower.shop.DAO.TransactionDAO;
-import com.epam.az.flower.shop.DAO.UserBalanceDAO;
-import com.epam.az.flower.shop.DAO.UserDAO;
+import com.epam.az.flower.shop.dao.OrderDAO;
+import com.epam.az.flower.shop.dao.TransactionDAO;
+import com.epam.az.flower.shop.dao.UserBalanceDAO;
+import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.*;
 
 import java.util.Calendar;

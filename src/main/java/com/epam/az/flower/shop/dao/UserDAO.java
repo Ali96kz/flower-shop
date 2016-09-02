@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.DAO;
+package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.entity.User;
@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO extends AbstractDAO<User> {
+public class UserDAO extends CachedDAO<User> {
     public Integer findByCredentials(String nickName, String password) {
         Hasher hasher = new Hasher();
         password = hasher.hash(password);
