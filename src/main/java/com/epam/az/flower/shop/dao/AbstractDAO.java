@@ -2,6 +2,8 @@ package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.entity.BaseEntity;
 import com.epam.az.flower.shop.pool.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -13,24 +15,43 @@ import java.util.*;
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected ConnectionPool connectionPool = ConnectionPool.getInstance();
     private Class genericClass;
+    private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
     @Override
     public E findById(int id) {
         E result = null;
+
         try {
             result = getGenericClass().newInstance();
             String selectSQL = createJoin(getGenericClass());
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where " + getGenericClass().getSimpleName()
                     + ".id = " + id + ";");
-
             if (resultSet.next())
                 result = parseResultSet(result, resultSet);
-
             return result;
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            logger.trace("Find by id", e);
         }
         return result;
+    }
+
+    @Override
+    public void delete(E item) {
+        try {
+            Field field = item.getClass().getDeclaredField("id");
+            field.setAccessible(true);
+
+            Calendar c = new GregorianCalendar();
+            java.util.Date utilDate = c.getTime();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            String sql = ("UPDATE " + item.getClass().getSimpleName() + " set deleteDAY = '" + sqlDate + "' where id = " + field.get(item) + ";");
+            executeSql(sql);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -40,7 +61,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         sql.append("INSERT INTO " + getGenericClass().getSimpleName() + "(");
         fillSqlAndVAlue(sql, values, e);
         return executeSql(sql + ")values(" + values + ");");
-
     }
 
     @Override
@@ -102,6 +122,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return genericClass;
     }
 
+
     public void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
         Field[] fields = getGenericClass().getDeclaredFields();
         try {
@@ -131,7 +152,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         deleteLastDot(values);
     }
 
-
     public void deleteLastDot(StringBuilder stringBuilder) {
         for (int i = stringBuilder.length() - 1; i >= 0; i--) {
             if (stringBuilder.charAt(i) == ',') {
@@ -153,10 +173,10 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return result;
     }
 
+
     protected int executeSql(String sql) {
         Connection connection = null;
         int result = 0;
-        System.out.println(sql);
         try {
             connection = connectionPool.getConnection();
             Statement statement = connection.createStatement();
@@ -166,7 +186,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.trace("SQL " + sql, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -182,7 +202,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         deleteLastDot(join);
         return sql.toString() + " FROM " + getGenericClass().getSimpleName() + " " + join.toString() + "";
     }
-
 
     protected String createJoin(Class clazz, StringBuilder join) {
         StringBuilder sql = new StringBuilder();
@@ -209,38 +228,16 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         Statement statement;
         ResultSet resultSet = null;
         Connection connection = null;
-        System.out.println(sql);
         try {
             connection = connectionPool.getConnection();
             statement = connection.createStatement();
-            System.out.println(sql.toString());
             resultSet = statement.executeQuery(sql.toString());
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.trace("SQL " + sql, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
         return resultSet;
-    }
-
-    @Override
-    public void delete(E item) {
-        try {
-            Field field = item.getClass().getDeclaredField("id");
-            field.setAccessible(true);
-
-            Calendar c = new GregorianCalendar();
-            java.util.Date utilDate = c.getTime();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            String sql = ("UPDATE " + item.getClass().getSimpleName() + " set deleteDAY = '" + sqlDate + "' where id = " + field.get(item) + ";");
-            System.out.println(sql);
-            executeSql(sql);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
     }
 
     public E parseResultSet(E e, ResultSet resultSet) {
