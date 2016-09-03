@@ -3,10 +3,13 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserBalanceDAO;
 import com.epam.az.flower.shop.dao.UserDAO;
+import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserBalance;
 import com.epam.az.flower.shop.entity.UserRole;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class UserService {
@@ -17,6 +20,16 @@ public class UserService {
     public void addMoneyToBalance(User user, int summ) {
         user.setBalance(user.getBalance() + summ);
         userDAO.update(user);
+        Transaction transaction = new Transaction();
+        transaction.setId(3);
+
+        UserBalance userBalance = new UserBalance();
+        userBalance.setTransaction(transaction);
+        userBalance.setUser(user);
+        userBalance.setSum(summ);
+        userBalance.setTransactionDate(getDate());
+        balanceDAO.insert(userBalance);
+
     }
 
     public int registerUser(User user) {
@@ -44,4 +57,11 @@ public class UserService {
         List<UserBalance> userBalances = balanceDAO.getAll(userId);
         return userBalances;
     }
+    private java.sql.Date getDate(){
+        Calendar c = new GregorianCalendar();
+        java.util.Date utilDate = c.getTime();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        return sqlDate;
+    }
+
 }

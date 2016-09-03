@@ -11,7 +11,7 @@ public class UserBalanceDAO extends CachedDAO<UserBalance> {
 
     public List<UserBalance> getAll(int id) {
         List<UserBalance> resultList = new ArrayList<>();
-        String selectSQL = createJoin(getGenericClass());
+        String selectSQL = createSQL(getGenericClass());
         try {
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL +
                     " where User.id = " + id + ";");

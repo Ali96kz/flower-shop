@@ -24,7 +24,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
         try {
             result = getGenericClass().newInstance();
-            String selectSQL = createJoin(getGenericClass());
+            String selectSQL = createSQL(getGenericClass());
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where " + getGenericClass().getSimpleName()
                     + ".id = " + id + ";");
             if (resultSet.next())
@@ -95,7 +95,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public List<E> getAll() {
         List<E> resultList = new ArrayList<>();
 
-        String selectSQL = createJoin(getGenericClass());
+        String selectSQL = createSQL(getGenericClass());
         try {
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + ";");
             while (resultSet.next()) {
@@ -180,8 +180,13 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         int result = 0;
         try {
             connection = connectionPool.getConnection();
+
+            connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+
+            connection.commit();
+
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
@@ -195,7 +200,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     }
 
 
-    protected String createJoin(Class clazz) {
+    protected String createSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
         StringBuilder join = new StringBuilder();
         fillSql(sql, join, clazz);
@@ -214,6 +219,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected void fillSql(StringBuilder sql, StringBuilder join, Class clazz) {
         Field[] fields = clazz.getDeclaredFields();
         sql.append(clazz.getSimpleName() + ".id, ");
+        sql.append(clazz.getSimpleName() + ".deleteDay, ");
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getType().getSuperclass() == BaseEntity.class) {
                 join.append(" INNER JOIN " + fields[i].getType().getSimpleName() + " on " +
@@ -230,6 +236,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         ResultSet resultSet = null;
         Connection connection = null;
         try {
+            System.out.println(sql);
             connection = connectionPool.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql.toString());
@@ -252,6 +259,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             }
 
             e.setId(resultSet.getInt(e.getClass().getSimpleName() + ".id"));
+            e.setDeleteDay(resultSet.getDate(e.getClass().getSimpleName() + ".deleteDay"));
             return e;
         } catch (SQLException | IllegalAccessException | InstantiationException e1) {
             e1.printStackTrace();

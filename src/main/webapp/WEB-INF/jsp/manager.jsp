@@ -5,6 +5,7 @@
     <title>Manager</title>
 </head>
 <body>
+
 <c:forEach items="${products}" var="product">
     <a href="product-inf?id=${product.id}">
         <c:out value="${product.flower.name}"/><br>

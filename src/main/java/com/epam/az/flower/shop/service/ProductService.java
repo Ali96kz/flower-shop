@@ -22,13 +22,18 @@ public class ProductService {
         List<Product> products = getAllProduct();
         ProductPagination pagination = new ProductPagination();
         ProductList productList = new ProductList();
-        for (int i = 0; i < products.size(); i++) {
+        int i = 0;
+        for (Product product : products) {
             if ((i + 1) % 10 == 0) {
-                productList.add(products.get(i));
+                productList.add(product);
                 pagination.addProducts(productList);
                 productList = new ProductList();
+                i++;
             }
-            productList.add(products.get(i));
+            if (product.getDeleteDay() == null) {
+                i++;
+                productList.add(product);
+            }
         }
 
         pagination.addProducts(productList);

@@ -7,7 +7,8 @@ import static org.junit.Assert.*;
 public class CachedDAOTest {
     @Test
     public void findById() throws Exception {
-
+        Object k = new String();
+        System.out.println(k.getClass().getName());
     }
 
     @Test
