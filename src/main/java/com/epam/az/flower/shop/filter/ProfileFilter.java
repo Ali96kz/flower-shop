@@ -25,6 +25,7 @@ public class ProfileFilter implements Filter {
             response.sendRedirect("login");
             return;
         }
+
         if (session != null) {
             if (session.getAttribute("userId") == null) {
                 response.sendRedirect("login");

@@ -11,6 +11,7 @@ public interface DAO<E> {
 
     List<E> getAll();
 
+
     void delete(E item);
 
 }

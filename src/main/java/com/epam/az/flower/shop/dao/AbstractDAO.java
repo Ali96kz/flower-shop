@@ -17,6 +17,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     private Class genericClass;
     private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
+
     @Override
     public E findById(int id) {
         E result = null;

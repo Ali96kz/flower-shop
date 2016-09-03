@@ -30,7 +30,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
 
     @Override
     public int insert(E e) {
-        insertNewEntity = true;
+        cache.put(e.getId(), e);
         return super.insert(e);
     }
 
@@ -55,5 +55,9 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     public void delete(E item) {
         getAll = false;
         super.delete(item);
+    }
+
+    public void deleteFromCache(int id){
+        cache.put(id, null);
     }
 }
