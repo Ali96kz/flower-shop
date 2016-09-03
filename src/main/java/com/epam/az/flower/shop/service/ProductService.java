@@ -1,17 +1,34 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.DAOFactory;
-import com.epam.az.flower.shop.dao.ProductDAO;
-import com.epam.az.flower.shop.dao.UserDAO;
-import com.epam.az.flower.shop.entity.Product;
-import com.epam.az.flower.shop.entity.ProductList;
-import com.epam.az.flower.shop.entity.ProductPagination;
+import com.epam.az.flower.shop.dao.*;
+import com.epam.az.flower.shop.entity.*;
 
 import java.util.List;
 
 public class ProductService {
-    DAOFactory daoFactory = DAOFactory.getInstance();
-    ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private TemperatureDAO temperatureDAO = new TemperatureDAO();
+    private WaterInWeekDAO waterInWeekDAO = new WaterInWeekDAO();
+    private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
+    private OriginDAO originDAO = daoFactory.getDao(OriginDAO.class);
+    private FlowerDAO flowerDAO = daoFactory.getDao(FlowerDAO.class);
+    private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
+    public List<Origin> getAllOrigin(){
+        return originDAO.getAll();
+    }
+
+    public List<VisualParameters> getAllVisualParameters(){
+        return visualParametersDAO.getAll();
+    }
+    public List<Flower> getAllFlowers(){
+        return flowerDAO.getAll();
+    }
+    public List<Temperature> getAllTemperature(){
+        return temperatureDAO.getAll();
+    }
+    public List<WaterInWeek> getAllWaterInWeek(){
+        return waterInWeekDAO.getAll();
+    }
 
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
@@ -40,8 +57,11 @@ public class ProductService {
         return pagination;
     }
 
-    public void addNewProduct(Product product) {
-
+    public int addNewProduct(Product product) {
+        int flowerId = flowerDAO.insert(product.getFlower());
+        product.getFlower().setId(flowerId);
+        int id = productDAO.insert(product);
+        return id;
     }
 
     public Product findById(int id) {

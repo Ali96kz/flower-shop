@@ -2,30 +2,30 @@ package com.epam.az.flower.shop.entity;
 
 
 public class Temperature extends BaseEntity{
-    private int min;
-    private int max;
+    private int tmin;
+    private int tmax;
     public Temperature() {
 
     }
 
-    public int getMin() {
-        return min;
+    public int getTmin() {
+        return tmin;
     }
 
-    public void setMin(int min) {
-        this.min = min;
+    public void setTmin(int tmin) {
+        this.tmin = tmin;
     }
 
-    public int getMax() {
-        return max;
+    public int getTmax() {
+        return tmax;
     }
 
-    public void setMax(int max) {
-        this.max = max;
+    public void setTmax(int tmax) {
+        this.tmax = tmax;
     }
 
     @Override
     public String toString() {
-        return min + " " + max;
+        return tmin + " " + tmax;
     }
 }

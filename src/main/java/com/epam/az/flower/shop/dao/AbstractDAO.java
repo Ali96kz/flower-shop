@@ -180,7 +180,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         int result = 0;
         try {
             connection = connectionPool.getConnection();
-
+            System.out.println(sql);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -235,8 +235,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         Statement statement;
         ResultSet resultSet = null;
         Connection connection = null;
+        System.out.println(sql);
         try {
-            System.out.println(sql);
             connection = connectionPool.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql.toString());
@@ -283,7 +283,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             return value;
         } else {
             E value = (E) fieldType.newInstance();
-            parseResultSet(value, resultSet);
+            value = parseResultSet(value, resultSet);
             return value;
         }
     }

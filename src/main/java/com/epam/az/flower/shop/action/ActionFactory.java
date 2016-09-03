@@ -10,15 +10,16 @@ import org.slf4j.LoggerFactory;
 public class ActionFactory {
     static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
+
     public void initActions() {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
         actions.put("POST/login", new LoginAction());
         actions.put("POST/edit/product", new ShowProductEditAction());
-        actions.put("POST/add-product", new ShowProductPage());
+        actions.put("POST/add-product", new AddProductAction());
 
-
+        actions.put("GET/add-product", new ShowAddProductAction());
         actions.put("GET/login", new ShowPageAction("login"));
         actions.put("GET/transaction", new ShowTransactionAction());
         actions.put("GET/main", new ShowPageAction("main-page"));
@@ -26,13 +27,11 @@ public class ActionFactory {
         actions.put("GET/template", new ShowPageAction("template"));
         actions.put("GET/product-inf", new ShowProductPage());
         actions.put("GET/product-in-basket", new ProductInBasketAction());
-        actions.put("GET/edit/product", new ShowProductEditAction());
+        actions.put("GET/edit-product", new ShowProductEditAction());
         actions.put("GET/cash", new ShowCash());
-
         actions.put("GET/deleteProduct", new DeleteProductFromBasket());
         actions.put("GET/buy-all-basket", new BuyBasketAction());
         actions.put("GET/buy-product", new BuyProductAction());
-
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/admin", new ShowAdminPage());
         actions.put("GET/basket", new ShowBasketAction());
@@ -40,6 +39,7 @@ public class ActionFactory {
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/basket", new ShowBasketAction());
     }
+
     public Action getAction(HttpServletRequest request) {
         if (actions == null) {
             initActions();

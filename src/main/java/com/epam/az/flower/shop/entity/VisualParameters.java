@@ -3,7 +3,6 @@ package com.epam.az.flower.shop.entity;
 public class VisualParameters extends BaseEntity{
     private String colorSteam;
     private String colorLeaves;
-    private int averageHeight;
 
     public VisualParameters() {
     }
@@ -24,16 +23,4 @@ public class VisualParameters extends BaseEntity{
         this.colorLeaves = colorLeaves;
     }
 
-    public int getAverageHeight() {
-        return averageHeight;
-    }
-
-    public void setAverageHeight(int averageHeight) {
-        this.averageHeight = averageHeight;
-    }
-
-    @Override
-    public String toString() {
-        return colorLeaves + " " + colorSteam + " " + averageHeight;
-    }
 }

@@ -46,7 +46,8 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
             return items;
         }
         if (insertNewEntity == false) {
-            return (List<E>) cache.values();
+            List<E> list = new ArrayList<>(cache.values());
+            return list;
         }
         return super.getAll();
     }

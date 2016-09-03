@@ -17,11 +17,11 @@ Price : ${product.price}
 VisualParameters: <br>
 Leaves color : ${product.flower.visualParameters.colorLeaves}<br>
 Steam color : ${product.flower.visualParameters.colorSteam}<br>
-Average height : ${product.flower.visualParameters.averageHeight}<br>
+Average height : ${product.flower.averageHeight}<br>
 <br>
 Growing condition: <br>
 Love light: ${product.flower.growingCondition.lovelight}<br>
-temperature: ${product.flower.growingCondition.temperature.min} - ${product.flower.growingCondition.temperature.max}<br>
+temperature: ${product.flower.growingCondition.temperature.tmin} - ${product.flower.growingCondition.temperature.tmax}<br>
 Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}<br>
 
 <a href="product-in-basket?productId=${product.id}">

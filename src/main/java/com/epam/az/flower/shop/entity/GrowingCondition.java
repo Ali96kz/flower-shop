@@ -1,10 +1,10 @@
 package com.epam.az.flower.shop.entity;
 
 public class GrowingCondition extends BaseEntity{
-    private WaterInWeek waterInWeek;
-    private Temperature temperature;
-    private boolean lovelight;
     public String name;
+    private boolean lovelight;
+    private Temperature temperature;
+    private WaterInWeek waterInWeek;
 
 
     public GrowingCondition() {

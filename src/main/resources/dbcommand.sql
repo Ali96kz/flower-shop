@@ -49,8 +49,8 @@ CREATE INDEX userID ON `Order` (userId);
 CREATE TABLE Temperature
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    min INT(11),
-    max INT(11)
+    tmin INT(11),
+    tmax INT(11)
 );
 CREATE TABLE VisualParameters
 (
@@ -86,8 +86,8 @@ CREATE INDEX waterinWeekID ON GrowingCondition (waterInWeekId);
 CREATE TABLE WaterInWeek
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    min INT(11),
-    max INT(11)
+    tmin INT(11),
+    tmax INT(11)
 );
 CREATE TABLE Transaction
 (

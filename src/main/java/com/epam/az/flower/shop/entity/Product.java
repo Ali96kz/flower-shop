@@ -1,8 +1,6 @@
 package com.epam.az.flower.shop.entity;
 
 
-import java.sql.Date;
-
 public class Product extends BaseEntity{
     private int price;
     private Origin origin;
