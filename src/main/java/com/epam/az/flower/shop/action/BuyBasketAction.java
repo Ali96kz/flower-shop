@@ -31,7 +31,7 @@ public class BuyBasketAction implements Action{
         Basket basket = (Basket) session.getAttribute("basket");
         int summ = 0;
         int userId = (int) session.getAttribute("userId");
-        User user = userService.getUserByID(userId);
+        User user = userService.findByID(userId);
 
         for (Product product : basket.getProducts()) {
             summ += product.getPrice();

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AddProductAction implements Action {
     StringAdapter stringAdapter = new StringAdapter();
     ProductService productService = new ProductService();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         Product product = new Product();
@@ -17,12 +18,28 @@ public class AddProductAction implements Action {
         Origin origin = new Origin();
         VisualParameters visualParameters = new VisualParameters();
         GrowingCondition growingCondition = new GrowingCondition();
-        growingCondition.setId(1);
+
+        if (req.getParameter("growingConditionName") != null) {
+            String name = req.getParameter("growingConditionName");
+            int temperatureId = stringAdapter.toInt(req.getParameter("temperatureId"));
+            int waterInWeekId = stringAdapter.toInt(req.getParameter("waterInWeekId"));
+
+            Temperature temperature = new Temperature();
+            temperature.setId(temperatureId);
+            WaterInWeek waterInWeek = new WaterInWeek();
+            waterInWeek.setId(waterInWeekId);
+
+            growingCondition.setName(name);
+            growingCondition.setTemperature(temperature);
+            growingCondition.setWaterInWeek(waterInWeek);
+            //TODO set love light
+        }
         int originId = stringAdapter.toInt(req.getParameter("originId"));
         int visualParametersId = stringAdapter.toInt(req.getParameter("visualParametersId"));
+
         origin.setId(originId);
         visualParameters.setId(visualParametersId);
-
+        flower.setGrowingCondition(growingCondition);
         flower.setName(req.getParameter("name"));
         flower.setAverageHeight(stringAdapter.toInt(req.getParameter("averageHeight")));
         flower.setVisualParameters(visualParameters);

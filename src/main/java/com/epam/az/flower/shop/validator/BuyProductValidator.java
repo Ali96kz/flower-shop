@@ -23,7 +23,7 @@ public class BuyProductValidator implements Validator{
         }
 
         int userID = (int) session.getAttribute("userId");
-        User user = userService.getUserByID(userID);
+        User user = userService.findByID(userID);
 
         if (user.getBalance() < stringAdapter.toInt(request.getParameter("productId"))) {
             errorMsg.add("You haven't enough money");

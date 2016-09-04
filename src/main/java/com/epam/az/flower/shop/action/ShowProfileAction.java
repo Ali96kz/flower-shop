@@ -7,7 +7,6 @@ import com.epam.az.flower.shop.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 public class ShowProfileAction implements Action {
     UserService userService = new UserService();
@@ -18,7 +17,7 @@ public class ShowProfileAction implements Action {
         HttpSession session= req.getSession();
 
         int i = (int) session.getAttribute("userId");
-        User user = userService.getUserByID(i);
+        User user = userService.findByID(i);
         req.setAttribute("user", user);
 
         return actionResult;

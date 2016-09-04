@@ -7,31 +7,19 @@ import java.util.List;
 
 public class ProductService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureDAO temperatureDAO = new TemperatureDAO();
-    private WaterInWeekDAO waterInWeekDAO = new WaterInWeekDAO();
     private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
-    private OriginDAO originDAO = daoFactory.getDao(OriginDAO.class);
-    private FlowerDAO flowerDAO = daoFactory.getDao(FlowerDAO.class);
-    private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
-    public List<Origin> getAllOrigin(){
-        return originDAO.getAll();
-    }
-
-    public List<VisualParameters> getAllVisualParameters(){
-        return visualParametersDAO.getAll();
-    }
-    public List<Flower> getAllFlowers(){
-        return flowerDAO.getAll();
-    }
-    public List<Temperature> getAllTemperature(){
-        return temperatureDAO.getAll();
-    }
-    public List<WaterInWeek> getAllWaterInWeek(){
-        return waterInWeekDAO.getAll();
-    }
+    private FlowerService flowerService = new FlowerService();
+    private OriginService originService = new OriginService();
 
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
+        for (Product product : products) {
+            Origin origin = originService.findById(product.getOrigin().getId());
+            Flower flower = flowerService.findById(product.getFlower().getId());
+            product.setFlower(flower);
+            product.setOrigin(origin);
+        }
+
         return products;
     }
 
@@ -58,7 +46,7 @@ public class ProductService {
     }
 
     public int addNewProduct(Product product) {
-        int flowerId = flowerDAO.insert(product.getFlower());
+        int flowerId = flowerService.insert(product.getFlower());
         product.getFlower().setId(flowerId);
         int id = productDAO.insert(product);
         return id;

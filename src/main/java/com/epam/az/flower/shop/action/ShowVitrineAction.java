@@ -17,6 +17,7 @@ public class ShowVitrineAction implements Action {
     ProductPagination productPagination = productService.getPagination();
     List<Integer> pageNumber;
     StringAdapter stringAdapter = new StringAdapter();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         if (pageNumber == null) {

@@ -14,7 +14,7 @@ public class ShowCash implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("userId");
-        User user = userService.getUserByID(userId);
+        User user = userService.findByID(userId);
         req.setAttribute("user", user);
         return new ActionResult("cash");
     }

@@ -3,6 +3,7 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserBalanceDAO;
 import com.epam.az.flower.shop.dao.UserDAO;
+import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserBalance;
@@ -15,21 +16,12 @@ import java.util.List;
 public class UserService {
     DAOFactory daoFactory = DAOFactory.getInstance();
     UserDAO userDAO = daoFactory.getDao(UserDAO.class);
-    UserBalanceDAO balanceDAO = daoFactory.getDao(UserBalanceDAO.class);
-
+    UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
+    TransactionService transactionService = new TransactionService();
     public void addMoneyToBalance(User user, int summ) {
         user.setBalance(user.getBalance() + summ);
         userDAO.update(user);
-        Transaction transaction = new Transaction();
-        transaction.setId(3);
-
-        UserBalance userBalance = new UserBalance();
-        userBalance.setTransaction(transaction);
-        userBalance.setUser(user);
-        userBalance.setSum(summ);
-        userBalance.setTransactionDate(getDate());
-        balanceDAO.insert(userBalance);
-
+        transactionService.addMoneyTransaction(user, summ);
     }
 
     public int registerUser(User user) {
@@ -40,7 +32,10 @@ public class UserService {
         return index;
     }
 
-    public User getUserByID(int id) {
+    public User findByID(int id) {
+        User user = userDAO.findById(id);
+        UserRole userRole = userRoleDao.findById(user.getUserRole().getId());
+        user.setUserRole(userRole);
         return userDAO.findById(id);
     }
 
@@ -51,17 +46,6 @@ public class UserService {
 
     public void logout(int id){
         userDAO.deleteFromCache(id);
-    }
-
-    public List<UserBalance> getAllUserTransaction(int userId){
-        List<UserBalance> userBalances = balanceDAO.getAll(userId);
-        return userBalances;
-    }
-    private java.sql.Date getDate(){
-        Calendar c = new GregorianCalendar();
-        java.util.Date utilDate = c.getTime();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        return sqlDate;
     }
 
 }

@@ -21,7 +21,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public E findById(int id) {
         E result = null;
-
         try {
             result = getGenericClass().newInstance();
             String selectSQL = createSQL(getGenericClass());
@@ -60,7 +59,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
         sql.append("INSERT INTO " + getGenericClass().getSimpleName() + "(");
-        fillSqlAndVAlue(sql, values, e);
+        fillSqlAndValue(sql, values, e);
         return executeSql(sql + ")values(" + values + ");");
     }
 
@@ -123,8 +122,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return genericClass;
     }
 
+    public void setGenericClass(Class genericClass) {
+        this.genericClass = genericClass;
+    }
 
-    public void fillSqlAndVAlue(StringBuilder sql, StringBuilder values, E e) {
+    public void fillSqlAndValue(StringBuilder sql, StringBuilder values, E e) {
         Field[] fields = getGenericClass().getDeclaredFields();
         try {
             for (int i = 0; i < fields.length; i++) {
@@ -202,40 +204,26 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     protected String createSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
-        StringBuilder join = new StringBuilder();
-        fillSql(sql, join, clazz);
-        deleteLastDot(sql);
-        deleteLastDot(join);
-        return sql.toString() + " FROM " + getGenericClass().getSimpleName() + " " + join.toString() + "";
-    }
 
-    protected String createJoin(Class clazz, StringBuilder join) {
-        StringBuilder sql = new StringBuilder();
-        fillSql(sql, join, clazz);
-        deleteLastDot(sql);
-        return sql.toString();
-    }
-
-    protected void fillSql(StringBuilder sql, StringBuilder join, Class clazz) {
         Field[] fields = clazz.getDeclaredFields();
         sql.append(clazz.getSimpleName() + ".id, ");
         sql.append(clazz.getSimpleName() + ".deleteDay, ");
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getType().getSuperclass() == BaseEntity.class) {
-                join.append(" INNER JOIN " + fields[i].getType().getSimpleName() + " on " +
-                        fields[i].getType().getSimpleName() + ".Id = " + clazz.getSimpleName() + "." + lowFirstLetter(fields[i].getType().getSimpleName()) + "Id");
-                sql.append(createJoin(fields[i].getType(), join) + ", ");
+                sql.append(lowFirstLetter(fields[i].getType().getSimpleName()) + "Id, ");
             } else {
                 sql.append(clazz.getSimpleName() + "." + fields[i].getName() + ", ");
             }
         }
+        deleteLastDot(sql);
+        return sql.toString() + " FROM " + clazz.getSimpleName();
     }
 
     public ResultSet executeSqlQuery(String sql) {
+        System.out.println(sql);
         Statement statement;
         ResultSet resultSet = null;
         Connection connection = null;
-        System.out.println(sql);
         try {
             connection = connectionPool.getConnection();
             statement = connection.createStatement();
@@ -263,11 +251,13 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             return e;
         } catch (SQLException | IllegalAccessException | InstantiationException e1) {
             e1.printStackTrace();
+        } catch (NoSuchFieldException e1) {
+            e1.printStackTrace();
         }
         return e;
     }
 
-    public Object getValue(Field field, ResultSet resultSet) throws SQLException, IllegalAccessException, InstantiationException {
+    public Object getValue(Field field, ResultSet resultSet) throws SQLException, IllegalAccessException, InstantiationException, NoSuchFieldException {
         Class fieldType = field.getType();
         if (fieldType == Integer.class || fieldType == int.class) {
             int value = resultSet.getInt(field.getName());
@@ -282,8 +272,10 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             Date value = resultSet.getDate(field.getName());
             return value;
         } else {
+            Field idField = BaseEntity.class.getDeclaredField("id");
+            idField.setAccessible(true);
             E value = (E) fieldType.newInstance();
-            value = parseResultSet(value, resultSet);
+            idField.set(value, resultSet.getInt(lowFirstLetter(fieldType.getSimpleName()) + "Id"));
             return value;
         }
     }

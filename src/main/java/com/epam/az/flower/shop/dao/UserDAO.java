@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO extends CachedDAO<User> {
+
     public Integer findByCredentials(String nickName, String password) {
+        setGenericClass(User.class);
         Hasher hasher = new Hasher();
         password = hasher.hash(password);
         String sql = "Select "+ createSQL(User.class) + " WHERE User.nickName = " +"'" +nickName +"'";

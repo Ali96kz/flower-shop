@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.service;
+package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.dao.CachedDAO;
 import com.epam.az.flower.shop.entity.VisualParameters;

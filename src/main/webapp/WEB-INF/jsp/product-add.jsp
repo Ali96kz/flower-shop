@@ -3,6 +3,7 @@
 <%--@elvariable id="origin" type="com.epam.az.flower.shop.entity.Origin"--%>
 <%--@elvariable id="visualParameters" type="com.epam.az.flower.shop.entity.VisualParameters"--%>
 <%--@elvariable id="temperature" type="com.epam.az.flower.shop.entity.Temperature"--%>
+<%--@elvariable id="growingCondition" type="com.epam.az.flower.shop.entity.GrowingCondition"--%>
 <%--@elvariable id="waterInWeek" type="com.epam.az.flower.shop.entity.WaterInWeek"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -37,7 +38,17 @@
     Average height : <input type="text" size="16" value="${product.flower.visualParameters.averageHeight}"
                             name="averageHeight"><br>
     Growing Condition :
-    name:     <input type="text" size="16" value="${product.flower.name}" name="name">
+        Choose one of this:
+    <p><select name="growingConditionId">
+        <c:forEach items="${growingConditions}" var="growingCondition">
+            <option value="${growingCondition.id}">${growingCondition.name}</option>
+        </c:forEach>
+    </select></p><br>
+
+
+
+    or insert new
+    name:     <input type="text" size="16" value="${product.flower.name}" name="growingConditionName"><br>
     Temperature :
     <p><select name="temperatureId">
         <c:forEach items="${temperatures}" var="temperature">
@@ -47,7 +58,7 @@
     Water in week:
     <p><select name="waterInWeekId">
         <c:forEach items="${waterInWeeks}" var="waterInWeek">
-            <option value="${waterInWeek.id}">${waterInWeek.tmin}- ${waterInWeek.tmax}</option>
+            <option value="${waterInWeek.id}">${waterInWeek.min}- ${waterInWeek.max}</option>
         </c:forEach>
     </select></p><br>
     <button type="submit">

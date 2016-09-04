@@ -19,6 +19,8 @@ public class ActionFactory {
         actions.put("POST/edit/product", new ShowProductEditAction());
         actions.put("POST/add-product", new AddProductAction());
 
+        actions.put("GET/profile", new ShowProfileAction());
+        actions.put("GET/vitrine", new ShowVitrineAction());
         actions.put("GET/add-product", new ShowAddProductAction());
         actions.put("GET/login", new ShowPageAction("login"));
         actions.put("GET/transaction", new ShowTransactionAction());
@@ -35,8 +37,6 @@ public class ActionFactory {
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/admin", new ShowAdminPage());
         actions.put("GET/basket", new ShowBasketAction());
-        actions.put("GET/vitrine", new ShowVitrineAction());
-        actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/basket", new ShowBasketAction());
     }
 

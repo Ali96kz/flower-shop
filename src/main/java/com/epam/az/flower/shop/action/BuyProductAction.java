@@ -33,7 +33,7 @@ public class BuyProductAction implements Action {
 
         int userId = (int) req.getSession().getAttribute("userId");
         Product product = productService.findById(productId);
-        User user = userService.getUserByID(userId);
+        User user = userService.findByID(userId);
         orderService.createOrder(user, product);
 
         req.setAttribute("price", product.getPrice());
