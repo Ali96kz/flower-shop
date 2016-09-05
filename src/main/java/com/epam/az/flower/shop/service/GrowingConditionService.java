@@ -37,4 +37,8 @@ public class GrowingConditionService {
         growingCondition.setTemperature(temperature);
         return growingCondition;
     }
+
+    public int  add(GrowingCondition growingCondition) {
+        return  growingConditionDAO.insert(growingCondition);
+    }
 }

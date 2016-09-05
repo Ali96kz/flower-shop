@@ -10,7 +10,7 @@ public interface DAO<E> {
     void update(E item);
 
     List<E> getAll();
-
+    void delete(int id);
 
     void delete(E item);
 

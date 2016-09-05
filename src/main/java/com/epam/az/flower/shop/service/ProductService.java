@@ -10,16 +10,18 @@ public class ProductService {
     private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
+    private GrowingConditionService growingConditionService = new GrowingConditionService();
 
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
         for (Product product : products) {
-            Origin origin = originService.findById(product.getOrigin().getId());
-            Flower flower = flowerService.findById(product.getFlower().getId());
-            product.setFlower(flower);
-            product.setOrigin(origin);
+            if (product != null) {
+                Origin origin = originService.findById(product.getOrigin().getId());
+                Flower flower = flowerService.findById(product.getFlower().getId());
+                product.setFlower(flower);
+                product.setOrigin(origin);
+            }
         }
-
         return products;
     }
 
@@ -29,15 +31,17 @@ public class ProductService {
         ProductList productList = new ProductList();
         int i = 0;
         for (Product product : products) {
-            if ((i + 1) % 10 == 0) {
-                productList.add(product);
-                pagination.addProducts(productList);
-                productList = new ProductList();
-                i++;
-            }
-            if (product.getDeleteDay() == null) {
-                i++;
-                productList.add(product);
+            if (product != null) {
+                if ((i + 1) % 10 == 0) {
+                    productList.add(product);
+                    pagination.addProducts(productList);
+                    productList = new ProductList();
+                    i++;
+                }
+                if (product.getDeleteDay() == null) {
+                    i++;
+                    productList.add(product);
+                }
             }
         }
 
@@ -46,6 +50,11 @@ public class ProductService {
     }
 
     public int addNewProduct(Product product) {
+        GrowingCondition growingCondition = product.getFlower().getGrowingCondition();
+        if (growingCondition.getId() == null) {
+            int growinId = growingConditionService.add(growingCondition);
+            growingCondition.setId(growinId);
+        }
         int flowerId = flowerService.insert(product.getFlower());
         product.getFlower().setId(flowerId);
         int id = productDAO.insert(product);
@@ -54,5 +63,9 @@ public class ProductService {
 
     public Product findById(int id) {
         return productDAO.findById(id);
+    }
+
+    public void deleteProduct(int id) {
+        productDAO.delete(id);
     }
 }

@@ -1,5 +1,6 @@
-package com.epam.az.flower.shop.action;
+package com.epam.az.flower.shop.action.product;
 
+import com.epam.az.flower.shop.action.Action;
 import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.entity.GrowingCondition;
 import com.epam.az.flower.shop.service.GrowingConditionService;
@@ -10,7 +11,7 @@ import com.epam.az.flower.shop.service.VisualParametersService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowAddProductAction implements Action {
+public class ShowAddProductPageAction implements Action {
     ProductService productService = new ProductService();
     OriginService originService = new OriginService();
     VisualParametersService visualParametersService = new VisualParametersService();

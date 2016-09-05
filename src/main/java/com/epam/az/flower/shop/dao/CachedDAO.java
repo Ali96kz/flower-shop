@@ -54,8 +54,14 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
 
     @Override
     public void delete(E item) {
-        getAll = false;
+        cache.put(item.getId(), null);
         super.delete(item);
+    }
+
+    @Override
+    public void delete(int id) {
+        cache.put(id, null);
+        super.delete(id);
     }
 
     public void deleteFromCache(int id){

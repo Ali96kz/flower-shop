@@ -1,15 +1,21 @@
-package com.epam.az.flower.shop.action;
+package com.epam.az.flower.shop.action.product;
 
+import com.epam.az.flower.shop.action.Action;
 import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.*;
 import com.epam.az.flower.shop.service.ProductService;
+import com.epam.az.flower.shop.validator.AddProductValidator;
+import com.epam.az.flower.shop.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class AddProductAction implements Action {
     StringAdapter stringAdapter = new StringAdapter();
     ProductService productService = new ProductService();
+    Validator validator = new AddProductValidator();
+    ShowAddProductPageAction showAddProductPageAction = new ShowAddProductPageAction();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -18,6 +24,13 @@ public class AddProductAction implements Action {
         Origin origin = new Origin();
         VisualParameters visualParameters = new VisualParameters();
         GrowingCondition growingCondition = new GrowingCondition();
+        List<String> errorMsg = validator.isValidate(req);
+
+        if (errorMsg.size() > 0) {
+            showAddProductPageAction.execute(req, resp);
+            req.setAttribute("errorMsg", errorMsg);
+            return new ActionResult("product-add");
+        }
 
         if (req.getParameter("growingConditionName") != null) {
             String name = req.getParameter("growingConditionName");
@@ -32,8 +45,10 @@ public class AddProductAction implements Action {
             growingCondition.setName(name);
             growingCondition.setTemperature(temperature);
             growingCondition.setWaterInWeek(waterInWeek);
-            //TODO set love light
+        } else {
+            growingCondition.setId(stringAdapter.toInt(req.getParameter("growingConditionId")));
         }
+
         int originId = stringAdapter.toInt(req.getParameter("originId"));
         int visualParametersId = stringAdapter.toInt(req.getParameter("visualParametersId"));
 

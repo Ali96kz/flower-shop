@@ -19,7 +19,6 @@ All user in system
     <br>
     <br>
 </c:forEach>
-<%--TODO problem with SQL--%>
 All userOrder in system
 <c:forEach items="${userOrders}" var="userOrder">
     <c:out value="${userOrder.user.nickName}"/> buy a

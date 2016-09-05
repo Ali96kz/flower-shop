@@ -23,13 +23,17 @@ public class UserService {
         userDAO.update(user);
         transactionService.addMoneyTransaction(user, summ);
     }
+    public void delete(int userId){
+        userDAO.delete(userId);
+    }
 
-    public int registerUser(User user) {
+    public User registerUser(User user) {
         UserRole userRole = new UserRole();
         userRole.setId(4);
         user.setUserRole(userRole);
         int index = userDAO.insert(user);
-        return index;
+        user.setId(index);
+        return user;
     }
 
     public User findByID(int id) {
@@ -48,4 +52,7 @@ public class UserService {
         userDAO.deleteFromCache(id);
     }
 
+    public void update(User user) {
+        userDAO.update(user);
+    }
 }

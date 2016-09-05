@@ -17,6 +17,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     private Class genericClass;
     private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
+    @Override
+    public void delete(int id) {
+        String sql = ("UPDATE " + genericClass.getSimpleName() + " set deleteDAY = '" + getTodayDay()+ "' where id = " + id + ";");
+        executeSql(sql);
+    }
 
     @Override
     public E findById(int id) {
@@ -41,10 +46,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             Field field = item.getClass().getDeclaredField("id");
             field.setAccessible(true);
 
-            Calendar c = new GregorianCalendar();
-            java.util.Date utilDate = c.getTime();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            String sql = ("UPDATE " + item.getClass().getSimpleName() + " set deleteDAY = '" + sqlDate + "' where id = " + field.get(item) + ";");
+            String sql = ("UPDATE " + item.getClass().getSimpleName() + " set deleteDAY = '" + getTodayDay()+ "' where id = " + field.get(item) + ";");
             executeSql(sql);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -285,5 +287,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         charArray[0] = Character.toLowerCase(charArray[0]);
         String result = new String(charArray);
         return result;
+    }
+    public java.sql.Date getTodayDay(){
+        Calendar c = new GregorianCalendar();
+        java.util.Date utilDate = c.getTime();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        return sqlDate;
     }
 }
