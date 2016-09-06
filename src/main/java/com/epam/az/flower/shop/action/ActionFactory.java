@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.epam.az.flower.shop.action.product.*;
 import com.epam.az.flower.shop.util.PropertyWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +25,9 @@ public class ActionFactory {
 
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/delete-product", new DeleteProductAction());
-        actions.put("GET/edit-product", new ShowProductEditAction());
-        actions.put("GET/vitrine", new ShowVitrineAction());
-        actions.put("GET/manager", new ShowManagePageAction());
+        actions.put("GET/edit-product", new ShowProductEditPageAction());
+        actions.put("GET/vitrine", new ShowOnlineVitrineAction());
+        actions.put("GET/manager", new ShowManagerPageAction());
         actions.put("GET/add-product", new ShowAddProductPageAction());
         actions.put("GET/login", new ShowPageAction("login"));
         actions.put("GET/transaction", new ShowTransactionAction());
@@ -37,11 +36,13 @@ public class ActionFactory {
         actions.put("GET/admin-registration", new ShowAdminRegisterNewPAge());
         actions.put("GET/product-inf", new ShowProductPage());
         actions.put("GET/product-in-basket", new ProductInBasketAction());
-        actions.put("GET/edit-product", new ShowProductEditAction());
+        actions.put("GET/edit-product", new ShowProductEditPageAction());
         actions.put("GET/cash", new ShowCash());
         actions.put("GET/deleteProduct", new DeleteProductFromBasket());
+        actions.put("GET/delete-profile", new ShowPageAction("delete-profile"));
         actions.put("GET/buy-all-basket", new BuyBasketAction());
         actions.put("GET/buy-product", new BuyProductAction());
+        actions.put("GET/delete-user", new DeleteUserAction());
         actions.put("GET/logout", new LogoutAction());
         actions.put("GET/admin", new ShowAdminPage());
     }

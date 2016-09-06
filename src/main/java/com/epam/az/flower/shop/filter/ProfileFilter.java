@@ -1,6 +1,11 @@
 package com.epam.az.flower.shop.filter;
 
 
+import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.entity.ActionResult;
+import com.epam.az.flower.shop.entity.User;
+import com.epam.az.flower.shop.service.UserService;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +15,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "ProfileFilter", urlPatterns = "/flower-shop/profile")
 public class ProfileFilter implements Filter {
+    UserService userService = new UserService();
     public void destroy() {
     }
 
@@ -32,6 +38,13 @@ public class ProfileFilter implements Filter {
                 return;
             }
         }
+        User user = userService.findByID((Integer) session.getAttribute("userId"));
+        if(user.getDeleteDay() != null){
+            session.invalidate();
+            response.sendRedirect("delete-profile");
+            return;
+        }
+
         chain.doFilter(request, response);
     }
 

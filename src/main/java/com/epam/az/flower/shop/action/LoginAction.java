@@ -14,16 +14,17 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginAction implements Action {
+    Logger log = LoggerFactory.getLogger(LoginAction.class);
+    Validator validator = new LogInValidator();
+    UserService userService = new UserService();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
 
-        Validator validator = new LogInValidator();
         List<String> errorMsg = validator.isValidate(req);
-        UserService userService = new UserService();
         if (errorMsg.size() > 0) {
             req.setAttribute("errorMsg", errorMsg);
-            System.out.println(errorMsg.get(0));
             return new ActionResult("login");
         }
         String nickName = req.getParameter("nickName");
@@ -34,5 +35,4 @@ public class LoginAction implements Action {
         session.setAttribute("userId", userId);
         return new ActionResult("profile", true);
         }
-    Logger log = LoggerFactory.getLogger(LoginAction.class);
 }

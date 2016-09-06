@@ -95,8 +95,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public List<E> getAll() {
         List<E> resultList = new ArrayList<>();
-
         String selectSQL = createSQL(getGenericClass());
+
         try {
             ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + ";");
             while (resultSet.next()) {
@@ -210,6 +210,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         Field[] fields = clazz.getDeclaredFields();
         sql.append(clazz.getSimpleName() + ".id, ");
         sql.append(clazz.getSimpleName() + ".deleteDay, ");
+
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getType().getSuperclass() == BaseEntity.class) {
                 sql.append(lowFirstLetter(fields[i].getType().getSimpleName()) + "Id, ");

@@ -5,6 +5,7 @@
 <%--@elvariable id="temperature" type="com.epam.az.flower.shop.entity.Temperature"--%>
 <%--@elvariable id="growingCondition" type="com.epam.az.flower.shop.entity.GrowingCondition"--%>
 <%--@elvariable id="waterInWeek" type="com.epam.az.flower.shop.entity.WaterInWeek"--%>
+<%--@elvariable id="flowerType" type="com.epam.az.flower.shop.entity.FlowerType"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,8 +29,7 @@
 
     Price : <input type="text" size="16" value="${product.price}" name="price"><br>
 
-    VisualParameters: <br>
-
+    VisualParameters:
     <p><select name="visualParametersId">
         <c:forEach items="${visualParameters}" var="visualParameters">
             <option value="${visualParameters.id}">${visualParameters.colorLeaves}- ${visualParameters.colorSteam}</option>
@@ -46,22 +46,28 @@
         </c:forEach>
     </select></p>
     <br>
-
     or insert new
     name: <input type="text" size="16" value="${product.flower.name}" name="growingConditionName"><br>
-    Temperature :
 
+    Temperature :
     <p><select name="temperatureId">
         <c:forEach items="${temperatures}" var="temperature">
             <option value="${temperature.id}">${temperature.tmin}- ${temperature.tmax}</option>
         </c:forEach>
     </select></p>
     <br>
-    Water in week:
 
+    Water in week:
     <p><select name="waterInWeekId">
         <c:forEach items="${waterInWeeks}" var="waterInWeek">
             <option value="${waterInWeek.id}">${waterInWeek.min}- ${waterInWeek.max}</option>
+        </c:forEach>
+    </select></p>
+    <br>
+    choose a flower type
+    <p><select name="flowerTypeId">
+        <c:forEach items="${flowerTypes}" var="flowerType">
+            <option value="${flowerType.id}">${flowerType.name}</option>
         </c:forEach>
     </select></p>
     <br>

@@ -11,10 +11,11 @@ public class LogoutAction implements Action{
     UserService userService = new UserService();
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
+
+
         HttpSession session = req.getSession();
         userService.logout((Integer) session.getAttribute("userId"));
-        session.setAttribute("userId", null);
-        session.setAttribute("basket", null);
+        session.invalidate();
         return new ActionResult("registration", true);
     }
 }

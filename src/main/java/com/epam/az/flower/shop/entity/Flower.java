@@ -1,11 +1,12 @@
 package com.epam.az.flower.shop.entity;
 
 
-public  class Flower extends BaseEntity{
+public class Flower extends BaseEntity {
     private String name;
     private int averageHeight;
     private VisualParameters visualParameters;
     private GrowingCondition growingCondition;
+    private FlowerType flowerType;
 
     public int getAverageHeight() {
         return averageHeight;
@@ -15,6 +16,13 @@ public  class Flower extends BaseEntity{
         this.averageHeight = averageHeight;
     }
 
+    public FlowerType getFlowerType() {
+        return flowerType;
+    }
+
+    public void setFlowerType(FlowerType flowerType) {
+        this.flowerType = flowerType;
+    }
 
     public VisualParameters getVisualParameters() {
         return visualParameters;

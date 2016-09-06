@@ -12,6 +12,10 @@ public class ProductService {
     private OriginService originService = new OriginService();
     private GrowingConditionService growingConditionService = new GrowingConditionService();
 
+    public void update(Product product){
+        productDAO.update(product);
+    }
+
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
         for (Product product : products) {
@@ -55,6 +59,7 @@ public class ProductService {
             int growinId = growingConditionService.add(growingCondition);
             growingCondition.setId(growinId);
         }
+
         int flowerId = flowerService.insert(product.getFlower());
         product.getFlower().setId(flowerId);
         int id = productDAO.insert(product);

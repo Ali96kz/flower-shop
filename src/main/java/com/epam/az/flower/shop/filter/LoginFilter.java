@@ -25,6 +25,7 @@ public class LoginFilter implements Filter{
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession(false);
         if (session != null) {
+            System.out.println(session.getAttribute("userId")+"user id");
             if (session.getAttribute("userId") != null) {
                 response.sendRedirect("profile");
                 return;
