@@ -12,17 +12,12 @@ import java.util.*;
 public class PropertyWorker {
     private static Logger logger = LoggerFactory.getLogger(PropertyWorker.class);
 
-    public Properties readProperty(String path){
-        InputStream input ;
+    public Properties readProperty(String fileName) throws PropertyWorkerException {
         Properties properties = new Properties();
-        try {
-            input = new FileInputStream("./src/main/resources/actionClass.properties");
-            properties.load(input);
-            System.out.println();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        try (InputStream in = PropertyWorker.class.getClassLoader().getResourceAsStream(fileName)) {
+            properties.load(in);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new PropertyWorkerException("Could not load property file", e);
         }
         return properties;
     }

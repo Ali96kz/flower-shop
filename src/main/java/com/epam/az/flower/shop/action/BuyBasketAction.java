@@ -17,11 +17,11 @@ import java.util.List;
 public class BuyBasketAction implements Action{
     UserService userService = new UserService();
     OrderService orderService = new OrderService();
+    Validator validator = new BuyBasketValidator();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        Validator validator = new BuyBasketValidator();
         List<String> errorMsg = validator.isValidate(req);
         if (errorMsg.size() >  0){
             req.setAttribute("errorMsg", errorMsg);

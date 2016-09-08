@@ -1,3 +1,4 @@
+<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -14,11 +15,14 @@
         <c:out value="${product.flower.name}"/><br>
         <c:out value="${product.price}"/><br>
         <c:out value="${product.description}"/><br>
+        quantity<c:out value="${product.quantity}"/><br>
+
     </a>
     <br>
-    <a href="edit-product?id=${product.id}">
-        <c:out value="edit"/>
+    <a href="add-quantity?id=${product.id}">
+        <c:out value="add quantity"/><br>
     </a>
+
     <br>
     <a href="delete-product?id=${product.id}">
         <c:out value="delete"/><br>

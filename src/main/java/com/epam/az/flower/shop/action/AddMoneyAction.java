@@ -19,6 +19,7 @@ public class AddMoneyAction implements Action {
         HttpSession session = req.getSession();
         Validator validator = new BalanceValidator();
         List<String> errorMsg =  validator.isValidate(req);
+
         if (errorMsg.size() > 0) {
             req.setAttribute("errorMsg", errorMsg);
             return new ActionResult("cash", true);

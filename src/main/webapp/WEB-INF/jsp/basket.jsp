@@ -25,15 +25,5 @@ Your bill ${bill}<br>
     <c:out value="${msg}"/><br>
 </c:forEach>
 
-<form  method="post">
-    <p><select size="3" multiple name="hero[]">
-        <option disabled>Choose a </option>
-        <option value="Чебурашка">Чебурашка</option>
-        <option selected value="Крокодил Гена">Крокодил Гена</option>
-        <option value="Шапокляк">Шапокляк</option>
-        <option value="Крыса Лариса">Крыса Лариса</option>
-    </select></p>
-    <p><input type="submit" value="Отправить"></p>
-</form>
 </body>
 </html>

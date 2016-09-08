@@ -3,12 +3,21 @@ package com.epam.az.flower.shop.entity;
 
 public class Product extends BaseEntity{
     private int price;
+    private int quantity;
     private Origin origin;
     private Flower flower;
     private String description;
 
     public Product(){
 
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getDescription() {

@@ -18,12 +18,13 @@ public class TransactionService {
     public void addMoneyTransaction(User user, int summ){
         Transaction transaction = new Transaction();
         UserBalance userBalance = new UserBalance();
+        //TODO chanege this
         transaction.setId(3);
         userBalance.setTransaction(transaction);
         userBalance.setUser(user);
         userBalance.setSum(summ);
         userBalance.setTransactionDate(getDate());
-
+        balanceDAO.insert(userBalance);
     }
 
     public List<UserBalance> getAllUserTransaction(int userId) {

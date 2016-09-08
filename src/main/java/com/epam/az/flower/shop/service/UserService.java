@@ -18,11 +18,13 @@ public class UserService {
     UserDAO userDAO = daoFactory.getDao(UserDAO.class);
     UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
     TransactionService transactionService = new TransactionService();
+
     public void addMoneyToBalance(User user, int summ) {
         user.setBalance(user.getBalance() + summ);
         userDAO.update(user);
         transactionService.addMoneyTransaction(user, summ);
     }
+
     public void delete(int userId){
         userDAO.delete(userId);
     }

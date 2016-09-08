@@ -4,6 +4,7 @@ import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
+import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import java.util.List;
 public class BuyBasketValidator implements Validator {
     UserService userService = new UserService();
     StringAdapter stringAdapter = new StringAdapter();
+    ProductService productService = new ProductService();
+
 
     @Override
     public List<String> isValidate(HttpServletRequest request) {
@@ -29,7 +32,18 @@ public class BuyBasketValidator implements Validator {
             errorMsg.add("You must add some products in your basket");
             return errorMsg;
         }
+        Basket basket = (Basket) session.getAttribute("basket");
+        int summ = 0;
+        int userId = (int) session.getAttribute("userId");
+        User user = userService.findByID(userId);
 
+        for (Product product : basket.getProducts()) {
+            summ += product.getPrice();
+        }
+
+        if(user.getBalance() < summ){
+            errorMsg.add("you haven't enough");
+        }
 
         return errorMsg;
     }
