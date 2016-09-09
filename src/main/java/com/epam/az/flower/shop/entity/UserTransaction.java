@@ -2,13 +2,13 @@ package com.epam.az.flower.shop.entity;
 
 import java.sql.Date;
 
-public class UserBalance extends BaseEntity {
+public class UserTransaction extends BaseEntity {
     private Date transactionDate;
     private Transaction transaction;
     private User user;
     private int sum;
 
-    public UserBalance() {
+    public UserTransaction() {
     }
 
     public Transaction getTransaction() {

@@ -24,13 +24,13 @@ public class OrderService {
         userDAO.update(user);
 
         transaction.setId(2);
-        UserBalance userBalance = new UserBalance();
-        userBalance.setTransaction(transaction);
-        userBalance.setUser(user);
-        userBalance.setSum(product.getPrice());
+        UserTransaction userTransaction = new UserTransaction();
+        userTransaction.setTransaction(transaction);
+        userTransaction.setUser(user);
+        userTransaction.setSum(product.getPrice());
 
-        userBalance.setTransactionDate(getDate());
-        userBalanceDAO.insert(userBalance);
+        userTransaction.setTransactionDate(getDate());
+        userBalanceDAO.insert(userTransaction);
     }
     private java.sql.Date getDate(){
         Calendar c = new GregorianCalendar();

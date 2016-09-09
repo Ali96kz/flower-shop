@@ -1,8 +1,6 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.action.Action;
 import com.epam.az.flower.shop.adapter.StringAdapter;
-import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
 import com.epam.az.flower.shop.util.Hasher;

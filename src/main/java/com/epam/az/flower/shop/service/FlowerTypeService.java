@@ -13,4 +13,8 @@ public class FlowerTypeService {
     public List<FlowerType> getAllFlowerType(){
         return flowerTypeDAO.getAll();
     }
+
+    public FlowerType findById(int id){
+        return flowerTypeDAO.findById(id);
+    }
 }

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="UserBalance" type="com.epam.az.flower.shop.entity.UserBalance"--%>
+<%--@elvariable id="UserBalance" type="com.epam.az.flower.shop.entity.UserTransaction"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

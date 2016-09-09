@@ -18,15 +18,6 @@ public abstract class AbstractProduct implements Action {
     protected FlowerTypeService flowerTypeService = new FlowerTypeService();
     StringAdapter stringAdapter = new StringAdapter();
 
-    public void setValue(HttpServletRequest req) {
-        req.setAttribute("origins", originService.getAllOrigin());
-        req.setAttribute("flowerTypes", flowerTypeService.getAllFlowerType());
-        req.setAttribute("visualParameters", visualParametersService.getAllVisualParameters());
-        req.setAttribute("growingConditions", growingConditionService.getAllGrowingConditions());
-        req.setAttribute("waterInWeeks", growingConditionService.getAllWaterInWeek());
-        req.setAttribute("temperatures", growingConditionService.getAllTemperature());
-    }
-
     public ActionResult validate(HttpServletRequest req, HttpServletResponse resp) {
         Validator validator = new AddProductValidator();
         List<String> errorMsg = validator.isValidate(req);
@@ -35,6 +26,14 @@ public abstract class AbstractProduct implements Action {
             return new ActionResult("product-add");
         }
         return null;
+    }
+
+    public void setValue(HttpServletRequest req) {
+        req.setAttribute("origins", originService.getAllOrigin());
+        req.setAttribute("flowerTypes", flowerTypeService.getAllFlowerType());
+        req.setAttribute("visualParameters", visualParametersService.getAllVisualParameters());
+        req.setAttribute("growingConditions", growingConditionService.getAllGrowingConditions());
+        req.setAttribute("temperatures", growingConditionService.getAllTemperature());
     }
 
 
@@ -56,22 +55,7 @@ public abstract class AbstractProduct implements Action {
     }
 
     public GrowingCondition getGrowingCondition(HttpServletRequest req, GrowingCondition growingCondition) {
-        if (req.getParameter("growingConditionName") != null) {
-            String name = req.getParameter("growingConditionName");
-            int temperatureId = stringAdapter.toInt(req.getParameter("temperatureId"));
-            int waterInWeekId = stringAdapter.toInt(req.getParameter("waterInWeekId"));
-
-            Temperature temperature = new Temperature();
-            temperature.setId(temperatureId);
-            WaterInWeek waterInWeek = new WaterInWeek();
-            waterInWeek.setId(waterInWeekId);
-
-            growingCondition.setName(name);
-            growingCondition.setTemperature(temperature);
-            growingCondition.setWaterInWeek(waterInWeek);
-        } else {
-            growingCondition.setId(stringAdapter.toInt(req.getParameter("growingConditionId")));
-        }
+        growingCondition.setId(stringAdapter.toInt(req.getParameter("growingConditionId")));
         return growingCondition;
     }
 

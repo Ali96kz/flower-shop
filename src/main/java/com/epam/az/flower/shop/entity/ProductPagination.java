@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ProductPagination {
     private List<ProductList> productPagination = new ArrayList<>();
-
     public void addProducts(ProductList productList){
         productPagination.add(productList);
     }

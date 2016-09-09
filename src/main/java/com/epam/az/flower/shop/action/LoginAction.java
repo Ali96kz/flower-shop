@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.action;
 
 
-import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.validator.LogInValidator;
 import com.epam.az.flower.shop.validator.Validator;

@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.entity;
+package com.epam.az.flower.shop.action;
 
 public class ActionResult {
     private String view;

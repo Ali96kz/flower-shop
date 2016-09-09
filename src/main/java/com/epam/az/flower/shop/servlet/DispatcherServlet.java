@@ -1,7 +1,7 @@
 package com.epam.az.flower.shop.servlet;
 
 import com.epam.az.flower.shop.action.Action;
-import com.epam.az.flower.shop.entity.ActionResult;
+import com.epam.az.flower.shop.action.ActionResult;
 import com.epam.az.flower.shop.action.ActionFactory;
 
 import javax.servlet.ServletException;

@@ -10,6 +10,7 @@ import com.epam.az.flower.shop.entity.User;
 import java.util.List;
 
 public class AdminService {
+
     public List<UserOrder> getAllOrders(){
         OrderDAO orderDAO = new OrderDAO();
         List<UserOrder> userOrders = orderDAO.getAll();
@@ -20,6 +21,7 @@ public class AdminService {
         UserDAO userDAO = new UserDAO();
         return userDAO.getAll();
     }
+
     public List<Product> getAllProducts() {
         ProductDAO productDAO = new ProductDAO();
         return productDAO.getAll();

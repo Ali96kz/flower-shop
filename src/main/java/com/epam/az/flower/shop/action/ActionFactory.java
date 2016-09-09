@@ -13,19 +13,10 @@ import org.slf4j.LoggerFactory;
 public class ActionFactory {
     static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
+    private Properties properties;
 
     public void initActions() {
         actions = new HashMap<>();
-
-        PropertyWorker propertyWorker = new PropertyWorker();
-
-        try {
-            Properties properties = propertyWorker.readProperty("actionClass.properties");
-            System.out.println(properties.get("GET/registration"));
-        } catch (PropertyWorkerException e) {
-            e.printStackTrace();
-        }
-
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
         actions.put("POST/login", new LoginAction());

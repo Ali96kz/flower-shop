@@ -1,5 +1,8 @@
 package com.epam.az.flower.shop.pool;
 
+import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.PropertyWorker;
+import com.epam.az.flower.shop.util.PropertyWorkerException;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -7,25 +10,46 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public class ConnectionPool  implements DataSource{
     private ConnectionStack<Connection> stack = new ConnectionStack<>();
     private static ConnectionPool connectionPool;
-    private int max = 7;
-    private int initial = 2;
-    private int increment = 1;
-    private int connNumber  = 0;
+    private int max;
+    private int initial;
+    private int increment;
+    private int connNumber;
+    private String driverName, url, username, password;
+
     private ConnectionPool() {
+        init();
         addConnectionInStack(initial);
+    }
+
+    private void init() {
+        StringAdapter stringAdapter = new StringAdapter();
+        PropertyWorker propertyWorker = new PropertyWorker();
+        try {
+            Properties properties = propertyWorker.readProperty("database.properties");
+            driverName = properties.getProperty("driver");
+            url = properties.getProperty("url");
+            username = properties.getProperty("username");
+            password = properties.getProperty("password");
+            initial = stringAdapter.toInt(properties.getProperty("connection.initial"));
+            max = stringAdapter.toInt(properties.getProperty("connection.limit"));
+            increment = stringAdapter.toInt(properties.getProperty("connection.increment"));
+        } catch (PropertyWorkerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addConnectionInStack(int count) {
         try {
             if(connNumber + count <= max) {
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                Class.forName(driverName);
                 for (int i = 0; i < initial; i++) {
-                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/flowershop", "root", "root");
+                    Connection conn = DriverManager.getConnection(url, username, password);
                     stack.push(conn);
                     connNumber++;
                 }

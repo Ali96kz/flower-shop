@@ -5,7 +5,7 @@ import com.epam.az.flower.shop.dao.TransactionDAO;
 import com.epam.az.flower.shop.dao.UserBalanceDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
-import com.epam.az.flower.shop.entity.UserBalance;
+import com.epam.az.flower.shop.entity.UserTransaction;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -17,23 +17,23 @@ public class TransactionService {
     TransactionDAO transactionDAO = new TransactionDAO();
     public void addMoneyTransaction(User user, int summ){
         Transaction transaction = new Transaction();
-        UserBalance userBalance = new UserBalance();
+        UserTransaction userTransaction = new UserTransaction();
         //TODO chanege this
         transaction.setId(3);
-        userBalance.setTransaction(transaction);
-        userBalance.setUser(user);
-        userBalance.setSum(summ);
-        userBalance.setTransactionDate(getDate());
-        balanceDAO.insert(userBalance);
+        userTransaction.setTransaction(transaction);
+        userTransaction.setUser(user);
+        userTransaction.setSum(summ);
+        userTransaction.setTransactionDate(getDate());
+        balanceDAO.insert(userTransaction);
     }
 
-    public List<UserBalance> getAllUserTransaction(int userId) {
-        List<UserBalance> userBalances = balanceDAO.getAll(userId);
-        for (UserBalance userBalance : userBalances) {
-            Transaction transaction = transactionDAO.findById(userBalance.getTransaction().getId());
-            userBalance.setTransaction(transaction);
+    public List<UserTransaction> getAllUserTransaction(int userId) {
+        List<UserTransaction> userTransactions = balanceDAO.getAll(userId);
+        for (UserTransaction userTransaction : userTransactions) {
+            Transaction transaction = transactionDAO.findById(userTransaction.getTransaction().getId());
+            userTransaction.setTransaction(transaction);
         }
-        return userBalances;
+        return userTransactions;
     }
 
     private java.sql.Date getDate(){

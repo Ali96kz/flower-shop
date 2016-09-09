@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.entity.ActionResult;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.AdminService;

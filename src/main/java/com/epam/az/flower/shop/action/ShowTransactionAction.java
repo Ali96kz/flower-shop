@@ -1,8 +1,6 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.entity.ActionResult;
-import com.epam.az.flower.shop.entity.Transaction;
-import com.epam.az.flower.shop.entity.UserBalance;
+import com.epam.az.flower.shop.entity.UserTransaction;
 import com.epam.az.flower.shop.service.TransactionService;
 import com.epam.az.flower.shop.service.UserService;
 
@@ -18,8 +16,8 @@ public class ShowTransactionAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("userId");
-        List<UserBalance> userBalanceList = transactionService.getAllUserTransaction(userId);
-        req.setAttribute("transactions", userBalanceList);
+        List<UserTransaction> userTransactionList = transactionService.getAllUserTransaction(userId);
+        req.setAttribute("transactions", userTransactionList);
         return new ActionResult("transaction");
     }
 }

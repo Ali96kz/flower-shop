@@ -1,13 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
-<%--@elvariable id="origin" type="com.epam.az.flower.shop.entity.Origin"--%>
-<%--@elvariable id="visualParameters" type="com.epam.az.flower.shop.entity.VisualParameters"--%>
-<%--@elvariable id="growingCondition" type="com.epam.az.flower.shop.entity.GrowingCondition"--%>
-<%--@elvariable id="flowerType" type="com.epam.az.flower.shop.entity.FlowerType"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Add product</title>
+    <title>Product edit page</title>
 </head>
 <body>
 
@@ -55,7 +50,7 @@
     <br>
 
     <button type="submit">
-        <value>add this product</value>
+        <value>edit this product</value>
     </button>
 
     <c:forEach items="${errorMsg}" var="msg">

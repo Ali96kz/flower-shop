@@ -10,11 +10,6 @@ public class ProductService {
     private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
-    private GrowingConditionService growingConditionService = new GrowingConditionService();
-
-    public void update(Product product){
-        productDAO.update(product);
-    }
 
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
@@ -54,14 +49,9 @@ public class ProductService {
     }
 
     public int addNewProduct(Product product) {
-        GrowingCondition growingCondition = product.getFlower().getGrowingCondition();
-        if (growingCondition.getId() == null) {
-            int growinId = growingConditionService.add(growingCondition);
-            growingCondition.setId(growinId);
-        }
-
+        Flower flower = product.getFlower();
         int flowerId = flowerService.insert(product.getFlower());
-        product.getFlower().setId(flowerId);
+        flower.setId(flowerId);
         int id = productDAO.insert(product);
         return id;
     }
