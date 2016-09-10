@@ -4,6 +4,7 @@ import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ProductService;
+import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ public class BuyProductValidator implements Validator{
     StringAdapter stringAdapter = new StringAdapter();
     ProductService productService = new ProductService();
     @Override
-    public List<String> isValidate(HttpServletRequest request) {
+    public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();
         HttpSession session = request.getSession();
 
@@ -27,8 +28,15 @@ public class BuyProductValidator implements Validator{
 
         int userId = (int) session.getAttribute("userId");
         int productId = stringAdapter.toInt(request.getParameter("productId"));
-        User user = userService.findByID(userId);
-        Product product = productService.findById(productId);
+        User user = null;
+        Product product = null;
+
+        try {
+            user = userService.findById(userId);
+            product = productService.findById(productId);
+        } catch (ServiceException e) {
+            throw new ValidatorException("can't get entity from service", e);
+        }
 
         if (user.getBalance() < product.getPrice()) {
             errorMsg.add("You haven't enough money");

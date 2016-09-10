@@ -4,6 +4,7 @@ package com.epam.az.flower.shop.action;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.validator.LogInValidator;
 import com.epam.az.flower.shop.validator.Validator;
+import com.epam.az.flower.shop.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +19,15 @@ public class LoginAction implements Action {
     UserService userService = new UserService();
 
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
 
-        List<String> errorMsg = validator.isValidate(req);
+        List<String> errorMsg = null;
+        try {
+            errorMsg = validator.isValidate(req);
+        } catch (ValidatorException e) {
+            throw new ActionException("problem with validating ", e);
+        }
         if (errorMsg.size() > 0) {
             req.setAttribute("errorMsg", errorMsg);
             return new ActionResult("login");

@@ -2,6 +2,7 @@ package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserRoleService;
 import com.epam.az.flower.shop.service.UserService;
 
@@ -13,7 +14,7 @@ public class AdminAddUserAction extends AddUser {
     UserRoleService userRoleService = new UserRoleService();
 
     @Override
-    public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) {
+    public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
         ActionResult actionResult = validate(request);
         if (actionResult != null) {
             return actionResult;
@@ -28,9 +29,14 @@ public class AdminAddUserAction extends AddUser {
     }
 
     @Override
-    public void setUserRole(User user, HttpServletRequest request) {
+    public void setUserRole(User user, HttpServletRequest request) throws ActionException {
         int userRoleId = stringAdapter.toInt(request.getParameter("userRoleId"));
-        UserRole userRole = userRoleService.findById(userRoleId);
+        UserRole userRole = null;
+        try {
+            userRole = userRoleService.findById(userRoleId);
+        } catch (ServiceException e) {
+            throw new ActionException("can't find user by id", e);
+            }
         user.setUserRole(userRole);
     }
 

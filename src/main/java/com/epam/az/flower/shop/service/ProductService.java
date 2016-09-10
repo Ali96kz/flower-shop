@@ -14,7 +14,7 @@ public class ProductService {
         flowerService.update(product.getFlower());
         productDAO.update(product);
     }
-    public List<Product> getAllProduct() {
+    public List<Product> getAllProduct() throws ServiceException {
         List<Product> products = productDAO.getAll();
         for (Product product : products) {
             fillProduct(product);
@@ -22,7 +22,7 @@ public class ProductService {
         return products;
     }
 
-    public ProductPagination getPagination() {
+    public ProductPagination getPagination() throws ServiceException {
         List<Product> products = getAllProduct();
         ProductPagination pagination = new ProductPagination();
         ProductList productList = new ProductList();
@@ -46,7 +46,7 @@ public class ProductService {
         return pagination;
     }
 
-    public int addNewProduct(Product product) {
+    public int addNewProduct(Product product) throws ServiceException {
         int flowerId = flowerService.insert(product.getFlower());
         Flower flower = flowerService.findById(flowerId);
         flower.setId(flowerId);
@@ -55,13 +55,18 @@ public class ProductService {
         return id;
     }
 
-    public Product findById(int id) {
-        Product product = productDAO.findById(id);
+    public Product findById(int id) throws ServiceException {
+        Product product = null;
+        try {
+            product = productDAO.findById(id);
+        } catch (DAOException e) {
+            throw new ServiceException("can't get product by id", e);
+        }
         fillProduct(product);
         return product;
     }
 
-    public void fillProduct(Product product){
+    public void fillProduct(Product product) throws ServiceException {
         if (product != null) {
             Origin origin = originService.findById(product.getOrigin().getId());
             Flower flower = flowerService.findById(product.getFlower().getId());

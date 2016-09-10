@@ -24,7 +24,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     }
 
     @Override
-    public E findById(int id) {
+    public E findById(int id) throws DAOException {
         E result = null;
         try {
             result = getGenericClass().newInstance();
@@ -36,6 +36,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             return result;
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
             logger.trace("Find by id", e);
+        } catch (DAOException e) {
+            throw new DAOException("problem with parsing",e);
         }
         return result;
     }
@@ -104,6 +106,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 resultList.add(e);
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (DAOException e) {
             e.printStackTrace();
         }
 
@@ -184,7 +188,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         int result = 0;
         try {
             connection = connectionPool.getConnection();
-            System.out.println(sql);
             connection.setAutoCommit(false);
             Statement statement = connection.createStatement();
             statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
@@ -239,47 +242,51 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return resultSet;
     }
 
-    public E parseResultSet(E e, ResultSet resultSet) {
+    public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
         try {
-            Field[] fields = e.getClass().getDeclaredFields();
+            Field[] fields = object.getClass().getDeclaredFields();
 
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setAccessible(true);
                 Object value = getValue(fields[i], resultSet);
-                fields[i].set(e, value);
+                fields[i].set(object, value);
             }
 
-            e.setId(resultSet.getInt(e.getClass().getSimpleName() + ".id"));
-            e.setDeleteDay(resultSet.getDate(e.getClass().getSimpleName() + ".deleteDay"));
-            return e;
-        } catch (SQLException | IllegalAccessException | InstantiationException e1) {
-            e1.printStackTrace();
-        } catch (NoSuchFieldException e1) {
-            e1.printStackTrace();
+            object.setId(resultSet.getInt(object.getClass().getSimpleName() + ".id"));
+            object.setDeleteDay(resultSet.getDate(object.getClass().getSimpleName() + ".deleteDay"));
+            return object;
+        }catch (SQLException | IllegalAccessException e1) {
+            throw new DAOException("parse resulSet error", e1);
         }
-        return e;
     }
 
-    public Object getValue(Field field, ResultSet resultSet) throws SQLException, IllegalAccessException, InstantiationException, NoSuchFieldException {
-        Class fieldType = field.getType();
-        if (fieldType == Integer.class || fieldType == int.class) {
-            int value = resultSet.getInt(field.getName());
-            return value;
-        } else if (fieldType == String.class) {
-            String value = resultSet.getString(field.getName());
-            return value;
-        } else if (fieldType == boolean.class) {
-            boolean value = resultSet.getBoolean(field.getName());
-            return value;
-        } else if (fieldType == Date.class) {
-            Date value = resultSet.getDate(field.getName());
-            return value;
-        } else {
-            Field idField = BaseEntity.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            E value = (E) fieldType.newInstance();
-            idField.set(value, resultSet.getInt(lowFirstLetter(fieldType.getSimpleName()) + "Id"));
-            return value;
+    public Object getValue(Field field, ResultSet resultSet) throws DAOException {
+        try {
+
+
+            Class fieldType = field.getType();
+            if (fieldType == Integer.class || fieldType == int.class) {
+                int value = resultSet.getInt(field.getName());
+                return value;
+            } else if (fieldType == String.class) {
+                String value = resultSet.getString(field.getName());
+                return value;
+            } else if (fieldType == boolean.class) {
+                boolean value = resultSet.getBoolean(field.getName());
+                return value;
+            } else if (fieldType == Date.class) {
+                Date value = resultSet.getDate(field.getName());
+                return value;
+            } else {
+                Field idField = BaseEntity.class.getDeclaredField("id");
+                idField.setAccessible(true);
+                E value = (E) fieldType.newInstance();
+                idField.set(value, resultSet.getInt(lowFirstLetter(fieldType.getSimpleName()) + "Id"));
+                return value;
+            }
+        }
+        catch (SQLException | IllegalAccessException | InstantiationException |NoSuchFieldException e) {
+            throw new DAOException("can't get value ",e);
         }
     }
 

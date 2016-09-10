@@ -1,10 +1,12 @@
 package com.epam.az.flower.shop.validator;
 
+import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ProductService;
+import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +21,7 @@ public class BuyBasketValidator implements Validator {
 
 
     @Override
-    public List<String> isValidate(HttpServletRequest request) {
+    public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();
         HttpSession session = request.getSession();
 
@@ -35,7 +37,12 @@ public class BuyBasketValidator implements Validator {
         Basket basket = (Basket) session.getAttribute("basket");
         int summ = 0;
         int userId = (int) session.getAttribute("userId");
-        User user = userService.findByID(userId);
+        User user = null;
+        try {
+            user = userService.findById(userId);
+        } catch (ServiceException e) {
+            throw new ValidatorException("can;t get user by id from dao", e);
+        }
 
         for (Product product : basket.getProducts()) {
             summ += product.getPrice();

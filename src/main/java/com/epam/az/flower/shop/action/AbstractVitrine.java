@@ -4,16 +4,18 @@ import com.epam.az.flower.shop.adapter.StringAdapter;
 import com.epam.az.flower.shop.entity.ProductList;
 import com.epam.az.flower.shop.entity.ProductPagination;
 import com.epam.az.flower.shop.service.ProductService;
+import com.epam.az.flower.shop.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract  class AbstractVitrine implements Action {
+public abstract class AbstractVitrine implements Action {
     ProductService productService = new ProductService();
-    ProductPagination productPagination = productService.getPagination();
+    ProductPagination productPagination;
     StringAdapter stringAdapter = new StringAdapter();
     List<Integer> pageNumber;
+
     public List<Integer> addPageNumber() {
         if (pageNumber == null) {
             pageNumber = new ArrayList<>();
@@ -25,9 +27,14 @@ public abstract  class AbstractVitrine implements Action {
     }
 
 
-
-    public void setPaginationList(HttpServletRequest req, List<Integer> pageNumber){
+    public void setPaginationList(HttpServletRequest req, List<Integer> pageNumber) {
         int id;
+        try {
+            productPagination = productService.getPagination();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
         if (req.getParameter("page") == null) {
             id = 0;
         } else {

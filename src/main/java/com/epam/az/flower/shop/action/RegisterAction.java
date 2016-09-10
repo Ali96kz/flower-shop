@@ -10,7 +10,7 @@ public class RegisterAction extends AddUser{
     private UserService userService = new UserService();
 
     @Override
-    public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) {
+    public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
         ActionResult actionResult = validate(request);
         if(actionResult != null){
             return actionResult;

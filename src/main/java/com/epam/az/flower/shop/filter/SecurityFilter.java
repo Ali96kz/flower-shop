@@ -2,7 +2,10 @@ package com.epam.az.flower.shop.filter;
 
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.*;
@@ -12,9 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebFilter(filterName = "SecurityFilter", urlPatterns = "/flower-shop/*")
+@WebFilter(filterName = "SecurityFilter", urlPatterns = "/flower-shop/asdsadasd")
 public class SecurityFilter implements Filter {
-
+    Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
     private List<String> anonymousUserViews;
     private List<String> userViews;
     private List<String> managerViews;
@@ -62,10 +65,14 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        doFilter(req, resp, chain);
+        try {
+            doFilter(req, resp, chain);
+        } catch (FilterException e) {
+            logger.trace("can't ", e);
+        }
     }
 
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException, FilterException {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
         String contextPath = request.getPathInfo();
         if (userId == null) {
@@ -76,7 +83,12 @@ public class SecurityFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        User user = userService.findByID(userId);
+        User user = null;
+        try {
+            user = userService.findById(userId);
+        } catch (ServiceException e) {
+            throw new FilterException("can't get user by id", e);
+        }
 
         if (!getViewsForRole(user.getUserRole()).contains(contextPath)) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);

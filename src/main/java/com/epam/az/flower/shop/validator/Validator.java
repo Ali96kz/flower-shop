@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface Validator {
 
-    List<String> isValidate(HttpServletRequest request);
+    List<String> isValidate(HttpServletRequest request) throws ValidatorException;
 
 }

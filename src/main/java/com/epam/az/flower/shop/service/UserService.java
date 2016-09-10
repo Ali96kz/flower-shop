@@ -1,10 +1,12 @@
 package com.epam.az.flower.shop.service;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 
 public class UserService {
     DAOFactory daoFactory = DAOFactory.getInstance();
@@ -18,7 +20,7 @@ public class UserService {
         transactionService.addMoneyTransaction(user, summ);
     }
 
-    public void delete(int userId){
+    public void delete(int userId) {
         userDAO.delete(userId);
     }
 
@@ -31,11 +33,17 @@ public class UserService {
         return user;
     }
 
-    public User findByID(int id) {
-        User user = userDAO.findById(id);
-        UserRole userRole = userRoleDao.findById(user.getUserRole().getId());
-        user.setUserRole(userRole);
-        return userDAO.findById(id);
+    public User findById(int id) throws ServiceException {
+        User user = null;
+        try {
+            user = userDAO.findById(id);
+            UserRole userRole = userRoleDao.findById(user.getUserRole().getId());
+            user.setUserRole(userRole);
+        } catch (DAOException e) {
+            throw new ServiceException("Can't get user by id", e);
+        }
+
+        return user;
     }
 
     public Integer getUserByCredentials(String nickName, String passHash) {
@@ -43,7 +51,7 @@ public class UserService {
         return id;
     }
 
-    public void logout(int id){
+    public void logout(int id) {
         userDAO.deleteFromCache(id);
     }
 

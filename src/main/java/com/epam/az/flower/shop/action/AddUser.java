@@ -24,7 +24,7 @@ public abstract class AddUser implements Action {
         return user;
     }
 
-    public void setUserRole(User user, HttpServletRequest request) {
+    public void setUserRole(User user, HttpServletRequest request) throws ActionException {
             UserRole userRole = new UserRole();
             userRole.setId(4);
             user.setUserRole(userRole);

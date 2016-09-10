@@ -1,9 +1,6 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.DAOFactory;
-import com.epam.az.flower.shop.dao.GrowingConditionDAO;
-import com.epam.az.flower.shop.dao.TemperatureDAO;
-import com.epam.az.flower.shop.dao.WaterInWeekDAO;
+import com.epam.az.flower.shop.dao.*;
 import com.epam.az.flower.shop.entity.GrowingCondition;
 import com.epam.az.flower.shop.entity.Temperature;
 import com.epam.az.flower.shop.entity.WaterInWeek;
@@ -24,14 +21,18 @@ public class GrowingConditionService {
         return temperatureDAO.getAll();
     }
 
-    public List<WaterInWeek> getAllWaterInWeek(){
-        return waterInWeekDAO.getAll();
-    }
 
     public GrowingCondition findById(Integer id) {
-        GrowingCondition growingCondition = growingConditionDAO.findById(id);
-        Temperature temperature = temperatureDAO.findById(growingCondition.getTemperature().getId());
-        WaterInWeek waterInWeek = waterInWeekDAO.findById(growingCondition.getWaterInWeek().getId());
+        GrowingCondition growingCondition = null;
+        WaterInWeek waterInWeek = null;
+        Temperature temperature = null;
+        try {
+            growingCondition = growingConditionDAO.findById(id);
+            temperature = temperatureDAO.findById(growingCondition.getTemperature().getId());
+            waterInWeek = waterInWeekDAO.findById(growingCondition.getWaterInWeek().getId());
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
 
         growingCondition.setWaterInWeek(waterInWeek);
         growingCondition.setTemperature(temperature);

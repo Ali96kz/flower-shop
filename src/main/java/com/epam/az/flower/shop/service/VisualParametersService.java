@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.service;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.VisualParametersDAO;
 import com.epam.az.flower.shop.entity.VisualParameters;
@@ -12,7 +13,11 @@ public class VisualParametersService {
     public List<VisualParameters> getAllVisualParameters(){
         return visualParametersDAO.getAll();
     }
-    public VisualParameters  findById(int id){
-        return visualParametersDAO.findById(id);
+    public VisualParameters  findById(int id) throws ServiceException {
+        try {
+            return visualParametersDAO.findById(id);
+        } catch (DAOException e) {
+            throw new ServiceException("Can't find view by id ", e);
+        }
     }
 }

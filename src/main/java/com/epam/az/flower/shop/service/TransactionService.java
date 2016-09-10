@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.service;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.TransactionDAO;
 import com.epam.az.flower.shop.dao.UserBalanceDAO;
@@ -18,7 +19,7 @@ public class TransactionService {
     public void addMoneyTransaction(User user, int summ){
         Transaction transaction = new Transaction();
         UserTransaction userTransaction = new UserTransaction();
-        //TODO chanege this
+
         transaction.setId(3);
         userTransaction.setTransaction(transaction);
         userTransaction.setUser(user);
@@ -27,10 +28,20 @@ public class TransactionService {
         balanceDAO.insert(userTransaction);
     }
 
-    public List<UserTransaction> getAllUserTransaction(int userId) {
-        List<UserTransaction> userTransactions = balanceDAO.getAll(userId);
+    public List<UserTransaction> getAllUserTransaction(int userId) throws ServiceException {
+        List<UserTransaction> userTransactions = null;
+        try {
+            userTransactions = balanceDAO.getAll(userId);
+        } catch (DAOException e) {
+            throw new ServiceException("Can't get all user transactions", e);
+        }
         for (UserTransaction userTransaction : userTransactions) {
-            Transaction transaction = transactionDAO.findById(userTransaction.getTransaction().getId());
+            Transaction transaction ;
+            try {
+                transaction = transactionDAO.findById(userTransaction.getTransaction().getId());
+            } catch (DAOException e) {
+                throw new ServiceException("can't find transaction by id", e);
+            }
             userTransaction.setTransaction(transaction);
         }
         return userTransactions;

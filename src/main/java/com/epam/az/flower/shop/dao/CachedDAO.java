@@ -13,7 +13,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     private boolean getAll = false;
 
     @Override
-    public E findById(int id) {
+    public E findById(int id) throws DAOException {
         if (cache.get(id) != null) {
             return cache.get(id);
         }

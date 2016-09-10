@@ -1,6 +1,7 @@
 package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.UserTransaction;
+import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.TransactionService;
 import com.epam.az.flower.shop.service.UserService;
 
@@ -13,10 +14,15 @@ public class ShowTransactionAction implements Action {
     UserService userService = new UserService();
     TransactionService transactionService = new TransactionService();
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("userId");
-        List<UserTransaction> userTransactionList = transactionService.getAllUserTransaction(userId);
+        List<UserTransaction> userTransactionList = null;
+        try {
+            userTransactionList = transactionService.getAllUserTransaction(userId);
+        } catch (ServiceException e) {
+            throw new ActionException("can't get user transaction list ",e);
+        }
         req.setAttribute("transactions", userTransactionList);
         return new ActionResult("transaction");
     }

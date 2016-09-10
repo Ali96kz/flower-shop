@@ -5,7 +5,7 @@ import java.util.List;
 public interface DAO<E> {
     int insert(E e);
 
-    E findById(int id);
+    E findById(int id) throws DAOException;
 
     void update(E item);
 

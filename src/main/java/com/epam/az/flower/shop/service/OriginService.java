@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.service;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.OriginDAO;
 import com.epam.az.flower.shop.entity.Origin;
@@ -13,7 +14,11 @@ public class OriginService {
         return originDAO.getAll();
     }
 
-    public Origin findById(int id) {
-        return originDAO.findById(id);
+    public Origin findById(int id) throws ServiceException {
+        try {
+            return originDAO.findById(id);
+        } catch (DAOException e) {
+            throw new ServiceException("can;t find origin by id", e);
+        }
     }
 }

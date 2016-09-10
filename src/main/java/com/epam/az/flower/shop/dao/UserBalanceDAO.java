@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserBalanceDAO extends CachedDAO<UserTransaction> {
 
-    public List<UserTransaction> getAll(int id) {
+    public List<UserTransaction> getAll(int id) throws DAOException {
         List<UserTransaction> resultList = new ArrayList<>();
         String selectSQL = createSQL(UserTransaction.class);
         try {
@@ -20,7 +20,7 @@ public class UserBalanceDAO extends CachedDAO<UserTransaction> {
                 resultList.add(e);
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            throw new DAOException("Can't get user from database",e);
         }
 
         return resultList;
