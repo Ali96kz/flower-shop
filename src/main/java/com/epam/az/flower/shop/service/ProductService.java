@@ -10,16 +10,13 @@ public class ProductService {
     private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
+    private VisualParametersService visualParametersService = new VisualParametersService();
+    private GrowingConditionService growingConditionService = new GrowingConditionService();
 
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
         for (Product product : products) {
-            if (product != null) {
-                Origin origin = originService.findById(product.getOrigin().getId());
-                Flower flower = flowerService.findById(product.getFlower().getId());
-                product.setFlower(flower);
-                product.setOrigin(origin);
-            }
+            fillProduct(product);
         }
         return products;
     }
@@ -49,17 +46,29 @@ public class ProductService {
     }
 
     public int addNewProduct(Product product) {
-        Flower flower = product.getFlower();
         int flowerId = flowerService.insert(product.getFlower());
+        Flower flower = flowerService.findById(flowerId);
         flower.setId(flowerId);
+        product.setFlower(flower);
         int id = productDAO.insert(product);
         return id;
     }
 
     public Product findById(int id) {
-        return productDAO.findById(id);
+        Product product = productDAO.findById(id);
+        fillProduct(product);
+        return product;
     }
 
+    public void fillProduct(Product product){
+        if (product != null) {
+            Origin origin = originService.findById(product.getOrigin().getId());
+            Flower flower = flowerService.findById(product.getFlower().getId());
+            product.setFlower(flower);
+            product.setOrigin(origin);
+        }
+
+    }
     public void deleteProduct(int id) {
         productDAO.delete(id);
     }

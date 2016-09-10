@@ -30,7 +30,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
 
     @Override
     public int insert(E e) {
-        getAll = false;
+        cache.put(e.getId(), e);
         return super.insert(e);
     }
 
@@ -39,7 +39,6 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
         if (!getAll) {
             List<E> list = super.getAll();
             cache = new HashMap<>();
-
             for (E e : list) {
                 cache.put(e.getId(), e);
             }
