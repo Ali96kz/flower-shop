@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.epam.az.flower.shop.util.PropertyWorker;
-import com.epam.az.flower.shop.util.PropertyWorkerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +21,11 @@ public class ActionFactory {
         actions.put("POST/add-product", new AddProductAction());
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/admin-registration", new AdminAddUserAction());
+        actions.put("POST/edit-product", new EditProductAction());
 
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/delete-product", new DeleteProductAction());
+        actions.put("GET/edit-product", new ShowProductEditPageAction());
         actions.put("GET/vitrine", new ShowOnlineVitrineAction());
         actions.put("GET/manager", new ShowManagerPageAction());
         actions.put("GET/add-product", new ShowAddProductPageAction());

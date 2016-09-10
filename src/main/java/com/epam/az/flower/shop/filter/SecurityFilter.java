@@ -51,6 +51,7 @@ public class SecurityFilter implements Filter {
         managerViews.add("/add-product");
         managerViews.add("/edit-product");
         managerViews.add("/delete-product");
+        managerViews.add("/manager");
 
         adminViews = new ArrayList<>(managerViews);
         adminViews.add("/admin");

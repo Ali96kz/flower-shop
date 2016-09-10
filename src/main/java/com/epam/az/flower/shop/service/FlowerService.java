@@ -26,6 +26,9 @@ public class FlowerService {
         flower.setVisualParameters(visualParameters);
         return flowerDAO.findById(id);
     }
+    public void update(Flower flower){
+        flowerDAO.update(flower);
+    }
     public int insert(Flower flower){
         return flowerDAO.insert(flower);
     }

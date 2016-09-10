@@ -10,9 +10,10 @@ public class ProductService {
     private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
-    private VisualParametersService visualParametersService = new VisualParametersService();
-    private GrowingConditionService growingConditionService = new GrowingConditionService();
-
+    public void update(Product product){
+        flowerService.update(product.getFlower());
+        productDAO.update(product);
+    }
     public List<Product> getAllProduct() {
         List<Product> products = productDAO.getAll();
         for (Product product : products) {

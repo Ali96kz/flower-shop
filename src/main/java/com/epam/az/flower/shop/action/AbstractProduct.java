@@ -18,15 +18,6 @@ public abstract class AbstractProduct implements Action {
     protected FlowerTypeService flowerTypeService = new FlowerTypeService();
     StringAdapter stringAdapter = new StringAdapter();
 
-    public ActionResult validate(HttpServletRequest req, HttpServletResponse resp) {
-        Validator validator = new AddProductValidator();
-        List<String> errorMsg = validator.isValidate(req);
-        if (errorMsg.size() > 0) {
-            req.setAttribute("errorMsg", errorMsg);
-            return new ActionResult("product-add");
-        }
-        return null;
-    }
 
     public void setValue(HttpServletRequest req) {
         req.setAttribute("origins", originService.getAllOrigin());
