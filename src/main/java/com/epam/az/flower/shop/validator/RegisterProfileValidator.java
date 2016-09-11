@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class RegisterProfileValidator implements Validator{
 
         if (date == null) {
             errorMsg.add("You insert incorrect date " +
-                    "Example: 1996/12/11\n");
+                    "Example: 1996-12-11\n");
         }
         if(!password.equals(confirmPassword)){
             errorMsg.add("Confirm password have a different value \n");

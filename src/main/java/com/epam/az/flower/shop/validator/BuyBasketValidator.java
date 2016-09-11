@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
-import com.epam.az.flower.shop.action.ActionException;
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;

@@ -20,7 +20,7 @@ public class AdminAddUserAction extends AddUser {
             return actionResult;
         }
 
-        User user = fillUser(request);
+        User user = fillUser(request, new User());
         setUserRole(user, request);
         user = userService.registerUser(user);
         putInSession(user, request);

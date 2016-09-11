@@ -10,29 +10,16 @@
 </head>
 
 <body>
+<a href="admin-registration">
+    <c:out value="Register new user in system"/><br>
+</a>
 
-All user in system
+<br>
 <c:forEach items="${users}" var="user">
-    First name: <c:out value="${user.firstName}"/><br>
-    Last name <c:out value="${user.lastName}"/><br>
     Nick name <c:out value="${user.nickName}"/><br>
-    <br>
-    <br>
-</c:forEach>
-All userOrder in system
-<c:forEach items="${userOrders}" var="userOrder">
-    <c:out value="${userOrder.user.nickName}"/> buy a
-    <c:out value="${userOrder.product.flower.name}"/>
-    <br>
-    <br>
-</c:forEach>
-All product
-<c:forEach items="${products}" var="product">
-    <a href="product-inf?id=${product.id}">
-        name: <c:out value="${product.flower.name}"/><br>
-        price: <c:out value="${product.price}"/><br>
+    <a href="delete-user?id=${product.id}">
+        <c:out value=""/><br>
     </a>
-    <br>
     <br>
 </c:forEach>
 

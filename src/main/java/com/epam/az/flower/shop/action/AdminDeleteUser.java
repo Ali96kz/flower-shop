@@ -1,19 +1,18 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.UserService;
+import com.epam.az.flower.shop.util.StringAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
-public class ShowAdminPage implements Action {
+public class AdminDeleteUser implements Action {
     private UserService userService = new UserService();
+    private StringAdapter stringAdapter = new StringAdapter();
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        List<User> users = userService.getAll();
-        req.setAttribute("users", users);
-
-        return new ActionResult("admin");
+        int userId = stringAdapter.toInt(req.getParameter("id"));
+        userService.delete(userId);
+        return null;
     }
 }

@@ -1,14 +1,10 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.*;
 import com.epam.az.flower.shop.service.*;
-import com.epam.az.flower.shop.validator.AddProductValidator;
-import com.epam.az.flower.shop.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public abstract class AbstractProduct implements Action {
     protected ProductService productService = new ProductService();

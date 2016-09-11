@@ -1,6 +1,7 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.entity.Origin;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
 import com.epam.az.flower.shop.util.Hasher;
@@ -14,13 +15,15 @@ public abstract class AddUser implements Action {
     private Hasher hasher = new Hasher();
     protected StringAdapter stringAdapter = new StringAdapter();
 
-    public User fillUser(HttpServletRequest request) {
-        User user = new User();
+    public User fillUser(HttpServletRequest request, User user) {
+        Origin origin = new Origin();
         user.setPassword(hasher.hash(request.getParameter("password")));
         user.setFirstName(request.getParameter("firstName"));
         user.setLastName(request.getParameter("lastName"));
         user.setNickName(request.getParameter("nickName"));
+        origin.setId(stringAdapter.toInt(request.getParameter("originId")));
         user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter("dateBirthday")));
+
         return user;
     }
 
@@ -47,7 +50,7 @@ public abstract class AddUser implements Action {
 
             request.setAttribute("user", user);
             request.setAttribute("errorMsg", errorMsg);
-            return new ActionResult("registration", true);
+            return new ActionResult("registration");
         }
         return null;
     }

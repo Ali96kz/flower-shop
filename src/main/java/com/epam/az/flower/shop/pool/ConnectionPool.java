@@ -1,8 +1,8 @@
 package com.epam.az.flower.shop.pool;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.util.PropertyWorker;
-import com.epam.az.flower.shop.util.PropertyWorkerException;
+import com.epam.az.flower.shop.util.UtilClassException;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -39,7 +39,7 @@ public class ConnectionPool  implements DataSource{
             initial = stringAdapter.toInt(properties.getProperty("connection.initial"));
             max = stringAdapter.toInt(properties.getProperty("connection.limit"));
             increment = stringAdapter.toInt(properties.getProperty("connection.increment"));
-        } catch (PropertyWorkerException e) {
+        } catch (UtilClassException e) {
             e.printStackTrace();
         }
     }

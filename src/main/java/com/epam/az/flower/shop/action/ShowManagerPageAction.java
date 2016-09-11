@@ -6,9 +6,8 @@ import java.util.List;
 
 public class ShowManagerPageAction extends AbstractVitrine {
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        List<Integer> pageNumber = addPageNumber();
-        setPaginationList(req, pageNumber);
+    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+        setPaginationList(req);
         return new ActionResult("manager");
     }
 }

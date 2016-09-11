@@ -1,12 +1,9 @@
 package com.epam.az.flower.shop.validator;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
-import com.epam.az.flower.shop.entity.Basket;
-import com.epam.az.flower.shop.entity.Product;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 

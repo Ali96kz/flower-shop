@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.adapter;
+package com.epam.az.flower.shop.util;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -9,7 +9,7 @@ public class StringAdapter {
     public Date toSqlDate(String date){
         if(date == null)
             return null;
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date sqlDate = null;
         try {
             sqlDate = new Date(df.parse(date).getTime());

@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.OrderService;

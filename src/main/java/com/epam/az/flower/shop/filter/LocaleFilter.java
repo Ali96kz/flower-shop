@@ -9,7 +9,6 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
-@WebFilter(filterName ="LocaleFilter", urlPatterns = "flower-shop/*")
 public class LocaleFilter implements Filter{
 
     @Override

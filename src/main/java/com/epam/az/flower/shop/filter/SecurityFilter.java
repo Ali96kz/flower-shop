@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebFilter(filterName = "SecurityFilter", urlPatterns = "/flower-shop/asdsadasd")
+@WebFilter(filterName = "SecurityFilter", urlPatterns = "/flower-shop/*")
 public class SecurityFilter implements Filter {
     Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
     private List<String> anonymousUserViews;
@@ -41,6 +41,7 @@ public class SecurityFilter implements Filter {
         userViews.remove("registration");
 
         userViews.add("/profile");
+        userViews.add("/edit-user");
         userViews.add("/addMoneyToBalance");
         userViews.add("/logout");
         userViews.add("/buy-all-basket");

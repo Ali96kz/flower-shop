@@ -1,4 +1,5 @@
 <%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
+<%--@elvariable id="origin" type="com.epam.az.flower.shop.entity.Origin"--%>
 <%--@elvariable id="userRole" type="com.epam.az.flower.shop.entity.UserRole"--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
@@ -16,15 +17,15 @@
         your birthday: <input type="text" size="16" value="${user.dateBirthday}" name="dateBirthday"><br>
         create password: <input type="password" size="16" name="password"><br>
         confirm password: <input type="password" size="16" name="confirmPassword"><br>
-        <button type="submit">
-            <value>sign up</value>
-        </button>
-        <p><select name="userRoleId">
-            <c:forEach items="${userRoles}" var="userRole">
-                <option value="${userRole.id}">${userRole.name}</option>
+        <p><select name="originId">
+            <c:forEach items="${origins}" var="origin">
+                <option value="${origin.id}">${origin.country}-${origin.province}</option>
             </c:forEach>
         </select></p>
         <br>
+        <button type="submit">
+            <value>sign up</value>
+        </button>
     </form>
     <c:forEach items="${errorMsg}" var="msg">
         <c:out value="${msg}"/><br>

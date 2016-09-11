@@ -1,49 +1,33 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
-import com.epam.az.flower.shop.entity.ProductList;
-import com.epam.az.flower.shop.entity.ProductPagination;
+import com.epam.az.flower.shop.entity.PaginatedList;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class AbstractVitrine implements Action {
     ProductService productService = new ProductService();
-    ProductPagination productPagination;
     StringAdapter stringAdapter = new StringAdapter();
-    List<Integer> pageNumber;
-
-    public List<Integer> addPageNumber() {
-        if (pageNumber == null) {
-            pageNumber = new ArrayList<>();
-            for (int i = 0; i < productPagination.listSize(); i++) {
-                pageNumber.add(i);
+    PaginatedList paginatedList ;
+    private final int pageSize = 10;
+    public void setPaginationList(HttpServletRequest req) throws ActionException {
+        if(paginatedList == null){
+            try {
+                paginatedList = new PaginatedList(pageSize, productService.getAllProduct());
+            } catch (ServiceException e) {
+                throw new ActionException("can't get product from service",e);
             }
         }
-        return pageNumber;
-    }
-
-
-    public void setPaginationList(HttpServletRequest req, List<Integer> pageNumber) {
-        int id;
-        try {
-            productPagination = productService.getPagination();
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-
+        int pageNumber;
         if (req.getParameter("page") == null) {
-            id = 0;
+            pageNumber = 0;
         } else {
             String page = req.getParameter("page");
-            id = stringAdapter.toInt(page);
-        }
-        ProductList productList = productPagination.getProductList(id);
-        req.setAttribute("products", productList.products());
-        req.setAttribute("pageList", pageNumber);
+            pageNumber = stringAdapter.toInt(page);
 
+        }
+        req.setAttribute("products",paginatedList.getPage(pageNumber));
     }
 }

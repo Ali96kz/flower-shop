@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.adapter.StringAdapter;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;

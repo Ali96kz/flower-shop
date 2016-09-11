@@ -8,6 +8,8 @@ import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
 import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 
+import java.util.List;
+
 public class UserService {
     DAOFactory daoFactory = DAOFactory.getInstance();
     UserDAO userDAO = daoFactory.getDao(UserDAO.class);
@@ -45,7 +47,9 @@ public class UserService {
 
         return user;
     }
-
+    public List<User> getAll(){
+        return userDAO.getAll();
+    }
     public Integer getUserByCredentials(String nickName, String passHash) {
         Integer id = userDAO.findByCredentials(nickName, passHash);
         return id;

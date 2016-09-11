@@ -22,8 +22,10 @@ public class ActionFactory {
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/admin-registration", new AdminAddUserAction());
         actions.put("POST/edit-product", new EditProductAction());
+        actions.put("POST/edit-user", new EditUserAction());
 
         actions.put("GET/profile", new ShowProfileAction());
+        actions.put("GET/edit-user", new ShowUserEditPage());
         actions.put("GET/delete-product", new DeleteProductAction());
         actions.put("GET/edit-product", new ShowProductEditPageAction());
         actions.put("GET/vitrine", new ShowOnlineVitrineAction());

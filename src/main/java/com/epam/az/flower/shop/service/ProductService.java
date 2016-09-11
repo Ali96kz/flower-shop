@@ -14,6 +14,7 @@ public class ProductService {
         flowerService.update(product.getFlower());
         productDAO.update(product);
     }
+
     public List<Product> getAllProduct() throws ServiceException {
         List<Product> products = productDAO.getAll();
         for (Product product : products) {
@@ -21,31 +22,15 @@ public class ProductService {
         }
         return products;
     }
-
-    public ProductPagination getPagination() throws ServiceException {
+    public void getPaginatedProduct() throws ServiceException {
         List<Product> products = getAllProduct();
-        ProductPagination pagination = new ProductPagination();
-        ProductList productList = new ProductList();
-        int i = 0;
-        for (Product product : products) {
-            if (product != null) {
-                if ((i + 1) % 10 == 0) {
-                    productList.add(product);
-                    pagination.addProducts(productList);
-                    productList = new ProductList();
-                    i++;
-                }
-                if (product.getDeleteDay() == null) {
-                    i++;
-                    productList.add(product);
-                }
+        for (int i = 0; i < products.size(); i++) {
+            if(products.get(i).getDeleteDay() != null){
+                products.remove(i);
             }
         }
 
-        pagination.addProducts(productList);
-        return pagination;
     }
-
     public int addNewProduct(Product product) throws ServiceException {
         int flowerId = flowerService.insert(product.getFlower());
         Flower flower = flowerService.findById(flowerId);
