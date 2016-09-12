@@ -11,9 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowUserEditPage implements Action {
-    private UserService userService = new UserService();
-    private OriginService originService = new OriginService();
+    private UserService userService;
+    private OriginService originService;
 
+    public ShowUserEditPage() throws ActionException {
+        try {
+            originService = new OriginService();
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+
+    }
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();

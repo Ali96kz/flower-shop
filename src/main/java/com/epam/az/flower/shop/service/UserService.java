@@ -12,35 +12,54 @@ import java.util.List;
 public class UserService {
     private final String CUSTOMER_USER_ROLE = "customer";
     DAOFactory daoFactory = DAOFactory.getInstance();
-    UserDAO userDAO = daoFactory.getDao(UserDAO.class);
-    UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
+    UserDAO userDAO;
+
+    UserRoleDao userRoleDao;
     TransactionService transactionService = new TransactionService();
+
+    public UserService() throws ServiceException {
+        try {
+            userDAO = daoFactory.getDao(UserDAO.class);
+            userRoleDao = daoFactory.getDao(UserRoleDao.class);
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize class", e);
+        }
+
+    }
 
     public void addMoneyToBalance(User user, int summ) throws ServiceException {
         user.setBalance(user.getBalance() + summ);
-        userDAO.update(user);
+        try {
+            userDAO.update(user);
+        } catch (DAOException e) {
+            throw new ServiceException("can't update user");
+        }
         transactionService.addMoneyTransaction(user, summ);
     }
 
-    public void delete(int userId) {
-        userDAO.delete(userId);
+    public void delete(int userId) throws ServiceException {
+        try {
+            userDAO.delete(userId);
+        } catch (DAOException e) {
+            throw new ServiceException("can't delete user from DB", e);
+        }
     }
 
     public User registerUser(User user) throws ServiceException {
-        UserRole userRole ;
+        UserRole userRole;
         try {
             userRole = userRoleDao.findUserRoleByName(CUSTOMER_USER_ROLE);
+            user.setUserRole(userRole);
+            int index = userDAO.insert(user);
+            user.setId(index);
+            return user;
         } catch (DAOException e) {
             throw new ServiceException("can't get user role bu name", e);
         }
-        user.setUserRole(userRole);
-        int index = userDAO.insert(user);
-        user.setId(index);
-        return user;
     }
 
     public User findById(int id) throws ServiceException {
-        User user ;
+        User user;
         try {
             user = userDAO.findById(id);
             UserRole userRole = userRoleDao.findById(user.getUserRole().getId());
@@ -51,11 +70,18 @@ public class UserService {
 
         return user;
     }
-    public List<User> getAll(){
+
+    public List<User> getAll() {
         return userDAO.getAll();
     }
-    public Integer getUserByCredentials(String nickName, String passHash) {
-        Integer id = userDAO.findByCredentials(nickName, passHash);
+
+    public Integer getUserByCredentials(String nickName, String passHash) throws ServiceException {
+        Integer id = null;
+        try {
+            id = userDAO.findByCredentials(nickName, passHash);
+        } catch (DAOException e) {
+            throw new ServiceException("can't find user by credentials", e);
+        }
         return id;
     }
 
@@ -63,7 +89,11 @@ public class UserService {
         userDAO.deleteFromCache(id);
     }
 
-    public void update(User user) {
-        userDAO.update(user);
+    public void update(User user) throws ServiceException {
+        try {
+            userDAO.update(user);
+        } catch (DAOException e) {
+            throw new ServiceException("can't update user", e);
+        }
     }
 }

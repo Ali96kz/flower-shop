@@ -10,8 +10,14 @@ import java.util.List;
 
 public class UserRoleService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
-
+    private UserRoleDao userRoleDao ;
+    public UserRoleService() throws ServiceException {
+        try {
+            userRoleDao = daoFactory.getDao(UserRoleDao.class);
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize class", e);
+        }
+    }
     public List<UserRole> getAll() {
         return userRoleDao.getAll();
     }

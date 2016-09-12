@@ -9,7 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowProfileAction implements Action {
-    UserService userService = new UserService();
+    UserService userService;
+
+    public ShowProfileAction() throws ActionException {
+        try {
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize ", e);
+        }
+    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

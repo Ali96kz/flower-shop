@@ -13,34 +13,44 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class AddMoneyAction implements Action {
-    UserService userService = new UserService();
+    UserService userService;
+
+    public AddMoneyAction() throws ActionException {
+        try {
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
+
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        HttpSession session = req.getSession();
-        Validator validator = new BalanceValidator();
-        List<String> errorMsg = null;
         try {
-            errorMsg = validator.isValidate(req);
-        } catch (ValidatorException e) {
-            throw new ActionException("problem with validator balance ", e);
-        }
+            HttpSession session = req.getSession();
+            Validator validator = new BalanceValidator();
+            List<String> errorMsg = null;
+            try {
+                errorMsg = validator.isValidate(req);
+            } catch (ValidatorException e) {
+                throw new ActionException("problem with validator balance ", e);
+            }
 
-        if (errorMsg.size() > 0) {
-            req.setAttribute("errorMsg", errorMsg);
+            if (errorMsg.size() > 0) {
+                req.setAttribute("errorMsg", errorMsg);
+                return new ActionResult("cash", true);
+            }
+
+            int userId = (int) session.getAttribute("userId");
+            int money = Integer.parseInt(req.getParameter("money"));
+
+            User user = userService.findById(userId);
+            userService.addMoneyToBalance(user, money);
             return new ActionResult("cash", true);
-        }
-
-        int userId = (int) session.getAttribute("userId");
-        int money  = Integer.parseInt(req.getParameter("money"));
-
-        User user = null;
-        try {
-            user = userService.findById(userId);
         } catch (ServiceException e) {
             throw new ActionException("can;t get user from service", e);
+        } catch (ValidatorException e) {
+            throw new ActionException("can't validate object", e);
         }
-        userService.addMoneyToBalance(user, money);
-        return new ActionResult("cash", true);
     }
 }

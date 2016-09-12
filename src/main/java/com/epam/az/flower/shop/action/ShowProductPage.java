@@ -9,7 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductPage implements Action {
-    ProductService productService = new ProductService();
+    ProductService productService;
+
+    public ShowProductPage() throws ActionException {
+        try {
+            productService = new ProductService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize class", e);
+        }
+    }
+
     StringAdapter stringAdapter = new StringAdapter();
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

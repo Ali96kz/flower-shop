@@ -11,8 +11,18 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ShowTransactionAction implements Action {
-    UserService userService = new UserService();
-    TransactionService transactionService = new TransactionService();
+    UserService userService;
+    TransactionService transactionService;
+
+    public ShowTransactionAction() throws ActionException {
+        try {
+            transactionService = new TransactionService();
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize ", e);
+        }
+    }
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
@@ -21,7 +31,7 @@ public class ShowTransactionAction implements Action {
         try {
             userTransactionList = transactionService.getAllUserTransaction(userId);
         } catch (ServiceException e) {
-            throw new ActionException("can't get user transaction list ",e);
+            throw new ActionException("can't get user transaction list ", e);
         }
         req.setAttribute("transactions", userTransactionList);
         return new ActionResult("transaction");

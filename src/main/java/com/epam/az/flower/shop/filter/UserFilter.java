@@ -27,7 +27,12 @@ public class UserFilter implements Filter {
         }
     }
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException, FilterException {
-        UserService userService = new UserService();
+        UserService userService = null;
+        try {
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new FilterException("can;t initialize service", e);
+        }
         HttpSession session = request.getSession(false);
         if (session != null) {
             if (session.getAttribute("userId")!= null) {

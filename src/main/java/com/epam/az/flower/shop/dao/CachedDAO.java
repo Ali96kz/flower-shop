@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
+public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E>{
     private Map<Integer, E> cache = new HashMap<>();
-    private boolean insertNewEntity = false;
     private boolean getAll = false;
 
     @Override
@@ -23,13 +22,13 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     }
 
     @Override
-    public void update(E item) {
+    public void update(E item) throws DAOException {
         super.update(item);
         cache.put(item.getId(), item);
     }
 
     @Override
-    public int insert(E e) {
+    public int insert(E e) throws DAOException {
         cache.put(e.getId(), e);
         return super.insert(e);
     }
@@ -51,13 +50,13 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     }
 
     @Override
-    public void delete(E item) {
+    public void delete(E item) throws DAOException {
         cache.put(item.getId(), null);
         super.delete(item);
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws DAOException {
         cache.put(id, null);
         super.delete(id);
     }

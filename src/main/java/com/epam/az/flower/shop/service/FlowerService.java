@@ -11,9 +11,15 @@ import java.util.List;
 
 public class FlowerService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private FlowerDAO flowerDAO ;
-    private VisualParametersService visualParametersService = new VisualParametersService();
-    private GrowingConditionService growingConditionService = new GrowingConditionService();
+    private FlowerDAO flowerDAO;
+    private VisualParametersService visualParametersService ;
+    private GrowingConditionService growingConditionService ;
+
+    public FlowerService() throws ServiceException {
+        visualParametersService = new VisualParametersService();
+        growingConditionService = new GrowingConditionService();
+    }
+
 
     public Flower findById(int id) throws ServiceException {
         Flower flower;
@@ -30,6 +36,7 @@ public class FlowerService {
 
         return flower;
     }
+
     public void update(Flower flower) throws ServiceException {
         try {
 
@@ -48,6 +55,7 @@ public class FlowerService {
         }
 
     }
+
     public int insert(Flower flower) throws ServiceException {
         try {
             flowerDAO = daoFactory.getDao(FlowerDAO.class);

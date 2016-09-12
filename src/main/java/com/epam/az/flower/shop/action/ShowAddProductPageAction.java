@@ -5,8 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowAddProductPageAction extends AbstractProduct{
 
+    public ShowAddProductPageAction() throws ActionException {
+    }
+
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         setValue(req);
 
         return new ActionResult("product-add");

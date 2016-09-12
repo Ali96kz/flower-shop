@@ -1,6 +1,7 @@
 package com.epam.az.flower.shop.servlet;
 
 import com.epam.az.flower.shop.action.Action;
+import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.action.ActionResult;
 import com.epam.az.flower.shop.action.ActionFactory;
 
@@ -22,7 +23,11 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Action action = actionFactory.getAction(req);
+        Action action = null;
+        try {
+            action = actionFactory.getAction(req);
+        } catch (ActionException e) {
+        }
         if (action == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
             return;

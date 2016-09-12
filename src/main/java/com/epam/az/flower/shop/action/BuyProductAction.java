@@ -17,9 +17,20 @@ import java.util.List;
 
 public class BuyProductAction implements Action {
     StringAdapter stringAdapter = new StringAdapter();
-    OrderService orderService = new OrderService();
-    UserService userService = new UserService();
-    ProductService productService = new ProductService();
+    ProductService productService;
+
+
+    UserService userService;
+    OrderService orderService;
+    public BuyProductAction() throws ActionException {
+        try {
+            orderService = new OrderService();
+            userService = new UserService();
+            productService = new ProductService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

@@ -7,12 +7,27 @@ import java.util.List;
 
 public class ProductService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
-    private FlowerService flowerService = new FlowerService();
-    private OriginService originService = new OriginService();
-    public void update(Product product){
-        flowerService.update(product.getFlower());
-        productDAO.update(product);
+    private ProductDAO productDAO;
+    private FlowerService flowerService;
+    private OriginService originService;
+
+    public ProductService() throws ServiceException {
+        try {
+            productDAO = daoFactory.getDao(ProductDAO.class);
+            flowerService = new FlowerService();
+            originService = new OriginService();
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize dao class", e);
+        }
+    }
+
+    public void update(Product product) throws ServiceException {
+        try {
+            flowerService.update(product.getFlower());
+            productDAO.update(product);
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize dao class", e);
+        }
     }
 
     public List<Product> getAllProduct() throws ServiceException {
@@ -22,22 +37,29 @@ public class ProductService {
         }
         return products;
     }
+
     public void getPaginatedProduct() throws ServiceException {
         List<Product> products = getAllProduct();
         for (int i = 0; i < products.size(); i++) {
-            if(products.get(i).getDeleteDay() != null){
+            if (products.get(i).getDeleteDay() != null) {
                 products.remove(i);
             }
         }
 
     }
+
     public int addNewProduct(Product product) throws ServiceException {
-        int flowerId = flowerService.insert(product.getFlower());
-        Flower flower = flowerService.findById(flowerId);
-        flower.setId(flowerId);
-        product.setFlower(flower);
-        int id = productDAO.insert(product);
-        return id;
+        try {
+            int flowerId = flowerService.insert(product.getFlower());
+            Flower flower = flowerService.findById(flowerId);
+            flower.setId(flowerId);
+            product.setFlower(flower);
+            int id = 0;
+            id = productDAO.insert(product);
+            return id;
+        } catch (DAOException e) {
+            throw new ServiceException("can't add product", e);
+        }
     }
 
     public Product findById(int id) throws ServiceException {
@@ -60,7 +82,13 @@ public class ProductService {
         }
 
     }
-    public void deleteProduct(int id) {
-        productDAO.delete(id);
+
+    public void deleteProduct(int id) throws ServiceException {
+
+        try {
+            productDAO.delete(id);
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize class", e);
+        }
     }
 }

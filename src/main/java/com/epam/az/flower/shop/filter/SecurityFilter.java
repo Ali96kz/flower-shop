@@ -22,7 +22,6 @@ public class SecurityFilter implements Filter {
     private List<String> userViews;
     private List<String> managerViews;
     private List<String> adminViews;
-    private UserService userService = new UserService();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -89,6 +88,7 @@ public class SecurityFilter implements Filter {
         }
         User user = null;
         try {
+            UserService userService = new UserService();
             user = userService.findById(userId);
         } catch (ServiceException e) {
             throw new FilterException("can't get user by id", e);

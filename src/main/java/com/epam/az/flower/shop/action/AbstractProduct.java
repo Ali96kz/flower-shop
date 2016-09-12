@@ -7,20 +7,38 @@ import com.epam.az.flower.shop.service.*;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
-    protected ProductService productService = new ProductService();
-    protected OriginService originService = new OriginService();
-    protected VisualParametersService visualParametersService = new VisualParametersService();
-    protected GrowingConditionService growingConditionService = new GrowingConditionService();
-    protected FlowerTypeService flowerTypeService = new FlowerTypeService();
+    protected ProductService productService;
+    protected OriginService originService;
+
+
+    protected VisualParametersService visualParametersService;
+    protected GrowingConditionService growingConditionService;
+    protected FlowerTypeService flowerTypeService;
+
+
     StringAdapter stringAdapter = new StringAdapter();
 
+    public AbstractProduct() throws ActionException {
+        try {
+            flowerTypeService = new FlowerTypeService();
+            visualParametersService = new VisualParametersService();
+            growingConditionService = new GrowingConditionService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
 
-    public void setValue(HttpServletRequest req) {
-        req.setAttribute("origins", originService.getAllOrigin());
-        req.setAttribute("flowerTypes", flowerTypeService.getAllFlowerType());
-        req.setAttribute("visualParameters", visualParametersService.getAllVisualParameters());
-        req.setAttribute("growingConditions", growingConditionService.getAllGrowingConditions());
-        req.setAttribute("temperatures", growingConditionService.getAllTemperature());
+
+    public void setValue(HttpServletRequest req) throws ActionException {
+        try {
+            req.setAttribute("origins", originService.getAllOrigin());
+            req.setAttribute("flowerTypes", flowerTypeService.getAllFlowerType());
+            req.setAttribute("visualParameters", visualParametersService.getAllVisualParameters());
+            req.setAttribute("growingConditions", growingConditionService.getAllGrowingConditions());
+            req.setAttribute("temperatures", growingConditionService.getAllTemperature());
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize ", e);
+        }
     }
 
 

@@ -9,9 +9,16 @@ import java.util.List;
 
 public class VisualParametersService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
+    private VisualParametersDAO visualParametersDAO;
     public List<VisualParameters> getAllVisualParameters(){
         return visualParametersDAO.getAll();
+    }
+    public VisualParametersService() throws ServiceException {
+        try {
+            visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize visualParametersDAO", e);
+        }
     }
     public VisualParameters  findById(int id) throws ServiceException {
         try {

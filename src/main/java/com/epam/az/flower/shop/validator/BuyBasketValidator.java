@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
+import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.Product;
@@ -14,9 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyBasketValidator implements Validator {
-    UserService userService = new UserService();
+    UserService userService;
     StringAdapter stringAdapter = new StringAdapter();
-    ProductService productService = new ProductService();
+    ProductService productService;
+
+    public BuyBasketValidator() throws ActionException {
+        try {
+            productService = new ProductService();
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
 
 
     @Override
@@ -47,7 +57,7 @@ public class BuyBasketValidator implements Validator {
             summ += product.getPrice();
         }
 
-        if(user.getBalance() < summ){
+        if (user.getBalance() < summ) {
             errorMsg.add("you haven't enough");
         }
 

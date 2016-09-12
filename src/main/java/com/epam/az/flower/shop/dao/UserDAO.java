@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class UserDAO extends CachedDAO<User> {
 
-    public Integer findByCredentials(String nickName, String password) {
+    public Integer findByCredentials(String nickName, String password) throws DAOException {
         setGenericClass(User.class);
         Hasher hasher = new Hasher();
         password = hasher.hash(password);

@@ -9,15 +9,25 @@ import java.util.List;
 
 public class GrowingConditionService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureDAO temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
-    private WaterInWeekDAO waterInWeekDAO = daoFactory.getDao(WaterInWeekDAO.class);
-    private GrowingConditionDAO growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
+    private TemperatureDAO temperatureDAO;
+    private WaterInWeekDAO waterInWeekDAO;
+    private GrowingConditionDAO growingConditionDAO;
 
+    public GrowingConditionService() {
+        try {
+            temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
+            waterInWeekDAO = daoFactory.getDao(WaterInWeekDAO.class);
+            growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<GrowingCondition> getAllGrowingConditions() {
         return growingConditionDAO.getAll();
     }
-    public List<Temperature> getAllTemperature(){
+
+    public List<Temperature> getAllTemperature() {
         return temperatureDAO.getAll();
     }
 
@@ -39,7 +49,12 @@ public class GrowingConditionService {
         return growingCondition;
     }
 
-    public int  add(GrowingCondition growingCondition) {
-        return  growingConditionDAO.insert(growingCondition);
+    public int add(GrowingCondition growingCondition) throws ServiceException {
+        try {
+            int growingConditionId = growingConditionDAO.insert(growingCondition);
+            return growingConditionId;
+        } catch (DAOException e) {
+            throw new ServiceException("can't add growing condition dao", e);
+        }
     }
 }

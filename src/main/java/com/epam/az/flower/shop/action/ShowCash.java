@@ -9,7 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowCash implements Action {
-    UserService userService = new UserService();
+    UserService userService;
+
+    public ShowCash() throws ActionException {
+        try {
+            userService = new UserService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize class", e);
+        }
+    }
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();

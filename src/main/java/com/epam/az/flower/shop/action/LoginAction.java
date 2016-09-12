@@ -1,6 +1,7 @@
 package com.epam.az.flower.shop.action;
 
 
+import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.validator.LogInValidator;
 import com.epam.az.flower.shop.validator.Validator;
@@ -16,7 +17,15 @@ import java.util.List;
 public class LoginAction implements Action {
     Logger log = LoggerFactory.getLogger(LoginAction.class);
     Validator validator = new LogInValidator();
-    UserService userService = new UserService();
+    UserService userService;
+    public LoginAction() throws ActionException {
+        try {
+            userService = new UserService();
+
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -35,7 +44,12 @@ public class LoginAction implements Action {
         String nickName = req.getParameter("nickName");
         String password = req.getParameter("password");
 
-        int userId = userService.getUserByCredentials(nickName, password);
+        int userId = 0;
+        try {
+            userId = userService.getUserByCredentials(nickName, password);
+        } catch (ServiceException e) {
+            throw new ActionException("can't find user by id", e);
+        }
 
         session.setAttribute("userId", userId);
         return new ActionResult("profile", true);

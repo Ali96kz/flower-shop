@@ -9,8 +9,17 @@ import java.util.List;
 
 public class OriginService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private OriginDAO originDAO = daoFactory.getDao(OriginDAO.class);
-    public List<Origin> getAllOrigin(){
+    private OriginDAO originDAO ;
+
+    public OriginService() throws ServiceException {
+        try {
+            originDAO = daoFactory.getDao(OriginDAO.class);
+        } catch (DAOException e) {
+            throw new ServiceException("can't initialize dao class", e);
+        }
+    }
+
+    public List<Origin> getAllOrigin() {
         return originDAO.getAll();
     }
 

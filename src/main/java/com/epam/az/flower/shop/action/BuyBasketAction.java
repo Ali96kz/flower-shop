@@ -16,8 +16,20 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class BuyBasketAction implements Action{
-    UserService userService = new UserService();
-    OrderService orderService = new OrderService();
+    UserService userService;
+    OrderService orderService;
+
+    public BuyBasketAction() throws ActionException {
+        try {
+            orderService = new OrderService();
+            userService = new UserService();
+
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
+
+
     Validator validator = new BuyBasketValidator();
 
     @Override

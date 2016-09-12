@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
+import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
@@ -13,9 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator implements Validator{
-    UserService userService = new UserService();
+    UserService userService;
     StringAdapter stringAdapter = new StringAdapter();
-    ProductService productService = new ProductService();
+    ProductService productService ;
+
+    public BuyProductValidator() throws ActionException {
+        try {
+            userService = new UserService();
+            productService = new ProductService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
+
     @Override
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();

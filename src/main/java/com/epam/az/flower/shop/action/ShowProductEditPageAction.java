@@ -9,7 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductEditPageAction extends AbstractProduct{
-    ProductService productService = new ProductService();
+    ProductService productService;
+
+    public ShowProductEditPageAction() throws ActionException {
+        try {
+            productService = new ProductService();
+        } catch (ServiceException e) {
+            throw new ActionException("can't initialize service class", e);
+        }
+    }
+
     StringAdapter stringAdapter = new StringAdapter();
 
     @Override

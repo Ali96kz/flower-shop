@@ -10,21 +10,16 @@ import java.util.List;
 public class FlowerTypeService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private FlowerTypeDAO flowerTypeDAO;
-
-    public void init() throws ServiceException {
+    public FlowerTypeService() throws ServiceException {
         try {
             flowerTypeDAO = daoFactory.getDao(FlowerTypeDAO.class);
         } catch (DAOException e) {
-            throw new ServiceException("Can't get dao from factory", e);
+            throw new ServiceException("can't initialize ", e);
         }
-
     }
 
     public List<FlowerType> getAllFlowerType() throws ServiceException {
         try {
-            if (flowerTypeDAO == null) {
-                init();
-            }
             daoFactory.startTransaction(flowerTypeDAO);
             List<FlowerType> flowerTypes = flowerTypeDAO.getAll();
             daoFactory.commitTransaction(flowerTypeDAO);

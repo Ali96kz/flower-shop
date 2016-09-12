@@ -1,6 +1,7 @@
 package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
+
+    public AddProductAction() throws ActionException {
+    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
