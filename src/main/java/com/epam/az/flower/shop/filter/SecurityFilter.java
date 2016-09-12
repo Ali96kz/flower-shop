@@ -40,6 +40,7 @@ public class SecurityFilter implements Filter {
         userViews = new ArrayList<>(anonymousUserViews);
         userViews.remove("registration");
 
+        userViews.add("/delete-account");
         userViews.add("/profile");
         userViews.add("/edit-user");
         userViews.add("/addMoneyToBalance");
@@ -59,6 +60,8 @@ public class SecurityFilter implements Filter {
 
         adminViews = new ArrayList<>(managerViews);
         adminViews.add("/admin");
+        adminViews.add("/delete-user");
+        adminViews.add("/admin-registration");
 
     }
 

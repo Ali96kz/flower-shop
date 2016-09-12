@@ -22,7 +22,7 @@ public class ConnectionPool  implements DataSource{
     private int connNumber;
     private String driverName, url, username, password;
 
-    private ConnectionPool() {
+    public ConnectionPool() {
         init();
         addConnectionInStack(initial);
     }

@@ -13,14 +13,19 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class TransactionService {
+    private final String ADD_MONEY_TRANSACTION_NAME = "add money";
     DAOFactory daoFactory = DAOFactory.getInstance();
     UserBalanceDAO balanceDAO = daoFactory.getDao(UserBalanceDAO.class);
     TransactionDAO transactionDAO = new TransactionDAO();
-    public void addMoneyTransaction(User user, int summ){
-        Transaction transaction = new Transaction();
+    public void addMoneyTransaction(User user, int summ) throws ServiceException {
         UserTransaction userTransaction = new UserTransaction();
+        Transaction transaction ;
+        try {
+            transaction = transactionDAO.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
+        } catch (DAOException e) {
+            throw new ServiceException("can't get User role", e);
+        }
 
-        transaction.setId(3);
         userTransaction.setTransaction(transaction);
         userTransaction.setUser(user);
         userTransaction.setSum(summ);

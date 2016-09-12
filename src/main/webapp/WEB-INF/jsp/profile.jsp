@@ -32,7 +32,10 @@
     online vitrine
 </a>
 <br>
-<a href="delete-user?id=${user.id}">
+<a href="edit-account">
+    Edit ACCOUNT
+</a>
+<a href="delete-account">
     DELETE ACCOUNT
 </a>
 

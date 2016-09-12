@@ -13,7 +13,7 @@ Your bill ${bill}<br>
     <br><c:out value="${product.flower.name}"/><br>
         <c:out value="${product.price}"/><br>
         <c:out value="${product.description}"/><br>
-    <a href="deleteProduct?id=${product.id}">
+    <a href="delete-product-basket?id=${product.id}">
         delete from basket
     </a>
     <br>

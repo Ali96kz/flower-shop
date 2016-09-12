@@ -6,17 +6,17 @@ import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 
 import java.util.List;
 
 public class UserService {
+    private final String CUSTOMER_USER_ROLE = "customer";
     DAOFactory daoFactory = DAOFactory.getInstance();
     UserDAO userDAO = daoFactory.getDao(UserDAO.class);
     UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
     TransactionService transactionService = new TransactionService();
 
-    public void addMoneyToBalance(User user, int summ) {
+    public void addMoneyToBalance(User user, int summ) throws ServiceException {
         user.setBalance(user.getBalance() + summ);
         userDAO.update(user);
         transactionService.addMoneyTransaction(user, summ);
@@ -26,9 +26,13 @@ public class UserService {
         userDAO.delete(userId);
     }
 
-    public User registerUser(User user) {
-        UserRole userRole = new UserRole();
-        userRole.setId(4);
+    public User registerUser(User user) throws ServiceException {
+        UserRole userRole ;
+        try {
+            userRole = userRoleDao.findUserRoleByName(CUSTOMER_USER_ROLE);
+        } catch (DAOException e) {
+            throw new ServiceException("can't get user role bu name", e);
+        }
         user.setUserRole(userRole);
         int index = userDAO.insert(user);
         user.setId(index);
@@ -36,7 +40,7 @@ public class UserService {
     }
 
     public User findById(int id) throws ServiceException {
-        User user = null;
+        User user ;
         try {
             user = userDAO.findById(id);
             UserRole userRole = userRoleDao.findById(user.getUserRole().getId());

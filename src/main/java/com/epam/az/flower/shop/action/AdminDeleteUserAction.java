@@ -7,20 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class DeleteUserAction implements Action {
+public class AdminDeleteUserAction implements Action {
     UserService userService = new UserService();
     StringAdapter stringAdapter = new StringAdapter();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
-
-        HttpSession session = req.getSession();
-        userService.logout((Integer) session.getAttribute("userId"));
-
-        session.invalidate();
         int userId = stringAdapter.toInt(req.getParameter("id"));
         userService.delete(userId);
-
         return new ActionResult("delete-profile", true);
 
     }

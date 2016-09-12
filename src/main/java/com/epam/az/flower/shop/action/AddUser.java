@@ -16,12 +16,10 @@ public abstract class AddUser implements Action {
     protected StringAdapter stringAdapter = new StringAdapter();
 
     public User fillUser(HttpServletRequest request, User user) {
-        Origin origin = new Origin();
         user.setPassword(hasher.hash(request.getParameter("password")));
         user.setFirstName(request.getParameter("firstName"));
         user.setLastName(request.getParameter("lastName"));
         user.setNickName(request.getParameter("nickName"));
-        origin.setId(stringAdapter.toInt(request.getParameter("originId")));
         user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter("dateBirthday")));
 
         return user;
