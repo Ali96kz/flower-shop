@@ -8,39 +8,42 @@
 </head>
 <body>
 <fmt:bundle basename="i18n">
-    <fmt:message key="login.sign.nickName" var="nickName"/>
-    <fmt:message key="login.sign.password" var="password"/>
-    <fmt:message key="login.sign.login" var="login"/>
+    <fmt:message key="manager.product.description" var="description"/>
+    <fmt:message key="manager.product.price" var="price"/>
+    <fmt:message key="manager.product.delete" var="delete" />
+    <fmt:message key="manager.product.quantity" var="quantity" />
+    <fmt:message key="manager.product.add.quantity" var="addQuantity" />
+    <fmt:message key="manager.product.name" var="productName" />
+    <fmt:message key="manager.product.add" var="addNewProduct" />
+    <fmt:message key="manager.product.edit" var="editProduct" />
 </fmt:bundle>
+
 <a href="add-product">
-    <c:out value="add new product"/>
+    <c:out value="${addNewProduct}"/>
 </a>
 <br>
---------------------------------------------------------------------------------------
 <c:forEach items="${products}" var="product">
-    <br><a href="product-inf?id=${product.id}">
-    <c:out value="${product.flower.name}"/><br>
-    <c:out value="${product.price}"/><br>
-    <c:out value="${product.description}"/><br>
-    quantity<c:out value="${product.quantity}"/><br>
+    <br>
+    <a href="product-inf?id=${product.id}">
+    ${productName}<c:out value="${product.flower.name}"/><br>
+    ${price}<c:out value="${product.price}"/><br>
+    ${description}<c:out value="${product.description}"/><br>
+    ${quantity}<c:out value="${product.quantity}"/><br>
 
-</a>
+    </a>
     <br>
     <a href="add-quantity?id=${product.id}">
-        <c:out value=""/><br>
+        <c:out value="${addQuantity}"/><br>
     </a>
     <a href="delete-product?id=${product.id}">
-        <c:out value="delete"/><br>
+        <c:out value="${delete}"/><br>
     </a>
-
-
     <a href="edit-product?id=${product.id}">
-        <c:out value="edit this product"/><br>
+        <c:out value="${editProduct}"/><br>
     </a>
-
-    --------------------------------------------------------------------------------------
     <br>
 </c:forEach>
+
 <c:forEach items="${pageList}" var="number">
 <a href="vitrine?page=${number}">
         <c:out value="${number}"/><br>
