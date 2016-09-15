@@ -26,14 +26,14 @@ public class FlowerService {
         try {
             flowerDAO = daoFactory.getDao(FlowerDAO.class);
             flower = flowerDAO.findById(id);
+            VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());
+            GrowingCondition growingCondition = growingConditionService.findById(flower.getGrowingCondition().getId());
+            flower.setGrowingCondition(growingCondition);
+            flower.setVisualParameters(visualParameters);
+
         } catch (DAOException e) {
             throw new ServiceException("Can't find object by id", e);
         }
-        VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());
-        GrowingCondition growingCondition = growingConditionService.findById(flower.getGrowingCondition().getId());
-        flower.setGrowingCondition(growingCondition);
-        flower.setVisualParameters(visualParameters);
-
         return flower;
     }
 
@@ -44,7 +44,6 @@ public class FlowerService {
             daoFactory.startTransaction(flowerDAO);
             flowerDAO.update(flower);
             daoFactory.commitTransaction(flowerDAO);
-//            TODO change this
         } catch (DAOException e) {
             try {
                 daoFactory.rollBack(flowerDAO);
@@ -67,7 +66,7 @@ public class FlowerService {
             try {
                 daoFactory.rollBack(flowerDAO);
             } catch (DAOException e1) {
-                e1.printStackTrace();
+                throw new ServiceException("can't roll back transaction", e);
             }
             throw new ServiceException("can't get flower dao from factory", e);
         }

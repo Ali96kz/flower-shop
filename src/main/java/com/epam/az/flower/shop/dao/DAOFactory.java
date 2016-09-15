@@ -10,7 +10,7 @@ import java.util.Map;
 public class DAOFactory {
     private Map<Class, AbstractDAO> daoClassMap = new HashMap<>();
     private static DAOFactory daoFactory = new DAOFactory();
-    ConnectionPool connectionPool = new ConnectionPool();
+    private ConnectionPool connectionPool = new ConnectionPool();
 
     private DAOFactory() {
 
@@ -29,13 +29,8 @@ public class DAOFactory {
             } catch (IllegalAccessException e) {
                 throw new DAOException("field or class is private", e);
             }
-        }
-        try {
-            daoClassMap.get(aClass).setConnection(connectionPool.getConnection());
-        } catch (SQLException e) {
-            throw new DAOException("problem with connection", e);
-        }
 
+        }
         return (E) daoClassMap.get(aClass);
     }
 
@@ -55,10 +50,8 @@ public class DAOFactory {
             connection.setAutoCommit(true);
 
         } catch (SQLException e) {
-            throw new DAOException("can't commit tansaction", e);
+            throw new DAOException("can't commit transaction", e);
         }finally {
-            connectionPool.returnConnection(dao.getConnection());
-            dao.setConnection(null);
         }
     }
 
@@ -68,9 +61,6 @@ public class DAOFactory {
             connection.rollback();
         } catch (SQLException e) {
             throw new DAOException("can't roll back transaction", e);
-        }finally {
-            connectionPool.returnConnection(dao.getConnection());
-            dao.setConnection(null);
         }
     }
 
