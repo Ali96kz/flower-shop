@@ -14,12 +14,14 @@ public abstract class AbstractProduct implements Action {
     protected VisualParametersService visualParametersService;
     protected GrowingConditionService growingConditionService;
     protected FlowerTypeService flowerTypeService;
+    protected TemperatureService temperatureService;
 
 
     StringAdapter stringAdapter = new StringAdapter();
 
     public AbstractProduct() throws ActionException {
         try {
+            temperatureService = new TemperatureService();
             flowerTypeService = new FlowerTypeService();
             visualParametersService = new VisualParametersService();
             growingConditionService = new GrowingConditionService();
@@ -33,9 +35,9 @@ public abstract class AbstractProduct implements Action {
         try {
             req.setAttribute("origins", originService.getAllOrigin());
             req.setAttribute("flowerTypes", flowerTypeService.getAllFlowerType());
-            req.setAttribute("visualParameters", visualParametersService.getAllVisualParameters());
+            req.setAttribute("visualParameters", visualParametersService.getAll());
             req.setAttribute("growingConditions", growingConditionService.getAllGrowingConditions());
-            req.setAttribute("temperatures", growingConditionService.getAllTemperature());
+            req.setAttribute("temperatures", temperatureService.getAll());
         } catch (ServiceException e) {
             throw new ActionException("can't initialize ", e);
         }

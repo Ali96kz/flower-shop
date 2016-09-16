@@ -9,17 +9,16 @@ import java.util.List;
 
 public class GrowingConditionService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureDAO temperatureDAO;
-    private WaterInWeekDAO waterInWeekDAO;
-    private GrowingConditionDAO growingConditionDAO;
-
-    public GrowingConditionService() {
+    TemperatureService temperatureService;
+    WaterInWeekService waterInWeekService;
+    GrowingConditionDAO growingConditionDAO;
+    public GrowingConditionService() throws ServiceException {
         try {
-            temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
-            waterInWeekDAO = daoFactory.getDao(WaterInWeekDAO.class);
+            temperatureService = new TemperatureService();
+            waterInWeekService = new WaterInWeekService();
             growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
         } catch (DAOException e) {
-            e.printStackTrace();
+            throw new ServiceException("", e);
         }
     }
 
@@ -27,33 +26,41 @@ public class GrowingConditionService {
         return growingConditionDAO.getAll();
     }
 
-    public List<Temperature> getAllTemperature() {
-        return temperatureDAO.getAll();
-    }
 
 
-    public GrowingCondition findById(Integer id) {
-        GrowingCondition growingCondition = null;
-        WaterInWeek waterInWeek = null;
-        Temperature temperature = null;
+    public GrowingCondition findById(Integer id) throws ServiceException {
         try {
-            growingCondition = growingConditionDAO.findById(id);
-            temperature = temperatureDAO.findById(growingCondition.getTemperature().getId());
-            waterInWeek = waterInWeekDAO.findById(growingCondition.getWaterInWeek().getId());
+            daoFactory.startTransaction(growingConditionDAO);
+            GrowingCondition growingCondition = growingConditionDAO.findById(id);
+            Temperature temperature = temperatureService.findById(growingCondition.getTemperature().getId());
+            WaterInWeek waterInWeek = waterInWeekService.findById(growingCondition.getWaterInWeek().getId());
+            growingCondition.setWaterInWeek(waterInWeek);
+            growingCondition.setTemperature(temperature);
+            daoFactory.commitTransaction(growingConditionDAO);
+            return growingCondition;
         } catch (DAOException e) {
-            e.printStackTrace();
+            try {
+                daoFactory.rollBack(growingConditionDAO);
+            } catch (DAOException e1) {
+                e1.printStackTrace();
+            }
+            throw new ServiceException("", e);
         }
 
-        growingCondition.setWaterInWeek(waterInWeek);
-        growingCondition.setTemperature(temperature);
-        return growingCondition;
     }
 
     public int add(GrowingCondition growingCondition) throws ServiceException {
         try {
+            daoFactory.startTransaction(growingConditionDAO);
             int growingConditionId = growingConditionDAO.insert(growingCondition);
+            daoFactory.commitTransaction(growingConditionDAO);
             return growingConditionId;
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(growingConditionDAO);
+            } catch (DAOException e1) {
+                e1.printStackTrace();
+            }
             throw new ServiceException("can't add growing condition dao", e);
         }
     }

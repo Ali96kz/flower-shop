@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.dao;
 
+import com.epam.az.flower.shop.action.AbstractProduct;
 import com.epam.az.flower.shop.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -23,11 +24,16 @@ public class DAOFactory {
     public <E> E getDao(Class aClass) throws DAOException {
         if (daoClassMap.get(aClass) == null) {
             try {
-                daoClassMap.put(aClass, (AbstractDAO) aClass.newInstance());
+                AbstractDAO abstractDAO = (AbstractDAO) aClass.newInstance();
+                abstractDAO.setConnection(connectionPool.getConnection());
+                daoClassMap.put(aClass, abstractDAO);
+
             } catch (InstantiationException e) {
                 throw new DAOException("can't create instance of that class", e);
             } catch (IllegalAccessException e) {
                 throw new DAOException("field or class is private", e);
+            } catch (SQLException e) {
+                throw new DAOException("in correct sql", e);
             }
 
         }

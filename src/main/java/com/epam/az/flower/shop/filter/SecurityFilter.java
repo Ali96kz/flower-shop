@@ -48,7 +48,7 @@ public class SecurityFilter implements Filter {
         userViews.add("/buy-product");
         userViews.add("/transaction");
         userViews.add("/cash");
-        userViews.add("/edit-profile");
+        userViews.add("/edit-account");
         userViews.add("/delete-profile");
 
         managerViews = new ArrayList<>(userViews);

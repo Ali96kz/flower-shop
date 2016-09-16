@@ -29,7 +29,7 @@ public class AddMoneyAction implements Action {
         try {
             HttpSession session = req.getSession();
             Validator validator = new BalanceValidator();
-            List<String> errorMsg = null;
+            List<String> errorMsg ;
             try {
                 errorMsg = validator.isValidate(req);
             } catch (ValidatorException e) {

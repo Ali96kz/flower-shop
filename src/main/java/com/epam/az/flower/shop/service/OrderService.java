@@ -9,21 +9,22 @@ import java.util.GregorianCalendar;
 public class OrderService {
     DAOFactory daoFactory = DAOFactory.getInstance();
     private OrderDAO orderDAO;
-    private UserDAO userDAO;
-    private UserBalanceDAO userBalanceDAO;
-    Transaction transaction = new Transaction();
+    private UserService userService;
+    private UserTransactionService userTransactionService;
+    private Transaction transaction = new Transaction();
 
     public OrderService() throws ServiceException {
         try {
-            userDAO = daoFactory.getDao(UserDAO.class);
-            userBalanceDAO = daoFactory.getDao(UserBalanceDAO.class);
+            userService = new UserService();
+            userTransactionService = new UserTransactionService();
+
             orderDAO = daoFactory.getDao(OrderDAO.class);
         } catch (DAOException e) {
             throw new ServiceException("can't initialize dao classes", e);
         }
     }
 
-    public void createOrder(User user, Product product) {
+    public void createOrder(User user, Product product) throws ServiceException {
         try {
             UserOrder userOrder = new UserOrder();
             userOrder.setUser(user);
@@ -32,7 +33,7 @@ public class OrderService {
             orderDAO.insert(userOrder);
 
             user.setBalance(user.getBalance() - product.getPrice());
-            userDAO.update(user);
+            userService.update(user);
 
             transaction.setId(2);
             UserTransaction userTransaction = new UserTransaction();
@@ -41,9 +42,9 @@ public class OrderService {
             userTransaction.setSum(product.getPrice());
 
             userTransaction.setTransactionDate(getDate());
-            userBalanceDAO.insert(userTransaction);
+            userTransactionService.insert(userTransaction);
         } catch (DAOException e) {
-            e.printStackTrace();
+            throw new ServiceException("can't create order", e);
         }
 
     }

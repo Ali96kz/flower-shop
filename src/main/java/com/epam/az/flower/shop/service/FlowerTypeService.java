@@ -19,14 +19,29 @@ public class FlowerTypeService {
     }
 
     public List<FlowerType> getAllFlowerType() throws ServiceException {
+        try {
+            daoFactory.startTransaction(flowerTypeDAO);
             List<FlowerType> flowerTypes = flowerTypeDAO.getAll();
+            daoFactory.commitTransaction(flowerTypeDAO);
             return flowerTypes;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
     }
 
     public FlowerType findById(int id) throws ServiceException {
         try {
-            return flowerTypeDAO.findById(id);
+            daoFactory.startTransaction(flowerTypeDAO);
+            FlowerType flowerType = flowerTypeDAO.findById(id);
+            daoFactory.commitTransaction(flowerTypeDAO);
+            return flowerType;
+
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(flowerTypeDAO);
+            } catch (DAOException e1) {
+                e1.printStackTrace();
+            }
             throw new ServiceException("can't get flower type from dao", e);
         }
     }

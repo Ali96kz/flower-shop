@@ -25,13 +25,19 @@ public class FlowerService {
         Flower flower;
         try {
             flowerDAO = daoFactory.getDao(FlowerDAO.class);
+            daoFactory.startTransaction(flowerDAO);
             flower = flowerDAO.findById(id);
             VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());
             GrowingCondition growingCondition = growingConditionService.findById(flower.getGrowingCondition().getId());
             flower.setGrowingCondition(growingCondition);
             flower.setVisualParameters(visualParameters);
-
+            daoFactory.commitTransaction(flowerDAO);
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(flowerDAO);
+            } catch (DAOException e1) {
+                e1.printStackTrace();
+            }
             throw new ServiceException("Can't find object by id", e);
         }
         return flower;
@@ -39,8 +45,6 @@ public class FlowerService {
 
     public void update(Flower flower) throws ServiceException {
         try {
-
-            flowerDAO = daoFactory.getDao(FlowerDAO.class);
             daoFactory.startTransaction(flowerDAO);
             flowerDAO.update(flower);
             daoFactory.commitTransaction(flowerDAO);

@@ -3,70 +3,55 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.TransactionDAO;
-import com.epam.az.flower.shop.dao.UserBalanceDAO;
+import com.epam.az.flower.shop.dao.UserTransactionDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserTransaction;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class TransactionService {
-    private final String ADD_MONEY_TRANSACTION_NAME = "add money";
     DAOFactory daoFactory = DAOFactory.getInstance();
-    UserBalanceDAO balanceDAO;
-    TransactionDAO transactionDAO = new TransactionDAO();
+    TransactionDAO transactionDAO ;
 
     public TransactionService() throws ServiceException {
         try {
-            balanceDAO = daoFactory.getDao(UserBalanceDAO.class);
+            transactionDAO = daoFactory.getDao(TransactionDAO.class);
         } catch (DAOException e) {
             throw new ServiceException("can't initialize dao class", e);
         }
-
     }
-
-    public void addMoneyTransaction(User user, int summ) throws ServiceException {
-        UserTransaction userTransaction = new UserTransaction();
-        Transaction transaction;
+    public Transaction getTransactionByName(String name) throws ServiceException {
         try {
-            transaction = transactionDAO.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
-            userTransaction.setTransaction(transaction);
-            userTransaction.setUser(user);
-            userTransaction.setSum(summ);
-            userTransaction.setTransactionDate(getDate());
-            balanceDAO.insert(userTransaction);
+            daoFactory.startTransaction(transactionDAO);
+            Transaction transaction = transactionDAO.getTransactionByName(name);
+            daoFactory.commitTransaction(transactionDAO);
+            return transaction;
         } catch (DAOException e) {
-            throw new ServiceException("can't add money", e);
-        }
-
-
-    }
-
-    public List<UserTransaction> getAllUserTransaction(int userId) throws ServiceException {
-        List<UserTransaction> userTransactions = null;
-        try {
-            userTransactions = balanceDAO.getAll(userId);
-        } catch (DAOException e) {
-            throw new ServiceException("Can't get all user transactions", e);
-        }
-        for (UserTransaction userTransaction : userTransactions) {
-            Transaction transaction;
             try {
-                transaction = transactionDAO.findById(userTransaction.getTransaction().getId());
-            } catch (DAOException e) {
-                throw new ServiceException("can't find transaction by id", e);
+                daoFactory.rollBack(transactionDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back", e);
             }
-            userTransaction.setTransaction(transaction);
+            throw new ServiceException("", e);
         }
-        return userTransactions;
     }
 
-    private java.sql.Date getDate() {
-        Calendar c = new GregorianCalendar();
-        java.util.Date utilDate = c.getTime();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        return sqlDate;
+    public Transaction findById(Integer id) throws ServiceException {
+        try {
+            daoFactory.startTransaction(transactionDAO);
+            Transaction transaction = transactionDAO.findById(id);
+            daoFactory.commitTransaction(transactionDAO);
+            return transaction;
+        } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(transactionDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back", e);
+            }
+            throw new ServiceException("", e);
+        }
     }
+
 }

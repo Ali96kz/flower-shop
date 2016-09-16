@@ -58,7 +58,11 @@ public class BuyBasketAction implements Action{
 
         for (Product product : basket.getProducts()) {
             summ += product.getPrice();
-            orderService.createOrder(user, product);
+            try {
+                orderService.createOrder(user, product);
+            } catch (ServiceException e) {
+                throw new ActionException("can't create order", e);
+            }
         }
         session.setAttribute("basket", null);
         req.setAttribute("summ", summ);

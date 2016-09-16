@@ -58,7 +58,11 @@ public class BuyProductAction implements Action {
             throw new ActionException("can't get entity by id from dao", e);
         }
 
-        orderService.createOrder(user, product);
+        try {
+            orderService.createOrder(user, product);
+        } catch (ServiceException e) {
+            throw new ActionException("can't create order", e);
+        }
 
         req.setAttribute("price", product.getPrice());
         return new ActionResult("bill");

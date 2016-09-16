@@ -2,7 +2,6 @@ package com.epam.az.flower.shop.service;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
-import com.epam.az.flower.shop.dao.UserBalanceDAO;
 import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.UserRole;
 

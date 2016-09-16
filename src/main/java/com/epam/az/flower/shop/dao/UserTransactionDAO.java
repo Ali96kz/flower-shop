@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBalanceDAO extends CachedDAO<UserTransaction> {
+public class UserTransactionDAO extends CachedDAO<UserTransaction> {
 
     public List<UserTransaction> getAll(int id) throws DAOException {
         List<UserTransaction> resultList = new ArrayList<>();

@@ -11,16 +11,16 @@ import java.util.List;
 
 public class UserService {
     private final String CUSTOMER_USER_ROLE = "customer";
-    DAOFactory daoFactory = DAOFactory.getInstance();
-    UserDAO userDAO;
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private UserDAO userDAO;
 
-    UserRoleDao userRoleDao;
-    TransactionService transactionService = new TransactionService();
-
+    private UserRoleDao userRoleDao;
+    private UserTransactionService userTransactionService;
     public UserService() throws ServiceException {
         try {
             userDAO = daoFactory.getDao(UserDAO.class);
             userRoleDao = daoFactory.getDao(UserRoleDao.class);
+            userTransactionService = new UserTransactionService();
         } catch (DAOException e) {
             throw new ServiceException("can't initialize class", e);
         }
@@ -31,10 +31,10 @@ public class UserService {
         user.setBalance(user.getBalance() + summ);
         try {
             userDAO.update(user);
+            userTransactionService.addMoneyTransaction(user, summ);
         } catch (DAOException e) {
             throw new ServiceException("can't update user");
         }
-        transactionService.addMoneyTransaction(user, summ);
     }
 
     public void delete(int userId) throws ServiceException {
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public Integer getUserByCredentials(String nickName, String passHash) throws ServiceException {
-        Integer id = null;
+        Integer id ;
         try {
             id = userDAO.findByCredentials(nickName, passHash);
         } catch (DAOException e) {
