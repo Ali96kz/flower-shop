@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class AbstractProduct implements Action {
     protected ProductService productService;
     protected OriginService originService;
-
-
     protected VisualParametersService visualParametersService;
     protected GrowingConditionService growingConditionService;
     protected FlowerTypeService flowerTypeService;
@@ -21,6 +19,8 @@ public abstract class AbstractProduct implements Action {
 
     public AbstractProduct() throws ActionException {
         try {
+            productService = new ProductService();
+            originService = new OriginService();
             temperatureService = new TemperatureService();
             flowerTypeService = new FlowerTypeService();
             visualParametersService = new VisualParametersService();
@@ -33,8 +33,8 @@ public abstract class AbstractProduct implements Action {
 
     public void setValue(HttpServletRequest req) throws ActionException {
         try {
-            req.setAttribute("origins", originService.getAllOrigin());
             req.setAttribute("flowerTypes", flowerTypeService.getAllFlowerType());
+            req.setAttribute("origins", originService.getAll());
             req.setAttribute("visualParameters", visualParametersService.getAll());
             req.setAttribute("growingConditions", growingConditionService.getAllGrowingConditions());
             req.setAttribute("temperatures", temperatureService.getAll());

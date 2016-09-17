@@ -70,11 +70,11 @@ public class ProductService {
 
     public int addNewProduct(Product product) throws ServiceException {
         try {
+            int id;
             int flowerId = flowerService.insert(product.getFlower());
             Flower flower = flowerService.findById(flowerId);
             flower.setId(flowerId);
             product.setFlower(flower);
-            int id = 0;
             daoFactory.startTransaction(productDAO);
             id = productDAO.insert(product);
             daoFactory.commitTransaction(productDAO);
@@ -90,7 +90,7 @@ public class ProductService {
     }
 
     public Product findById(int id) throws ServiceException {
-        Product product = null;
+        Product product;
         try {
             product = productDAO.findById(id);
         } catch (DAOException e) {

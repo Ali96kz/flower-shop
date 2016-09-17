@@ -201,7 +201,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 result = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            throw new DAOException("can't exequte sql", e);
+            throw new DAOException("can't execute sql", e);
         }
         return result;
     }
@@ -221,6 +221,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 sql.append(clazz.getSimpleName() + "." + fields[i].getName() + ", ");
             }
         }
+
         deleteLastDot(sql);
         return sql.toString() + " FROM " + clazz.getSimpleName();
     }
@@ -232,7 +233,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql.toString());
         } catch (SQLException e1) {
-            throw new DAOException("can;t execute sql", e1);
+            throw new DAOException("can't execute sql", e1);
         }
         return resultSet;
 

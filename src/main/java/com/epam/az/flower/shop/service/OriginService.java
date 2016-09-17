@@ -19,15 +19,27 @@ public class OriginService {
         }
     }
 
-    public List<Origin> getAllOrigin() {
-        return originDAO.getAll();
+    public List<Origin> getAll() throws ServiceException {
+        try {
+            daoFactory.startTransaction(originDAO);
+            List<Origin> origins = originDAO.getAll();
+            daoFactory.commitTransaction(originDAO);
+            return origins;
+        } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(originDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back transaction", e);
+            }
+            throw new ServiceException("can't execute ", e);
+        }
     }
 
     public Origin findById(int id) throws ServiceException {
         try {
             return originDAO.findById(id);
         } catch (DAOException e) {
-            throw new ServiceException("can;t find origin by id", e);
+            throw new ServiceException("can't find origin by id", e);
         }
     }
 }

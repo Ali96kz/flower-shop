@@ -30,11 +30,11 @@ public class ShowUserEditPage implements Action {
         User user;
         try {
             user = userService.findById(userId);
+            req.setAttribute("origins", originService.getAll());
 
         } catch (ServiceException e) {
             throw new ActionException("can't get user ", e);
         }
-        req.setAttribute("origins", originService.getAllOrigin());
         req.setAttribute("user", user);
         return new ActionResult("registration");
     }
