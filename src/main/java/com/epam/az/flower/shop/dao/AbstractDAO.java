@@ -192,6 +192,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
 
     protected int executeSql(String sql) throws DAOException {
+        logger.info("dao sql exe sql  = {}", sql);
         int result = 0;
         try {
             Statement statement = connection.createStatement();
@@ -227,6 +228,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     }
 
     public ResultSet executeSqlQuery(String sql) throws DAOException {
+        logger.info("execute sql query {}", sql);
         Statement statement;
         ResultSet resultSet ;
         try {

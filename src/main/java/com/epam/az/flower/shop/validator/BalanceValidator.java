@@ -23,14 +23,21 @@ public class BalanceValidator implements Validator{
     @Override
     public List<String> isValidate(HttpServletRequest request) {
         List<String> errorMsg = new ArrayList<>();
-        Integer money = stringAdapter.toInt(request.getParameter("money"));
 
+        String stringMoney = request.getParameter("money");
         if (request.getParameter("money") == null) {
             errorMsg.add("you didn't insert a money value");
             return errorMsg;
         }
+        //Todo match to -.<>
+        if (stringMoney.matches("\\w")){
+            errorMsg.add("you can't insert character");
+            return errorMsg;
+        }
 
-        if (money <  0){
+        Integer money = stringAdapter.toInt(stringMoney);
+
+        if (money <=  0){
             errorMsg.add("insert money couldn't < 0");
         }
 

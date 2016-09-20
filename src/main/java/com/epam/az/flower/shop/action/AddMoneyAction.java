@@ -29,7 +29,9 @@ public class AddMoneyAction implements Action {
         try {
             HttpSession session = req.getSession();
             Validator validator = new BalanceValidator();
-            List<String> errorMsg ;
+            List<String> errorMsg;
+            int userId = (int) session.getAttribute("userId");
+            User user = userService.findById(userId);
             try {
                 errorMsg = validator.isValidate(req);
             } catch (ValidatorException e) {
@@ -38,15 +40,15 @@ public class AddMoneyAction implements Action {
 
             if (errorMsg.size() > 0) {
                 req.setAttribute("errorMsg", errorMsg);
-                return new ActionResult("cash", true);
+                req.setAttribute("user", user);
+                return new ActionResult("cash");
             }
 
-            int userId = (int) session.getAttribute("userId");
             int money = Integer.parseInt(req.getParameter("money"));
-
-            User user = userService.findById(userId);
+            user = userService.findById(userId);
             userService.addMoneyToBalance(user, money);
             return new ActionResult("cash", true);
+
         } catch (ServiceException e) {
             throw new ActionException("can;t get user from service", e);
         } catch (ValidatorException e) {

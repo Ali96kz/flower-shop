@@ -38,6 +38,7 @@ public class SecurityFilter implements Filter {
 
         userViews = new ArrayList<>(anonymousUserViews);
         userViews.remove("registration");
+        userViews.remove("login");
 
         userViews.add("/delete-account");
         userViews.add("/profile");

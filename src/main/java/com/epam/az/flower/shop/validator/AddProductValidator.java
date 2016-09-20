@@ -13,10 +13,14 @@ public class AddProductValidator implements Validator {
     public List<String> isValidate(HttpServletRequest request) {
 
         List<String> errorMsg = new ArrayList<>();
-
-        if(request.getParameter("flowerName") == null){
+        String flowerName = request.getParameter("flowerName") ;
+        if(flowerName == null || flowerName == ""){
             errorMsg.add("Please insert flower name");
             return errorMsg;
+        }
+        //// TODO: flower
+        if (flowerName.matches("\\S \\S")) {
+            errorMsg.add("please insert flower name");
         }
 
         if(request.getParameter("description") == null){
@@ -33,8 +37,7 @@ public class AddProductValidator implements Validator {
             errorMsg.add("you must insert a average height");
             return errorMsg;
         }
-
-        Integer price = stringAdapter.toInt(request.getParameter("price"));
+        Integer price = stringAdapter.toInt();
         Integer averageHeight = stringAdapter.toInt(request.getParameter("averageHeight"));
 
         if(request.getParameter("description").length() < 16){

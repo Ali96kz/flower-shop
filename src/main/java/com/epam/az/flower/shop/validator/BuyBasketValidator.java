@@ -16,7 +16,6 @@ import java.util.List;
 
 public class BuyBasketValidator implements Validator {
     UserService userService;
-    StringAdapter stringAdapter = new StringAdapter();
     ProductService productService;
 
     public BuyBasketValidator() throws ActionException {
@@ -46,7 +45,7 @@ public class BuyBasketValidator implements Validator {
         Basket basket = (Basket) session.getAttribute("basket");
         int summ = 0;
         int userId = (int) session.getAttribute("userId");
-        User user = null;
+        User user;
         try {
             user = userService.findById(userId);
         } catch (ServiceException e) {

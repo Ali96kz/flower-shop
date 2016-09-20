@@ -35,7 +35,7 @@ public class BuyBasketAction implements Action{
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
-        List<String> errorMsg = null;
+        List<String> errorMsg ;
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {
@@ -47,25 +47,26 @@ public class BuyBasketAction implements Action{
         }
 
         Basket basket = (Basket) session.getAttribute("basket");
-        int summ = 0;
         int userId = (int) session.getAttribute("userId");
-        User user = null;
+        User user;
         try {
             user = userService.findById(userId);
         } catch (ServiceException e) {
             throw new ActionException("can't get user from service", e);
         }
 
+        int sum = 0;
         for (Product product : basket.getProducts()) {
-            summ += product.getPrice();
+            sum += product.getPrice();
             try {
                 orderService.createOrder(user, product);
             } catch (ServiceException e) {
                 throw new ActionException("can't create order", e);
             }
         }
+
         session.setAttribute("basket", null);
-        req.setAttribute("summ", summ);
+        req.setAttribute("summ", sum);
         return new ActionResult("bill");
     }
 }

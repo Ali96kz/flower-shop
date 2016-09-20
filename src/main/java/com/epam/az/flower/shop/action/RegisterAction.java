@@ -34,7 +34,6 @@ public class RegisterAction extends AddUser {
         } catch (ServiceException e) {
             throw new ActionException("", e);
         }
-
     }
 }
 

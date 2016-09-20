@@ -31,4 +31,20 @@ public class UserRoleService {
         }
         return userRole;
     }
+
+    public UserRole getUserRoleByName(String roleName) throws ServiceException {
+        try {
+            daoFactory.startTransaction(userRoleDao);
+            UserRole userRole = userRoleDao.findUserRoleByName(roleName);
+            daoFactory.commitTransaction(userRoleDao);
+            return userRole;
+        } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(userRoleDao);
+            } catch (DAOException e1) {
+                throw new ServiceException("can'y roll back transaction", e);
+            }
+            throw new ServiceException("can't commit transaction");
+        }
+    }
 }
