@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ShowAdminPage implements Action {
+    public static final String JSP_PAGE_NAME_ADMIN = "admin";
     private UserService userService;
 
     public ShowAdminPage() throws ActionException {
@@ -24,6 +25,6 @@ public class ShowAdminPage implements Action {
         List<User> users = userService.getAll();
         req.setAttribute("users", users);
 
-        return new ActionResult("admin");
+        return new ActionResult(JSP_PAGE_NAME_ADMIN);
     }
 }

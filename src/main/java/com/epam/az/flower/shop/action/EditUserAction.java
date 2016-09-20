@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class EditUserAction extends AddUser {
+    public static final String JSP_PAGE_NAME_PROFILE = "profile";
     UserService userService;
 
     public EditUserAction() throws ActionException {
@@ -35,6 +36,6 @@ public class EditUserAction extends AddUser {
         } catch (ServiceException e) {
             throw new ActionException("", e);
         }
-        return new ActionResult("profile", true);
+        return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
     }
 }

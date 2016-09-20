@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator implements Validator{
+    public static final String PARAMETER_USER_ID = "userId";
+    public static final String PARAMETER_PRODUCT_ID = "productId";
     UserService userService;
     StringAdapter stringAdapter = new StringAdapter();
     ProductService productService ;
@@ -32,25 +34,24 @@ public class BuyProductValidator implements Validator{
         List<String> errorMsg = new ArrayList<>();
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("userId") == null) {
+        if (session.getAttribute(PARAMETER_USER_ID) == null) {
             errorMsg.add("You must sign in, to buy something in own shop");
             return errorMsg;
         }
 
-        int userId = (int) session.getAttribute("userId");
-        int productId = stringAdapter.toInt(request.getParameter("productId"));
-        User user = null;
-        Product product = null;
+        int userId = (int) session.getAttribute(PARAMETER_USER_ID);
+        int productId = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
 
         try {
-            user = userService.findById(userId);
-            product = productService.findById(productId);
+            User user = userService.findById(userId);
+            Product product = productService.findById(productId);
+
+            if (user.getBalance() < product.getPrice()) {
+                errorMsg.add("You haven't enough money");
+            }
+
         } catch (ServiceException e) {
             throw new ValidatorException("can't get entity from service", e);
-        }
-
-        if (user.getBalance() < product.getPrice()) {
-            errorMsg.add("You haven't enough money");
         }
 
         return errorMsg;

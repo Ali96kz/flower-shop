@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductEditPageAction extends AbstractProduct{
+    public static final String JSP_PAGE_NAME_PRODUCT_EDIT = "product-edit";
     ProductService productService;
 
     public ShowProductEditPageAction() throws ActionException {
@@ -32,6 +33,6 @@ public class ShowProductEditPageAction extends AbstractProduct{
             throw new ActionException("can;t get product by id from service", e);
         }
         req.setAttribute("product", product);
-        return new ActionResult("product-edit");
+        return new ActionResult(JSP_PAGE_NAME_PRODUCT_EDIT);
     }
 }

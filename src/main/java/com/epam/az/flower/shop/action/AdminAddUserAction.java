@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminAddUserAction extends AddUser {
+    public static final String JSP_PAGE_NAME_ADMIN = "admin";
     private UserService userService;
     UserRoleService userRoleService;
 
@@ -34,7 +35,7 @@ public class AdminAddUserAction extends AddUser {
             setUserRole(user, request);
             user = userService.registerUser(user);
             putInSession(user, request);
-            return new ActionResult("admin", true);
+            return new ActionResult(JSP_PAGE_NAME_ADMIN, true);
         } catch (ServiceException e) {
             throw new ActionException("can't execute action", e);
         }

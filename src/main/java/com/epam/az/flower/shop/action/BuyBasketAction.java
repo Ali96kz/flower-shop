@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class BuyBasketAction implements Action{
+    public static final String JSP_PAGE_NAME_BILL = "bill";
     UserService userService;
     OrderService orderService;
 
@@ -67,6 +68,6 @@ public class BuyBasketAction implements Action{
 
         session.setAttribute("basket", null);
         req.setAttribute("summ", sum);
-        return new ActionResult("bill");
+        return new ActionResult(JSP_PAGE_NAME_BILL);
     }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ProductInBasketAction implements Action{
+    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     ProductService productService;
     Basket basket;
     StringAdapter stringAdapter = new StringAdapter();
@@ -37,6 +38,6 @@ public class ProductInBasketAction implements Action{
             throw new ActionException("can't find productby id ", e);
         }
         session.setAttribute("basket", basket);
-        return new ActionResult("vitrine", true);
+        return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
     }
 }

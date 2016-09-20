@@ -12,8 +12,11 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ShowTransactionAction implements Action {
-    UserService userService;
-    UserTransactionService userTransactionService;
+    public static final String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
+    public static final String SESSION_PARAMETER_USER_ID = "userId";
+    public static final String JSP_PAGE_NAME_TRANSACTION = "transaction";
+    private UserService userService;
+    private UserTransactionService userTransactionService;
 
     public ShowTransactionAction() throws ActionException {
         try {
@@ -27,14 +30,14 @@ public class ShowTransactionAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("userId");
-        List<UserTransaction> userTransactionList ;
+        int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
+        List<UserTransaction> userTransactionList;
         try {
             userTransactionList = userTransactionService.getAll(userId);
         } catch (ServiceException e) {
             throw new ActionException("can't get user transaction list ", e);
         }
-        req.setAttribute("transactions", userTransactionList);
-        return new ActionResult("transaction");
+        req.setAttribute(ATTRIBUTE_NAME_TRANSACTION_LIST, userTransactionList);
+        return new ActionResult(JSP_PAGE_NAME_TRANSACTION);
     }
 }

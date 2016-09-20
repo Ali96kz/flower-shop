@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteProductAction implements Action {
+    public static final String JSP_PAGE_NAME_MANAGER = "manager";
     StringAdapter stringAdapter = new StringAdapter();
     ProductService productService;
 
@@ -25,7 +26,7 @@ public class DeleteProductAction implements Action {
         try {
             int productId = stringAdapter.toInt(req.getParameter("id"));
             productService.deleteProduct(productId);
-            return new ActionResult("manager", true);
+            return new ActionResult(JSP_PAGE_NAME_MANAGER, true);
         } catch (ServiceException e) {
             throw new ActionException("can't execute delete action", e);
         }

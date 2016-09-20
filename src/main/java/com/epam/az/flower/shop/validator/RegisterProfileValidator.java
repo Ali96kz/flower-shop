@@ -6,47 +6,52 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterProfileValidator implements Validator{
+public class RegisterProfileValidator extends AbstractValidator{
+
+    public static final String PARAMETER_FIRST_NAME = "firstName";
+    public static final String PARAMETER_NICK_NAME = "nickName";
+    public static final String PARAMETER_LAST_NAME = "lastName";
+    public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+    public static final String PARAMETER_PASSWORD = "password";
+    public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+
+    public static final String MENU_FIRST_NAME = "first name";
+    public static final String MENU_NAME_LAST_NAME = "last name";
+    public static final String MENU_NAME_NICK_NAME = "nick name";
+    public static final String MENU_NAME_CONFIRM_PASSWORD = "confirm password";
+    public static final String MENU_NAME_PASSWORD = "password";
+
+    public static final int LASTNAME_MIN_LENGTH = 4;
+    public static final int NICKNAME_MIN_LENGTH = 4;
+    public static final int PASSWORD_MIN_LENGTH = 4;
+    public static final int PASSWORD_MAX_LENGTH = 12;
+    public static final int NICKNAME_MAX_LENGTH = 6;
+    public static final int LASTNAME_MAX_LENGTH = 6;
 
     public List<String> isValidate(HttpServletRequest request){
         List<String> errorMsg = new ArrayList<>();
         StringAdapter stringAdapter = new StringAdapter();
 
-        String name = request.getParameter("firstName");
-        String nickName = request.getParameter("nickName");
-        String lastName = request.getParameter("lastName");
-        Date date = stringAdapter.toSqlDate(request.getParameter("dateBirthday"));
-        String password = request.getParameter("password");
-        String confirmPassword = request.getParameter("confirmPassword");
+        String name = request.getParameter(PARAMETER_FIRST_NAME);
+        String nickName = request.getParameter(PARAMETER_NICK_NAME);
+        String lastName = request.getParameter(PARAMETER_LAST_NAME);
+        Date date = stringAdapter.toSqlDate(request.getParameter(PARAMETER_DATE_BIRTHDAY));
+        String password = request.getParameter(PARAMETER_PASSWORD);
+        String confirmPassword = request.getParameter(PARAMETER_CONFIRM_PASSWORD);
 
         if (date == null) {
             errorMsg.add("You insert incorrect date " +
                     "Example: 1996-12-11\n");
         }
+
+        validateString(errorMsg, name, MENU_FIRST_NAME);
+        validateString(errorMsg, lastName, MENU_NAME_LAST_NAME, LASTNAME_MIN_LENGTH, LASTNAME_MAX_LENGTH);
+        validateString(errorMsg, nickName, MENU_NAME_NICK_NAME, NICKNAME_MIN_LENGTH, NICKNAME_MAX_LENGTH);
+        validateString(errorMsg, password, MENU_NAME_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+        validateString(errorMsg, confirmPassword, MENU_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+
         if(!password.equals(confirmPassword)){
-            errorMsg.add("Confirm password have a different value \n");
-        }
-        if (nickName != null) {
-            if (nickName.matches("\\W") || nickName.length() < 3) {
-                errorMsg.add("You insert incorrect nick name. " +
-                        "nick name must contain min 3 and max 8 characters " +
-                        "name must contain A-Z,a-z,\n");
-            }
-        }
-        if (lastName.matches("\\W") || lastName.length() < 3) {
-            errorMsg.add("You insert incorrect nick name. " +
-                    " Nick name must contain min 3 and max 8 characters " +
-                    " Nick name must contain A-Z,a-z, \n");
-        }
-        if (name.matches("\\W") || name.length() < 3) {
-            errorMsg.add("You insert incorrect  name. " +
-                    "name must contain min 3 and max 8 characters " +
-                    "name must contain A-Z,a-z, \n");
-        }
-        if (name.matches("\\W") || name.length() < 3) {
-            errorMsg.add("You insert incorrect  name. " +
-                    "name must contain min 3 and max 8 characters " +
-                    "name must contain A-Z,a-z, \n");
+            errorMsg.add("Confirm password has a different value \n");
         }
 
         return errorMsg;

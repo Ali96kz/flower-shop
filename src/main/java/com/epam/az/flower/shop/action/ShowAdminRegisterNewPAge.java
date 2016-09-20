@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowAdminRegisterNewPAge implements Action {
+    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
     UserRoleService userRoleService ;
     public ShowAdminRegisterNewPAge() throws ActionException {
         try {
@@ -20,6 +21,6 @@ public class ShowAdminRegisterNewPAge implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         req.setAttribute("userRoles", userRoleService.getAll());
-        return new ActionResult("registration");
+        return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
     }
 }

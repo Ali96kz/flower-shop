@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowBasketAction implements Action {
+
+    public static final String JSP_PAGE_NAME_BASKET = "basket";
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
@@ -27,6 +30,6 @@ public class ShowBasketAction implements Action {
             req.setAttribute("basket", basket);
             return new ActionResult("basket");
         }
-        return new ActionResult("basket");
+        return new ActionResult(JSP_PAGE_NAME_BASKET);
     }
 }

@@ -29,7 +29,6 @@ public class EditProductAction extends AbstractProduct{
         } catch (ServiceException e) {
             throw new ActionException("can't get user by id", e);
         }
-
     }
 
     public ActionResult validate(HttpServletRequest req) throws ActionException {

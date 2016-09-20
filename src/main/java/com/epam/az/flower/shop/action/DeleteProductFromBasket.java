@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class DeleteProductFromBasket implements Action {
+    public static final String JSP_PAGE_NAME_BASKET = "basket";
     StringAdapter stringAdapter = new StringAdapter();
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -14,7 +15,7 @@ public class DeleteProductFromBasket implements Action {
         Basket basket = (Basket) session.getAttribute("basket");
         int productId = stringAdapter.toInt(req.getParameter("id"));
         basket.delete(productId);
-        return new ActionResult("basket", true);
+        return new ActionResult(JSP_PAGE_NAME_BASKET, true);
     }
 }
 

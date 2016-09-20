@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LogoutAction implements Action {
+    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
     UserService userService ;
     public LogoutAction() throws ActionException {
         try {
@@ -22,6 +23,6 @@ public class LogoutAction implements Action {
         HttpSession session = req.getSession();
         userService.logout((Integer) session.getAttribute("userId"));
         session.invalidate();
-        return new ActionResult("registration", true);
+        return new ActionResult(JSP_PAGE_NAME_REGISTRATION, true);
     }
 }

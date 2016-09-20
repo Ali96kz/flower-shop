@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowCash implements Action {
+    public static final String JSP_PAGE_NAME_CASH = "cash";
     UserService userService;
 
     public ShowCash() throws ActionException {
@@ -30,6 +31,6 @@ public class ShowCash implements Action {
             throw new ActionException("can't get user by id from service", e);
         }
         req.setAttribute("user", user);
-        return new ActionResult("cash");
+        return new ActionResult(JSP_PAGE_NAME_CASH);
     }
 }

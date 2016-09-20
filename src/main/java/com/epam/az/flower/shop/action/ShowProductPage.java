@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductPage implements Action {
-    ProductService productService;
+    public static final String PARAMETER_PRODUCT_ID = "id";
+    public static final String ATTRIBUTE_NAME_PRODUCT = "product";
+    public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
+    private ProductService productService;
 
     public ShowProductPage() throws ActionException {
         try {
@@ -20,17 +23,18 @@ public class ShowProductPage implements Action {
     }
 
     StringAdapter stringAdapter = new StringAdapter();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        int id = stringAdapter.toInt(req.getParameter("id"));
-        Product product = null;
+        int id = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
+        Product product;
         try {
             product = productService.findById(id);
         } catch (ServiceException e) {
-            throw new ActionException("can'tget product from dao", e);
+            throw new ActionException("can't get product from dao", e);
         }
 
-        req.setAttribute("product", product);
-        return new ActionResult("product-inf");
+        req.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
+        return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF);
     }
 }

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyBasketValidator implements Validator {
+    public static final String SESSION_PARAMETER_USER_ID = "userId";
+    public static final String SESSION_PARAMTER_BASKET_OBJECT = "basket";
     UserService userService;
     ProductService productService;
 
@@ -33,18 +35,20 @@ public class BuyBasketValidator implements Validator {
         List<String> errorMsg = new ArrayList<>();
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("userId") == null) {
+        if (session.getAttribute(SESSION_PARAMETER_USER_ID) == null) {
             errorMsg.add("You must sign in to buy something in own shop");
             return errorMsg;
         }
 
-        if (session.getAttribute("basket") == null) {
+        if (session.getAttribute(SESSION_PARAMTER_BASKET_OBJECT) == null) {
             errorMsg.add("You must add some products in your basket");
             return errorMsg;
         }
-        Basket basket = (Basket) session.getAttribute("basket");
+
+        Basket basket = (Basket) session.getAttribute(SESSION_PARAMTER_BASKET_OBJECT);
         int summ = 0;
-        int userId = (int) session.getAttribute("userId");
+        int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
+
         User user;
         try {
             user = userService.findById(userId);

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class BuyProductAction implements Action {
+    public static final String JSP_PAGE_NAME_BILL = "bill";
     StringAdapter stringAdapter = new StringAdapter();
     ProductService productService;
 
@@ -65,6 +66,6 @@ public class BuyProductAction implements Action {
         }
 
         req.setAttribute("price", product.getPrice());
-        return new ActionResult("bill");
+        return new ActionResult(JSP_PAGE_NAME_BILL);
     }
 }

@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowProfileAction implements Action {
-    UserService userService;
+    public static final String JSP_PAGE_NAME_PROFILE = "profile";
+    private UserService userService;
+    public static final String SESSION_PARAMETER_USER_ID = "userId";
+    public static final String ATTRIBUTE_NAME_USER = "user";
 
     public ShowProfileAction() throws ActionException {
         try {
@@ -21,18 +24,15 @@ public class ShowProfileAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        ActionResult actionResult = new ActionResult("profile");
         HttpSession session= req.getSession();
-
-        int i = (int) session.getAttribute("userId");
-        User user = null;
+        int i = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
+        User user;
         try {
             user = userService.findById(i);
         } catch (ServiceException e) {
             throw new ActionException("can't get user from service", e);
         }
-        req.setAttribute("user", user);
-
-        return actionResult;
+        req.setAttribute(ATTRIBUTE_NAME_USER, user);
+        return new ActionResult(JSP_PAGE_NAME_PROFILE);
     }
 }

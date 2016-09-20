@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegisterAction extends AddUser {
+    public static final String JSP_PAGE_NAME_PROFILE = "profile";
     private UserService userService;
 
     public RegisterAction() throws ActionException {
@@ -29,10 +30,10 @@ public class RegisterAction extends AddUser {
             setUserRole(user, request);
             user = userService.registerUser(user);
             putInSession(user, request);
-            actionResult = new ActionResult("profile", true);
-            return actionResult;
+
+            return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         } catch (ServiceException e) {
-            throw new ActionException("", e);
+            throw new ActionException("can't register new user", e);
         }
     }
 }

@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowAddProductPageAction extends AbstractProduct{
 
+    public static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
+
     public ShowAddProductPageAction() throws ActionException {
     }
 
@@ -12,7 +14,7 @@ public class ShowAddProductPageAction extends AbstractProduct{
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         setValue(req);
 
-        return new ActionResult("product-add");
+        return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
     }
 
 }

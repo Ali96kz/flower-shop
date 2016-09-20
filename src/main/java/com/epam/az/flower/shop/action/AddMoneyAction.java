@@ -23,7 +23,6 @@ public class AddMoneyAction implements Action {
         }
     }
 
-
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
@@ -47,8 +46,8 @@ public class AddMoneyAction implements Action {
             int money = Integer.parseInt(req.getParameter("money"));
             user = userService.findById(userId);
             userService.addMoneyToBalance(user, money);
-            return new ActionResult("cash", true);
 
+            return new ActionResult("cash", true);
         } catch (ServiceException e) {
             throw new ActionException("can;t get user from service", e);
         } catch (ValidatorException e) {

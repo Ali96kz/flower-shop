@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class AdminDeleteUserAction implements Action {
+    public static final String JSP_PAGE_NAME_DELETE_PROFILE = "delete-profile";
     UserService userService ;
     StringAdapter stringAdapter = new StringAdapter();
     public AdminDeleteUserAction() throws ActionException {
@@ -25,7 +26,7 @@ public class AdminDeleteUserAction implements Action {
         try {
             int userId = stringAdapter.toInt(req.getParameter("id"));
             userService.delete(userId);
-            return new ActionResult("delete-profile", true);
+            return new ActionResult(JSP_PAGE_NAME_DELETE_PROFILE, true);
         } catch (ServiceException e) {
             throw new ActionException("", e);
         }

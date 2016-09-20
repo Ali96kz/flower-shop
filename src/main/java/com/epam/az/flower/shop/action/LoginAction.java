@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginAction implements Action {
+    public static final String JSP_PAGE_NAME_PROFILE = "profile";
     Logger log = LoggerFactory.getLogger(LoginAction.class);
     Validator validator = new LogInValidator();
     UserService userService;
@@ -52,6 +53,6 @@ public class LoginAction implements Action {
         }
 
         session.setAttribute("userId", userId);
-        return new ActionResult("profile", true);
+        return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         }
 }
