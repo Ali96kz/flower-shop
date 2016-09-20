@@ -14,9 +14,9 @@ public class ShowUserEditPage implements Action {
     public static final String ATTRIBUTE_NAME_ORIGIN_LIST = "origins";
     public static final String ATTRIBUTE_NAME_USER = "user";
     public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+    public static final String SESSION_PARAMETER_USER_ID = "userId";
     private UserService userService;
     private OriginService originService;
-    public static final String SESSION_PARAMETER_USER_ID = "userId";
 
     public ShowUserEditPage() throws ActionException {
         try {

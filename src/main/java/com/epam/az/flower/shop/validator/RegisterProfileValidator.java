@@ -15,11 +15,11 @@ public class RegisterProfileValidator extends AbstractValidator{
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
 
-    public static final String MENU_FIRST_NAME = "first name";
-    public static final String MENU_NAME_LAST_NAME = "last name";
-    public static final String MENU_NAME_NICK_NAME = "nick name";
-    public static final String MENU_NAME_CONFIRM_PASSWORD = "confirm password";
-    public static final String MENU_NAME_PASSWORD = "password";
+    public static final String ATTRIBUTE_FIRST_NAME = "first name";
+    public static final String ATTRIBUTE_NAME_LAST_NAME = "last name";
+    public static final String ATTRIBUTE_NAME_NICK_NAME = "nick name";
+    public static final String ATTRIBUTE_NAME_CONFIRM_PASSWORD = "confirm password";
+    public static final String ATTRIBUTE_NAME_PASSWORD = "password";
 
     public static final int LASTNAME_MIN_LENGTH = 4;
     public static final int NICKNAME_MIN_LENGTH = 4;
@@ -44,11 +44,11 @@ public class RegisterProfileValidator extends AbstractValidator{
                     "Example: 1996-12-11\n");
         }
 
-        validateString(errorMsg, name, MENU_FIRST_NAME);
-        validateString(errorMsg, lastName, MENU_NAME_LAST_NAME, LASTNAME_MIN_LENGTH, LASTNAME_MAX_LENGTH);
-        validateString(errorMsg, nickName, MENU_NAME_NICK_NAME, NICKNAME_MIN_LENGTH, NICKNAME_MAX_LENGTH);
-        validateString(errorMsg, password, MENU_NAME_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
-        validateString(errorMsg, confirmPassword, MENU_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+        validateString(errorMsg, name, ATTRIBUTE_FIRST_NAME);
+        validateString(errorMsg, lastName, ATTRIBUTE_NAME_LAST_NAME, LASTNAME_MIN_LENGTH, LASTNAME_MAX_LENGTH);
+        validateString(errorMsg, nickName, ATTRIBUTE_NAME_NICK_NAME, NICKNAME_MIN_LENGTH, NICKNAME_MAX_LENGTH);
+        validateString(errorMsg, password, ATTRIBUTE_NAME_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+        validateString(errorMsg, confirmPassword, ATTRIBUTE_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
 
         if(!password.equals(confirmPassword)){
             errorMsg.add("Confirm password has a different value \n");

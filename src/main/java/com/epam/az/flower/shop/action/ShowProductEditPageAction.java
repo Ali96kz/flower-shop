@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductEditPageAction extends AbstractProduct{
     public static final String JSP_PAGE_NAME_PRODUCT_EDIT = "product-edit";
+    public static final String ATTRIBUTE_NAME_PRODUCT = "product";
+    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "id";
     ProductService productService;
 
     public ShowProductEditPageAction() throws ActionException {
@@ -25,14 +27,14 @@ public class ShowProductEditPageAction extends AbstractProduct{
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         setValue(req);
-        int id = stringAdapter.toInt(req.getParameter("id"));
-        Product product = null;
+        int id = stringAdapter.toInt(req.getParameter(ATTRIBUTE_NAME_PRODUCT_ID));
+        Product product ;
         try {
             product = productService.findById(id);
         } catch (ServiceException e) {
             throw new ActionException("can;t get product by id from service", e);
         }
-        req.setAttribute("product", product);
+        req.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
         return new ActionResult(JSP_PAGE_NAME_PRODUCT_EDIT);
     }
 }

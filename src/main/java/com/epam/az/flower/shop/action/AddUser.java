@@ -13,10 +13,23 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public abstract class AddUser implements Action {
+    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+    public static final String ATTRIBUTE_NAME_USER = "user";
     private Hasher hasher = new Hasher();
     protected StringAdapter stringAdapter = new StringAdapter();
     protected UserRoleService userRoleService;
-    private final String ROLE_CUSTOMER= "customer";
+
+    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+
+    public static final String PARAMETER_FIRST_NAME = "firstName";
+    public static final String PARAMETER_NICK_NAME = "nickName";
+    public static final String PARAMETER_LAST_NAME = "lastName";
+    public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+    public static final String PARAMETER_PASSWORD = "password";
+    public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+    public static final String ROLE_CUSTOMER= "customer";
+
     public AddUser() throws ActionException {
         try {
             userRoleService = new UserRoleService();
@@ -27,11 +40,11 @@ public abstract class AddUser implements Action {
     }
 
     public User fillUser(HttpServletRequest request, User user) {
-        user.setPassword(hasher.hash(request.getParameter("password")));
-        user.setFirstName(request.getParameter("firstName"));
-        user.setLastName(request.getParameter("lastName"));
-        user.setNickName(request.getParameter("nickName"));
-        user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter("dateBirthday")));
+        user.setPassword(hasher.hash(request.getParameter(PARAMETER_PASSWORD)));
+        user.setFirstName(request.getParameter(PARAMETER_FIRST_NAME));
+        user.setLastName(request.getParameter(PARAMETER_LAST_NAME));
+        user.setNickName(request.getParameter(PARAMETER_NICK_NAME));
+        user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter(PARAMETER_DATE_BIRTHDAY)));
 
         return user;
     }
@@ -51,24 +64,24 @@ public abstract class AddUser implements Action {
         List<String> errorMsg = validator.isValidate(request);
 
         if (errorMsg.size() > 0) {
-            String name = request.getParameter("firstName");
-            String nickName = request.getParameter("nickName");
-            String lastName = request.getParameter("lastName");
+            String name = request.getParameter(PARAMETER_FIRST_NAME);
+            String nickName = request.getParameter(PARAMETER_NICK_NAME);
+            String lastName = request.getParameter(PARAMETER_LAST_NAME);
 
             User user = new User();
             user.setNickName(nickName);
             user.setFirstName(name);
             user.setLastName(lastName);
 
-            request.setAttribute("user", user);
-            request.setAttribute("errorMsg", errorMsg);
-            return new ActionResult("registration");
+            request.setAttribute(ATTRIBUTE_NAME_USER, user);
+            request.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+            return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
         }
         return null;
     }
 
     public void putInSession(User user, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute("userId", user.getId());
+        session.setAttribute(ATTRIBUTE_NAME_USER_ID, user.getId());
     }
 }

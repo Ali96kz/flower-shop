@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AdminAddUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
+    public static final String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
     private UserService userService;
     UserRoleService userRoleService;
 
@@ -44,7 +45,7 @@ public class AdminAddUserAction extends AddUser {
 
     @Override
     public void setUserRole(User user, HttpServletRequest request) throws ActionException {
-        int userRoleId = stringAdapter.toInt(request.getParameter("userRoleId"));
+        int userRoleId = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_USER_ROLE_ID));
         UserRole userRole = null;
         try {
             userRole = userRoleService.findById(userRoleId);

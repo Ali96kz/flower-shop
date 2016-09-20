@@ -13,7 +13,12 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class AddMoneyAction implements Action {
-    UserService userService;
+    public static final String MENU_ERROR_MSG = "errorMsg";
+    public static final String JSP_PAGE_NAME_CASH = "cash";
+    private UserService userService;
+    public static final String PARAMETER_NAME_MONEY = "money";
+    public static final String ATTRIBUTE_NAME_USER = "user";
+    public static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
 
     public AddMoneyAction() throws ActionException {
         try {
@@ -29,8 +34,9 @@ public class AddMoneyAction implements Action {
             HttpSession session = req.getSession();
             Validator validator = new BalanceValidator();
             List<String> errorMsg;
-            int userId = (int) session.getAttribute("userId");
+            int userId = (int) session.getAttribute(SESSION_PARAMETER_NAME_USER_ID);
             User user = userService.findById(userId);
+
             try {
                 errorMsg = validator.isValidate(req);
             } catch (ValidatorException e) {
@@ -38,16 +44,16 @@ public class AddMoneyAction implements Action {
             }
 
             if (errorMsg.size() > 0) {
-                req.setAttribute("errorMsg", errorMsg);
-                req.setAttribute("user", user);
-                return new ActionResult("cash");
+                req.setAttribute(MENU_ERROR_MSG, errorMsg);
+                req.setAttribute(ATTRIBUTE_NAME_USER, user);
+                return new ActionResult(JSP_PAGE_NAME_CASH);
             }
 
-            int money = Integer.parseInt(req.getParameter("money"));
+            int money = Integer.parseInt(req.getParameter(PARAMETER_NAME_MONEY));
             user = userService.findById(userId);
             userService.addMoneyToBalance(user, money);
 
-            return new ActionResult("cash", true);
+            return new ActionResult(JSP_PAGE_NAME_CASH, true);
         } catch (ServiceException e) {
             throw new ActionException("can;t get user from service", e);
         } catch (ValidatorException e) {

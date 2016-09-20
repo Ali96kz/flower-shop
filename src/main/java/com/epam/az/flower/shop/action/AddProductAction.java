@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.*;
-import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
@@ -12,6 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
+
+    public static final String JSP_PAGE_PRODUCT_INF = "product-inf?id=";
+    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    public static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
 
     public AddProductAction() throws ActionException {
     }
@@ -30,20 +33,20 @@ public class AddProductAction extends AbstractProduct {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        return new ActionResult("product-inf?id=" + productId, true);
+        return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
     }
 
     public ActionResult validate(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Validator validator = new AddProductValidator();
-        List<String> errorMsg = null;
+        List<String> errorMsg ;
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {
             throw new ActionException("problem with product validator", e);
         }
         if (errorMsg.size() > 0) {
-            req.setAttribute("errorMsg", errorMsg);
-            return new ActionResult("product-add");
+            req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+            return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
         }
         return null;
     }
