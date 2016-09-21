@@ -15,10 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class BuyBasketAction implements Action{
+public class BuyBasketAction implements Action {
     public static final String JSP_PAGE_NAME_BILL = "bill";
-    UserService userService;
-    OrderService orderService;
+    public static final String ATTRIBUTE_NAME_BASKET = "basket";
+    public static final String ATTRIBUTE_NAME_SUM = "sum";
+    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    public static final String JSP_PAGE_NAME_BASKET = "basket";
+    private UserService userService;
+    private OrderService orderService;
 
     public BuyBasketAction() throws ActionException {
         try {
@@ -36,19 +40,19 @@ public class BuyBasketAction implements Action{
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
-        List<String> errorMsg ;
+        List<String> errorMsg;
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {
             throw new ActionException("problem with validation", e);
         }
-        if (errorMsg.size() >  0){
+        if (errorMsg.size() > 0) {
             req.setAttribute("errorMsg", errorMsg);
-            return new ActionResult("basket", true);
+            return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 
-        Basket basket = (Basket) session.getAttribute("basket");
-        int userId = (int) session.getAttribute("userId");
+        Basket basket = (Basket) session.getAttribute(ATTRIBUTE_NAME_BASKET);
+        int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
         User user;
         try {
             user = userService.findById(userId);
@@ -66,8 +70,8 @@ public class BuyBasketAction implements Action{
             }
         }
 
-        session.setAttribute("basket", null);
-        req.setAttribute("summ", sum);
+        session.setAttribute(ATTRIBUTE_NAME_BASKET, null);
+        req.setAttribute(ATTRIBUTE_NAME_SUM, sum);
         return new ActionResult(JSP_PAGE_NAME_BILL);
     }
 }

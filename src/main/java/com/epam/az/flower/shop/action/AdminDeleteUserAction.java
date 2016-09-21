@@ -11,8 +11,9 @@ import javax.servlet.http.HttpSession;
 
 public class AdminDeleteUserAction implements Action {
     public static final String JSP_PAGE_NAME_DELETE_PROFILE = "delete-profile";
-    UserService userService ;
-    StringAdapter stringAdapter = new StringAdapter();
+    private UserService userService;
+    private StringAdapter stringAdapter = new StringAdapter();
+
     public AdminDeleteUserAction() throws ActionException {
         try {
             userService = new UserService();

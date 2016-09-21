@@ -17,12 +17,15 @@ import java.util.List;
 
 public class BuyProductAction implements Action {
     public static final String JSP_PAGE_NAME_BILL = "bill";
-    StringAdapter stringAdapter = new StringAdapter();
-    ProductService productService;
+    public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
+    public static final String ATTRIBUTE_PRODUCT_ID = "?productId =";
+    public static final String ATTRIBUTE_NAME_PRICE = "price";
+    private StringAdapter stringAdapter = new StringAdapter();
+    private ProductService productService;
+    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
-
-    UserService userService;
-    OrderService orderService;
+    private UserService userService;
+    private OrderService orderService;
     public BuyProductAction() throws ActionException {
         try {
             orderService = new OrderService();
@@ -36,22 +39,24 @@ public class BuyProductAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Validator validator = new BuyProductValidator();
-        List<String> errorMsg = null;
+        List<String> errorMsg ;
+
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {
             throw new ActionException("problem with validating", e);
         }
+
         int productId = stringAdapter.toInt(req.getParameter("productId"));
 
         if (errorMsg.size() > 0) {
-            req.setAttribute("errorMsg", errorMsg);
-            return new ActionResult("product-inf?productId =" + productId, true);
+            req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+            return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF + ATTRIBUTE_PRODUCT_ID + productId, true);
         }
 
         int userId = (int) req.getSession().getAttribute("userId");
-        Product product = null;
-        User user = null;
+        Product product ;
+        User user;
         try {
             product = productService.findById(productId);
             user = userService.findById(userId);
@@ -65,7 +70,7 @@ public class BuyProductAction implements Action {
             throw new ActionException("can't create order", e);
         }
 
-        req.setAttribute("price", product.getPrice());
+        req.setAttribute(ATTRIBUTE_NAME_PRICE, product.getPrice());
         return new ActionResult(JSP_PAGE_NAME_BILL);
     }
 }

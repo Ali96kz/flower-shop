@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 public class EditUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_PROFILE = "profile";
+    public static final String JSP_PAGE_NAME_EDIT_USER = "edit-user";
+    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
     UserService userService;
 
     public EditUserAction() throws ActionException {
@@ -25,16 +27,16 @@ public class EditUserAction extends AddUser {
         try {
             ActionResult actionResult = validate(req);
             if (actionResult != null)
-                return new ActionResult("edit-user");
+                return new ActionResult(JSP_PAGE_NAME_EDIT_USER);
             HttpSession session = req.getSession();
-            int userId = (int) session.getAttribute("userId");
+            int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
             User user;
 
             user = userService.findById(userId);
             user = fillUser(req, user);
             userService.update(user);
         } catch (ServiceException e) {
-            throw new ActionException("", e);
+            throw new ActionException("can't find user by id", e);
         }
         return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
     }

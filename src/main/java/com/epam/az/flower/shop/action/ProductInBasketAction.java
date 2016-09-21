@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 public class ProductInBasketAction implements Action{
     public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
+    public static final String ATTRIBUTE_NAME_BASKET = "basket";
+    public static final String PARAMETER_PRODUCT_ID = "productId";
     ProductService productService;
     Basket basket;
     StringAdapter stringAdapter = new StringAdapter();
@@ -26,11 +28,11 @@ public class ProductInBasketAction implements Action{
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
 
-        if (session.getAttribute("basket") == null) {
+        if (session.getAttribute(ATTRIBUTE_NAME_BASKET) == null) {
              basket = new Basket();
         }
 
-        String productId = req.getParameter("productId");
+        String productId = req.getParameter(PARAMETER_PRODUCT_ID);
         int id = stringAdapter.toInt(productId);
         try {
             basket.add(productService.findById(id));
