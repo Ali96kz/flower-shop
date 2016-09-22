@@ -10,15 +10,8 @@ import javax.servlet.http.HttpSession;
 public class LogoutAction implements Action {
     public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    UserService userService ;
-    public LogoutAction() throws ActionException {
-        try {
-            userService = new UserService();
+    private UserService userService = new UserService();
 
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();

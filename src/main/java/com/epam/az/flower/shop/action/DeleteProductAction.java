@@ -14,11 +14,7 @@ public class DeleteProductAction implements Action {
     ProductService productService;
 
     public DeleteProductAction() throws ActionException {
-        try {
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
+        productService = new ProductService();
     }
 
     @Override

@@ -9,15 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterAction extends AddUser {
     public static final String JSP_PAGE_NAME_PROFILE = "profile";
-    private UserService userService;
-
-    public RegisterAction() throws ActionException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
@@ -25,16 +16,9 @@ public class RegisterAction extends AddUser {
         if (actionResult != null) {
             return actionResult;
         }
-        try {
-            User user = fillUser(request, new User());
-            setUserRole(user, request);
-            user = userService.registerUser(user);
-            putInSession(user, request);
+        registerUser(request, new User());
+        return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
 
-            return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
-        } catch (ServiceException e) {
-            throw new ActionException("can't register new user", e);
-        }
     }
 }
 

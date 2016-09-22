@@ -16,9 +16,6 @@ public class AddProductAction extends AbstractProduct {
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     public static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
 
-    public AddProductAction() throws ActionException {
-    }
-
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         ActionResult actionResult = validate(req, resp);

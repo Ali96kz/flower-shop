@@ -8,38 +8,24 @@ import com.epam.az.flower.shop.entity.Origin;
 import java.util.List;
 
 public class OriginService {
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private OriginDAO originDAO ;
-
-    public OriginService() throws ServiceException {
-        try {
-            originDAO = daoFactory.getDao(OriginDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao class", e);
-        }
-    }
 
     public List<Origin> getAll() throws ServiceException {
-        try {
-            daoFactory.startTransaction(originDAO);
+        try (DAOFactory daoFactory = new DAOFactory()) {
+            OriginDAO originDAO = daoFactory.createDAO(OriginDAO.class);
             List<Origin> origins = originDAO.getAll();
-            daoFactory.commitTransaction(originDAO);
             return origins;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(originDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
-            throw new ServiceException("can't execute ", e);
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
     }
 
     public Origin findById(int id) throws ServiceException {
-        try {
-            return originDAO.findById(id);
-        } catch (DAOException e) {
-            throw new ServiceException("can't find origin by id", e);
+        try (DAOFactory daoFactory = new DAOFactory()) {
+            OriginDAO originDAO = daoFactory.createDAO(OriginDAO.class);
+            Origin origin = originDAO.findById(id);
+            return origin;
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
     }
 }

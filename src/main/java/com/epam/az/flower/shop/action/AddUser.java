@@ -2,6 +2,7 @@ package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserRoleService;
+import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
@@ -17,8 +18,8 @@ public abstract class AddUser implements Action {
     public static final String ATTRIBUTE_NAME_USER = "user";
     private Hasher hasher = new Hasher();
     protected StringAdapter stringAdapter = new StringAdapter();
-    protected UserRoleService userRoleService;
-
+    protected UserRoleService userRoleService = new UserRoleService();
+    protected UserService userService = new UserService();
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
@@ -28,16 +29,7 @@ public abstract class AddUser implements Action {
     public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    public static final String ROLE_CUSTOMER= "customer";
-
-    public AddUser() throws ActionException {
-        try {
-            userRoleService = new UserRoleService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-
-    }
+    public static final String ROLE_CUSTOMER = "customer";
 
     public User fillUser(HttpServletRequest request, User user) {
         user.setPassword(hasher.hash(request.getParameter(PARAMETER_PASSWORD)));
@@ -49,6 +41,15 @@ public abstract class AddUser implements Action {
         return user;
     }
 
+    public void registerUser(HttpServletRequest request, User user) throws ActionException {
+        fillUser(request, user);
+        try {
+            user = userService.registerUser(user);
+        } catch (ServiceException e) {
+            throw new ActionException("problem with service", e);
+        }
+        putInSession(user, request);
+    }
     public void setUserRole(User user, HttpServletRequest request) throws ActionException {
         try {
             UserRole userRole;

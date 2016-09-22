@@ -15,18 +15,10 @@ import java.util.List;
 public class AddMoneyAction implements Action {
     public static final String MENU_ERROR_MSG = "errorMsg";
     public static final String JSP_PAGE_NAME_CASH = "cash";
-    private UserService userService;
+    private UserService userService = new UserService();
     public static final String PARAMETER_NAME_MONEY = "money";
     public static final String ATTRIBUTE_NAME_USER = "user";
     public static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
-
-    public AddMoneyAction() throws ActionException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

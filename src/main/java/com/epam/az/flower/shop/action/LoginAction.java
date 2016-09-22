@@ -24,15 +24,7 @@ public class LoginAction implements Action {
 
     private static Logger log = LoggerFactory.getLogger(LoginAction.class);
     private Validator validator = new LogInValidator();
-    private UserService userService;
-    public LoginAction() throws ActionException {
-        try {
-            userService = new UserService();
-
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserService userService = new UserService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -61,5 +53,5 @@ public class LoginAction implements Action {
 
         session.setAttribute(ATTRIBUTE_NAME_USER_ID, userId);
         return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
-        }
+    }
 }

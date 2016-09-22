@@ -11,16 +11,7 @@ public class EditUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_PROFILE = "profile";
     public static final String JSP_PAGE_NAME_EDIT_USER = "edit-user";
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    UserService userService;
-
-    public EditUserAction() throws ActionException {
-        try {
-            userService = new UserService();
-
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserService userService = new UserService();;
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

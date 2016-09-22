@@ -10,69 +10,57 @@ import com.epam.az.flower.shop.entity.VisualParameters;
 import java.util.List;
 
 public class FlowerService {
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private FlowerDAO flowerDAO;
-    private VisualParametersService visualParametersService ;
-    private GrowingConditionService growingConditionService ;
-
-    public FlowerService() throws ServiceException {
-        visualParametersService = new VisualParametersService();
-        growingConditionService = new GrowingConditionService();
-    }
-
+    private VisualParametersService visualParametersService = new VisualParametersService();
+    private GrowingConditionService growingConditionService = new GrowingConditionService();
 
     public Flower findById(int id) throws ServiceException {
-        Flower flower;
-        try {
-            flowerDAO = daoFactory.getDao(FlowerDAO.class);
-            daoFactory.startTransaction(flowerDAO);
-            flower = flowerDAO.findById(id);
-            VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());
-            GrowingCondition growingCondition = growingConditionService.findById(flower.getGrowingCondition().getId());
-            flower.setGrowingCondition(growingCondition);
-            flower.setVisualParameters(visualParameters);
-            daoFactory.commitTransaction(flowerDAO);
-        } catch (DAOException e) {
+        try (DAOFactory daoFactory = new DAOFactory()) {
             try {
-                daoFactory.rollBack(flowerDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
+                FlowerDAO flowerDAO = daoFactory.createDAO(FlowerDAO.class);
+                Flower flower = flowerDAO.findById(id);
+                VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());
+                GrowingCondition growingCondition = growingConditionService.findById(flower.getGrowingCondition().getId());
+                flower.setGrowingCondition(growingCondition);
+                flower.setVisualParameters(visualParameters);
+                return flower;
+            } catch (DAOException e) {
+                throw new ServiceException("Problem with dao factory", e);
             }
+        } catch (Exception e) {
             throw new ServiceException("Can't find object by id", e);
         }
-        return flower;
     }
 
     public void update(Flower flower) throws ServiceException {
-        try {
-            daoFactory.startTransaction(flowerDAO);
-            flowerDAO.update(flower);
-            daoFactory.commitTransaction(flowerDAO);
-        } catch (DAOException e) {
+        try (DAOFactory daoFactory = new DAOFactory()) {
             try {
-                daoFactory.rollBack(flowerDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
+                FlowerDAO flowerDAO = daoFactory.createDAO(FlowerDAO.class);
+                daoFactory.startTransaction();
+                flowerDAO.update(flower);
+                daoFactory.commitTransaction();
+            } catch (DAOException e) {
+                daoFactory.rollBack();
+                throw new ServiceException("can't get flower dao from factory", e);
             }
-            throw new ServiceException("can't get flower dao from factory", e);
+        } catch (Exception e) {
+            throw new ServiceException("can't initialize factory");
         }
-
     }
 
     public int insert(Flower flower) throws ServiceException {
-        try {
-            flowerDAO = daoFactory.getDao(FlowerDAO.class);
-            daoFactory.startTransaction(flowerDAO);
-            int flowerId = flowerDAO.insert(flower);
-            daoFactory.commitTransaction(flowerDAO);
-            return flowerId;
-        } catch (DAOException e) {
+        try (DAOFactory daoFactory = new DAOFactory()) {
             try {
-                daoFactory.rollBack(flowerDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
+                FlowerDAO flowerDAO = daoFactory.createDAO(FlowerDAO.class);
+                daoFactory.startTransaction();
+                int flowerId = flowerDAO.insert(flower);
+                daoFactory.commitTransaction();
+                return flowerId;
+            } catch (DAOException e) {
+                daoFactory.rollBack();
+                throw new ServiceException("can't get flower dao from factory", e);
             }
-            throw new ServiceException("can't get flower dao from factory", e);
+        } catch (Exception e) {
+            throw new ServiceException("can't initialize factory");
         }
     }
 }

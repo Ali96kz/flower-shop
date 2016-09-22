@@ -18,13 +18,9 @@ public class ShowTransactionAction implements Action {
     private UserService userService;
     private UserTransactionService userTransactionService;
 
-    public ShowTransactionAction() throws ActionException {
-        try {
-            userTransactionService = new UserTransactionService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize ", e);
-        }
+    public ShowTransactionAction() {
+        userTransactionService = new UserTransactionService();
+        userService = new UserService();
     }
 
     @Override

@@ -9,18 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowAdminRegisterNewPAge implements Action {
     public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
-    UserRoleService userRoleService ;
-    public ShowAdminRegisterNewPAge() throws ActionException {
-        try {
-            userRoleService= new UserRoleService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    public static final String ATTRIBUTE_USER_ROLES = "userRoles";
+    private UserRoleService userRoleService = new UserRoleService();
 
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute("userRoles", userRoleService.getAll());
+    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+        try {
+            req.setAttribute(ATTRIBUTE_USER_ROLES, userRoleService.getAll());
+        } catch (ServiceException e) {
+            throw new ActionException("can't get user roles", e);
+        }
         return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
     }
 }

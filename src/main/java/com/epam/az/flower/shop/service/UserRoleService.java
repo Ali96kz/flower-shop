@@ -3,48 +3,53 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserRoleDao;
+import com.epam.az.flower.shop.dao.UserTransactionDAO;
 import com.epam.az.flower.shop.entity.UserRole;
 
 import java.util.List;
 
 public class UserRoleService {
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserRoleDao userRoleDao ;
-    public UserRoleService() throws ServiceException {
-        try {
-            userRoleDao = daoFactory.getDao(UserRoleDao.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize class", e);
+    public List<UserRole> getAll() throws ServiceException {
+        try (DAOFactory daoFactory = new DAOFactory()) {
+            try {
+                UserRoleDao userRoleDao = daoFactory.createDAO(UserRoleDao.class);
+                return userRoleDao.getAll();
+            } catch (DAOException e) {
+                throw new ServiceException("Problem with dao factory", e);
+            }
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
-    }
-    public List<UserRole> getAll() {
-        return userRoleDao.getAll();
+
     }
 
     public UserRole findById(int id) throws ServiceException {
-        UserRole userRole;
-        try {
-
-            userRole = userRoleDao.findById(id);
-        } catch (DAOException e) {
-            throw new ServiceException("can't find user role by id", e);
+        try (DAOFactory daoFactory = new DAOFactory()) {
+            try {
+                UserRoleDao userRoleDao = daoFactory.createDAO(UserRole.class);
+                UserRole userRole = userRoleDao.findById(id);
+                return userRole;
+            } catch (DAOException e) {
+                throw new ServiceException("Problem with dao factory", e);
+            }
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
-        return userRole;
     }
 
     public UserRole getUserRoleByName(String roleName) throws ServiceException {
-        try {
-            daoFactory.startTransaction(userRoleDao);
-            UserRole userRole = userRoleDao.findUserRoleByName(roleName);
-            daoFactory.commitTransaction(userRoleDao);
-            return userRole;
-        } catch (DAOException e) {
+        try (DAOFactory daoFactory = new DAOFactory()) {
             try {
-                daoFactory.rollBack(userRoleDao);
-            } catch (DAOException e1) {
-                throw new ServiceException("can'y roll back transaction", e);
+                UserRoleDao userRoleDao = daoFactory.createDAO(UserRole.class);
+                UserRole userRole = userRoleDao.findUserRoleByName(roleName);
+                return userRole;
+            } catch (DAOException e) {
+
+                throw new ServiceException("Problem with dao factory", e);
             }
-            throw new ServiceException("can't commit transaction");
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
+
     }
 }

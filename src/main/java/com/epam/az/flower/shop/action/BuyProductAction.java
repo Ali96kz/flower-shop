@@ -26,20 +26,17 @@ public class BuyProductAction implements Action {
 
     private UserService userService;
     private OrderService orderService;
+
     public BuyProductAction() throws ActionException {
-        try {
-            orderService = new OrderService();
-            userService = new UserService();
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
+        orderService = new OrderService();
+        userService = new UserService();
+        productService = new ProductService();
     }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Validator validator = new BuyProductValidator();
-        List<String> errorMsg ;
+        List<String> errorMsg;
 
         try {
             errorMsg = validator.isValidate(req);
@@ -55,7 +52,7 @@ public class BuyProductAction implements Action {
         }
 
         int userId = (int) req.getSession().getAttribute("userId");
-        Product product ;
+        Product product;
         User user;
         try {
             product = productService.findById(productId);

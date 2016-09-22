@@ -10,26 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ProductInBasketAction implements Action{
+public class ProductInBasketAction implements Action {
     public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     public static final String ATTRIBUTE_NAME_BASKET = "basket";
     public static final String PARAMETER_PRODUCT_ID = "productId";
-    ProductService productService;
-    Basket basket;
-    StringAdapter stringAdapter = new StringAdapter();
-    public ProductInBasketAction() throws ActionException {
-        try {
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+
+    private ProductService productService = new ProductService();
+    private Basket basket;
+    private StringAdapter stringAdapter = new StringAdapter();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
 
         if (session.getAttribute(ATTRIBUTE_NAME_BASKET) == null) {
-             basket = new Basket();
+            basket = new Basket();
         }
 
         String productId = req.getParameter(PARAMETER_PRODUCT_ID);

@@ -18,9 +18,6 @@ public class EditProductAction extends AbstractProduct{
     public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
     public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?id=";
 
-    public EditProductAction() throws ActionException {
-    }
-
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {

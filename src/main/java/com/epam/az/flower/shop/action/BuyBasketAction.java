@@ -21,21 +21,9 @@ public class BuyBasketAction implements Action {
     public static final String ATTRIBUTE_NAME_SUM = "sum";
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
     public static final String JSP_PAGE_NAME_BASKET = "basket";
-    private UserService userService;
-    private OrderService orderService;
-
-    public BuyBasketAction() throws ActionException {
-        try {
-            orderService = new OrderService();
-            userService = new UserService();
-
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
-
-
-    Validator validator = new BuyBasketValidator();
+    private UserService userService = new UserService();
+    private OrderService orderService = new OrderService();
+    private Validator validator = new BuyBasketValidator();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

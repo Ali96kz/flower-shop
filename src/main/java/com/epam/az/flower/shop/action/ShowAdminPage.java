@@ -10,19 +10,16 @@ import java.util.List;
 
 public class ShowAdminPage implements Action {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
-    private UserService userService;
-
-    public ShowAdminPage() throws ActionException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserService userService = new UserService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        List<User> users = userService.getAll();
+        List<User> users = null;
+        try {
+            users = userService.getAll();
+        } catch (ServiceException e) {
+            throw new ActionException("can't get all user", e);
+        }
         req.setAttribute("users", users);
 
         return new ActionResult(JSP_PAGE_NAME_ADMIN);

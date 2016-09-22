@@ -14,17 +14,13 @@ public class ShowProfileAction implements Action {
     public static final String SESSION_PARAMETER_USER_ID = "userId";
     public static final String ATTRIBUTE_NAME_USER = "user";
 
-    public ShowProfileAction() throws ActionException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize ", e);
-        }
+    public ShowProfileAction() {
+        userService = new UserService();
     }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        HttpSession session= req.getSession();
+        HttpSession session = req.getSession();
         int i = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
         User user;
         try {

@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.entity.BaseEntity;
-import com.epam.az.flower.shop.pool.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -250,19 +249,16 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
                 Object value = getValue(fields[i], resultSet);
                 fields[i].set(object, value);
             }
-
             object.setId(resultSet.getInt(object.getClass().getSimpleName() + ".id"));
             object.setDeleteDay(resultSet.getDate(object.getClass().getSimpleName() + ".deleteDay"));
             return object;
-        } catch (SQLException | IllegalAccessException e1) {
-            throw new DAOException("parse resulSet error", e1);
+        } catch (SQLException | IllegalAccessException e) {
+            throw new DAOException("parse result set error", e);
         }
     }
 
     public Object getValue(Field field, ResultSet resultSet) throws DAOException {
         try {
-
-
             Class fieldType = field.getType();
             if (fieldType == Integer.class || fieldType == int.class) {
                 int value = resultSet.getInt(field.getName());

@@ -14,12 +14,8 @@ public class ShowProductPage implements Action {
     public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
     private ProductService productService;
 
-    public ShowProductPage() throws ActionException {
-        try {
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize class", e);
-        }
+    public ShowProductPage() {
+        productService = new ProductService();
     }
 
     StringAdapter stringAdapter = new StringAdapter();

@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.dao.AbstractDAO;
 import com.epam.az.flower.shop.entity.PaginatedList;
 import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.ProductService;
@@ -9,15 +8,10 @@ import com.epam.az.flower.shop.service.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractVitrine implements Action {
+    public static final String PARAMETER_PAGE = "page";
+    public static final String ATTRIBUTE_PRODUCTS = "products";
     ProductService productService;
 
-    public AbstractVitrine() throws ActionException {
-        try {
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize class", e);
-        }
-    }
 
     StringAdapter stringAdapter = new StringAdapter();
     PaginatedList paginatedList ;
@@ -31,13 +25,13 @@ public abstract class AbstractVitrine implements Action {
             }
         }
         int pageNumber;
-        if (req.getParameter("page") == null) {
+        if (req.getParameter(PARAMETER_PAGE) == null) {
             pageNumber = 0;
         } else {
-            String page = req.getParameter("page");
+            String page = req.getParameter(PARAMETER_PAGE);
             pageNumber = stringAdapter.toInt(page);
 
         }
-        req.setAttribute("products",paginatedList.getPage(pageNumber));
+        req.setAttribute(ATTRIBUTE_PRODUCTS,paginatedList.getPage(pageNumber));
     }
 }

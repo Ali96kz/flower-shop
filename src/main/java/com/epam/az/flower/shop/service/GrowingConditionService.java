@@ -8,60 +8,38 @@ import com.epam.az.flower.shop.entity.WaterInWeek;
 import java.util.List;
 
 public class GrowingConditionService {
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    TemperatureService temperatureService;
-    WaterInWeekService waterInWeekService;
-    GrowingConditionDAO growingConditionDAO;
-    public GrowingConditionService() throws ServiceException {
-        try {
-            temperatureService = new TemperatureService();
-            waterInWeekService = new WaterInWeekService();
-            growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("", e);
+    private  TemperatureService temperatureService = new TemperatureService();
+    private WaterInWeekService waterInWeekService = new WaterInWeekService();
+
+    public List<GrowingCondition> getAllGrowingConditions() throws ServiceException {
+        try (DAOFactory daoFactory = new DAOFactory()) {
+            try {
+                GrowingConditionDAO growingConditionDAO = daoFactory.createDAO(GrowingConditionDAO.class);
+                List<GrowingCondition> growingConditions = growingConditionDAO.getAll();
+                return growingConditions;
+            } catch (DAOException e) {
+                throw new ServiceException("Problem with dao factory", e);
+            }
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
     }
-
-    public List<GrowingCondition> getAllGrowingConditions() {
-        return growingConditionDAO.getAll();
-    }
-
-
 
     public GrowingCondition findById(Integer id) throws ServiceException {
-        try {
-            daoFactory.startTransaction(growingConditionDAO);
-            GrowingCondition growingCondition = growingConditionDAO.findById(id);
-            Temperature temperature = temperatureService.findById(growingCondition.getTemperature().getId());
-            WaterInWeek waterInWeek = waterInWeekService.findById(growingCondition.getWaterInWeek().getId());
-            growingCondition.setWaterInWeek(waterInWeek);
-            growingCondition.setTemperature(temperature);
-            daoFactory.commitTransaction(growingConditionDAO);
-            return growingCondition;
-        } catch (DAOException e) {
+        try (DAOFactory daoFactory = new DAOFactory()) {
             try {
-                daoFactory.rollBack(growingConditionDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
+                GrowingConditionDAO growingConditionDAO = daoFactory.createDAO(FlowerTypeDAO.class);
+                GrowingCondition growingCondition = growingConditionDAO.findById(id);
+                Temperature temperature = temperatureService.findById(growingCondition.getTemperature().getId());
+                WaterInWeek waterInWeek = waterInWeekService.findById(growingCondition.getWaterInWeek().getId());
+                growingCondition.setWaterInWeek(waterInWeek);
+                growingCondition.setTemperature(temperature);
+                return growingCondition;
+            } catch (DAOException e) {
+                throw new ServiceException("Problem with dao factory", e);
             }
-            throw new ServiceException("", e);
-        }
-
-    }
-
-    public int add(GrowingCondition growingCondition) throws ServiceException {
-        try {
-            daoFactory.startTransaction(growingConditionDAO);
-            int growingConditionId = growingConditionDAO.insert(growingCondition);
-            daoFactory.commitTransaction(growingConditionDAO);
-            return growingConditionId;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(growingConditionDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
-            }
-            throw new ServiceException("can't add growing condition dao", e);
+        } catch (Exception e) {
+            throw new ServiceException("Can't find object by id", e);
         }
     }
 }

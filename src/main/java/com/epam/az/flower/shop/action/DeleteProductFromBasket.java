@@ -10,7 +10,7 @@ public class DeleteProductFromBasket implements Action {
     public static final String JSP_PAGE_NAME_BASKET = "basket";
     public static final String ATTRIBUTE_BASKET = "basket";
     public static final String PARAMETER_PRODUCT_ID = "id";
-    StringAdapter stringAdapter = new StringAdapter();
+    private StringAdapter stringAdapter = new StringAdapter();
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();

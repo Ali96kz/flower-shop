@@ -13,17 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminAddUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
     public static final String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
-    private UserService userService;
-    UserRoleService userRoleService;
-
-    public AdminAddUserAction() throws ActionException {
-        try {
-            userRoleService = new UserRoleService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserRoleService userRoleService= new UserRoleService();
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
@@ -31,26 +21,21 @@ public class AdminAddUserAction extends AddUser {
         if (actionResult != null) {
             return actionResult;
         }
-        try {
-            User user = fillUser(request, new User());
-            setUserRole(user, request);
-            user = userService.registerUser(user);
-            putInSession(user, request);
-            return new ActionResult(JSP_PAGE_NAME_ADMIN, true);
-        } catch (ServiceException e) {
-            throw new ActionException("can't execute action", e);
-        }
 
+        User user = new User();
+        setUserRole(user, request);
+        registerUser(request, user);
+        return new ActionResult(JSP_PAGE_NAME_ADMIN, true);
     }
 
     @Override
     public void setUserRole(User user, HttpServletRequest request) throws ActionException {
         int userRoleId = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_USER_ROLE_ID));
-        UserRole userRole = null;
+        UserRole userRole;
         try {
             userRole = userRoleService.findById(userRoleId);
         } catch (ServiceException e) {
-            throw new ActionException("can't find user by id", e);
+            throw new ActionException("can't find user role by id", e);
         }
         user.setUserRole(userRole);
     }
