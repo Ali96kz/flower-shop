@@ -20,17 +20,12 @@ public class TemperatureService {
     }
     public Temperature findById(int id) throws ServiceException {
         try {
-            daoFactory.startTransaction(temperatureDAO);
+            daoFactory.startOperation(temperatureDAO);
             Temperature temperature = temperatureDAO.findById(id);
-            daoFactory.commitTransaction(temperatureDAO);
+            daoFactory.endOperation(temperatureDAO);
             return temperature;
 
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(temperatureDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
-            }
             throw new ServiceException("can't find temperature by id", e);
         }
     }

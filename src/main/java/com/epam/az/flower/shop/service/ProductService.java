@@ -2,6 +2,8 @@ package com.epam.az.flower.shop.service;
 
 import com.epam.az.flower.shop.dao.*;
 import com.epam.az.flower.shop.entity.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -10,11 +12,10 @@ public class ProductService {
     private ProductDAO productDAO;
     private FlowerService flowerService;
     private OriginService originService;
-
+    private static Logger logger = LoggerFactory.getLogger(ProductService.class);
     public ProductService() throws ServiceException {
         try {
             productDAO = daoFactory.getDao(ProductDAO.class);
-
             flowerService = new FlowerService();
             originService = new OriginService();
         } catch (DAOException e) {
@@ -40,33 +41,19 @@ public class ProductService {
 
     public List<Product> getAllProduct() throws ServiceException {
         try {
-            daoFactory.startTransaction(productDAO);
+            daoFactory.startOperation(productDAO);
             List<Product> products = productDAO.getAll();
+            logger.info("get {} products from data",products.size());
             for (Product product : products) {
                 fillProduct(product);
             }
-            daoFactory.commitTransaction(productDAO);
+            daoFactory.endOperation(productDAO);
             return products;
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(productDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
             throw new ServiceException("can't execute", e);
         }
-
     }
 
-    public void getPaginatedProduct() throws ServiceException {
-        List<Product> products = getAllProduct();
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getDeleteDay() != null) {
-                products.remove(i);
-            }
-        }
-
-    }
 
     public int addNewProduct(Product product) throws ServiceException {
         try {
@@ -112,7 +99,6 @@ public class ProductService {
             product.setFlower(flower);
             product.setOrigin(origin);
         }
-
     }
 
     public void deleteProduct(int id) throws ServiceException {

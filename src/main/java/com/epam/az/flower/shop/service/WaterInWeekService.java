@@ -20,16 +20,11 @@ public class WaterInWeekService {
 
     public WaterInWeek findById(int id) throws ServiceException {
         try {
-            daoFactory.startTransaction(waterInWeekDAO);
+            daoFactory.startOperation(waterInWeekDAO);
             WaterInWeek waterInWeek = waterInWeekDAO.findById(id);
-            daoFactory.commitTransaction(waterInWeekDAO);
+            daoFactory.endOperation(waterInWeekDAO);
             return waterInWeek;
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(waterInWeekDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
             throw new ServiceException("can't find  by id", e);
         }
     }

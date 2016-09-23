@@ -21,23 +21,21 @@ public class OriginService {
 
     public List<Origin> getAll() throws ServiceException {
         try {
-            daoFactory.startTransaction(originDAO);
+            daoFactory.startOperation(originDAO);
             List<Origin> origins = originDAO.getAll();
-            daoFactory.commitTransaction(originDAO);
+            daoFactory.endOperation(originDAO);
             return origins;
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(originDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
             throw new ServiceException("can't execute ", e);
         }
     }
 
     public Origin findById(int id) throws ServiceException {
         try {
-            return originDAO.findById(id);
+            daoFactory.startOperation(originDAO);
+            Origin origin = originDAO.findById(id);
+            daoFactory.endOperation(originDAO);
+            return origin;
         } catch (DAOException e) {
             throw new ServiceException("can't find origin by id", e);
         }

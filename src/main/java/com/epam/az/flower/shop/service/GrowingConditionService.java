@@ -9,9 +9,9 @@ import java.util.List;
 
 public class GrowingConditionService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    TemperatureService temperatureService;
-    WaterInWeekService waterInWeekService;
-    GrowingConditionDAO growingConditionDAO;
+    private TemperatureService temperatureService;
+    private WaterInWeekService waterInWeekService;
+    private GrowingConditionDAO growingConditionDAO;
     public GrowingConditionService() throws ServiceException {
         try {
             temperatureService = new TemperatureService();
@@ -26,27 +26,29 @@ public class GrowingConditionService {
         return growingConditionDAO.getAll();
     }
 
-
-
     public GrowingCondition findById(Integer id) throws ServiceException {
         try {
-            daoFactory.startTransaction(growingConditionDAO);
+            daoFactory.startOperation(growingConditionDAO);
             GrowingCondition growingCondition = growingConditionDAO.findById(id);
-            Temperature temperature = temperatureService.findById(growingCondition.getTemperature().getId());
+            fillGrowingCondition(growingCondition);
+            daoFactory.endOperation(growingConditionDAO);
+            return growingCondition;
+        } catch (DAOException e) {
+
+            throw new ServiceException("", e);
+        }
+    }
+
+    public void fillGrowingCondition(GrowingCondition growingCondition) throws ServiceException {
+        Temperature temperature ;
+        try {
+            temperature = temperatureService.findById(growingCondition.getTemperature().getId());
             WaterInWeek waterInWeek = waterInWeekService.findById(growingCondition.getWaterInWeek().getId());
             growingCondition.setWaterInWeek(waterInWeek);
             growingCondition.setTemperature(temperature);
-            daoFactory.commitTransaction(growingConditionDAO);
-            return growingCondition;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(growingConditionDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
-            }
-            throw new ServiceException("", e);
+        } catch (ServiceException e) {
+            throw new ServiceException("can't fill growing condition", e);
         }
-
     }
 
     public int add(GrowingCondition growingCondition) throws ServiceException {

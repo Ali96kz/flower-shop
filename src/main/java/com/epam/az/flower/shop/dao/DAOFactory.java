@@ -1,7 +1,8 @@
 package com.epam.az.flower.shop.dao;
 
-import com.epam.az.flower.shop.action.AbstractProduct;
 import com.epam.az.flower.shop.pool.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public class DAOFactory {
     private Map<Class, AbstractDAO> daoClassMap = new HashMap<>();
     private static DAOFactory daoFactory = new DAOFactory();
     private ConnectionPool connectionPool = new ConnectionPool();
-
+    private static Logger logger = LoggerFactory.getLogger(DAOFactory.class);
     private DAOFactory() {
 
     }
@@ -27,7 +28,6 @@ public class DAOFactory {
                 AbstractDAO abstractDAO = (AbstractDAO) aClass.newInstance();
                 abstractDAO.setConnection(connectionPool.getConnection());
                 daoClassMap.put(aClass, abstractDAO);
-
             } catch (InstantiationException e) {
                 throw new DAOException("can't create instance of that class", e);
             } catch (IllegalAccessException e) {
@@ -40,7 +40,25 @@ public class DAOFactory {
         return (E) daoClassMap.get(aClass);
     }
 
-    public<E extends AbstractDAO> void startTransaction(E dao) throws DAOException {
+    public <E extends AbstractDAO> void startOperation(E dao) throws DAOException {
+        try {
+            logger.info("start operation");
+            dao.setConnection(connectionPool.getConnection());
+        } catch (SQLException e) {
+            throw new DAOException("can't set connection", e);
+        }
+    }
+    public <E extends AbstractDAO> void endOperation(E dao) {
+        try {
+            dao.getConnection().close();
+            dao.setConnection(null);
+            logger.info(dao.getConnection()+"dao connection after close connection");
+        } catch (SQLException e) {
+
+        }
+    }
+
+    public <E extends AbstractDAO> void startTransaction(E dao) throws DAOException {
         Connection connection = dao.getConnection();
         try {
             connection.setAutoCommit(false);
@@ -54,7 +72,7 @@ public class DAOFactory {
         try {
             connection.commit();
             connection.setAutoCommit(true);
-
+            connection.close();
         } catch (SQLException e) {
             throw new DAOException("can't commit transaction", e);
         }finally {
@@ -65,6 +83,7 @@ public class DAOFactory {
         Connection connection = dao.getConnection();
         try {
             connection.rollback();
+            connection.close();
         } catch (SQLException e) {
             throw new DAOException("can't roll back transaction", e);
         }

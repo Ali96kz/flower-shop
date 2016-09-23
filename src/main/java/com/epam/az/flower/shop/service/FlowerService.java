@@ -10,6 +10,7 @@ import com.epam.az.flower.shop.entity.VisualParameters;
 import java.util.List;
 
 public class FlowerService {
+    public static final Class<FlowerDAO> daoClass = FlowerDAO.class;
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private FlowerDAO flowerDAO;
     private VisualParametersService visualParametersService ;
@@ -20,24 +21,18 @@ public class FlowerService {
         growingConditionService = new GrowingConditionService();
     }
 
-
     public Flower findById(int id) throws ServiceException {
         Flower flower;
         try {
-            flowerDAO = daoFactory.getDao(FlowerDAO.class);
-            daoFactory.startTransaction(flowerDAO);
+            flowerDAO = daoFactory.getDao(daoClass);
+            daoFactory.startOperation(flowerDAO);
             flower = flowerDAO.findById(id);
             VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());
             GrowingCondition growingCondition = growingConditionService.findById(flower.getGrowingCondition().getId());
             flower.setGrowingCondition(growingCondition);
             flower.setVisualParameters(visualParameters);
-            daoFactory.commitTransaction(flowerDAO);
+            daoFactory.endOperation(flowerDAO);
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(flowerDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
-            }
             throw new ServiceException("Can't find object by id", e);
         }
         return flower;
