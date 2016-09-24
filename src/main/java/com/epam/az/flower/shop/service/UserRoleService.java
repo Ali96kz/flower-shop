@@ -24,9 +24,12 @@ public class UserRoleService {
     public UserRole findById(int id) throws ServiceException {
         UserRole userRole;
         try {
+            daoFactory.startOperation(userRoleDao);
             userRole = userRoleDao.findById(id);
         } catch (DAOException e) {
             throw new ServiceException("can't find user role by id", e);
+        }finally {
+            daoFactory.endOperation(userRoleDao);
         }
         return userRole;
     }

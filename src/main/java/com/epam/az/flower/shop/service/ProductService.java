@@ -79,13 +79,11 @@ public class ProductService {
     public Product findById(int id) throws ServiceException {
         Product product;
         try {
+            daoFactory.startOperation(productDAO);
             product = productDAO.findById(id);
+            daoFactory.endOperation(productDAO);
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(productDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
+            daoFactory.endOperation(productDAO);
             throw new ServiceException("can't get product by id", e);
         }
         fillProduct(product);

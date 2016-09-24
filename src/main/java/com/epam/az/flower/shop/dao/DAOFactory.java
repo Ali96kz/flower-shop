@@ -26,16 +26,12 @@ public class DAOFactory {
         if (daoClassMap.get(aClass) == null) {
             try {
                 AbstractDAO abstractDAO = (AbstractDAO) aClass.newInstance();
-                abstractDAO.setConnection(connectionPool.getConnection());
                 daoClassMap.put(aClass, abstractDAO);
             } catch (InstantiationException e) {
                 throw new DAOException("can't create instance of that class", e);
             } catch (IllegalAccessException e) {
                 throw new DAOException("field or class is private", e);
-            } catch (SQLException e) {
-                throw new DAOException("in correct sql", e);
             }
-
         }
         return (E) daoClassMap.get(aClass);
     }
@@ -52,7 +48,6 @@ public class DAOFactory {
         try {
             dao.getConnection().close();
             dao.setConnection(null);
-            logger.info(dao.getConnection()+"dao connection after close connection");
         } catch (SQLException e) {
 
         }

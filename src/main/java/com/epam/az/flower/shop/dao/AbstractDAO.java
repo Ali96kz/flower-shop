@@ -56,21 +56,16 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     @Override
     public E findById(int id) throws DAOException {
-        E result = null;
         try {
-            result = getGenericClass().newInstance();
+            E result = getGenericClass().newInstance();
             String selectSQL = createSQL(getGenericClass());
-            ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where " + getGenericClass().getSimpleName()
-                    + ".id = " + id + ";");
+            ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL + " where " + getGenericClass().getSimpleName() + ".id = " + id + ";");
             if (resultSet.next())
                 result = parseResultSet(result, resultSet);
             return result;
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            logger.trace("Find by id", e);
-        } catch (DAOException e) {
-            throw new DAOException("problem with parsing", e);
+            throw new DAOException("can't get user by id", e);
         }
-        return result;
     }
 
     @Override
@@ -219,6 +214,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     }
 
 
+
     private Integer getObjectId(Object object) {
         Integer result = null;
         try {
@@ -285,10 +281,10 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql.toString());
+            return resultSet;
         } catch (SQLException e1) {
             throw new DAOException("can't execute sql", e1);
         }
-        return resultSet;
     }
 
     public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
@@ -312,13 +308,13 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public Object getValue(Field field, ResultSet resultSet) throws DAOException {
         try {
             Class fieldType = field.getType();
-            if (fieldType == Integer.class) {
+            if (fieldType == Integer.class || fieldType == int.class) {
                 int value = resultSet.getInt(field.getName());
                 return value;
             } else if (fieldType == String.class) {
                 String value = resultSet.getString(field.getName());
                 return value;
-            } else if (fieldType == boolean.class) {
+            } else if (fieldType == boolean.class || fieldType == Boolean.class) {
                 boolean value = resultSet.getBoolean(field.getName());
                 return value;
             } else if (fieldType == Date.class) {

@@ -48,12 +48,20 @@ public class UserService {
     public User registerUser(User user) throws ServiceException {
         UserRole userRole;
         try {
+
             userRole = userRoleDao.findUserRoleByName(CUSTOMER_USER_ROLE);
             user.setUserRole(userRole);
+            daoFactory.startTransaction(userDAO);
             int index = userDAO.insert(user);
             user.setId(index);
+            daoFactory.commitTransaction(userDAO);
             return user;
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(userDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back transaction", e1);
+            }
             throw new ServiceException("can't get user role bu name", e);
         }
     }
@@ -61,26 +69,42 @@ public class UserService {
     public User findById(int id) throws ServiceException {
         User user;
         try {
+            daoFactory.startOperation(userDAO);
             user = userDAO.findById(id);
             UserRole userRole = userRoleDao.findById(user.getUserRole().getId());
             user.setUserRole(userRole);
         } catch (DAOException e) {
             throw new ServiceException("Can't get user by id", e);
+        }finally {
+            daoFactory.endOperation(userDAO);
+
         }
 
         return user;
     }
 
-    public List<User> getAll() {
-        return userDAO.getAll();
+    public List<User> getAll() throws ServiceException {
+        try {
+            daoFactory.startOperation(userDAO);
+            List<User> users=  userDAO.getAll();
+
+            return users;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get all user from dao", e);
+        }finally {
+            daoFactory.endOperation(userDAO);
+        }
     }
 
     public Integer getUserByCredentials(String nickName, String passHash) throws ServiceException {
         Integer id ;
         try {
+            daoFactory.startOperation(userDAO);
             id = userDAO.findByCredentials(nickName, passHash);
         } catch (DAOException e) {
             throw new ServiceException("can't find user by credentials", e);
+        }finally {
+            daoFactory.endOperation(userDAO);
         }
         return id;
     }
@@ -91,8 +115,15 @@ public class UserService {
 
     public void update(User user) throws ServiceException {
         try {
+            daoFactory.startTransaction(userDAO);
             userDAO.update(user);
+            daoFactory.commitTransaction(userDAO);
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(userDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction");
+            }
             throw new ServiceException("can't update user", e);
         }
     }
