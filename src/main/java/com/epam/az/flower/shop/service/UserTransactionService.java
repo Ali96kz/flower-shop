@@ -64,7 +64,7 @@ public class UserTransactionService {
         UserTransaction userTransaction = new UserTransaction();
         Transaction transaction;
         try {
-            daoFactory.startOperation(userTransactionDAO);
+            daoFactory.startTransaction(userTransactionDAO);
             transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
             userTransaction.setTransaction(transaction);
             userTransaction.setUser(user);
@@ -72,14 +72,14 @@ public class UserTransactionService {
             userTransaction.setTransactionDate(getDate());
             userTransactionDAO.insert(userTransaction);
 
-            daoFactory.endOperation(userTransactionDAO);
+            daoFactory.commitTransaction(userTransactionDAO);
         } catch (DAOException e) {
-            /*try {
+            try {
                 daoFactory.rollBack(userTransactionDAO);
             } catch (DAOException e1) {
                 throw new ServiceException("can't rollback transaction", e1);
             }
-            */throw new ServiceException("can't add money", e);
+            throw new ServiceException("can't add money", e);
         }
     }
 

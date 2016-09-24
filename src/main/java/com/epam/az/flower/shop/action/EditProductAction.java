@@ -17,6 +17,7 @@ public class EditProductAction extends AbstractProduct{
     public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "edit-product";
     public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
     public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?id=";
+    public static final String PARAMETER_PRODUCT_ID = "productId";
 
     public EditProductAction() throws ActionException {
     }
@@ -24,7 +25,12 @@ public class EditProductAction extends AbstractProduct{
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            int productId = stringAdapter.toInt(req.getParameter(ATTRIBUTE_NAME_PRODUCT_ID));
+            ActionResult actionResult = validate(req);
+            if (actionResult != null) {
+                return actionResult;
+            }
+
+            int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
             Flower flower = productService.findById(productId).getFlower();
             Product product = getProduct(req, new Product());
             product.getFlower().setId(flower.getId());

@@ -15,6 +15,7 @@ public class UserService {
     private UserDAO userDAO;
     private UserRoleService userRoleService;
     private UserTransactionService userTransactionService;
+
     public UserService() throws ServiceException {
         try {
             userDAO = daoFactory.getDao(UserDAO.class);
@@ -26,20 +27,20 @@ public class UserService {
 
     }
 
-    public void addMoneyToBalance(User user, int summ) throws ServiceException {
-        user.setBalance(user.getBalance() + summ);
+    public void addMoneyToBalance(User user, int sum) throws ServiceException {
+        user.setBalance(user.getBalance() + sum);
         try {
             daoFactory.startTransaction(userDAO);
 
+            userTransactionService.addMoneyTransaction(user, sum);
             userDAO.update(user);
-            userTransactionService.addMoneyTransaction(user, summ);
 
             daoFactory.commitTransaction(userDAO);
         } catch (DAOException e) {
             try {
                 daoFactory.rollBack(userDAO);
             } catch (DAOException e1) {
-                throw new ServiceException("can't rollback transaciton", e);
+                throw new ServiceException("can't rollback transaction", e);
             }
             throw new ServiceException("can't update user");
         }

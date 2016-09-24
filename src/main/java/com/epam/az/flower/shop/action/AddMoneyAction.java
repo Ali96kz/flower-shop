@@ -6,6 +6,8 @@ import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.validator.BalanceValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +21,7 @@ public class AddMoneyAction implements Action {
     public static final String PARAMETER_NAME_MONEY = "money";
     public static final String ATTRIBUTE_NAME_USER = "user";
     public static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
-
+    private static final Logger logger = LoggerFactory.getLogger(AddMoneyAction.class);
     public AddMoneyAction() throws ActionException {
         try {
             userService = new UserService();
@@ -52,7 +54,7 @@ public class AddMoneyAction implements Action {
             int money = Integer.parseInt(req.getParameter(PARAMETER_NAME_MONEY));
 
             userService.addMoneyToBalance(user, money);
-
+            logger.info("add money to user {}", user.getNickName());
             return new ActionResult(JSP_PAGE_NAME_CASH, true);
         } catch (ServiceException e) {
             throw new ActionException("can;t get user from service", e);

@@ -38,7 +38,7 @@
     <a href="delete-product?id=${product.id}">
         <c:out value="${delete}"/><br>
     </a>
-    <a href="edit-product?id=${product.id}">
+    <a href="edit-product?productId=${product.id}">
         <c:out value="${editProduct}"/><br>
     </a>
     <br>

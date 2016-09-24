@@ -25,9 +25,9 @@ public class ProductService {
 
     public void update(Product product) throws ServiceException {
         try {
-            flowerService.update(product.getFlower());
             daoFactory.startTransaction(productDAO);
             productDAO.update(product);
+            flowerService.update(product.getFlower());
             daoFactory.commitTransaction(productDAO);
         } catch (DAOException e) {
             try {
