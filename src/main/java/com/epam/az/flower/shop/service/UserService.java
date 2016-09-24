@@ -13,13 +13,12 @@ public class UserService {
     private final String CUSTOMER_USER_ROLE = "customer";
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserDAO userDAO;
-
-    private UserRoleDao userRoleDao;
+    private UserRoleService userRoleService;
     private UserTransactionService userTransactionService;
     public UserService() throws ServiceException {
         try {
             userDAO = daoFactory.getDao(UserDAO.class);
-            userRoleDao = daoFactory.getDao(UserRoleDao.class);
+            userRoleService = new UserRoleService();
             userTransactionService = new UserTransactionService();
         } catch (DAOException e) {
             throw new ServiceException("can't initialize class", e);
@@ -30,28 +29,40 @@ public class UserService {
     public void addMoneyToBalance(User user, int summ) throws ServiceException {
         user.setBalance(user.getBalance() + summ);
         try {
+            daoFactory.startTransaction(userDAO);
+
             userDAO.update(user);
             userTransactionService.addMoneyTransaction(user, summ);
+
+            daoFactory.commitTransaction(userDAO);
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(userDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaciton", e);
+            }
             throw new ServiceException("can't update user");
         }
     }
 
     public void delete(int userId) throws ServiceException {
         try {
+            daoFactory.startOperation(userDAO);
             userDAO.delete(userId);
+
         } catch (DAOException e) {
             throw new ServiceException("can't delete user from DB", e);
+        }finally {
+            daoFactory.endOperation(userDAO);
         }
     }
 
     public User registerUser(User user) throws ServiceException {
         UserRole userRole;
         try {
-
-            userRole = userRoleDao.findUserRoleByName(CUSTOMER_USER_ROLE);
-            user.setUserRole(userRole);
             daoFactory.startTransaction(userDAO);
+            userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
+            user.setUserRole(userRole);
             int index = userDAO.insert(user);
             user.setId(index);
             daoFactory.commitTransaction(userDAO);
@@ -71,7 +82,7 @@ public class UserService {
         try {
             daoFactory.startOperation(userDAO);
             user = userDAO.findById(id);
-            UserRole userRole = userRoleDao.findById(user.getUserRole().getId());
+            UserRole userRole = userRoleService.findById(user.getUserRole().getId());
             user.setUserRole(userRole);
         } catch (DAOException e) {
             throw new ServiceException("Can't get user by id", e);
@@ -87,7 +98,6 @@ public class UserService {
         try {
             daoFactory.startOperation(userDAO);
             List<User> users=  userDAO.getAll();
-
             return users;
         } catch (DAOException e) {
             throw new ServiceException("can't get all user from dao", e);

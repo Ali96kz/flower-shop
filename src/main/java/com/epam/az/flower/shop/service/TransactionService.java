@@ -24,17 +24,13 @@ public class TransactionService {
     }
     public Transaction getTransactionByName(String name) throws ServiceException {
         try {
-            daoFactory.startTransaction(transactionDAO);
+            daoFactory.startOperation(transactionDAO);
             Transaction transaction = transactionDAO.getTransactionByName(name);
-            daoFactory.commitTransaction(transactionDAO);
             return transaction;
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(transactionDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back", e);
-            }
             throw new ServiceException("", e);
+        }finally {
+            daoFactory.endOperation(transactionDAO);
         }
     }
 

@@ -8,7 +8,7 @@
 </head>
 <body>
 <c:forEach items="${products}" var="product">
-    <a href="product-inf?id=${product.id}">
+    <a href="product-inf?productId=${product.id}">
         <c:out value="${product.flower.name}"/><br>
         <c:out value="${product.price}"/><br>
         <c:out value="${product.description}"/><br>

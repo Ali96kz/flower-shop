@@ -22,8 +22,16 @@ public class GrowingConditionService {
         }
     }
 
-    public List<GrowingCondition> getAllGrowingConditions() {
-        return growingConditionDAO.getAll();
+    public List<GrowingCondition> getAllGrowingConditions() throws ServiceException {
+        try {
+            daoFactory.startOperation(growingConditionDAO);
+            List<GrowingCondition> growingConditions = growingConditionDAO.getAll();
+            return growingConditions;
+        } catch (DAOException e) {
+            throw new ServiceException("can't end operation", e);
+        }finally {
+            daoFactory.endOperation(growingConditionDAO);
+        }
     }
 
     public GrowingCondition findById(Integer id) throws ServiceException {
@@ -31,11 +39,11 @@ public class GrowingConditionService {
             daoFactory.startOperation(growingConditionDAO);
             GrowingCondition growingCondition = growingConditionDAO.findById(id);
             fillGrowingCondition(growingCondition);
-            daoFactory.endOperation(growingConditionDAO);
             return growingCondition;
         } catch (DAOException e) {
-
             throw new ServiceException("", e);
+        }finally {
+            daoFactory.endOperation(growingConditionDAO);
         }
     }
 

@@ -4,12 +4,15 @@ import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class UserRoleService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserRoleDao userRoleDao ;
+    private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
     public UserRoleService() throws ServiceException {
         try {
             userRoleDao = daoFactory.getDao(UserRoleDao.class);
@@ -25,7 +28,9 @@ public class UserRoleService {
         UserRole userRole;
         try {
             daoFactory.startOperation(userRoleDao);
+            System.out.println(userRoleDao.getConnection()+" user role dao get connection");
             userRole = userRoleDao.findById(id);
+            logger.info("get user role by id {}", id);
         } catch (DAOException e) {
             throw new ServiceException("can't find user role by id", e);
         }finally {
@@ -36,17 +41,13 @@ public class UserRoleService {
 
     public UserRole getUserRoleByName(String roleName) throws ServiceException {
         try {
-            daoFactory.startTransaction(userRoleDao);
+            daoFactory.startOperation(userRoleDao);
             UserRole userRole = userRoleDao.findUserRoleByName(roleName);
-            daoFactory.commitTransaction(userRoleDao);
             return userRole;
         } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(userRoleDao);
-            } catch (DAOException e1) {
-                throw new ServiceException("can'y roll back transaction", e);
-            }
             throw new ServiceException("can't commit transaction");
+        }finally {
+            daoFactory.endOperation(userRoleDao);
         }
     }
 }

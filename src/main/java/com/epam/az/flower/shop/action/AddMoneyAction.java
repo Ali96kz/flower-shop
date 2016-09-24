@@ -50,7 +50,7 @@ public class AddMoneyAction implements Action {
             }
 
             int money = Integer.parseInt(req.getParameter(PARAMETER_NAME_MONEY));
-            user = userService.findById(userId);
+
             userService.addMoneyToBalance(user, money);
 
             return new ActionResult(JSP_PAGE_NAME_CASH, true);

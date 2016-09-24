@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductPage implements Action {
-    public static final String PARAMETER_PRODUCT_ID = "id";
+    public static final String PARAMETER_PRODUCT_ID = "productId";
     public static final String ATTRIBUTE_NAME_PRODUCT = "product";
     public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
     private ProductService productService;

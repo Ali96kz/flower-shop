@@ -38,7 +38,7 @@ public class DAOFactory {
 
     public <E extends AbstractDAO> void startOperation(E dao) throws DAOException {
         try {
-            logger.info("start operation");
+            logger.info("start operation {}", dao.getClass().getSimpleName());
             dao.setConnection(connectionPool.getConnection());
         } catch (SQLException e) {
             throw new DAOException("can't set connection", e);
@@ -46,6 +46,7 @@ public class DAOFactory {
     }
     public <E extends AbstractDAO> void endOperation(E dao) {
         try {
+            logger.info("end operation {}", dao.getClass().getSimpleName());
             dao.getConnection().close();
             dao.setConnection(null);
         } catch (SQLException e) {
@@ -54,7 +55,16 @@ public class DAOFactory {
     }
 
     public <E extends AbstractDAO> void startTransaction(E dao) throws DAOException {
-        Connection connection = dao.getConnection();
+
+        Connection connection;
+        try {
+            connection = connectionPool.getConnection();
+        } catch (SQLException e) {
+            throw new DAOException("can't set connection", e);
+        }
+
+        dao.setConnection(connection);
+
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
@@ -79,9 +89,9 @@ public class DAOFactory {
         try {
             connection.rollback();
             connection.close();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             throw new DAOException("can't roll back transaction", e);
         }
     }
-
 }

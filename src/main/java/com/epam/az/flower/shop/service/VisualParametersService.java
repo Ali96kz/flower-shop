@@ -21,8 +21,16 @@ public class VisualParametersService {
             throw new ServiceException("can't initialize visualParametersDAO", e);
         }
     }
-    public List<VisualParameters> getAll(){
-        return visualParametersDAO.getAll();
+    public List<VisualParameters> getAll() throws ServiceException {
+        try {
+            daoFactory.startOperation(visualParametersDAO);
+            List<VisualParameters> visualParameterses = visualParametersDAO.getAll();
+            return visualParameterses;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get all", e);
+        }finally {
+            daoFactory.endOperation(visualParametersDAO);
+        }
     }
     public VisualParameters  findById(int id) throws ServiceException {
         try {

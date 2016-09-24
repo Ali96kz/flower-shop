@@ -6,6 +6,8 @@ import com.epam.az.flower.shop.dao.UserTransactionDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserTransaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,7 +18,7 @@ public class UserTransactionService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserTransactionDAO userTransactionDAO;
     private TransactionService transactionService;
-
+    private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
     public UserTransactionService() throws ServiceException {
         try {
             transactionService = new TransactionService();
@@ -62,15 +64,22 @@ public class UserTransactionService {
         UserTransaction userTransaction = new UserTransaction();
         Transaction transaction;
         try {
+            daoFactory.startOperation(userTransactionDAO);
             transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
             userTransaction.setTransaction(transaction);
-
             userTransaction.setUser(user);
             userTransaction.setSum(summ);
             userTransaction.setTransactionDate(getDate());
             userTransactionDAO.insert(userTransaction);
+
+            daoFactory.endOperation(userTransactionDAO);
         } catch (DAOException e) {
-            throw new ServiceException("can't add money", e);
+            /*try {
+                daoFactory.rollBack(userTransactionDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction", e1);
+            }
+            */throw new ServiceException("can't add money", e);
         }
     }
 

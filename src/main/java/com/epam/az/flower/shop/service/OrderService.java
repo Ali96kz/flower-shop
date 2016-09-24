@@ -30,7 +30,9 @@ public class OrderService {
             userOrder.setUser(user);
             userOrder.setProduct(product);
             userOrder.setOrderDate(getDate());
+            daoFactory.startTransaction(orderDAO);
             orderDAO.insert(userOrder);
+            daoFactory.commitTransaction(orderDAO);
 
             user.setBalance(user.getBalance() - product.getPrice());
             userService.update(user);
@@ -44,6 +46,11 @@ public class OrderService {
             userTransaction.setTransactionDate(getDate());
             userTransactionService.insert(userTransaction);
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(orderDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("transaction roll back service", e);
+            }
             throw new ServiceException("can't create order", e);
         }
 

@@ -31,8 +31,5 @@ Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.fl
 <a href="buy-product?productId=${product.id}">
     <c:out value="buy this product"/><br>
 </a>
-
-
-
 </body>
 </html>
