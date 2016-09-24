@@ -6,6 +6,8 @@ import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class UserService {
     private UserDAO userDAO;
     private UserRoleService userRoleService;
     private UserTransactionService userTransactionService;
-
+    private static final Logger lo = LoggerFactory.getLogger(UserService.class);
     public UserService() throws ServiceException {
         try {
             userDAO = daoFactory.getDao(UserDAO.class);
@@ -61,9 +63,11 @@ public class UserService {
     public User registerUser(User user) throws ServiceException {
         UserRole userRole;
         try {
-            daoFactory.startTransaction(userDAO);
             userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
             user.setUserRole(userRole);
+
+            daoFactory.startTransaction(userDAO);
+            lo.info("user role id {}", userRole.getId());
             int index = userDAO.insert(user);
             user.setId(index);
             daoFactory.commitTransaction(userDAO);
