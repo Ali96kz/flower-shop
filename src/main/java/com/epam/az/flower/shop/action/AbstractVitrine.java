@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.dao.AbstractDAO;
 import com.epam.az.flower.shop.entity.PaginatedList;
 import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.ProductService;
@@ -9,6 +8,8 @@ import com.epam.az.flower.shop.service.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractVitrine implements Action {
+    private final int PAGE_SIZE = 12;
+
     ProductService productService;
 
     public AbstractVitrine() throws ActionException {
@@ -18,14 +19,12 @@ public abstract class AbstractVitrine implements Action {
             throw new ActionException("can't initialize class", e);
         }
     }
-
     StringAdapter stringAdapter = new StringAdapter();
     PaginatedList paginatedList ;
-    private final int pageSize = 10;
     public void setPaginationList(HttpServletRequest req) throws ActionException {
         if(paginatedList == null){
             try {
-                paginatedList = new PaginatedList(pageSize, productService.getAllProduct());
+                paginatedList = new PaginatedList(PAGE_SIZE, productService.getAllProduct());
             } catch (ServiceException e) {
                 throw new ActionException("can't get product from service",e);
             }

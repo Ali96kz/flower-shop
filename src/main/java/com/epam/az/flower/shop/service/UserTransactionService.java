@@ -32,6 +32,7 @@ public class UserTransactionService {
     public List<UserTransaction> getAll(int userId) throws ServiceException {
         List<UserTransaction> userTransactions ;
         try {
+            daoFactory.startOperation(userTransactionDAO);
             userTransactions = userTransactionDAO.getAll(userId);
             for (UserTransaction userTransaction : userTransactions) {
                 Transaction transaction = transactionService.findById(userTransaction.getTransaction().getId());
@@ -39,6 +40,8 @@ public class UserTransactionService {
             }
         } catch (DAOException e) {
             throw new ServiceException("Can't get all user transactions", e);
+        }finally {
+            daoFactory.endOperation(userTransactionDAO);
         }
 
         return userTransactions;

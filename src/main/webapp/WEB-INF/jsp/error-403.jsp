@@ -1,3 +1,4 @@
+<%@ taglib prefix="img" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -5,6 +6,6 @@
     <title>403</title>
 </head>
 <body>
-Access denied <img:url value="/webjars/bootstrap/3.3.7/css/bootstrap.css"/>
+Access denied
 </body>
 </html>

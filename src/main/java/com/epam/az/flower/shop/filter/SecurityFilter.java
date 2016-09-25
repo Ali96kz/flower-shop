@@ -29,6 +29,7 @@ public class SecurityFilter implements Filter {
         adminViews = new ArrayList<>();
 
         anonymousUserViews.add("/vitrine");
+        anonymousUserViews.add("/set-language");
         anonymousUserViews.add("/basket");
         anonymousUserViews.add("/main");
         anonymousUserViews.add("/login");

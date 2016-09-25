@@ -5,19 +5,6 @@ CREATE TABLE Origin
     province CHAR(16),
     deleteDAY DATE
 );
-CREATE TABLE Product
-(
-    id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    description CHAR(255),
-    originId INT(11),
-    type CHAR(32),
-    deleteDay DATE,
-    price INT(11),
-    flowerId INT(11),
-    quantity INT(11),
-    CONSTRAINT product_fk FOREIGN KEY (originId) REFERENCES Origin (id),
-    CONSTRAINT Product___fk FOREIGN KEY (flowerId) REFERENCES Flower (id)
-);
 CREATE INDEX product_fk ON Product (originId);
 CREATE INDEX Product___fk ON Product (flowerId);
 CREATE TABLE User
@@ -106,3 +93,16 @@ CREATE TABLE UserBalance
 );
 CREATE INDEX transactionId ON UserBalance (transactionId);
 CREATE INDEX userId ON UserBalance (userId);
+CREATE TABLE Product
+(
+    id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    description CHAR(255),
+    originId INT(11),
+    type CHAR(32),
+    deleteDay DATE,
+    price INT(11),
+    flowerId INT(11),
+    quantity INT(11),
+    CONSTRAINT product_fk FOREIGN KEY (originId) REFERENCES Origin (id),
+    CONSTRAINT Product___fk FOREIGN KEY (flowerId) REFERENCES Flower (id)
+);

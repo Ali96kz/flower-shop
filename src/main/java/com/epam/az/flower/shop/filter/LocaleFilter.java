@@ -21,7 +21,7 @@ public class LocaleFilter implements Filter{
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("locale")) {
+            if (cookie.getName().equals("lang")) {
                 Locale locale = new Locale(cookie.getValue());
                 Config.set(req.getSession(),Config.FMT_LOCALE,locale);
             }
