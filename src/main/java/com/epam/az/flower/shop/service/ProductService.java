@@ -81,12 +81,13 @@ public class ProductService {
         try {
             daoFactory.startOperation(productDAO);
             product = productDAO.findById(id);
+            fillProduct(product);
             daoFactory.endOperation(productDAO);
+
         } catch (DAOException e) {
             daoFactory.endOperation(productDAO);
             throw new ServiceException("can't get product by id", e);
         }
-        fillProduct(product);
         return product;
     }
 

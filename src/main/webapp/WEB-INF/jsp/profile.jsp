@@ -22,39 +22,107 @@
 <head>
     <meta charset="UTF-8">
     <title>${user.firstName} Profile</title>
+    <style>
+        <jsp:directive.include file="/WEB-INF/css/bootstrap.min.css"/>
+    </style>
+    <!-- Custom CSS -->
+    <style>
+        <jsp:directive.include file="/WEB-INF/css/shop-homepage.css"/>
+    </style>
+
 </head>
 <body>
 
-<div>
-    ${name}:${user.firstName}
-    ${lastName}:${user.nickName}
-    ${bitrthdayDay}:${user.dateBirthday}
-    ${balance}:${user.balance}
-    ${role} :${user.userRole.name}
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Start Bootstrap</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Services</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <p class="lead">Shop Name</p>
+            <div class="list-group">
+                <a href="profile" class="list-group-item active">Profile</a>
+                <a href="vitrine" class="list-group-item">Online vitrine</a>
+                <a href="login" class="list-group-item">login form</a>
+                <a href="registration" class="list-group-item">registration form</a>
+                <a href="basket" class="list-group-item">My basket</a>
+                <a href="transaction" class="list-group-item">My transaction</a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+
+            <div class="thumbnail">
+                <img class="img-responsive" src="http://placehold.it/800x300" alt="">
+                <div class="caption-full">
+                    <p>${name}:${user.firstName}</p>
+                    <p>${lastName}:${user.nickName}</p>
+                    <p>${bitrthdayDay}:${user.dateBirthday}</p>
+                    <p>${balance}:${user.balance}</p>
+                    <p>${role} :${user.userRole.name}</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+<!-- /.container -->
 
-<a href="basket">
-    ${basket}
-</a>
-<br>
-<a href="cash">
-    ${cash}
-</a>
-<br>
-<a href="logout">
-    ${logout}
-</a>
-<br>
-<a href="vitrine">
-    ${vitrine}
-</a>
-<br>
-<a href="edit-account">
-    ${editAccount}
-</a>
-<a href="delete-account">
-    ${deleteAccount}
-</a>
+<div class="container">
+    <hr>
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Your Website 2014</p>
+            </div>
+        </div>
+    </footer>
 
+</div>
+<!-- /.container -->
+
+<!-- jQuery -->
+<script>
+    <jsp:directive.include file="/WEB-INF/js/jquery.js"/>
+</script>
+
+<!-- Bootstrap Core JavaScript -->
+<script>
+    <jsp:directive.include file="/WEB-INF/js/bootstrap.min.js"/>
+</script>
 </body>
-</html>1
+</html>
