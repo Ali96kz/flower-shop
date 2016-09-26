@@ -6,11 +6,13 @@ import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractVitrine implements Action {
     private final int PAGE_SIZE = 12;
-
-    ProductService productService;
+    private List<Integer> pageNumbers ;
+    private ProductService productService;
 
     public AbstractVitrine() throws ActionException {
         try {
@@ -21,6 +23,7 @@ public abstract class AbstractVitrine implements Action {
     }
     StringAdapter stringAdapter = new StringAdapter();
     PaginatedList paginatedList ;
+
     public void setPaginationList(HttpServletRequest req) throws ActionException {
         if(paginatedList == null){
             try {
@@ -38,5 +41,20 @@ public abstract class AbstractVitrine implements Action {
 
         }
         req.setAttribute("products",paginatedList.getPage(pageNumber));
+    }
+    public void setPage(HttpServletRequest req){
+        if (pageNumbers == null){
+            pageNumbers = new ArrayList<>();
+            for (int i = 0; i < paginatedList.getPageNumber(); i++) {
+                pageNumbers.add(i+1);
+            }
+        } else if (pageNumbers.size() != paginatedList.getPageNumber()) {
+            pageNumbers = new ArrayList<>();
+            for (int i = 0; i < paginatedList.getPageNumber(); i++) {
+                pageNumbers.add(i + 1);
+            }
+        }
+
+        req.setAttribute("pageList", pageNumbers);
     }
 }

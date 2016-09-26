@@ -1,67 +1,24 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <style>
-        <jsp:directive.include file="/WEB-INF/css/bootstrap.min.css"/>
-    </style>
-    <!-- Custom CSS -->
-    <style>
-        <jsp:directive.include file="/WEB-INF/css/shop-homepage.css"/>
-    </style>
-    <title>${product.flower.name}</title>
-</head>
-<body>
-<!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<fmt:bundle basename="i18n">
+    <fmt:message key="manager.product.description" var="description"/>
+    <fmt:message key="manager.product.price" var="price"/>
+    <fmt:message key="manager.product.delete" var="delete" />
+    <fmt:message key="manager.product.quantity" var="quantity" />
+    <fmt:message key="manager.product.name" var="productName" />
+    <fmt:message key="manager.product.add" var="addNewProduct" />
+    <fmt:message key="manager.product.edit" var="editProduct" />
+</fmt:bundle>
 
-<!-- Page Content -->
+<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
+
+<t:autorized-user-template>
+    <jsp:attribute name="navbar">
 <div class="container">
 
     <div class="row">
-
-        <div class="col-md-3">
-            <p class="lead">Shop Name</p>
-            <div class="list-group">
-                <a href="profile" class="list-group-item active">Profile</a>
-                <a href="vitrine" class="list-group-item">Online vitrine</a>
-                <a href="login" class="list-group-item">login form</a>
-                <a href="registration" class="list-group-item">registration form</a>
-                <a href="basket" class="list-group-item">My basket</a>
-            </div>
-        </div>
-
         <div class="col-md-9">
 
             <div class="thumbnail">
@@ -91,44 +48,13 @@
                             <c:out value="buy this product"/><br>
                         </a>
                     </p>
-
-
-
-                </div>
-               </div>
-
         </div>
-
+        </div>
+        </div>
     </div>
 
-</div>
-<!-- /.container -->
+    </jsp:attribute>
+</t:autorized-user-template>
 
-<div class="container">
 
-    <hr>
 
-    <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; Your Website 2014</p>
-            </div>
-        </div>
-    </footer>
-
-</div>
-<!-- /.container -->
-
-<!-- jQuery -->
-<script>
-    <jsp:directive.include file="/WEB-INF/js/jquery.js"/>
-</script>
-
-<!-- Bootstrap Core JavaScript -->
-<script>
-    <jsp:directive.include file="/WEB-INF/js/bootstrap.min.js"/>
-</script>
-
-</body>
-</html>
