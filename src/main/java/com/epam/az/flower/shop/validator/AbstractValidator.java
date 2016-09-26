@@ -7,12 +7,13 @@ import java.util.List;
 public abstract class AbstractValidator implements Validator{
     private StringAdapter stringAdapter = new StringAdapter();
     public void validatePositiveNumber(List<String> errorMsg, String number, String name) {
-        int  value =  stringAdapter.toInt(number);
-        //TODO add validate to <>, . and same symbol
 
         if (number == null || number ==  "") {
             errorMsg.add("please insert "+name);
         }
+
+        int  value =  stringAdapter.toInt(number);
+
         if (value <= 0 ){
             errorMsg.add(name+"couldn't be <= 0");
         }

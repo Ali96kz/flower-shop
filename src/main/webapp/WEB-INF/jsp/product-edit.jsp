@@ -38,12 +38,10 @@
                         <div id="legend">
                             <legend class="">${editProduct}</legend>
                         </div>
-
                         <div class="control-group">
                             <label class="control-label" for="username">${flowerName}</label>
                             <div class="controls">
-                                <input id="firstName" name="firstName" placeholder="" class="form-control input-lg"
-                                       type="text">
+                                <input type="text" size="16" value="${product.flower.name}" name="flowerName" class="form-control input-lg">
                                 <p class="help-block">${flowerNameHelp}</p>
                             </div>
                         </div>
@@ -51,16 +49,17 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${price}</label>
                             <div class="controls">
-                                <input id="lastName" name="lastName" placeholder="" class="form-control input-lg"
-                                       type="text">
+                                <input type="text" size="16" value="${product.price}" name="price" class="form-control input-lg">
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label class="control-label" for="username">${description}</label>
                             <div class="controls">
-                                <input id="username" name="nickName" placeholder="" class="form-control input-lg"
+                                <input id="username" name="description" value="${product.description}" placeholder="" class="form-control input-lg"
                                        type="text">
+
+
                                 <p class="help-block">${descriptionHelp}</p>
                             </div>
                         </div>
@@ -68,8 +67,8 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${averageHeight}</label>
                             <div class="controls">
-                                <input id="dateBirthday" name="dateBirthday" placeholder=""
-                                       class="form-control input-lg" type="text">
+                                <input id="averageHeight" value="${product.flower.averageHeight}"
+                                       name="averageHeight" placeholder="" class="form-control input-lg" type="text">
                             </div>
                         </div>
 
@@ -121,6 +120,7 @@
                                 </select></p>
                             </div>
                         </div>
+
 
                         <div class="control-group">
                             <!-- Button -->

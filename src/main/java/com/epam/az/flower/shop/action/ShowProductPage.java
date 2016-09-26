@@ -26,8 +26,8 @@ public class ShowProductPage implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        int id = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
         Product product;
+        int id = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
         try {
             product = productService.findById(id);
         } catch (ServiceException e) {

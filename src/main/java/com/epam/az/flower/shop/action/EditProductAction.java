@@ -16,7 +16,7 @@ public class EditProductAction extends AbstractProduct{
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "edit-product";
     public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
-    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?id=";
+    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
     public static final String PARAMETER_PRODUCT_ID = "productId";
 
     public EditProductAction() throws ActionException {
