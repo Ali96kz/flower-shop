@@ -5,79 +5,124 @@
 <%--@elvariable id="visualParameters" type="com.epam.az.flower.shop.entity.VisualParameters"--%>
 <%--@elvariable id="growingCondition" type="com.epam.az.flower.shop.entity.GrowingCondition"--%>
 <%--@elvariable id="flowerType" type="com.epam.az.flower.shop.entity.FlowerType"--%>
+<%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
-<%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 
 <fmt:bundle basename="i18n">
-    <fmt:message key="user.profile.balance" var="balance"/>
-    <fmt:message key="user.profile.birthday.day" var="bitrthdayDay"/>
-    <fmt:message key="user.profile.last.name" var="lastName"/>
-    <fmt:message key="user.profile.delete" var="deleteAccount"/>
-    <fmt:message key="user.profile.role" var="role"/>
-    <fmt:message key="user.profile.first.name" var="name"/>
-    <fmt:message key="user.profile.edit.account" var="editAccount"/>
-    <fmt:message key="user.profile.logout" var="logout"/>
-    <fmt:message key="user.profile.online.vitrine" var="vitrine"/>
-    <fmt:message key="user.profile.cash" var="cash"/>
-    <fmt:message key="user.profile.my.basket" var="basket"/>
+    <fmt:message key="add.product.flower.name" var="flowerName"/>
+    <fmt:message key="add.product.flower.help" var="flowerName"/>
+    <fmt:message key="add.product.add.new.product" var="addNewProduct"/>
+    <fmt:message key="add.product.average.height" var="averageHeight"/>
+    <fmt:message key="add.product.description" var="description"/>
+    <fmt:message key="add.product.description.help" var="descriptionHelp"/>
+    <fmt:message key="add.product.visual.parameters" var="visualParameter"/>
+    <fmt:message key="add.product.growing.condition" var="growingCondition"/>
+    <fmt:message key="add.product.growing.help" var="growingHelp"/>
+
 </fmt:bundle>
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
 
-<form method="POST">
-    Flower name: <input type="text" size="16" value="${product.flower.name}" name="flowerName"><br>
-    <br>
-    Flower type:
-    <p><select name="flowerTypeId">
-        <option disabled>Choose a</option>
-        <c:forEach items="${flowerTypes}" var="flowerType">
-            <option value="${flowerType.id}">${flowerType.name}</option>
-        </c:forEach>
-    </select></p>
+                <form class="form-horizontal" method="POST">
+                    <fieldset>
+                        <div id="legend">
+                            <legend class="">Register</legend>
+                        </div>
 
-    <br>
-    Description : <input type="text" size="16" value="${product.description}" name="description"><br>
-    <br>
+                        <div class="control-group">
+                            <label class="control-label" for="username">${firstName}</label>
+                            <div class="controls">
+                                <input id="firstName" name="firstName" placeholder="" class="form-control input-lg"
+                                       type="text">
+                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                            </div>
+                        </div>
 
-    Made place :
-    <p><select name="originId">
-        <option disabled>Choose a</option>
-        <c:forEach items="${origins}" var="origin">
-            <option value="${origin.id}">${origin.country}- ${origin.province}</option>
-        </c:forEach>
-    </select></p>
+                        <div class="control-group">
+                            <label class="control-label" for="username">${lastName}</label>
+                            <div class="controls">
+                                <input id="lastName" name="lastName" placeholder="" class="form-control input-lg"
+                                       type="text">
+                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                            </div>
+                        </div>
 
-    Price : <input type="text" size="16" value="${product.price}" name="price"><br>
+                        <div class="control-group">
+                            <label class="control-label" for="username">${nickName}</label>
+                            <div class="controls">
+                                <input id="username" name="nickName" placeholder="" class="form-control input-lg"
+                                       type="text">
+                                <p class="help-block">date</p>
+                            </div>
+                        </div>
 
-    VisualParameters:
-    <p><select name="visualParametersId">
-        <c:forEach items="${visualParameters}" var="visualParameters">
-            <option value="${visualParameters.id}">${visualParameters.colorLeaves}- ${visualParameters.colorSteam}</option>
-        </c:forEach>
-    </select></p>
+                        <div class="control-group">
+                            <label class="control-label" for="username">${birhday}</label>
+                            <div class="controls">
+                                <input id="dateBirthday" name="dateBirthday" placeholder=""
+                                       class="form-control input-lg" type="text">
+                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                            </div>
+                        </div>
 
-    Average height : <input type="text" size="16" value="${product.flower.averageHeight}"
-                            name="averageHeight"><br>
-    Growing Condition :
-    Choose one of this:
-    <p><select name="growingConditionId">
-        <c:forEach items="${growingConditions}" var="growingCondition">
-            <option value="${growingCondition.id}">${growingCondition.name}</option>
-        </c:forEach>
-    </select></p>
-    <br>
+                        <div class="control-group">
+                            <label class="control-label" for="username">Password</label>
+                            <div class="controls">
+                                <p>
+                                    <select name="visualParametersId">
+                                    <c:forEach items="${visualParameters}" var="visualParameter">
+                                    <option value="${visualParameter.id}">${visualParameter.colorLeaves}- ${visualParameter.colorSteam}</option>
+                                    </c:forEach>
+                                    </select>
+                                </p>
+                                <p class="help-block">Password should be at least 6 characters</p>
+                            </div>
+                        </div>
 
-    <button type="submit">
-        <value>add this product</value>
-    </button>
+                        <div class="control-group">
+                            <label class="control-label" for="username">Password</label>
+                            <div class="controls">
+                                <p><select name="originId">
+                                    <option disabled>Choose a</option>
+                                    <c:forEach items="${origins}" var="origin">
+                                <option value="${origin.id}">${origin.country}- ${origin.province}</option>
+                                </c:forEach>
+                                </select></p>
+                                <p class="help-block">Password should be at least 6 characters</p>
+                            </div>
+                        </div>
 
-    <c:forEach items="${errorMsg}" var="msg">
-        <c:out value="${msg}"/><br>
-    </c:forEach>
+                        <div class="control-group">
+                            <label class="control-label" for="username">Password</label>
+                            <div class="controls">
+                                <p><select name="growingConditionId">
+                                    <c:forEach items="${growingConditions}" var="growingCondition">
+                                        <option value="${growingCondition.id}">${growingCondition.name}</option>
+                                    </c:forEach>
+                                </select></p>
+                                <p class="help-block">Password should be at least 6 characters</p>
+                            </div>
+                        </div>
 
-</form>
+                        <div class="control-group">
+                            <!-- Button -->
+                            <div class="controls">
+                                <button class="btn btn-success">Register</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
     </jsp:attribute>
 </t:autorized-user-template>
+<%--
+--%>

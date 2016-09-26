@@ -6,7 +6,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>${user.firstName} Profile</title>
+    <title>Flower shop</title>
+    <fmt:bundle  basename="i18n">
+        <fmt:message key="template.basket" var="basket"/>
+        <fmt:message key="template.vitrine" var="vitrine"/>
+        <fmt:message key="template.about.project" var="aboutMyProject"/>
+        <fmt:message key="template.sign.in" var="sign.in"/>
+        <fmt:message key="template.sign.up" var="sign.up"/>
+        <fmt:message key="template.contact" var="contact"/>
+    </fmt:bundle>
+
     <style>
         <jsp:directive.include file="/WEB-INF/css/bootstrap.min.css"/>
     </style>
@@ -29,19 +38,16 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="main-page">About my project</a>
+                    <a href="contact">${contact}</a>
                 </li>
                 <li>
-                    <a href="login">Sign in</a>
+                    <a href="vitrine">${vitrine}</a>
                 </li>
                 <li>
-                    <a href="registration">Sign up</a>
+                    <a href="set-language?lang=ru">Russian</a>
                 </li>
                 <li>
-                    <a href="contact">Contact</a>
-                </li>
-                <li>
-                    <a href="vitrine">Product vitrine</a>
+                    <a href="set-language?lang=en">English</a>
                 </li>
             </ul>
         </div>
@@ -52,7 +58,15 @@
     <div class="col-md-3">
         <p class="lead">Ali</p>
         <div class="list-group">
-            <a href="basket" class="list-group-item">My basket</a>
+            <a href="basket" class="list-group-item">${basket}</a>
+        </div>
+
+        <div class="list-group">
+            <a href="login" class="list-group-item">${sign.in}</a>
+        </div>
+
+        <div class="list-group">
+            <a href="registration" class="list-group-item">${sign.up}</a>
         </div>
     </div>
     <jsp:invoke fragment="navbar"/>

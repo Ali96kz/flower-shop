@@ -5,6 +5,16 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <fmt:bundle  basename="i18n">
+        <fmt:message key="template.basket" var="basket"/>
+        <fmt:message key="template.vitrine" var="vitrine"/>
+        <fmt:message key="template.about.project" var="aboutMyProject"/>
+        <fmt:message key="template.contact" var="contact"/>
+        <fmt:message key="template.cash" var="cash"/>
+        <fmt:message key="template.logout" var="logout"/>
+        <fmt:message key="template.transaction" var="transaction"/>
+    </fmt:bundle>
+
     <meta charset="UTF-8">
     <title>${user.firstName} Profile</title>
     <style>
@@ -30,13 +40,19 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="main-page">About my project</a>
+                    <a href="contact">${contact}</a>
                 </li>
                 <li>
-                    <a href="contact">Contact</a>
+                    <a href="set-language?lang=ru">Russian</a>
                 </li>
                 <li>
-                    <a href="vitrine">Product vitrine</a>
+                    <a href="set-language?lang=en">English</a>
+                </li>
+                <li>
+                <a href="about-project">${aboutMyProject}</a>
+                </li>
+                <li>
+                    <a href="vitrine">${vitrine}</a>
                 </li>
             </ul>
         </div>
@@ -49,10 +65,10 @@
             <p class="lead">Ali</p>
             <div class="list-group">
                 <a href="profile" class="list-group-item active">Profile</a>
-                <a href="basket" class="list-group-item">My basket</a>
-                <a href="transaction" class="list-group-item">My transaction</a>
-                <a href="cash" class="list-group-item">Cash</a>
-                <a href="logout" class="list-group-item">Logout</a>
+                <a href="basket" class="list-group-item">${basket}</a>
+                <a href="transaction" class="list-group-item">${transaction}</a>
+                <a href="cash" class="list-group-item">${cash}</a>
+                <a href="logout" class="list-group-item">${logout}</a>
             </div>
         </div>
             <div class="row">
@@ -72,6 +88,7 @@
         </div>
     </footer>
 </div>
+
 <script>
     <jsp:directive.include file="/WEB-INF/js/jquery.js"/>
 </script>

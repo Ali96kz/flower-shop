@@ -23,10 +23,11 @@ public class OriginService {
         try {
             daoFactory.startOperation(originDAO);
             List<Origin> origins = originDAO.getAll();
-            daoFactory.endOperation(originDAO);
             return origins;
         } catch (DAOException e) {
             throw new ServiceException("can't execute ", e);
+        }finally {
+            daoFactory.endOperation(originDAO);
         }
     }
 
