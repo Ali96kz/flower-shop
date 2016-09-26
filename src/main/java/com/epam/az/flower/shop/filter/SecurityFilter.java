@@ -36,7 +36,6 @@ public class SecurityFilter implements Filter {
         anonymousUserViews.add("/registration");
         anonymousUserViews.add("/product-inf");
         anonymousUserViews.add("/product-in-basket");
-        anonymousUserViews.add("/add-product");
 
         userViews = new ArrayList<>(anonymousUserViews);
         userViews.remove("registration");
@@ -58,6 +57,7 @@ public class SecurityFilter implements Filter {
         managerViews.add("/edit-product");
         managerViews.add("/delete-product");
         managerViews.add("/manager");
+        managerViews.add("/add-product");
 
         adminViews = new ArrayList<>(managerViews);
         adminViews.add("/admin");

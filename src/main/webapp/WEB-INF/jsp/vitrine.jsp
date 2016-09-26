@@ -19,8 +19,7 @@
                         <img src="http://placehold.it/320x150" alt="">
                         <div class="caption">
                             <h4 class="pull-right">${product.price} KZT</h4>
-                            <h4><a href="product-inf?productId=${product.id}">${product.flower.name}</a>
-                            </h4>
+                            <h4><a href="product-inf?productId=${product.id}">${product.flower.name}</a></h4>
                             <p>${product.description}</p>
                         </div>
                     </div>

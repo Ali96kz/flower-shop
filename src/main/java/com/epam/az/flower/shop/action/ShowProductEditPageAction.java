@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowProductEditPageAction extends AbstractProduct{
     public static final String JSP_PAGE_NAME_PRODUCT_EDIT = "product-edit";
     public static final String ATTRIBUTE_NAME_PRODUCT = "product";
-    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "id";
+    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "productId";
     ProductService productService;
 
     public ShowProductEditPageAction() throws ActionException {
@@ -38,3 +38,4 @@ public class ShowProductEditPageAction extends AbstractProduct{
         return new ActionResult(JSP_PAGE_NAME_PRODUCT_EDIT);
     }
 }
+

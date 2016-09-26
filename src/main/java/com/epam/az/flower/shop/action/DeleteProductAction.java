@@ -24,7 +24,7 @@ public class DeleteProductAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            int productId = stringAdapter.toInt(req.getParameter("id"));
+            int productId = stringAdapter.toInt(req.getParameter("productId"));
             productService.deleteProduct(productId);
             return new ActionResult(JSP_PAGE_NAME_MANAGER, true);
         } catch (ServiceException e) {
