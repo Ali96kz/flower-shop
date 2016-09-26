@@ -2,7 +2,7 @@
 
 <%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
 <%--@elvariable id="origin" type="com.epam.az.flower.shop.entity.Origin"--%>
-<%--@elvariable id="visualParameters" type="com.epam.az.flower.shop.entity.VisualParameters"--%>
+<%--@elvariable id="visualParametersWord" type="com.epam.az.flower.shop.entity.VisualParameters"--%>
 <%--@elvariable id="growingCondition" type="com.epam.az.flower.shop.entity.GrowingCondition"--%>
 <%--@elvariable id="flowerType" type="com.epam.az.flower.shop.entity.FlowerType"--%>
 <%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
@@ -12,14 +12,18 @@
 
 <fmt:bundle basename="i18n">
     <fmt:message key="add.product.flower.name" var="flowerName"/>
-    <fmt:message key="add.product.flower.help" var="flowerName"/>
+    <fmt:message key="add.product.flower.help" var="flowerNameHelp"/>
     <fmt:message key="add.product.add.new.product" var="addNewProduct"/>
     <fmt:message key="add.product.average.height" var="averageHeight"/>
     <fmt:message key="add.product.description" var="description"/>
     <fmt:message key="add.product.description.help" var="descriptionHelp"/>
-    <fmt:message key="add.product.visual.parameters" var="visualParameter"/>
-    <fmt:message key="add.product.growing.condition" var="growingCondition"/>
+    <fmt:message key="add.product.visual.parameters" var="visualParameterWord"/>
+    <fmt:message key="add.product.visual.parameters.help" var="visualParameterHelp"/>
+    <fmt:message key="add.product.growing.condition" var="growingConditionWord"/>
+    <fmt:message key="add.product.price" var="price"/>
     <fmt:message key="add.product.growing.help" var="growingHelp"/>
+    <fmt:message key="add.product.flowe.type" var="flowerTypeWord"/>
+    <fmt:message key="add.product.made.place" var="madePlace"/>
 
 </fmt:bundle>
 <t:autorized-user-template>
@@ -31,47 +35,45 @@
                 <form class="form-horizontal" method="POST">
                     <fieldset>
                         <div id="legend">
-                            <legend class="">Register</legend>
+                            <legend class="">${addNewProduct}</legend>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">${firstName}</label>
+                            <label class="control-label" for="username">${flowerName}</label>
                             <div class="controls">
                                 <input id="firstName" name="firstName" placeholder="" class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                                <p class="help-block">${flowerNameHelp}</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">${lastName}</label>
+                            <label class="control-label" for="username">${price}</label>
                             <div class="controls">
                                 <input id="lastName" name="lastName" placeholder="" class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">${nickName}</label>
+                            <label class="control-label" for="username">${description}</label>
                             <div class="controls">
                                 <input id="username" name="nickName" placeholder="" class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">date</p>
+                                <p class="help-block">${descriptionHelp}</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">${birhday}</label>
+                            <label class="control-label" for="username">${averageHeight}</label>
                             <div class="controls">
                                 <input id="dateBirthday" name="dateBirthday" placeholder=""
                                        class="form-control input-lg" type="text">
-                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">Password</label>
+                            <label class="control-label" for="username">${visualParameterWord}</label>
                             <div class="controls">
                                 <p>
                                     <select name="visualParametersId">
@@ -80,12 +82,11 @@
                                     </c:forEach>
                                     </select>
                                 </p>
-                                <p class="help-block">Password should be at least 6 characters</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">Password</label>
+                            <label class="control-label" for="username">${madePlace}</label>
                             <div class="controls">
                                 <p><select name="originId">
                                     <option disabled>Choose a</option>
@@ -93,26 +94,37 @@
                                 <option value="${origin.id}">${origin.country}- ${origin.province}</option>
                                 </c:forEach>
                                 </select></p>
-                                <p class="help-block">Password should be at least 6 characters</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="username">Password</label>
+                            <label class="control-label" for="username">${growingConditionWord}</label>
                             <div class="controls">
                                 <p><select name="growingConditionId">
                                     <c:forEach items="${growingConditions}" var="growingCondition">
                                         <option value="${growingCondition.id}">${growingCondition.name}</option>
                                     </c:forEach>
                                 </select></p>
-                                <p class="help-block">Password should be at least 6 characters</p>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="username">${flowerTypeWord}</label>
+                            <div class="controls">
+
+                                <p><select name="flowerTypeId">
+                                    <option disabled></option>
+                            <c:forEach items="${flowerTypes}" var="flowerType">
+                                <option value="${flowerType.id}">${flowerType.name}</option>
+                            </c:forEach>
+                                </select></p>
                             </div>
                         </div>
 
                         <div class="control-group">
                             <!-- Button -->
                             <div class="controls">
-                                <button class="btn btn-success">Register</button>
+                                <button class="btn btn-success">${addNewProduct}</button>
                             </div>
                         </div>
                     </fieldset>
