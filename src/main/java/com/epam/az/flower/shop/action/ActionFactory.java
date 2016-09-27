@@ -28,7 +28,8 @@ public class ActionFactory {
             actions.put("GET/registration", new ShowPageAction("registration"));
             actions.put("GET/edit-account", new ShowUserEditPage());
             actions.put("GET/set-language", new SelectLanguageAction());
-
+            actions.put("GET/about-project", new ShowPageAction("about-project"));
+            actions.put("GET/contact", new ShowPageAction("contact"));
             actions.put("GET/delete-product", new DeleteProductAction());
             actions.put("GET/add-product", new ShowAddProductPageAction());
             actions.put("GET/admin-registration", new ShowAdminRegisterNewPAge());

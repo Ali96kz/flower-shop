@@ -26,6 +26,7 @@ public class TransactionService {
         try {
             daoFactory.startOperation(transactionDAO);
             Transaction transaction = transactionDAO.getTransactionByName(name);
+
             return transaction;
         } catch (DAOException e) {
             throw new ServiceException("", e);
