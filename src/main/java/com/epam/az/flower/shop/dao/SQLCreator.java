@@ -5,7 +5,10 @@ import java.lang.reflect.Field;
 import java.sql.Date;
 
 public class SQLCreator <E extends BaseEntity> extends AbstractSQLManager{
+
     public void createSqlForPreparedStatement(StringBuilder sql, StringBuilder values, E object) throws DAOException {
+        sql.append("INSERT INTO " + object.getClass().getSimpleName() + "(");
+
         Field[] fields = object.getClass().getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             Class fieldSuperclass = fields[i].getType().getSuperclass();
@@ -18,6 +21,7 @@ public class SQLCreator <E extends BaseEntity> extends AbstractSQLManager{
             }
             values.append("?, ");
         }
+
         deleteLastDot(sql);
         deleteLastDot(values);
     }
@@ -29,6 +33,12 @@ public class SQLCreator <E extends BaseEntity> extends AbstractSQLManager{
                 break;
             }
         }
+    }
+
+    public String createSqlForFindById(Class genericClass, int id){
+       String sql = "SELECT " + createSQL(genericClass) + " where " + genericClass.getSimpleName() +
+                ".id = " + id +";";
+        return sql;
     }
 
     protected String createSQL(Class clazz) {

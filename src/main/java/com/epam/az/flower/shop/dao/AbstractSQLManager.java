@@ -3,11 +3,12 @@ package com.epam.az.flower.shop.dao;
 import com.epam.az.flower.shop.entity.BaseEntity;
 
 import java.lang.reflect.Field;
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class AbstractSQLManager {
-    protected java.sql.Date getTodayDay() {
+    protected Date getTodayDay() {
         Calendar c = new GregorianCalendar();
         java.util.Date utilDate = c.getTime();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
