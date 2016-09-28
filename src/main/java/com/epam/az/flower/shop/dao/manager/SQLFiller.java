@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.dao;
+package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.entity.BaseEntity;
 import java.lang.reflect.Field;
@@ -40,7 +40,7 @@ public class SQLFiller <E extends BaseEntity> extends AbstractSQLManager{
             preparedStatement.setDate(1, getTodayDay());
             return preparedStatement;
         } catch (SQLException e) {
-            throw new UnsupportedOperationException()
+            throw new UnsupportedOperationException();
         }
     }
 }

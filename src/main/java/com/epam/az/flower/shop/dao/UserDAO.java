@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.dao;
 
+import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.entity.User;
 
@@ -12,8 +13,14 @@ public class UserDAO extends CachedDAO<User> {
         setGenericClass(User.class);
         Hasher hasher = new Hasher();
         password = hasher.hash(password);
-        String sql = "Select "+ createSQL(User.class) + " WHERE User.nickName = " +"'" +nickName +"'";
-        ResultSet resultSet = executeSqlQuery(sql);
+        String sql = "Select "+ sqlCreator.createSQL(User.class) + " WHERE User.nickName = " +"'" +nickName +"'";
+        ResultSet resultSet = null;
+        try {
+            resultSet = sqlExecutor.executeSqlQuery(sql, connection.createStatement());
+        } catch (SQLException e) {
+            throw new DAOException("can't crate statement", e);
+        }
+
         Integer userId = null;
         try {
             if(resultSet.next()){
@@ -23,9 +30,9 @@ public class UserDAO extends CachedDAO<User> {
                     return userId;
                 }
             }
+            return userId;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("can't find user by id", e);
         }
-        return userId;
     }
 }

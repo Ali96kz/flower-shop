@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.dao;
 
+import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.entity.UserTransaction;
 
 import java.sql.ResultSet;
@@ -11,12 +12,12 @@ public class UserTransactionDAO extends CachedDAO<UserTransaction> {
 
     public List<UserTransaction> getAll(int id) throws DAOException {
         List<UserTransaction> resultList = new ArrayList<>();
-        String selectSQL = createSQL(UserTransaction.class);
+        String selectSQL = sqlCreator.createSQL(UserTransaction.class);
         try {
-            ResultSet resultSet = executeSqlQuery("SELECT " + selectSQL +
-                    " where userId = " + id + ";");
+            ResultSet resultSet = sqlExecutor.executeSqlQuery("SELECT " + selectSQL +
+                    " where userId = " + id + ";", connection.createStatement());
             while (resultSet.next()) {
-                UserTransaction e = parseResultSet(getGenericClass().newInstance(), resultSet);
+                UserTransaction e = (UserTransaction) sqlParser.parseResultSet(getGenericClass().newInstance(), resultSet);
                 resultList.add(e);
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {

@@ -15,7 +15,11 @@ public class PaginatedList {
 
     public List<Product> getPage(int id) {
         List<Product> result = new ArrayList<>();
+
         for (int i = id * pageSize; i < id * pageSize + pageSize; i++) {
+            if(productList.size() <= i) {
+                break;
+            }
             result.add(productList.get(i));
         }
         return result;

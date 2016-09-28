@@ -69,6 +69,7 @@ public class UserTransactionService {
         try {
             transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
             logger.info("Find transaction by name {}", transaction.getName());
+
             userTransaction.setTransaction(transaction);
             userTransaction.setUser(user);
             userTransaction.setSum(summ);

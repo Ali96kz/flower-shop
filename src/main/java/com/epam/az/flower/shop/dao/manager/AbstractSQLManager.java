@@ -1,4 +1,4 @@
-package com.epam.az.flower.shop.dao;
+package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.entity.BaseEntity;
 

@@ -32,6 +32,7 @@ public abstract class AbstractVitrine implements Action {
                 throw new ActionException("can't get product from service",e);
             }
         }
+
         int pageNumber;
         if (req.getParameter("page") == null) {
             pageNumber = 0;

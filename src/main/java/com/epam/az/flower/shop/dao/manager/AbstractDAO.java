@@ -1,33 +1,33 @@
-package com.epam.az.flower.shop.dao;
+package com.epam.az.flower.shop.dao.manager;
 
+import com.epam.az.flower.shop.dao.DAO;
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
-    private Connection connection;
+    protected Connection connection;
     private Class genericClass;
     private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
-    private SQLExecutor sqlExecutor = new SQLExecutor();
-    private SQLCreator sqlCreator = new SQLCreator();
-    private SQLFiller sqlFiller = new SQLFiller();
-    private SQLParser sqlParser = new SQLParser();
+
+    protected SQLExecutor sqlExecutor = new SQLExecutor();
+    protected SQLCreator sqlCreator = new SQLCreator();
+    protected SQLFiller sqlFiller = new SQLFiller();
+    protected SQLParser sqlParser = new SQLParser();
 
     @Override
     public void delete(int id) throws DAOException {
         try {
             String sql = sqlCreator.createSQLForDelete(id, genericClass);
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
-            sqlExecutor.executeSql(sql, preparedStatement);
+            sqlExecutor.executeSql(preparedStatement);
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -36,7 +36,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         try {
             String sql = sqlCreator.createSQLForDelete(item);
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
-            sqlExecutor.executeSql(sql, preparedStatement);
+            sqlExecutor.executeSql(preparedStatement);
         } catch (SQLException e) {
             throw new DAOException("can't execute", e);
         }
@@ -54,7 +54,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
             return result;
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            throw new DAOException("can't get user by id", e);
+            throw new DAOException("can't get object by id", e);
         }
     }
 
@@ -62,46 +62,50 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public int insert(E e) throws DAOException {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
+
         sqlCreator.createSqlForPreparedStatement(sql, values, e);
         String insertSQL = sql + ")values(" + values + ");";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
             sqlFiller.fillPrepareStatementForInsert(preparedStatement, e);
-            int generatedId = sqlExecutor.executeSql(sql ,preparedStatement);
+            int generatedId = sqlExecutor.executeSql(preparedStatement);
+            return generatedId;
         } catch (SQLException e1) {
             throw new DAOException("", e1);
         }
-        return
     }
 
     @Override
     public void update(E item) throws DAOException {
         String sql = sqlCreator.createSQLForUpdate(item);
-
-        sqlExecutor.executeSql( );
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            sqlExecutor.executeSql(preparedStatement);
+        } catch (SQLException e) {
+            throw new DAOException("can't execute update sql", e);
+        }
     }
 
     @Override
-    public List<E> getAll() {
+    public List<E> getAll() throws DAOException {
         List<E> resultList = new ArrayList<>();
-        String selectSQL = sqlCreator.createSQL(getGenericClass());
+        String selectSQL = "SELECT "+sqlCreator.createSQL(getGenericClass())+";";
 
+        ResultSet resultSet ;
         try {
-            ResultSet resultSet = sqlExecutor.executeSqlQuery("SELECT " + selectSQL + ";", connection);
+            resultSet = sqlExecutor.executeSqlQuery(selectSQL, connection.createStatement());
             while (resultSet.next()) {
                 E e = (E) sqlParser.parseResultSet(getGenericClass().newInstance(), resultSet);
                 resultList.add(e);
             }
-        } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
 
-        return resultList;
+            return resultList;
+        } catch (SQLException | InstantiationException | IllegalAccessException  e) {
+            throw new DAOException("can;t execute sql", e);
+        }
     }
 
-    private Class<E> getGenericClass() {
+    protected Class<E> getGenericClass() {
         if (genericClass == null) {
             Type mySuperClass = getClass().getGenericSuperclass();
             Type tType = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];

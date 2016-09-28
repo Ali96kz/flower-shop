@@ -218,3 +218,7 @@ INSERT INTO
         balance,
         password,  userRoleId)
 VALUES ('Fedor', 'Changaridi','Fedorovich','1996-12-11', 3, 10000, 'fcea920f7412b5da7be0cf42b8c93759', 2);
+
+INSERT INTO Transaction(id, name) VALUES (1, 'add money');
+INSERT INTO Transaction(id, name) VALUES (2, 'buy product');
+INSERT INTO Transaction(id, name) VALUES (3, 'withdraw money');

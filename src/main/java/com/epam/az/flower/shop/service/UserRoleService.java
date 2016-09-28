@@ -20,8 +20,12 @@ public class UserRoleService {
             throw new ServiceException("can't initialize class", e);
         }
     }
-    public List<UserRole> getAll() {
-        return userRoleDao.getAll();
+    public List<UserRole> getAll() throws ServiceException {
+        try {
+            return userRoleDao.getAll();
+        } catch (DAOException e) {
+            throw new ServiceException("can't get all userRole", e);
+        }
     }
 
     public UserRole findById(int id) throws ServiceException {

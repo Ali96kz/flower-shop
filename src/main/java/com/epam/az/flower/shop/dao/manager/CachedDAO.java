@@ -1,5 +1,7 @@
-package com.epam.az.flower.shop.dao;
+package com.epam.az.flower.shop.dao.manager;
 
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.manager.AbstractDAO;
 import com.epam.az.flower.shop.entity.BaseEntity;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E>{
+public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     private Map<Integer, E> cache = new HashMap<>();
     private boolean getAll = false;
 
@@ -43,7 +45,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E>{
     }
 
     @Override
-    public List<E> getAll() {
+    public List<E> getAll() throws DAOException {
         if (!getAll) {
             List<E> list = super.getAll();
             cache = new HashMap<>();

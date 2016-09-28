@@ -1,5 +1,6 @@
-package com.epam.az.flower.shop.dao;
+package com.epam.az.flower.shop.dao.manager;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import java.lang.reflect.Field;
 import java.sql.Date;
@@ -41,7 +42,7 @@ public class SQLCreator <E extends BaseEntity> extends AbstractSQLManager{
         return sql;
     }
 
-    protected String createSQL(Class clazz) {
+    public String createSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
 
         Field[] fields = clazz.getDeclaredFields();
