@@ -21,8 +21,10 @@
 
             <input type="text" class="form-control" name="nickName" placeholder="${nickName}" />
             <input type="password" class="form-control" name="password" placeholder="${password}" />
-
-            <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button>
+             <c:forEach items="${errorMsg}" var="msg">
+                 <c:out value="${msg}"/><br>
+             </c:forEach>
+            <button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">${login}</button>
         </form>
     </div>
     </div>

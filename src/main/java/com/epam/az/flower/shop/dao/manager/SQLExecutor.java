@@ -19,6 +19,15 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
             throw new DAOException("can't execute sql", e1);
         }
     }
+    public ResultSet executePreaparedSqlQuery(PreparedStatement statement) throws DAOException {
+        ResultSet resultSet;
+        try {
+            resultSet = statement.executeQuery();
+            return resultSet;
+        } catch (SQLException e1) {
+            throw new DAOException("can't execute sql", e1);
+        }
+    }
 
     public int executeSql(PreparedStatement preparedStatement) throws DAOException {
         int result = 0;

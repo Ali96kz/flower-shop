@@ -3,6 +3,7 @@ package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.validator.LogInValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
@@ -25,6 +26,8 @@ public class LoginAction implements Action {
     private static Logger log = LoggerFactory.getLogger(LoginAction.class);
     private Validator validator = new LogInValidator();
     private UserService userService;
+    private Hasher hasher = new Hasher();
+
     public LoginAction() throws ActionException {
         try {
             userService = new UserService();
@@ -41,20 +44,22 @@ public class LoginAction implements Action {
         List<String> errorMsg;
         try {
             errorMsg = validator.isValidate(req);
+
+            if (errorMsg.size() > 0) {
+                req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+                return new ActionResult(JSP_PAGE_NAME_LOGIN);
+            }
         } catch (ValidatorException e) {
             throw new ActionException("problem with validating ", e);
         }
-        if (errorMsg.size() > 0) {
-            req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
-            return new ActionResult(JSP_PAGE_NAME_LOGIN);
-        }
+
 
         String nickName = req.getParameter(PARAMETER_NICK_NAME);
         String password = req.getParameter(PARAMETER_PASSWORD);
 
         int userId;
         try {
-            userId = userService.getUserByCredentials(nickName, password);
+            userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
         } catch (ServiceException e) {
             throw new ActionException("can't find user by id", e);
         }

@@ -15,13 +15,8 @@
     <fmt:message key="register.confirm.passsword" var="confirmPassword"/>
     <fmt:message key="register.birth.day.date" var="birhday"/>
     <fmt:message key="register.sign.up" var="signUpButton"/>
-    <fmt:message key="register.label.register" var="labelReg"/>
-    <fmt:message key="register.label.register" var="labelReg"/>
-    <fmt:message key="register.help.for.string" var="helpCom"/>
-    <fmt:message key="register.help.for.date" var="helpDate"/>
-    <fmt:message key="register.help.for.password" var="helpPassword"/>
-    <fmt:message key="register.help.for.confirm.password" var="helpConfirmPassword"/>
 </fmt:bundle>
+
 <style>
     <jsp:directive.include file="/WEB-INF/css/registration.css"/>
 </style>
@@ -34,7 +29,7 @@
                 <form class="form-horizontal" method="POST">
                     <fieldset>
                         <div id="legend">
-                            <legend class="">${labelReg}</legend>
+                            <legend class="">Register</legend>
                         </div>
 
                         <div class="control-group">
@@ -42,7 +37,7 @@
                             <div class="controls">
                                 <input id="firstName" name="firstName" placeholder="" class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">${helpCom}</p>
+                                <p class="help-block"></p>
                             </div>
                         </div>
 
@@ -51,7 +46,7 @@
                             <div class="controls">
                                 <input id="lastName" name="lastName" placeholder="" class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">${helpCom}</p>
+                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
                             </div>
                         </div>
 
@@ -69,41 +64,40 @@
                             <div class="controls">
                                 <input id="dateBirthday" name="dateBirthday" placeholder=""
                                        class="form-control input-lg" type="text">
-                                <p class="help-block">${helpDate}</p>
+                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password">${password}</label>
+                            <label class="control-label" for="password">Password</label>
                             <div class="controls">
                                 <input id="password" name="password" placeholder="" class="form-control input-lg"
                                        type="password">
-                                <p class="help-block">${helpPassword}</p>
+                                <p class="help-block">Password should be at least 6 characters</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password_confirm">${confirmPassword}</label>
+                            <label class="control-label" for="password_confirm">Password (Confirm)</label>
                             <div class="controls">
                                 <input id="password_confirm" name="confirmPassword" placeholder=""
                                        class="form-control input-lg" type="password">
-                                <p class="help-block">${helpConfirmPassword}</p>
+                                <p class="help-block">Please confirm password</p>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="password_confirm">${confirmPassword}</label>
+                            <label class="control-label" for="password_confirm">Password (Confirm)</label>
                             <div class="controls">
-                                <c:forEach items="${errorMsg}" var="msg">
-                                    <c:out value="${msg}"/><br>
-                                </c:forEach>
+                                <c:forEach items="${userRoles}" var="userRole">
+                                    <option value="${userRole.id}">${userRole.name}</option>
+                                    </c:forEach>
                             </div>
                         </div>
-
 
                         <div class="control-group">
                             <!-- Button -->
                             <div class="controls">
-                                <button class="btn btn-success">${signUpButton}</button>
+                                <button class="btn btn-success">Register</button>
                             </div>
                         </div>
                     </fieldset>
@@ -113,6 +107,9 @@
         </div>
     </div>
 
+    <c:forEach items="${errorMsg}" var="msg">
+        <c:out value="${msg}"/><br>
+    </c:forEach>
 
      </jsp:attribute>
 </t:unautorized-user-template>

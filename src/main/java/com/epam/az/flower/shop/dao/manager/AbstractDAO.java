@@ -65,6 +65,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
         sqlCreator.createSqlForPreparedStatement(sql, values, e);
         String insertSQL = sql + ")values(" + values + ");";
+        logger.info("INSERT sql {}", insertSQL);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
             sqlFiller.fillPrepareStatementForInsert(preparedStatement, e);
@@ -78,8 +79,10 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public void update(E item) throws DAOException {
         String sql = sqlCreator.createSQLForUpdate(item);
+        logger.info("Update sql {}", sql);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            sqlFiller.fillPrepareStatementForInsert(preparedStatement, item);
             sqlExecutor.executeSql(preparedStatement);
         } catch (SQLException e) {
             throw new DAOException("can't execute update sql", e);

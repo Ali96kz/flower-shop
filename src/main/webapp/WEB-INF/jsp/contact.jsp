@@ -10,10 +10,10 @@
     <div class="row">
         <div class="col-md-9">
             <div class="row">
-                Zhagparov Ali, Java Lab #19
-                phone number : +7747 226 42 91
-                skype  : jakparov_kaz
-                e-mail : jakparov.kz@gmail.com
+                Zhagparov Ali, Java Lab #19 <br>
+                phone number : +7747 226 42 91 <br>
+                skype  : jakparov_kaz <br>
+                e-mail : jakparov.kz@gmail.com <br>
             </div>
         </div>
     </div>

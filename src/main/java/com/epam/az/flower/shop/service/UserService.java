@@ -3,9 +3,9 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserDAO;
-import com.epam.az.flower.shop.dao.UserRoleDao;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import com.epam.az.flower.shop.util.Hasher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +17,7 @@ public class UserService {
     private UserDAO userDAO;
     private UserRoleService userRoleService;
     private UserTransactionService userTransactionService;
+    private Hasher hasher = new Hasher();
     private static final Logger lo = LoggerFactory.getLogger(UserService.class);
     public UserService() throws ServiceException {
         try {
@@ -45,6 +46,22 @@ public class UserService {
                 throw new ServiceException("can't rollback transaction", e);
             }
             throw new ServiceException("can't update user");
+        }
+    }
+
+    public boolean checkToFree(String name) throws ServiceException {
+        try {
+            daoFactory.startOperation(userDAO);
+            Integer id = userDAO.findByCredentials(name);
+            if(id != null || id == 0){
+                return false;
+            }
+
+            return true;
+        } catch (DAOException e) {
+            throw new ServiceException("can't execute", e);
+        }finally {
+            daoFactory.endOperation(userDAO);
         }
     }
 
@@ -111,17 +128,16 @@ public class UserService {
         }
     }
 
-    public Integer getUserByCredentials(String nickName, String passHash) throws ServiceException {
-        Integer id ;
+    public Integer getUserIdByCredentials(String nickName, String password) throws ServiceException {
         try {
             daoFactory.startOperation(userDAO);
-            id = userDAO.findByCredentials(nickName, passHash);
+            Integer id = userDAO.findByCredentials(nickName, password);
+            return id;
         } catch (DAOException e) {
             throw new ServiceException("can't find user by credentials", e);
         }finally {
             daoFactory.endOperation(userDAO);
         }
-        return id;
     }
 
     public void logout(int id) {

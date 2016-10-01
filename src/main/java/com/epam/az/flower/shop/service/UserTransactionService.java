@@ -68,14 +68,15 @@ public class UserTransactionService {
         Transaction transaction;
         try {
             transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
+
             logger.info("Find transaction by name {}", transaction.getName());
+            daoFactory.startTransaction(userTransactionDAO);
 
             userTransaction.setTransaction(transaction);
             userTransaction.setUser(user);
             userTransaction.setSum(summ);
             userTransaction.setTransactionDate(getDate());
 
-            daoFactory.startTransaction(userTransactionDAO);
             userTransactionDAO.insert(userTransaction);
             daoFactory.commitTransaction(userTransactionDAO);
         } catch (DAOException e) {

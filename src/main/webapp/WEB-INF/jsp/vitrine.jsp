@@ -25,7 +25,6 @@
                     </div>
                 </div>
             </c:forEach>
-
                 <c:forEach items="${pageList}" var="number">
                     <a href="vitrine?page=${number}">
                             <c:out value="${number}"/>

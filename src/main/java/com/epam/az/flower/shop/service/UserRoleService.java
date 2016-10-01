@@ -22,9 +22,12 @@ public class UserRoleService {
     }
     public List<UserRole> getAll() throws ServiceException {
         try {
+            daoFactory.startOperation(userRoleDao);
             return userRoleDao.getAll();
         } catch (DAOException e) {
             throw new ServiceException("can't get all userRole", e);
+        }finally {
+            daoFactory.endOperation(userRoleDao);
         }
     }
 

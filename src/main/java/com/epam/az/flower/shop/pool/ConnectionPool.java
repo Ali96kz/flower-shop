@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.pool;
 
-import com.epam.az.flower.shop.pool.ConnectionPoolException;
-import com.epam.az.flower.shop.util.PropertyWorker;
+import com.epam.az.flower.shop.util.PropertyManager;
 import com.epam.az.flower.shop.util.UtilClassException;
 import org.apache.log4j.Logger;
 
@@ -35,10 +34,10 @@ public class ConnectionPool implements DataSource {
     private BlockingQueue<PooledConnection> usedConnections;
 
     public ConnectionPool() throws ConnectionPoolException {
-        PropertyWorker propertyWorker = new PropertyWorker();
+        PropertyManager propertyManager = new PropertyManager();
         Properties properties;
         try {
-            properties = propertyWorker.readProperty("database.properties");
+            properties = propertyManager.readProperty("database.properties");
         } catch (UtilClassException e) {
             throw new ConnectionPoolException("Could not load properties", e);
 

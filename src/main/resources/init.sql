@@ -161,7 +161,7 @@ INSERT INTO FlowerType(name) VALUES ('Garden flower');
 INSERT INTO FlowerType(name) VALUES ('Street flower');
 INSERT INTO FlowerType(name) VALUES ('Present flower');
 INSERT INTO FlowerType(name) VALUES ('Growing flower');
-INSERT INTO UserRole(name) VALUES ('admins');
+INSERT INTO UserRole(name) VALUES ('admin');
 INSERT INTO UserRole(name) VALUES ('manager');
 INSERT INTO UserRole(name) VALUES ('customer');
 INSERT INTO VisualParameters(colorSteam, colorLeaves) VALUES ('red', 'red');

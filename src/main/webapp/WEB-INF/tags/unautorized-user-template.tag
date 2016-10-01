@@ -11,8 +11,8 @@
         <fmt:message key="template.basket" var="basket"/>
         <fmt:message key="template.vitrine" var="vitrine"/>
         <fmt:message key="template.about.project" var="aboutMyProject"/>
-        <fmt:message key="template.sign.in" var="sign.in"/>
-        <fmt:message key="template.sign.up" var="sign.up"/>
+        <fmt:message key="template.sign.in" var="signIn"/>
+        <fmt:message key="template.sign.up" var="signUp"/>
         <fmt:message key="template.contact" var="contact"/>
     </fmt:bundle>
 
@@ -62,11 +62,11 @@
         </div>
 
         <div class="list-group">
-            <a href="login" class="list-group-item">${sign.in}</a>
+            <a href="login" class="list-group-item">${signIn}</a>
         </div>
 
         <div class="list-group">
-            <a href="registration" class="list-group-item">${sign.up}</a>
+            <a href="registration" class="list-group-item">${signUp}</a>
         </div>
     </div>
     <jsp:invoke fragment="navbar"/>

@@ -7,6 +7,7 @@ import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
 import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.validator.RegisterProfileValidator;
+import com.epam.az.flower.shop.validator.ValidatorException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -59,9 +60,20 @@ public abstract class AddUser implements Action {
         }
     }
 
-    public ActionResult validate(HttpServletRequest request) {
-        RegisterProfileValidator validator = new RegisterProfileValidator();
-        List<String> errorMsg = validator.isValidate(request);
+    public ActionResult validate(HttpServletRequest request) throws ActionException {
+        RegisterProfileValidator validator ;
+        try {
+            validator = new RegisterProfileValidator();
+        } catch (ValidatorException e) {
+            throw new ActionException("can;t create validator", e);
+        }
+
+        List<String> errorMsg ;
+        try {
+            errorMsg = validator.isValidate(request);
+        } catch (ValidatorException e) {
+            throw new ActionException("can't validate", e);
+        }
 
         if (errorMsg.size() > 0) {
             String name = request.getParameter(PARAMETER_FIRST_NAME);
