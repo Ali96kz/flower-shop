@@ -54,10 +54,10 @@ public class UserService {
             daoFactory.startOperation(userDAO);
             Integer id = userDAO.findByCredentials(name);
             if(id != null || id == 0){
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         } catch (DAOException e) {
             throw new ServiceException("can't execute", e);
         }finally {
@@ -116,10 +116,14 @@ public class UserService {
         return user;
     }
 
-    public List<User> getAll() throws ServiceException {
+    public List<User> getAllActiveUsers() throws ServiceException {
         try {
             daoFactory.startOperation(userDAO);
             List<User> users=  userDAO.getAll();
+            for (int i = 0; i < users.size(); i++) {
+                if(users.get(i).getDeleteDay() != null)
+                    users.remove(i);
+            }
             return users;
         } catch (DAOException e) {
             throw new ServiceException("can't get all user from dao", e);

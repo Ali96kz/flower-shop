@@ -47,6 +47,7 @@ public class SecurityFilter implements Filter {
 
         userViews.add("/delete-account");
         userViews.add("/profile");
+        userViews.add("/delete-profile");
         userViews.add("/edit-user");
         userViews.add("/addMoneyToBalance");
         userViews.add("/logout");

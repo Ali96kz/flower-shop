@@ -25,6 +25,7 @@ public class ActionFactory {
             actions.put("POST/edit-account", new EditUserAction());
 
             actions.put("GET/delete-account", new UserDeleteAccountAction());
+            actions.put("GET/delete-profile", new ShowPageAction("delete-profile"));
             actions.put("GET/registration", new ShowPageAction("registration"));
             actions.put("GET/edit-account", new ShowUserEditPage());
             actions.put("GET/set-language", new SelectLanguageAction());

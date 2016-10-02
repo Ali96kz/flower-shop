@@ -29,7 +29,7 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
         }
     }
 
-    public int executeSql(PreparedStatement preparedStatement) throws DAOException {
+    public int executeSqlWithGeneratedKeys(PreparedStatement preparedStatement) throws DAOException {
         int result = 0;
         try {
             preparedStatement.execute();
@@ -42,10 +42,10 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
             throw new DAOException("can't execute sql", e);
         }
     }
-    public void executeSql(String sql, PreparedStatement preparedStatement) throws DAOException {
+    public void executeSql(PreparedStatement preparedStatement) throws DAOException {
         int result = 0;
         try {
-            preparedStatement.execute(sql);
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new DAOException("can't execute sql", e);
         }

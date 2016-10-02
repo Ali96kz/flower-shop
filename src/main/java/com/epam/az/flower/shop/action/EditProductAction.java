@@ -6,6 +6,8 @@ import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,11 +16,11 @@ import java.util.List;
 public class EditProductAction extends AbstractProduct{
 
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "edit-product";
+    public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
     public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
     public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
     public static final String PARAMETER_PRODUCT_ID = "productId";
-
+    private static Logger logger = LoggerFactory.getLogger(EditProductAction.class);
     public EditProductAction() throws ActionException {
     }
 
@@ -49,6 +51,7 @@ public class EditProductAction extends AbstractProduct{
             errorMsg = validator.isValidate(req);
             if (errorMsg.size() > 0) {
                 req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+
                 return new ActionResult(JSP_PAGE_NAME_EDIT_PRODUCT);
             }
         } catch (ValidatorException e) {

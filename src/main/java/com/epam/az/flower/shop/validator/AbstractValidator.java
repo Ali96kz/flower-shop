@@ -8,9 +8,6 @@ public abstract class AbstractValidator implements Validator{
     private StringAdapter stringAdapter = new StringAdapter();
     public void validatePositiveNumber(List<String> errorMsg, String number, String name) {
         //TODO
-        if(!number.matches("[0-9]"))
-            errorMsg.add("Please insert just number. For example: 45, 65, 87"+name);
-
         if (number == null || number ==  "") {
             errorMsg.add("please insert "+name);
         }

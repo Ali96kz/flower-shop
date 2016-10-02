@@ -121,6 +121,15 @@
                             </div>
                         </div>
 
+                        <div class="control-group">
+                           <div class="controls">
+                                <c:forEach items="${errorMsg}" var="msg">
+                                    <c:out value="${msg}"/><br>
+                                </c:forEach>
+                            </div>
+                        </div>
+
+
 
                         <div class="control-group">
                             <!-- Button -->

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
 
-    public static final String JSP_PAGE_PRODUCT_INF = "product-inf?id=";
+    public static final String JSP_PAGE_PRODUCT_INF = "product-inf?productId=";
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     public static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
 

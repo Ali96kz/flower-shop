@@ -12,17 +12,27 @@
 
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
+<div class="container">
 
-    <a href="admin-registration">
-        <c:out value="${register}"/><br>
-    </a>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <a href="admin-registration">
+                    <c:out value="${register}"/><br>
+                </a>
 
-    <c:forEach items="${users}" var="user">
-        ${nickName}<c:out value="${user.nickName}"/><br>
-        <a href="delete-user?id=${user.id}">
-            <c:out value="${deleteUser}"/><br>
-        </a>
-        <br>
-    </c:forEach>
-    </jsp:attribute >
+
+            <c:forEach items="${users}" var="user">
+                ${nickName}<c:out value="${user.nickName}"/><br>
+                <a href="delete-user?id=${user.id}">
+                    <c:out value="${deleteUser}"/><br>
+                </a>
+                <br>
+            </c:forEach>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </jsp:attribute>
 </t:autorized-user-template>

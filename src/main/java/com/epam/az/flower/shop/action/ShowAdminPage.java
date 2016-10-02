@@ -24,7 +24,7 @@ public class ShowAdminPage implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         List<User> users ;
         try {
-            users = userService.getAll();
+            users = userService.getAllActiveUsers();
         } catch (ServiceException e) {
             throw new ActionException("can't get all user", e);
         }
