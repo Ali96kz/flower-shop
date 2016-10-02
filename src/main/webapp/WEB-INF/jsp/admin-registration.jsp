@@ -86,11 +86,16 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="password_confirm">Password (Confirm)</label>
+                            <label class="control-label" for="password_confirm">Choose user role</label>
                             <div class="controls">
-                                <c:forEach items="${userRoles}" var="userRole">
-                                    <option value="${userRole.id}">${userRole.name}</option>
-                                    </c:forEach>
+                                <p>
+                                    <select name="userRoleId">
+                                        <c:forEach items="${userRoles}" var="userRole">
+                                            <option value="${userRole.id}">${userRole.name}</option>
+                                        </c:forEach>
+                                        </select>
+                                </p>
+
                             </div>
                         </div>
 

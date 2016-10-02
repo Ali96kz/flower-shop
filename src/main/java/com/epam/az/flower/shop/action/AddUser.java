@@ -60,7 +60,7 @@ public abstract class AddUser implements Action {
         }
     }
 
-    public ActionResult validate(HttpServletRequest request) throws ActionException {
+    public boolean validate(HttpServletRequest request) throws ActionException {
         RegisterProfileValidator validator ;
         try {
             validator = new RegisterProfileValidator();
@@ -87,9 +87,9 @@ public abstract class AddUser implements Action {
 
             request.setAttribute(ATTRIBUTE_NAME_USER, user);
             request.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
-            return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
+            return false;
         }
-        return null;
+        return true;
     }
 
     public void putInSession(User user, HttpServletRequest request) {

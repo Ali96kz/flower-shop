@@ -24,9 +24,9 @@ public class RegisterAction extends AddUser {
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
 
-        ActionResult actionResult = validate(request);
-        if (actionResult != null) {
-            return actionResult;
+        boolean isValidate = validate(request);
+        if (isValidate == false) {
+            return new ActionResult("registration");
         }
         try {
             User user = fillUser(request, new User());

@@ -25,8 +25,8 @@ public class EditUserAction extends AddUser {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            ActionResult actionResult = validate(req);
-            if (actionResult != null)
+            boolean isValidate = validate(req);
+            if (isValidate == false)
                 return new ActionResult(JSP_PAGE_NAME_EDIT_USER);
             HttpSession session = req.getSession();
             int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);

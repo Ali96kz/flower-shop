@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowAdminRegisterNewPAge implements Action {
-    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+    public static final String JSP_PAGE_NAME_REGISTRATION = "admin-registration";
     UserRoleService userRoleService ;
     public ShowAdminRegisterNewPAge() throws ActionException {
         try {
