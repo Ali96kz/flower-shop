@@ -78,12 +78,15 @@ public class ProductService {
 
     public Product findById(int id) throws ServiceException {
         Product product;
+
         try {
             daoFactory.startOperation(productDAO);
             product = productDAO.findById(id);
+            if(product.getFlower() == null){
+                product = productDAO.findById(1);
+            }
             fillProduct(product);
             daoFactory.endOperation(productDAO);
-
         } catch (DAOException e) {
             daoFactory.endOperation(productDAO);
             throw new ServiceException("can't get product by id", e);

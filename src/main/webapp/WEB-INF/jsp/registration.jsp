@@ -40,7 +40,7 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${firstName}</label>
                             <div class="controls">
-                                <input id="firstName" name="firstName" placeholder="" class="form-control input-lg"
+                                <input id="firstName" name="firstName"  value="${user.firstName}" placeholder="" class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">${helpCom}</p>
                             </div>
@@ -49,7 +49,7 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${lastName}</label>
                             <div class="controls">
-                                <input id="lastName" name="lastName" placeholder="" class="form-control input-lg"
+                                <input id="lastName" name="lastName" placeholder=""  value="${user.lastName}" class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">${helpCom}</p>
                             </div>
@@ -58,7 +58,7 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${nickName}</label>
                             <div class="controls">
-                                <input id="username" name="nickName" placeholder="" class="form-control input-lg"
+                                <input id="username" name="nickName"  value="${user.nickName}" placeholder="" class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">date</p>
                             </div>
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password">${password}</label>
+                            <label class="control-label" for="password" >${password}</label>
                             <div class="controls">
                                 <input id="password" name="password" placeholder="" class="form-control input-lg"
                                        type="password">

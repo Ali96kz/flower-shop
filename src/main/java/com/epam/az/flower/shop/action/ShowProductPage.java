@@ -30,11 +30,11 @@ public class ShowProductPage implements Action {
         int id = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
         try {
             product = productService.findById(id);
+
+            request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
+            return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF);
         } catch (ServiceException e) {
             throw new ActionException("can't get product from dao", e);
         }
-
-        request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
-        return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF);
     }
 }
