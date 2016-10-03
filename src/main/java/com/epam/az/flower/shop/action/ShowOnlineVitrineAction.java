@@ -13,6 +13,7 @@ public class ShowOnlineVitrineAction extends AbstractVitrine{
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+
         setPaginationList(req);
         setPage(req);
         return new ActionResult(JSP_PAGE_NAME_VITRINE);

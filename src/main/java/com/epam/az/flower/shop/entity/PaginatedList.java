@@ -31,6 +31,6 @@ public class PaginatedList {
         if (productList.size() % pageSize== 0) {
             return productList.size() / pageSize;
         }
-        return productList.size() / pageSize + 1;
+        return productList.size() / pageSize;
     }
 }

@@ -26,6 +26,7 @@ public class RegisterAction extends AddUser {
 
         boolean isValidate = validate(request);
         if (isValidate == false) {
+
             return new ActionResult("registration");
         }
         try {

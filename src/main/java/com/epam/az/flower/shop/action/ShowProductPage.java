@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowProductPage implements Action {
     public static final String PARAMETER_PRODUCT_ID = "productId";
     public static final String ATTRIBUTE_NAME_PRODUCT = "product";
+    private StringAdapter stringAdapter = new StringAdapter();
     public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
+
     private ProductService productService;
 
     public ShowProductPage() throws ActionException {
@@ -22,19 +24,17 @@ public class ShowProductPage implements Action {
         }
     }
 
-    StringAdapter stringAdapter = new StringAdapter();
-
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+    public ActionResult execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
         Product product;
-        int id = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
+        int id = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
         try {
             product = productService.findById(id);
         } catch (ServiceException e) {
             throw new ActionException("can't get product from dao", e);
         }
 
-        req.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
+        request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
         return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF);
     }
 }

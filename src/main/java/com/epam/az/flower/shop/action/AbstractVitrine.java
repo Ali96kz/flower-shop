@@ -36,11 +36,16 @@ public abstract class AbstractVitrine implements Action {
         int pageNumber;
         if (req.getParameter("page") == null) {
             pageNumber = 0;
-        } else {
-            String page = req.getParameter("page");
-            pageNumber = stringAdapter.toInt(page);
-
+            req.setAttribute("products",paginatedList.getPage(pageNumber));
+            return;
         }
+        String page = req.getParameter("page");
+        pageNumber = stringAdapter.toInt(page);
+
+        if(pageNumber > paginatedList.getPageNumber()){
+            pageNumber = 0;
+        }
+
         req.setAttribute("products",paginatedList.getPage(pageNumber));
     }
     public void setPage(HttpServletRequest req){
