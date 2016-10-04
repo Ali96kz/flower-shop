@@ -69,7 +69,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
-            sqlFiller.fillPrepareStatementForInsert(preparedStatement, e);
+            sqlFiller.fillPrepareStatement(preparedStatement, e);
             int generatedId = sqlExecutor.executeSqlWithGeneratedKeys(preparedStatement);
             return generatedId;
         } catch (SQLException e1) {
@@ -83,7 +83,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         logger.info("Update sql {}", sql);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            sqlFiller.fillPrepareStatementForInsert(preparedStatement, item);
+            sqlFiller.fillPrepareStatement(preparedStatement, item);
             sqlExecutor.executeSqlWithGeneratedKeys(preparedStatement);
         } catch (SQLException e) {
             throw new DAOException("can't execute update sql", e);

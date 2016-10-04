@@ -7,6 +7,7 @@ import com.epam.az.flower.shop.entity.Flower;
 import com.epam.az.flower.shop.entity.GrowingCondition;
 import com.epam.az.flower.shop.entity.VisualParameters;
 
+import java.security.Provider;
 import java.util.List;
 
 public class FlowerService {
@@ -33,6 +34,11 @@ public class FlowerService {
             flower.setVisualParameters(visualParameters);
             daoFactory.endOperation(flowerDAO);
         } catch (DAOException e) {
+            try {
+                daoFactory.rollBack(flowerDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction", e);
+            }
             throw new ServiceException("Can't find object by id", e);
         }
         return flower;
@@ -47,7 +53,7 @@ public class FlowerService {
             try {
                 daoFactory.rollBack(flowerDAO);
             } catch (DAOException e1) {
-                e1.printStackTrace();
+                throw new ServiceException("can't rollback transaction", e);
             }
             throw new ServiceException("can't get flower dao from factory", e);
         }

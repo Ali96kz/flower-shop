@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.dao.manager;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import java.lang.reflect.Field;
 import java.sql.Date;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 
 public class SQLFiller <E extends BaseEntity> extends AbstractSQLManager{
 
-    public void fillPrepareStatementForInsert(PreparedStatement preparedStatement, E object) {
+    public void fillPrepareStatement(PreparedStatement preparedStatement, E object) throws DAOException {
         Field[] fields = object.getClass().getDeclaredFields();
         try {
             for (int i = 0; i < fields.length; i++) {
@@ -29,9 +30,9 @@ public class SQLFiller <E extends BaseEntity> extends AbstractSQLManager{
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("can't into prepared statement", e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new DAOException("try to get access to private object", e);
         }
     }
 
