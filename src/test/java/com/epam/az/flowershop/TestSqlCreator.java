@@ -21,8 +21,6 @@ public class TestSqlCreator {
                 "Origin.country, Origin.province FROM Origin;", sql);
     }
 
-
-
     @Test
     public void testFindById() {
         String sql = prepareSqlCreator.createSqlForFindById(PRIMITIVE_OBJECT_CLASS, EXAMPLE_OBJECT_ID);
@@ -37,6 +35,12 @@ public class TestSqlCreator {
     }
 
     @Test
+    public void testInsertSQL() throws DAOException {
+        String sql = prepareSqlCreator.createInsertSQL(PRIMITIVE_OBJECT_CLASS);
+        assertEquals("Create incorrect sql for delete", "INSERT INTO Origin(country, province)values(?, ?);", sql);
+    }
+
+    @Test
     public void testUpdateSQL() throws DAOException {
         Origin origin = new Origin();
         origin.setId(EXAMPLE_OBJECT_ID);
@@ -47,13 +51,20 @@ public class TestSqlCreator {
     }
 
     /**
-     * Complex object means object have a nested object.
+     * Complex object means object has a nested object.
      */
+
     @Test
     public void testGetAllForComplexObject() {
         String sql = prepareSqlCreator.createSqlForGetAll(CLASS_OF_OBJECT_WITH_NESTED_OBJECT);
         assertEquals("Create incorrect sql for get all method", "SELECT Flower.id, Flower.deleteDay, Flower.name, " +
                 "Flower.averageHeight, visualParametersId, growingConditionId, flowerTypeId FROM Flower;", sql);
+    }
+    @Test
+    public void testInsertForComplexObject() throws DAOException {
+        String sql = prepareSqlCreator.createInsertSQL(CLASS_OF_OBJECT_WITH_NESTED_OBJECT);
+        assertEquals("Create incorrect sql for insert", "INSERT INTO Flower(name, averageHeight, visualParametersId, growingConditionId," +
+                " flowerTypeId)values(?, ?, ?, ?, ?);", sql);
     }
 
     @Test
@@ -76,6 +87,8 @@ public class TestSqlCreator {
         assertEquals("Create incorrect sql for update", "UPDATE Flower SET nameId = ?," +
                 "averageHeight = ?, visualParametersId = ?,growingConditionId = ?,flowerTypeId = ? where id = 5;", sql);
     }
+
+
 
     public Flower initializeFlower() {
         Flower flower = new Flower();

@@ -7,10 +7,13 @@ import java.sql.Date;
 
 public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
 
-    public void createInsertSQL(StringBuilder sql, StringBuilder values, E object) throws DAOException {
-        sql.append("INSERT INTO " + object.getClass().getSimpleName() + "(");
+    public String createInsertSQL( Class object) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        StringBuilder values = new StringBuilder();
 
-        Field[] fields = object.getClass().getDeclaredFields();
+        sql.append("INSERT INTO " + object.getSimpleName() + "(");
+
+        Field[] fields = object.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             Class fieldSuperclass = fields[i].getType().getSuperclass();
             String name = fields[i].getName();
@@ -25,6 +28,7 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
 
         deleteLastDot(sql);
         deleteLastDot(values);
+        return sql + ")values(" + values + ");";
     }
 
     public void deleteLastDot(StringBuilder stringBuilder) {

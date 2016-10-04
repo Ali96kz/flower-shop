@@ -64,12 +64,9 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     @Override
     public int insert(E e) throws DAOException {
-        StringBuilder sql = new StringBuilder();
-        StringBuilder values = new StringBuilder();
 
-        prepareSqlCreator.createInsertSQL(sql, values, e);
-        String insertSQL = sql + ")values(" + values + ");";
-        logger.info("INSERT sql {}", insertSQL);
+        String insertSQL = prepareSqlCreator.createInsertSQL(e.getClass());
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
             sqlFiller.fillPrepareStatementForInsert(preparedStatement, e);
