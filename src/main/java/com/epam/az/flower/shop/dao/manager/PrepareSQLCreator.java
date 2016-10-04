@@ -5,9 +5,9 @@ import com.epam.az.flower.shop.entity.BaseEntity;
 import java.lang.reflect.Field;
 import java.sql.Date;
 
-public class SQLCreator <E extends BaseEntity> extends AbstractSQLManager{
+public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
 
-    public void createSqlForPreparedStatement(StringBuilder sql, StringBuilder values, E object) throws DAOException {
+    public void createInsertSQL(StringBuilder sql, StringBuilder values, E object) throws DAOException {
         sql.append("INSERT INTO " + object.getClass().getSimpleName() + "(");
 
         Field[] fields = object.getClass().getDeclaredFields();
@@ -103,5 +103,8 @@ public class SQLCreator <E extends BaseEntity> extends AbstractSQLManager{
     public String createSQLForDelete(int id, Class genericClass){
         String sql = ("UPDATE " + genericClass.getSimpleName() + " set deleteDAY = ? where id = " + id + ";");
         return sql;
+    }
+    public String createSqlForGetAll(Class genericClass){
+        return  "SELECT "+ createSQL(genericClass)+";";
     }
 }

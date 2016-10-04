@@ -5,6 +5,9 @@ import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.*;
+/**
+ *Execute sql statement
+ * */
 
 public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
     private static Logger logger = LoggerFactory.getLogger(SQLExecutor.class);

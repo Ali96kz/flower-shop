@@ -10,6 +10,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.*;
+/**Create, and execute sql.
+ *
+ * */
 
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected Connection connection;
@@ -17,14 +20,14 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
     protected SQLExecutor sqlExecutor = new SQLExecutor();
-    protected SQLCreator sqlCreator = new SQLCreator();
+    protected PrepareSQLCreator prepareSqlCreator = new PrepareSQLCreator();
     protected SQLFiller sqlFiller = new SQLFiller();
     protected SQLParser sqlParser = new SQLParser();
 
     @Override
     public void delete(int id) throws DAOException {
         try {
-            String sql = sqlCreator.createSQLForDelete(id, genericClass);
+            String sql = prepareSqlCreator.createSQLForDelete(id, genericClass);
             logger.info("delete sql {}",sql);
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSql(preparedStatement);
@@ -35,7 +38,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public void delete(E item) throws DAOException {
         try {
-            String sql = sqlCreator.createSQLForDelete(item);
+            String sql = prepareSqlCreator.createSQLForDelete(item);
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSqlWithGeneratedKeys(preparedStatement);
         } catch (SQLException e) {
@@ -47,7 +50,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public E findById(int id) throws DAOException {
         try {
             E result = getGenericClass().newInstance();
-            String selectSQL = sqlCreator.createSqlForFindById(genericClass, id);
+            String selectSQL = prepareSqlCreator.createSqlForFindById(genericClass, id);
             ResultSet resultSet = sqlExecutor.executeSqlQuery(selectSQL, connection.createStatement());
 
             if (resultSet.next())
@@ -64,7 +67,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
 
-        sqlCreator.createSqlForPreparedStatement(sql, values, e);
+        prepareSqlCreator.createInsertSQL(sql, values, e);
         String insertSQL = sql + ")values(" + values + ");";
         logger.info("INSERT sql {}", insertSQL);
         try {
@@ -79,7 +82,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     @Override
     public void update(E item) throws DAOException {
-        String sql = sqlCreator.createSQLForUpdate(item);
+        String sql = prepareSqlCreator.createSQLForUpdate(item);
         logger.info("Update sql {}", sql);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -93,7 +96,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public List<E> getAll() throws DAOException {
         List<E> resultList = new ArrayList<>();
-        String selectSQL = "SELECT "+sqlCreator.createSQL(getGenericClass())+";";
+        String selectSQL = prepareSqlCreator.createSqlForGetAll(genericClass);
 
         ResultSet resultSet ;
         try {
