@@ -8,8 +8,11 @@ public abstract class AbstractValidator implements Validator{
     public static final String NUMBER_REGEX = "^[1-9][0-9]{1,8}$";
     private StringAdapter stringAdapter = new StringAdapter();
     public void validatePositiveNumber(List<String> errorMsg, String number, String name) {
-        //TODO
-        if (number == null || number ==  "") {
+
+        if (number == null || number.equals("")) {
+            errorMsg.add("please insert "+name);
+        }
+        if (!number.matches(NUMBER_REGEX)) {
             errorMsg.add("please insert "+name);
         }
 
@@ -22,9 +25,6 @@ public abstract class AbstractValidator implements Validator{
     }
 
     public void validateString(List<String> errorMsg, String parameter, String name){
-        if (parameter == null || parameter.matches(NUMBER_REGEX)) {
-            errorMsg.add("please insert "+name);
-        }
         if (parameter.matches("\\W")) {
             errorMsg.add("incorrect ,"+name+"must contain just name must contain A-Z,a-z, white space");
         }

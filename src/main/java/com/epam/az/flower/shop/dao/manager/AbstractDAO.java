@@ -27,7 +27,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public void delete(int id) throws DAOException {
         try {
-            String sql = prepareSqlCreator.createSQLForDelete(id, genericClass);
+            String sql = prepareSqlCreator.createSQLForDelete(id, getGenericClass());
             logger.info("delete sql {}",sql);
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSql(preparedStatement);
@@ -50,7 +50,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     public E findById(int id) throws DAOException {
         try {
             E result = getGenericClass().newInstance();
-            String selectSQL = prepareSqlCreator.createSqlForFindById(genericClass, id);
+            String selectSQL = prepareSqlCreator.createSqlForFindById(getGenericClass(), id);
             ResultSet resultSet = sqlExecutor.executeSqlQuery(selectSQL, connection.createStatement());
 
             if (resultSet.next())
@@ -64,7 +64,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     @Override
     public int insert(E e) throws DAOException {
-
         String insertSQL = prepareSqlCreator.createInsertSQL(e.getClass());
 
         try {
@@ -93,7 +92,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     @Override
     public List<E> getAll() throws DAOException {
         List<E> resultList = new ArrayList<>();
-        String selectSQL = prepareSqlCreator.createSqlForGetAll(genericClass);
+        String selectSQL = prepareSqlCreator.createSqlForGetAll(getGenericClass());
 
         ResultSet resultSet ;
         try {
@@ -109,7 +108,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
-    protected Class<E> getGenericClass() {
+    protected Class<E> getGenericClass() throws DAOException {
         if (genericClass == null) {
             Type mySuperClass = getClass().getGenericSuperclass();
             Type tType = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];
@@ -117,7 +116,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             try {
                 genericClass = Class.forName(className);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                throw new DAOException("can't get generic class", e);
             }
         }
         return genericClass;
