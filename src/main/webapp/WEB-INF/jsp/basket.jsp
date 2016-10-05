@@ -13,27 +13,32 @@
 </fmt:bundle>
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
-<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                        ${numberProducts}:${basket.products.size()}<br>
+                        ${operationBill}:${bill}<br>
+                        <a href="buy-all-basket">
 
-    <div class="row">
-        <div class="col-md-9">
-            <div class="row">
-            ${numberProducts}:${basket.products.size()}<br>
-            ${operationBill}:${bill}<br>
-        <c:forEach items="${basket.products}" var="product">
-            <br><c:out value="${product.flower.name}"/><br>
-                <c:out value="${product.price}"/><br>
-                <c:out value="${product.description}"/><br>
-                <a href="delete-product-basket?id=${product.id}">
-                ${deleteProduct}
-            </a>
-            <br>
-            <br>
-            </c:forEach>
+                        <c:forEach items="${basket.products}" var="product">
+                        <br><c:out value="${product.flower.name}"/><br>
+                            <c:out value="${product.price}"/><br>
+                            <c:out value="${product.description}"/><br>
+                        <a href="delete-product-basket?id=${product.id}">
+                                ${deleteProduct}
+                        </a>
+                            <a href="buy-product?productId=${product.id}">
+                                <c:out value="buy this product"/><br>
+                            </a>
+
+                            <br>
+                        <br>
+                        </c:forEach>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     </jsp:attribute>
 </t:autorized-user-template>

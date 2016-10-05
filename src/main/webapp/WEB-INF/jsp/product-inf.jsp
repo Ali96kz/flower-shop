@@ -1,3 +1,4 @@
+<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
@@ -10,9 +11,10 @@
     <fmt:message key="manager.product.name" var="productName" />
     <fmt:message key="manager.product.add" var="addNewProduct" />
     <fmt:message key="manager.product.edit" var="editProduct" />
+    <fmt:message key="product.buy.product" var="buyProduct" />
+    <fmt:message key="product.add.into.basket" var="addToBasket" />
 </fmt:bundle>
 
-<%--@elvariable id="product" type="com.epam.az.flower.shop.entity.Product"--%>
 
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
@@ -42,10 +44,10 @@
                     <p>${product.description}</p>
                     <p>
                         <a href="product-in-basket?productId=${product.id}">
-                        <c:out value="add in basket"/><br>
+                        <c:out value="${addToBasket}"/><br>
                         </a>
                         <a href="buy-product?productId=${product.id}">
-                            <c:out value="buy this product"/><br>
+                            <c:out value="${buyProduct}"/><br>
                         </a>
                     </p>
         </div>
