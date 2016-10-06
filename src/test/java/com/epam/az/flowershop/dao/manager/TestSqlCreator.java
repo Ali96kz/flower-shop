@@ -1,4 +1,4 @@
-package com.epam.az.flowershop;
+package com.epam.az.flowershop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.manager.PrepareSQLCreator;

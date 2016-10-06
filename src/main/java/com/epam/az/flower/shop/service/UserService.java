@@ -49,11 +49,11 @@ public class UserService {
         }
     }
 
-    public boolean checkToFree(String name) throws ServiceException {
+    public boolean isFree(String name) throws ServiceException {
         try {
             daoFactory.startOperation(userDAO);
             Integer id = userDAO.findByCredentials(name);
-            if(id != null || id == 0){
+            if(id == null || id == 0){
                 return true;
             }
 

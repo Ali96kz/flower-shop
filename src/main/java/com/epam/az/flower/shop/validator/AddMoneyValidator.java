@@ -4,12 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BalanceValidator extends AbstractValidator{
+public class AddMoneyValidator extends AbstractValidator{
     private static final String PARAMETER_MONEY = "money";
     private static final String FIELD_MENU_NAME_MONEY = "money";
 
-    public BalanceValidator() throws ValidatorException {
-    }
 
     @Override
     public List<String> isValidate(HttpServletRequest request) {

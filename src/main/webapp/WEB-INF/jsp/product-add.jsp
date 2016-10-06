@@ -41,7 +41,7 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${flowerName}</label>
                             <div class="controls">
-                                <input type="text" size="16" value="${product.flower.name}" name="flowerName" class="form-control input-lg">
+                                <input type="text" size="16" value="${product.flower.name}" name="flowerName" class="form-control input-lg" >
                                 <p class="help-block">${flowerNameHelp}</p>
                             </div>
                         </div>
