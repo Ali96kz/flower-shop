@@ -29,6 +29,8 @@ public class EditProductAction extends AbstractProduct{
         try {
             ActionResult actionResult = validate(req);
             if (actionResult != null) {
+                setValue(req);
+                setProduct(req);
                 return actionResult;
             }
 

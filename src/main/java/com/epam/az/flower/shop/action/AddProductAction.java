@@ -23,6 +23,7 @@ public class AddProductAction extends AbstractProduct {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         ActionResult actionResult = validate(req, resp);
         if (actionResult != null) {
+            setValue(req);
 
             return actionResult;
         }

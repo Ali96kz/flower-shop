@@ -7,12 +7,15 @@ import com.epam.az.flower.shop.service.*;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
+    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "productId";
+
     protected ProductService productService;
     protected OriginService originService;
     protected VisualParametersService visualParametersService;
     protected GrowingConditionService growingConditionService;
     protected FlowerTypeService flowerTypeService;
     protected TemperatureService temperatureService;
+    public static final String ATTRIBUTE_NAME_PRODUCT = "product";
 
 
     StringAdapter stringAdapter = new StringAdapter();
@@ -30,6 +33,16 @@ public abstract class AbstractProduct implements Action {
         }
     }
 
+    public void setProduct(HttpServletRequest request) throws ActionException {
+        int id = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_PRODUCT_ID));
+        try {
+            Product product = productService.findById(id);
+            request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
+        } catch (ServiceException e) {
+            throw new ActionException("can;t get product by id from service", e);
+        }
+
+    }
 
     public void setValue(HttpServletRequest req) throws ActionException {
         try {
