@@ -24,8 +24,8 @@ public class TestHttpRequest implements HttpServletRequest {
         return parameters.get(s);
     }
 
-    public void setParameter(String key, String object){
-        parameters.put(key, object);
+    public void setParameter(String key, String value){
+        parameters.put(key, value);
     }
 
     @Override
