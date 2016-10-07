@@ -10,6 +10,15 @@ import java.util.*;
 
 public class TestHttpRequest implements HttpServletRequest {
     private Map<String, String> parameters = new HashMap<>();
+    private Map<String, Object> attributes = new HashMap<>();
+
+
+
+    public void setHttpSession(HttpSession httpSession) {
+        this.httpSession = httpSession;
+    }
+
+    private HttpSession httpSession;
     @Override
     public String getParameter(String s) {
         return parameters.get(s);
@@ -121,7 +130,7 @@ public class TestHttpRequest implements HttpServletRequest {
 
     @Override
     public HttpSession getSession() {
-        return null;
+        return httpSession;
     }
 
     @Override
@@ -181,7 +190,7 @@ public class TestHttpRequest implements HttpServletRequest {
 
     @Override
     public Object getAttribute(String s) {
-        return null;
+        return attributes.get(s);
     }
 
     @Override
@@ -271,7 +280,7 @@ public class TestHttpRequest implements HttpServletRequest {
 
     @Override
     public void setAttribute(String s, Object o) {
-
+        attributes.put(s, o);
     }
 
     @Override

@@ -8,7 +8,7 @@ public abstract class AbstractValidator implements Validator{
     public static final String NUMBER_REGEX = "^[1-9][0-9]{1,8}$";
     private StringAdapter stringAdapter = new StringAdapter();
 
-    public void validatePositiveNumber(List<String> errorMsg, String number, String name) {
+    protected void validatePositiveNumber(List<String> errorMsg, String number, String name) {
         if (number == null || number.replaceAll("\\s", "").equals("")) {
             errorMsg.add("You didn't insert "+name);
             return;
@@ -26,7 +26,7 @@ public abstract class AbstractValidator implements Validator{
 
     }
 
-    public void validateString(List<String> errorMsg, String parameter, String name){
+    protected void validateString(List<String> errorMsg, String parameter, String name){
         if(parameter.replaceAll("\\s", "").equals("")){
             errorMsg.add(name+" can't contain just white space");
         }
@@ -39,7 +39,7 @@ public abstract class AbstractValidator implements Validator{
         }
     }
 
-    public void validateString(List<String> errorMsg, String parameter, String name, int minLength, int maxLength){
+    protected void validateString(List<String> errorMsg, String parameter, String name, int minLength, int maxLength){
         validateString(errorMsg, parameter, name);
         if(parameter.length() < minLength){
             errorMsg.add(name + " must contain min "+minLength+" max "+maxLength);

@@ -37,8 +37,8 @@ public class AddMoneyAction implements Action {
             Validator validator = new AddMoneyValidator();
             List<String> errorMsg;
             int userId = (int) session.getAttribute(SESSION_PARAMETER_NAME_USER_ID);
-            User user = userService.findById(userId);
 
+            User user = userService.findById(userId);
             try {
                 errorMsg = validator.isValidate(req);
             } catch (ValidatorException e) {

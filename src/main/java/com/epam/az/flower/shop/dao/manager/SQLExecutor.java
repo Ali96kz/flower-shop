@@ -25,6 +25,7 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
     public ResultSet executePreaparedSqlQuery(PreparedStatement statement) throws DAOException {
         ResultSet resultSet;
         try {
+            logger.info("prepared sql = {}", statement);
             resultSet = statement.executeQuery();
             return resultSet;
         } catch (SQLException e1) {
@@ -35,6 +36,7 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
     public int executeSqlWithGeneratedKeys(PreparedStatement preparedStatement) throws DAOException {
         int result = 0;
         try {
+            logger.info("prepared sql = {}", preparedStatement);
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -48,6 +50,7 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
     public void executeSql(PreparedStatement preparedStatement) throws DAOException {
         int result = 0;
         try {
+            logger.info("prepared sql = {}", preparedStatement);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DAOException("can't execute sql", e);
