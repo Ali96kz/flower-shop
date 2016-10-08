@@ -82,9 +82,7 @@ public class ProductService {
         try {
             daoFactory.startOperation(productDAO);
             product = productDAO.findById(id);
-            if(product.getFlower() == null){
-                product = productDAO.findById(1);
-            }
+
             fillProduct(product);
             daoFactory.endOperation(productDAO);
         } catch (DAOException e) {

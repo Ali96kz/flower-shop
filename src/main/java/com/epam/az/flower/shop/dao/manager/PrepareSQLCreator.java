@@ -41,7 +41,7 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
     }
 
     public String createSqlForFindById(Class genericClass, int id){
-       String sql = "SELECT " + createSQL(genericClass) + " where " + genericClass.getSimpleName() +
+       String sql = "SELECT " + createSQL(genericClass) + " WHERE " + genericClass.getSimpleName() +
                 ".id = " + id +";";
         return sql;
     }

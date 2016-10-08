@@ -22,6 +22,7 @@ public class BuyProductAction implements Action {
     public static final String ATTRIBUTE_NAME_PRICE = "price";
     public static final String PARAMETER_PRODUCT_ID = "productId";
     public static final String ATTRIBUTE_USER_ID = "userId";
+    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService;
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
@@ -49,12 +50,13 @@ public class BuyProductAction implements Action {
             throw new ActionException("problem with validating", e);
         }
 
-        int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
 
         if (errorMsg.size() > 0) {
             req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
-            return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF + ATTRIBUTE_PRODUCT_ID + productId, true);
+            return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
         }
+
+        int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
 
         int userId = (int) req.getSession().getAttribute(ATTRIBUTE_USER_ID);
         Product product ;
