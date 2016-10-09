@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import javax.servlet.http.HttpSession;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -58,28 +60,21 @@ public class BuyBasketTest {
 
     @Test
     public void testBasketWithSomeProducts() throws ActionException, SQLException, DAOException, ServiceException {
-        userDAO.setConnection(connectionPool.getConnection());
-        User beforeUpdateUser = userDAO.findById(TEST_USER_ID);
-        userDAO.getConnection().close();
+        Connection connection = connectionPool.getConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("UPDATE User SET User.balance = 15000 WHERE User.id = "+TEST_USER_ID);
+
+        User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
 
         ActionResult actionResult = buyBasketAction.execute(request, response);
         assertEquals(actionResult.getView(), "bill");
 
-        testUserBalance(beforeUpdateUser);
-        testTransaction();
-    }
-
-    public void testUserBalance(User beforeUpdateUser) throws DAOException, SQLException {
-        userDAO = new UserDAO();
-        userDAO.setConnection(connectionPool.getConnection());
-        User user = userDAO.findById(TEST_USER_ID);
-
+        User user = getUncacheUserById(TEST_USER_ID);
         assertEquals(beforeUpdateUser.getBalance() - basket.getSum(), user.getBalance());
-    }
 
-    public void testTransaction() throws ServiceException {
         List<UserTransaction> transactions = transactionService.getAll(TEST_USER_ID);
         List<Product> products = basket.getProducts();
+
         for (int i = transactions.size() - 1, j = 1;i >=  0; i--, j++) {
             if(j < 4) {
                 assertEquals(transactions.get(i).getSum(), products.get(j).getPrice());
@@ -87,7 +82,56 @@ public class BuyBasketTest {
             }
             break;
         }
+
     }
 
+    @Test
+    public void testWithNullBasket() throws SQLException, DAOException, ActionException {
+        session.setAttribute("basket", null);
+        User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
+
+        ActionResult actionResult = buyBasketAction.execute(request, response);
+        assertEquals(actionResult.getView(), "basket");
+
+        User user = getUncacheUserById(TEST_USER_ID);
+        assertEquals(beforeUpdateUser.getBalance(), user.getBalance());
+
+    }
+
+    @Test
+    public void testWithEmptyBasket() throws SQLException, DAOException, ActionException {
+        session.setAttribute("basket", new Basket());
+        User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
+
+        ActionResult actionResult = buyBasketAction.execute(request, response);
+        assertEquals(actionResult.getView(), "basket");
+
+        User user = getUncacheUserById(TEST_USER_ID);
+        assertEquals(beforeUpdateUser.getBalance(), user.getBalance());
+    }
+
+    @Test
+    public void testUserDontHaveMoneyTobuyAllBasket() throws SQLException, DAOException, ActionException {
+        Connection connection = connectionPool.getConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("UPDATE User SET User.balance = 0 WHERE User.id = "+TEST_USER_ID);User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
+
+        ActionResult actionResult = buyBasketAction.execute(request, response);
+
+        assertEquals(actionResult.getView(), "basket");
+
+        User user = getUncacheUserById(TEST_USER_ID);
+        assertEquals(beforeUpdateUser.getBalance(), user.getBalance());
+
+    }
+
+
+    public User getUncacheUserById(int id) throws SQLException, DAOException {
+        userDAO = new UserDAO();
+        userDAO.setConnection(connectionPool.getConnection());
+        User user = userDAO.findById(id);
+        userDAO.getConnection().close();
+        return user;
+    }
 
 }

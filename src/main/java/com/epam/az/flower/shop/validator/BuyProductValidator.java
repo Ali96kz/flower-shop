@@ -13,12 +13,12 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuyProductValidator implements Validator{
+public class BuyProductValidator extends AbstractValidator {
     public static final String PARAMETER_USER_ID = "userId";
     public static final String PARAMETER_PRODUCT_ID = "productId";
     UserService userService;
     StringAdapter stringAdapter = new StringAdapter();
-    ProductService productService ;
+    ProductService productService;
 
     public BuyProductValidator() throws ActionException {
         try {
@@ -38,11 +38,21 @@ public class BuyProductValidator implements Validator{
             errorMsg.add("You must sign in, to buy something in own shop");
             return errorMsg;
         }
-
-        int userId = (int) session.getAttribute(PARAMETER_USER_ID);
-        int productId = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
-
         try {
+            validatePositiveNumber(errorMsg, request.getParameter(PARAMETER_PRODUCT_ID), "");
+            if (errorMsg.size() != 0) {
+                return errorMsg;
+            }
+
+            int userId = (int) session.getAttribute(PARAMETER_USER_ID);
+            int productId = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
+
+
+            if (!productService.isExist(productId)) {
+                errorMsg.add("This product don't exist in our vitrine");
+                return errorMsg;
+            }
+
             User user = userService.findById(userId);
             Product product = productService.findById(productId);
 

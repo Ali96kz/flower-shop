@@ -84,11 +84,12 @@ public class ProductService {
             product = productDAO.findById(id);
 
             fillProduct(product);
-            daoFactory.endOperation(productDAO);
         } catch (DAOException e) {
-            daoFactory.endOperation(productDAO);
             throw new ServiceException("can't get product by id", e);
+        }finally {
+            daoFactory.endOperation(productDAO);
         }
+
         return product;
     }
 
@@ -99,6 +100,21 @@ public class ProductService {
             product.setFlower(flower);
             product.setOrigin(origin);
         }
+    }
+    public boolean isExist(int id) throws ServiceException {
+        try {
+            daoFactory.startOperation(productDAO);
+            Product product = productDAO.findById(id);
+            if (product.getFlower() == null) {
+                return false;
+            }
+            return true;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get product by id", e);
+        }finally {
+            daoFactory.endOperation(productDAO);
+        }
+
     }
 
     public void deleteProduct(int id) throws ServiceException {

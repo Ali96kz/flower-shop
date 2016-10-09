@@ -25,6 +25,8 @@ public class BuyProductAction implements Action {
     public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService;
+    private Validator validator = new BuyProductValidator();
+
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
     private UserService userService;
@@ -41,7 +43,6 @@ public class BuyProductAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        Validator validator = new BuyProductValidator();
         List<String> errorMsg ;
 
         try {

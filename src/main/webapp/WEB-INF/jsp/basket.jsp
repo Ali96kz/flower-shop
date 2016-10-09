@@ -19,7 +19,7 @@
                 <div class="row">
                         ${numberProducts}:${basket.products.size()}<br>
                         ${operationBill}:${bill}<br>
-                        <a href="buy-all-basket">
+                    <a href="buy-all-basket">
 
                         <c:forEach items="${basket.products}" var="product">
                         <br><c:out value="${product.flower.name}"/><br>
@@ -28,15 +28,19 @@
                         <a href="delete-product-basket?id=${product.id}">
                                 ${deleteProduct}
                         </a>
-                            <a href="buy-product?productId=${product.id}">
-                                <c:out value="buy this product"/><br>
-                            </a>
+                        <a href="buy-product?productId=${product.id}">
+                            <c:out value="buy this product"/><br>
+                        </a>
 
-                            <br>
                         <br>
+                        <br>
+                        </c:forEach>
+                        <c:forEach items="${errorMsg}" var="msg">
+                            <c:out value="${msg}"/><br>
                         </c:forEach>
                 </div>
             </div>
+
         </div>
     </div>
 

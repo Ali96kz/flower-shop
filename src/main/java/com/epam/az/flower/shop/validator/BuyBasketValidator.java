@@ -46,6 +46,10 @@ public class BuyBasketValidator implements Validator {
         }
 
         Basket basket = (Basket) session.getAttribute(SESSION_PARAMTER_BASKET_OBJECT);
+        if(basket == null || basket.getProducts().size() == 0){
+            errorMsg.add("Basket is empty");
+            return errorMsg;
+        }
         int summ = 0;
         int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
 

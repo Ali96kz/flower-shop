@@ -44,14 +44,14 @@ public class AddProductTest {
     @Before
     public void initRequestWithCorrectParameters() throws SQLException {
         Random random = new Random(System.currentTimeMillis());
-        request.setParameter(PARAMETER_NAME_AVERAGE_HEIGHT, String.valueOf(random.nextInt(Integer.MAX_VALUE-1)));
+        request.setParameter(PARAMETER_NAME_AVERAGE_HEIGHT, String.valueOf(random.nextInt(Integer.MAX_VALUE - 1)));
         request.setParameter(PARAMETER_NAME_FLOWER_NAME, "Gladiolus");
         request.setParameter(PARAMETER_NAME_DESCRIPTION, "This is new product added from test");
-        request.setParameter(PARAMETER_NAME_ORIGIN_ID, String.valueOf(random.nextInt(7)+1));
-        request.setParameter(PARAMETER_NAME_VISUAL_PARAMETERS_ID, String.valueOf(random.nextInt(3)+1));
-        request.setParameter(PARAMETER_NAME_PRICE_PRICE, String.valueOf(random.nextInt(Integer.MAX_VALUE)-1));
-        request.setParameter(PARAMETER_NAME_FLOWER_TYPE_ID, String.valueOf(random.nextInt(5)+1));
-        request.setParameter(PARAMETER_NAME_GROWING_CONDITION_ID, String.valueOf(random.nextInt(5)+1));
+        request.setParameter(PARAMETER_NAME_ORIGIN_ID, String.valueOf(random.nextInt(7) + 1));
+        request.setParameter(PARAMETER_NAME_VISUAL_PARAMETERS_ID, String.valueOf(random.nextInt(3) + 1));
+        request.setParameter(PARAMETER_NAME_PRICE_PRICE, String.valueOf(random.nextInt(Integer.MAX_VALUE) - 1));
+        request.setParameter(PARAMETER_NAME_FLOWER_TYPE_ID, String.valueOf(random.nextInt(5) + 1));
+        request.setParameter(PARAMETER_NAME_GROWING_CONDITION_ID, String.valueOf(random.nextInt(5) + 1));
 
     }
 
@@ -75,8 +75,16 @@ public class AddProductTest {
         assertNotNull(request.getParameter(PARAMETER_NAME_VISUAL_PARAMETERS_ID));
     }
 
-    public int getProductIdFromUrl(String url){
-        return 47;
+    public int getProductIdFromUrl(String url) {
+        StringBuilder s = new StringBuilder();
+        int result = 0, multiply = 1;
+        for (int i = url.length() - 1; i >= 0; i--) {
+            if (url.charAt(i) == '=') {
+                break;
+            }
+            result += multiply * (Integer.parseInt(String.valueOf(url.charAt(i))));
+            multiply *= 10;
+        }
+        return result;
     }
-
 }
