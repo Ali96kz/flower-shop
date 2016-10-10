@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterAction extends AddUser {
     public static final String JSP_PAGE_NAME_PROFILE = "profile";
+    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
     private UserService userService;
     private static Logger logger = LoggerFactory.getLogger(RegisterAction.class);
     public RegisterAction() throws ActionException {
@@ -27,11 +28,10 @@ public class RegisterAction extends AddUser {
         boolean isValidate = validate(request);
         if (isValidate == false) {
 
-            return new ActionResult("registration");
+            return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
         }
         try {
             User user = fillUser(request, new User());
-            setUserRole(user, request);
             user = userService.registerUser(user);
             putInSession(user, request);
             return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
@@ -39,5 +39,7 @@ public class RegisterAction extends AddUser {
             throw new ActionException("can't register new user", e);
         }
     }
+
+
 }
 
