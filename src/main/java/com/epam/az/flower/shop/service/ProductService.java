@@ -13,6 +13,7 @@ public class ProductService {
     private FlowerService flowerService;
     private OriginService originService;
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
+
     public ProductService() throws ServiceException {
         try {
             productDAO = daoFactory.getDao(ProductDAO.class);
@@ -39,14 +40,18 @@ public class ProductService {
         }
     }
 
-    public List<Product> getAllProduct() throws ServiceException {
+    public List<Product> getAllNotDeleteProduct() throws ServiceException {
         try {
             daoFactory.startOperation(productDAO);
             List<Product> products = productDAO.getAll();
             logger.info("get {} products from data",products.size());
-            for (Product product : products) {
-                fillProduct(product);
+
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getDeleteDay() == null) {
+                    fillProduct(products.get(i));
+                }
             }
+
             daoFactory.endOperation(productDAO);
             return products;
         } catch (DAOException e) {
@@ -101,6 +106,7 @@ public class ProductService {
             product.setOrigin(origin);
         }
     }
+
     public boolean isExist(int id) throws ServiceException {
         try {
             daoFactory.startOperation(productDAO);

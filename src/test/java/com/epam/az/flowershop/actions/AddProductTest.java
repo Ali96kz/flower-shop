@@ -11,11 +11,9 @@ import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.pool.ConnectionPool;
 import com.epam.az.flowershop.TestHttpRequest;
 import com.epam.az.flowershop.TestHttpResponse;
-import com.epam.az.flowershop.TestSession;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -36,7 +34,7 @@ public class AddProductTest {
     public static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
     public static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
     public static final String PARAMETER_NAME_DESCRIPTION = "description";
-    public static final String PARAMETER_NAME_PRICE_PRICE = "price";
+    public static final String PARAMETER_NAME_PRICE = "price";
 
     public AddProductTest() throws ActionException {
     }
@@ -49,7 +47,7 @@ public class AddProductTest {
         request.setParameter(PARAMETER_NAME_DESCRIPTION, "This is new product added from test");
         request.setParameter(PARAMETER_NAME_ORIGIN_ID, String.valueOf(random.nextInt(7) + 1));
         request.setParameter(PARAMETER_NAME_VISUAL_PARAMETERS_ID, String.valueOf(random.nextInt(3) + 1));
-        request.setParameter(PARAMETER_NAME_PRICE_PRICE, String.valueOf(random.nextInt(Integer.MAX_VALUE) - 1));
+        request.setParameter(PARAMETER_NAME_PRICE, String.valueOf(random.nextInt(50000) - 1));
         request.setParameter(PARAMETER_NAME_FLOWER_TYPE_ID, String.valueOf(random.nextInt(5) + 1));
         request.setParameter(PARAMETER_NAME_GROWING_CONDITION_ID, String.valueOf(random.nextInt(5) + 1));
 
@@ -75,8 +73,8 @@ public class AddProductTest {
         assertNotNull(request.getParameter(PARAMETER_NAME_VISUAL_PARAMETERS_ID));
     }
 
+
     public int getProductIdFromUrl(String url) {
-        StringBuilder s = new StringBuilder();
         int result = 0, multiply = 1;
         for (int i = url.length() - 1; i >= 0; i--) {
             if (url.charAt(i) == '=') {

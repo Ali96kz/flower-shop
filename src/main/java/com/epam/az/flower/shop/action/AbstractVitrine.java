@@ -1,9 +1,9 @@
 package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.PaginatedList;
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.validator.OnlineVitrineValidator;
 import com.epam.az.flower.shop.validator.ValidatorException;
 
@@ -15,12 +15,12 @@ public abstract class AbstractVitrine implements Action {
     public static final String ATTRIBUTE_NAME_PRODUCTS = "products";
     public static final String PARAMETER_NAME_PAGE = "page";
     private final int PAGE_SIZE = 12;
-    private List<Integer> pageNumbers ;
+    private List<Integer> pageNumbers;
     private ProductService productService;
     private OnlineVitrineValidator onlineVitrineValidator = new OnlineVitrineValidator();
 
     private StringAdapter stringAdapter = new StringAdapter();
-    private PaginatedList paginatedList ;
+    private PaginatedList paginatedList;
 
     public AbstractVitrine() throws ActionException {
         try {
@@ -32,41 +32,41 @@ public abstract class AbstractVitrine implements Action {
 
     public void setPaginationList(HttpServletRequest req) throws ActionException {
         int pageNumber;
-        if(paginatedList == null){
-            try {
-                paginatedList = new PaginatedList(PAGE_SIZE, productService.getAllProduct());
-            } catch (ServiceException e) {
-                throw new ActionException("can't get product from service",e);
-            }
+
+        try {
+            paginatedList = new PaginatedList(PAGE_SIZE, productService.getAllNotDeleteProduct());
+        } catch (ServiceException e) {
+            throw new ActionException("can't get product from service", e);
         }
+
         try {
             List<String> erorrMsg = onlineVitrineValidator.isValidate(req);
 
-        if (erorrMsg.size() > 0) {
-            pageNumber = 0;
-            req.setAttribute(ATTRIBUTE_NAME_PRODUCTS,paginatedList.getPage(pageNumber));
-            return;
-        }
+            if (erorrMsg.size() > 0) {
+                pageNumber = 0;
+                req.setAttribute(ATTRIBUTE_NAME_PRODUCTS, paginatedList.getPage(pageNumber));
+                return;
+            }
 
-        String page = req.getParameter(PARAMETER_NAME_PAGE);
-        pageNumber = stringAdapter.toInt(page);
+            String page = req.getParameter(PARAMETER_NAME_PAGE);
+            pageNumber = stringAdapter.toInt(page);
 
 
-        if(pageNumber > paginatedList.getPageNumber()){
-            pageNumber = 0;
-        }
+            if (pageNumber > paginatedList.getPageNumber()) {
+                pageNumber = 0;
+            }
 
-        req.setAttribute("products",paginatedList.getPage(pageNumber));
+            req.setAttribute("products", paginatedList.getPage(pageNumber));
         } catch (ValidatorException e) {
             throw new ActionException("can't validate", e);
         }
     }
 
-    public void setPage(HttpServletRequest req){
-        if (pageNumbers == null){
+    public void setPage(HttpServletRequest req) {
+        if (pageNumbers == null) {
             pageNumbers = new ArrayList<>();
             for (int i = 0; i < paginatedList.getPageNumber(); i++) {
-                pageNumbers.add(i+1);
+                pageNumbers.add(i + 1);
             }
         } else if (pageNumbers.size() != paginatedList.getPageNumber()) {
             pageNumbers = new ArrayList<>();

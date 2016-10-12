@@ -72,15 +72,9 @@ public class ConnectionPool implements DataSource {
         }
     }
 
-    public static DataSource getInstance() {
-        logger.info("Get Instance of ConnectionPool");
-        return InstanceHolder.instance;
-    }
-
     public void close() throws ConnectionPoolException {
         closeAllConnectionsInQueue(freeConnections);
         closeAllConnectionsInQueue(usedConnections);
-        logger.info("Close ConnectionPool");
     }
 
     private void closeAllConnectionsInQueue(BlockingQueue<PooledConnection> queue) throws ConnectionPoolException {
@@ -161,10 +155,6 @@ public class ConnectionPool implements DataSource {
 
     public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
         throw new UnsupportedOperationException("Unsupported operation");
-    }
-
-    private static class InstanceHolder {
-        static final DataSource instance = new ConnectionPool();
     }
 
     private class PooledConnection extends com.mysql.cj.jdbc.ConnectionImpl {

@@ -29,7 +29,7 @@ public class SQLParser <E extends BaseEntity> extends AbstractSQLManager {
         }
     }
 
-    public Object getValue(Field field, ResultSet resultSet) throws DAOException {
+    private Object getValue(Field field, ResultSet resultSet) throws DAOException {
         try {
             Class fieldType = field.getType();
             if (fieldType == Integer.class || fieldType == int.class) {

@@ -77,7 +77,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
         } catch (DAOException e) {
             throw new DAOException("can't delete user", e);
         }
-        cache.put(id, null);
+        cache.remove(id);
     }
 
     public void deleteFromCache(int id){

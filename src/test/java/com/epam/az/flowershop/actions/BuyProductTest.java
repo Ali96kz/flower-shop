@@ -24,7 +24,8 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 
 public class BuyProductTest {
-    public static final int TEST_USER_ID = 1;
+    public static final int TEST_USER_ID_WITHOUT_MONEY = 1;
+    public static final int TEST_USER_ID = 2;
     public static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
     public static final String JSP_PAGE_NAME_BILL = "bill";
     public static final String TEST_PRODUCT_ID = "1";
@@ -49,9 +50,11 @@ public class BuyProductTest {
 
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        statement.execute("UPDATE User SET User.balance = 10000 WHERE User.id = "+TEST_USER_ID+";");
+        statement.execute("UPDATE User SET User.balance = 10000 where User.id = "+TEST_USER_ID+";");
         connection.close();
     }
+
+
 
     @Test
     public void testWithNormalValue() throws ActionException, SQLException, DAOException, ServiceException {
@@ -90,6 +93,7 @@ public class BuyProductTest {
         User afterActionExecuteUser = getUncacheUserById(TEST_USER_ID);
         assertEquals(beforeUpdateUser.getBalance(), afterActionExecuteUser.getBalance());
     }
+
     @Test
     public void testWithUnexistProduct() throws SQLException, DAOException, ActionException, ServiceException {
         request.setParameter("productId", "1000");
@@ -101,7 +105,13 @@ public class BuyProductTest {
         User afterActionExecuteUser = getUncacheUserById(TEST_USER_ID);
         assertEquals(beforeUpdateUser.getBalance(), afterActionExecuteUser.getBalance());
     }
-
+    @Test
+    public void testWithUserDontHaveMoney() throws SQLException {
+        Connection connection = connectionPool.getConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("UPDATE User SET User.balance = 0 where User.id = "+TEST_USER_ID_WITHOUT_MONEY+";");
+        connection.close();
+    }
 
     public User getUncacheUserById(int id) throws SQLException, DAOException {
         userDAO = new UserDAO();

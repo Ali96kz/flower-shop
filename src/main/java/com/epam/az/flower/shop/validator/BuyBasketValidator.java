@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
 import com.epam.az.flower.shop.action.ActionException;
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class BuyBasketValidator implements Validator {
     public static final String SESSION_PARAMETER_USER_ID = "userId";
-    public static final String SESSION_PARAMTER_BASKET_OBJECT = "basket";
+    public static final String SESSION_PARAMETER_BASKET_OBJECT = "basket";
     UserService userService;
     ProductService productService;
 
@@ -40,17 +39,16 @@ public class BuyBasketValidator implements Validator {
             return errorMsg;
         }
 
-        if (session.getAttribute(SESSION_PARAMTER_BASKET_OBJECT) == null) {
+        if (session.getAttribute(SESSION_PARAMETER_BASKET_OBJECT) == null) {
             errorMsg.add("You must add some products in your basket");
             return errorMsg;
         }
 
-        Basket basket = (Basket) session.getAttribute(SESSION_PARAMTER_BASKET_OBJECT);
+        Basket basket = (Basket) session.getAttribute(SESSION_PARAMETER_BASKET_OBJECT);
         if(basket == null || basket.getProducts().size() == 0){
             errorMsg.add("Basket is empty");
             return errorMsg;
         }
-        int summ = 0;
         int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
 
         User user;
@@ -60,11 +58,7 @@ public class BuyBasketValidator implements Validator {
             throw new ValidatorException("can;t get user by id from dao", e);
         }
 
-        for (Product product : basket.getProducts()) {
-            summ += product.getPrice();
-        }
-
-        if (user.getBalance() < summ) {
+        if (user.getBalance() < basket.getSum()) {
             errorMsg.add("you haven't enough");
         }
 

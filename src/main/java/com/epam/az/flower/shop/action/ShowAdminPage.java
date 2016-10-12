@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ShowAdminPage implements Action {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
+    public static final String ATTRIBUTE_NAME_USERS = "users";
     private UserService userService;
 
     public ShowAdminPage() throws ActionException {
@@ -29,7 +30,7 @@ public class ShowAdminPage implements Action {
             throw new ActionException("can't get all user", e);
         }
 
-        req.setAttribute("users", users);
+        req.setAttribute(ATTRIBUTE_NAME_USERS, users);
         return new ActionResult(JSP_PAGE_NAME_ADMIN);
     }
 }

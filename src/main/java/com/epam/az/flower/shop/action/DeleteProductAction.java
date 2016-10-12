@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteProductAction implements Action {
     public static final String JSP_PAGE_NAME_MANAGER = "manager";
-    StringAdapter stringAdapter = new StringAdapter();
-    ProductService productService;
+    private StringAdapter stringAdapter = new StringAdapter();
+    private ProductService productService;
 
     public DeleteProductAction() throws ActionException {
         try {

@@ -7,7 +7,7 @@ import com.epam.az.flower.shop.service.*;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
-    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "productId";
+    public static final String REQUEST_ATTRIBUTE_NAME_PRODUCT_ID = "productId";
     public static final String PARAMETER_NAME_ORIGIN_ID = "originId";
     public static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
     public static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
@@ -15,11 +15,11 @@ public abstract class AbstractProduct implements Action {
     public static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
     public static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
     public static final String PARAMETER_NAME_DESCRIPTION = "description";
-    public static final String PARAMETER_NAME_PRICE_PRICE = "price";
+    public static final String PARAMETER_NAME_PRICE = "price";
     public static final String PARAMETER_NAME_ORIGINS = "origins";
     public static final String PARAMETER_NAME_VISUAL_PARAMETERS = "visualParameters";
     public static final String PARAMETER_NAME_GROWING_CONDITIONS = "growingConditions";
-    public static final String ATTRIBUTE_NAME_PRODUCT = "product";
+    public static final String REQUEST_ATTRIBUTE_NAME_PRODUCT = "product";
 
 
     public static final String PARAMETER_NAME_FLOWER_TYPES = "flowerTypes";
@@ -49,10 +49,10 @@ public abstract class AbstractProduct implements Action {
     }
 
     public void setProduct(HttpServletRequest request) throws ActionException {
-        int id = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_PRODUCT_ID));
+        int id = stringAdapter.toInt(request.getParameter(REQUEST_ATTRIBUTE_NAME_PRODUCT_ID));
         try {
             Product product = productService.findById(id);
-            request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
+            request.setAttribute(REQUEST_ATTRIBUTE_NAME_PRODUCT, product);
         } catch (ServiceException e) {
             throw new ActionException("can;t get product by id from service", e);
         }
@@ -76,7 +76,7 @@ public abstract class AbstractProduct implements Action {
         product.setOrigin(getOrigin(req, new Origin()));
         product.setFlower(getFlower(req, new Flower()));
         product.setDescription(req.getParameter(PARAMETER_NAME_DESCRIPTION));
-        product.setPrice(stringAdapter.toInt(req.getParameter(PARAMETER_NAME_PRICE_PRICE)));
+        product.setPrice(stringAdapter.toInt(req.getParameter(PARAMETER_NAME_PRICE)));
         return product;
     }
 

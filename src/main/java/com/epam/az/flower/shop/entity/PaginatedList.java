@@ -11,6 +11,7 @@ public class PaginatedList {
     public PaginatedList(int pageSize, List<Product> products) {
         this.pageSize = pageSize;
         this.productList = products;
+
     }
 
     public List<Product> getPage(int id) {

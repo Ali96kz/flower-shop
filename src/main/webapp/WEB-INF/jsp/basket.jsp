@@ -33,6 +33,10 @@
                         </a>
 
                         <br>
+                            <a href="buy-all-basket">
+                                <c:out value="buy all basket"/><br>
+                            </a>
+
                         <br>
                         </c:forEach>
                         <c:forEach items="${errorMsg}" var="msg">

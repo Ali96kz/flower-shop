@@ -51,6 +51,7 @@ public class BuyBasketAction implements Action {
         }
 
         Basket basket = (Basket) session.getAttribute(ATTRIBUTE_NAME_BASKET);
+        System.out.println(basket);
         int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
         User user;
         try {
