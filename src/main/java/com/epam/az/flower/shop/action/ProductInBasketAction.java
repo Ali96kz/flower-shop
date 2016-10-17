@@ -14,6 +14,7 @@ public class ProductInBasketAction implements Action{
     public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     public static final String ATTRIBUTE_NAME_BASKET = "basket";
     public static final String PARAMETER_PRODUCT_ID = "productId";
+    public static final String ATTRIBUTE_BASKET = "basket";
     ProductService productService;
     Basket basket;
     StringAdapter stringAdapter = new StringAdapter();
@@ -39,7 +40,7 @@ public class ProductInBasketAction implements Action{
         } catch (ServiceException e) {
             throw new ActionException("can't find productby id ", e);
         }
-        session.setAttribute("basket", basket);
+        session.setAttribute(ATTRIBUTE_BASKET, basket);
         return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
     }
 }

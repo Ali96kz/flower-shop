@@ -50,7 +50,6 @@ public class AddProductTest {
         request.setParameter(PARAMETER_NAME_PRICE, String.valueOf(random.nextInt(50000) - 1));
         request.setParameter(PARAMETER_NAME_FLOWER_TYPE_ID, String.valueOf(random.nextInt(5) + 1));
         request.setParameter(PARAMETER_NAME_GROWING_CONDITION_ID, String.valueOf(random.nextInt(5) + 1));
-
     }
 
     @Test

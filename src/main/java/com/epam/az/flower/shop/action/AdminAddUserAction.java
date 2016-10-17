@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminAddUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
     public static final String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
+    public static final String JSP_PAGE_ADMIN_REGISTRATION = "admin-registration";
     private UserService userService;
     UserRoleService userRoleService;
 
@@ -29,7 +30,7 @@ public class AdminAddUserAction extends AddUser {
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
         boolean isValidate = validate(request);
         if (isValidate == false) {
-            return new ActionResult("admin-registration");
+            return new ActionResult(JSP_PAGE_ADMIN_REGISTRATION);
         }
         try {
             User user = fillUser(request, new User());

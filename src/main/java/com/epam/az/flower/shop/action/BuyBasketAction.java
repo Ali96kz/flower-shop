@@ -21,6 +21,7 @@ public class BuyBasketAction implements Action {
     public static final String ATTRIBUTE_NAME_SUM = "sum";
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
     public static final String JSP_PAGE_NAME_BASKET = "basket";
+    public static final String ATTRIBUTE_ERROR_MSG = "errorMsg";
     private UserService userService;
     private Validator validator = new BuyBasketValidator();
 
@@ -46,7 +47,7 @@ public class BuyBasketAction implements Action {
             throw new ActionException("problem with validation", e);
         }
         if (errorMsg.size() > 0) {
-            req.setAttribute("errorMsg", errorMsg);
+            req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 

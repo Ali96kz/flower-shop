@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class AbstractSQLManager {
+
+    public static final String ENTITY_ID = "id";
+
     protected Date getTodayDay() {
         Calendar c = new GregorianCalendar();
         java.util.Date utilDate = c.getTime();
@@ -25,7 +28,7 @@ public class AbstractSQLManager {
     protected Integer getObjectId(Object object) {
         Integer result = null;
         try {
-            Field id = BaseEntity.class.getDeclaredField("id");
+            Field id = BaseEntity.class.getDeclaredField(ENTITY_ID);
             id.setAccessible(true);
             result = (Integer) id.get(object);
         } catch (IllegalAccessException | NoSuchFieldException e1) {

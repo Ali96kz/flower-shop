@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TestSQLFiller {
+public class SQLFillerTest {
     private static final int EXAMPLE_OBJECT_ID = 5;
     public static final int FLOWER_AVERAGE_HEIGHT = 54;
     public static final String FLOWER_NAME = "Catalina";

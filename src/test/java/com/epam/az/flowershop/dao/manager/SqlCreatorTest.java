@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class TestSqlCreator {
+public class SqlCreatorTest {
 
     private static final int EXAMPLE_OBJECT_ID = 5;
     private PrepareSQLCreator prepareSqlCreator = new PrepareSQLCreator();

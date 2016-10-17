@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteProductAction implements Action {
     public static final String JSP_PAGE_NAME_MANAGER = "manager";
+    public static final String PARAMETER_PRODUCT_ID = "productId";
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService;
 
@@ -24,7 +25,7 @@ public class DeleteProductAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            int productId = stringAdapter.toInt(req.getParameter("productId"));
+            int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
             productService.deleteProduct(productId);
             return new ActionResult(JSP_PAGE_NAME_MANAGER, true);
         } catch (ServiceException e) {

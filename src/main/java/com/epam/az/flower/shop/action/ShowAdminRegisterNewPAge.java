@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowAdminRegisterNewPAge implements Action {
     public static final String JSP_PAGE_NAME_REGISTRATION = "admin-registration";
+    public static final String ATTRIBUTE_USER_ROLES = "userRoles";
     UserRoleService userRoleService ;
     public ShowAdminRegisterNewPAge() throws ActionException {
         try {
@@ -21,7 +22,7 @@ public class ShowAdminRegisterNewPAge implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            req.setAttribute("userRoles", userRoleService.getAll());
+            req.setAttribute(ATTRIBUTE_USER_ROLES, userRoleService.getAll());
         } catch (ServiceException e) {
             throw new ActionException("can't get all userROle", e);
         }

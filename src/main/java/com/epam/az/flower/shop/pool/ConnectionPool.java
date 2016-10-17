@@ -2,7 +2,6 @@ package com.epam.az.flower.shop.pool;
 
 import com.epam.az.flower.shop.util.PropertyManager;
 import com.epam.az.flower.shop.util.UtilClassException;
-import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -23,100 +22,97 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool implements DataSource {
-    private static final Logger logger = Logger.getLogger(ConnectionPool.class);
-    private String driver;
-    private String url;
-    private String username;
-    private String password;
-    private int connectionsLimit;
-    private int timeout;
-    private volatile BlockingQueue<PooledConnection> freeConnections;
-    private BlockingQueue<PooledConnection> usedConnections;
+        private String driver;
+        private String url;
+        private String username;
+        private String password;
+        private int connectionsLimit;
+        private int timeout;
+        private volatile BlockingQueue<PooledConnection> freeConnections;
+        private BlockingQueue<PooledConnection> usedConnections;
 
-    public ConnectionPool() throws ConnectionPoolException {
-        PropertyManager propertyManager = new PropertyManager();
-        Properties properties;
-        try {
-            properties = propertyManager.readProperty("database.properties");
-        } catch (UtilClassException e) {
-            throw new ConnectionPoolException("Could not load properties", e);
+        public ConnectionPool() throws ConnectionPoolException {
+            PropertyManager propertyManager = new PropertyManager();
+            Properties properties;
+            try {
+                properties = propertyManager.readProperty("database.properties");
+            } catch (UtilClassException e) {
+                throw new ConnectionPoolException("Could not load properties", e);
 
+            }
+            if (properties != null) {
+                this.driver = properties.getProperty("driver");
+                this.url = properties.getProperty("url");
+                this.username = properties.getProperty("username");
+                this.password = properties.getProperty("password");
+                this.connectionsLimit = Integer.parseInt(properties.getProperty("connections.limit"));
+                this.timeout = Integer.parseInt(properties.getProperty("connection.timeout"));
+            }
+            initConnections();
         }
-        if (properties != null) {
-            this.driver = properties.getProperty("driver");
-            this.url = properties.getProperty("url");
-            this.username = properties.getProperty("username");
-            this.password = properties.getProperty("password");
-            this.connectionsLimit = Integer.parseInt(properties.getProperty("connections.limit"));
-            this.timeout = Integer.parseInt(properties.getProperty("connection.timeout"));
-        }
-        initConnections();
-    }
 
-    private void initConnections() {
-        if (freeConnections == null) {
-            synchronized (ConnectionPool.class) {
-                if (freeConnections == null) {
-                    freeConnections = new ArrayBlockingQueue<>(connectionsLimit);
+        private void initConnections() {
+            if (freeConnections == null) {
+                synchronized (ConnectionPool.class) {
+                    if (freeConnections == null) {
+                        freeConnections = new ArrayBlockingQueue<>(connectionsLimit);
+                    }
+                }
+            }
+            try {
+                Class.forName(driver);
+                for (int i = 0; i < connectionsLimit; i++) {
+                    Connection connection = getPooledConnection();
+                    freeConnections.add((PooledConnection) connection);
+                }
+            } catch (ClassNotFoundException | ConnectionPoolException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void close() throws ConnectionPoolException {
+            closeAllConnectionsInQueue(freeConnections);
+            closeAllConnectionsInQueue(usedConnections);
+        }
+
+        private void closeAllConnectionsInQueue(BlockingQueue<PooledConnection> queue) throws ConnectionPoolException {
+            for (PooledConnection connection : queue) {
+                try {
+                    connection.getConnection().close();
+                } catch (SQLException e) {
+                    throw new ConnectionPoolException("Could not close connection", e);
                 }
             }
         }
-        try {
-            Class.forName(driver);
-            for (int i = 0; i < connectionsLimit; i++) {
-                Connection connection = getPooledConnection();
-                freeConnections.add((PooledConnection) connection);
-            }
-        } catch (ClassNotFoundException | ConnectionPoolException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void close() throws ConnectionPoolException {
-        closeAllConnectionsInQueue(freeConnections);
-        closeAllConnectionsInQueue(usedConnections);
-    }
-
-    private void closeAllConnectionsInQueue(BlockingQueue<PooledConnection> queue) throws ConnectionPoolException {
-        for (PooledConnection connection : queue) {
+        private Connection getPooledConnection() throws ConnectionPoolException {
+            Connection pooledConnection;
             try {
-                connection.getConnection().close();
+                Connection connection = DriverManager.getConnection(url, username, password);
+                pooledConnection = new PooledConnection(connection);
             } catch (SQLException e) {
-                throw new ConnectionPoolException("Could not close connection", e);
+                throw new ConnectionPoolException("Could not get PooledConnection" + e.getMessage(), e);
             }
+            return pooledConnection;
         }
-    }
 
-    private Connection getPooledConnection() throws ConnectionPoolException {
-        Connection pooledConnection;
-        try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-            pooledConnection = new PooledConnection(connection);
-        } catch (SQLException e) {
-            throw new ConnectionPoolException("Could not get PooledConnection" + e.getMessage(), e);
+        @Override
+        public Connection getConnection() throws SQLException {
+            PooledConnection connection;
+            try {
+                if (usedConnections == null)
+                    usedConnections = new ArrayBlockingQueue<>(connectionsLimit);
+
+                connection = freeConnections.poll(timeout, TimeUnit.SECONDS);
+                if (connection == null)
+                    throw new SQLException("No free connection in pool");
+
+                usedConnections.put(connection);
+            } catch (InterruptedException e) {
+                throw new SQLException("Could not get connection", e);
+            }
+            return connection;
         }
-        logger.info("Create new PooledConnection");
-        return pooledConnection;
-    }
-
-    @Override
-    public Connection getConnection() throws SQLException {
-        PooledConnection connection;
-        try {
-            if (usedConnections == null)
-                usedConnections = new ArrayBlockingQueue<>(connectionsLimit);
-
-            connection = freeConnections.poll(timeout, TimeUnit.SECONDS);
-            if (connection == null)
-                throw new SQLException("No free connection in pool");
-
-            usedConnections.put(connection);
-        } catch (InterruptedException e) {
-            throw new SQLException("Could not get connection", e);
-        }
-        logger.info("Connection was taken, freeConnections: " + freeConnections.size());
-        return connection;
-    }
 
     @Override
     public Connection getConnection(String username, String password) throws SQLException {
@@ -215,7 +211,6 @@ public class ConnectionPool implements DataSource {
             } catch (SQLException | InterruptedException e) {
                 throw new SQLException("Could not release current connection", e);
             }
-            logger.info("Connection was back to CP, freeConnections: " + freeConnections.size());
         }
 
         @Override

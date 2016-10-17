@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 public class AdminDeleteUserAction implements Action {
     public static final String JSP_PAGE_NAME_DELETE_PROFILE = "delete-profile";
+    public static final String PARAMETER_USER_ID = "id";
     private UserService userService;
     private StringAdapter stringAdapter = new StringAdapter();
 
@@ -25,7 +26,7 @@ public class AdminDeleteUserAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            int userId = stringAdapter.toInt(req.getParameter("id"));
+            int userId = stringAdapter.toInt(req.getParameter(PARAMETER_USER_ID));
             userService.delete(userId);
             return new ActionResult(JSP_PAGE_NAME_DELETE_PROFILE, true);
         } catch (ServiceException e) {

@@ -7,11 +7,17 @@ import java.sql.Date;
 
 public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
 
-    public String createInsertSQL( Class object) throws DAOException {
+    public static final String SQL_INSERT_INTO = "INSERT INTO ";
+    public static final String VALUES = ")values(";
+    public static final String SQL_SELECT = "SELECT ";
+    public static final String SQL_WHERE = " where ";
+    public static final String SQL_UPDATE = "UPDATE ";
+
+    public String createInsertSQL(Class object) throws DAOException {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
 
-        sql.append("INSERT INTO " + object.getSimpleName() + "(");
+        sql.append(SQL_INSERT_INTO + object.getSimpleName() + "(");
 
         Field[] fields = object.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
@@ -28,7 +34,7 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
 
         deleteLastDot(sql);
         deleteLastDot(values);
-        return sql + ")values(" + values + ");";
+        return sql + VALUES + values + ");";
     }
 
     public void deleteLastDot(StringBuilder stringBuilder) {
@@ -41,7 +47,7 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
     }
 
     public String createSqlForFindById(Class genericClass, int id){
-       String sql = "SELECT " + createSQL(genericClass) + " where " + genericClass.getSimpleName() +
+       String sql = SQL_SELECT + createSQL(genericClass) + SQL_WHERE + genericClass.getSimpleName() +
                 ".id = " + id +";";
         return sql;
     }
@@ -95,7 +101,7 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
         try {
             Field field = item.getClass().getDeclaredField("id");
             field.setAccessible(true);
-            String sql = ("UPDATE " + item.getClass().getSimpleName() + " set deleteDAY = ? where id = " + field.get(item) + ";");
+            String sql = (SQL_UPDATE + item.getClass().getSimpleName() + " set deleteDAY = ? where id = " + field.get(item) + ";");
             return sql;
         } catch (NoSuchFieldException e) {
             throw new UnsupportedOperationException();
@@ -109,6 +115,6 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
         return sql;
     }
     public String createSqlForGetAll(Class genericClass){
-        return  "SELECT "+ createSQL(genericClass)+";";
+        return  SQL_SELECT + createSQL(genericClass)+";";
     }
 }
