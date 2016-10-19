@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractVitrine implements Action {
-    public static final String ATTRIBUTE_NAME_PRODUCTS = "products";
-    public static final String PARAMETER_NAME_PAGE = "page";
+    private static final String ATTRIBUTE_NAME_PRODUCTS = "products";
+    private static final String PARAMETER_NAME_PAGE = "page";
     private final int PAGE_SIZE = 12;
     private List<Integer> pageNumbers;
     private ProductService productService = new ProductService();

@@ -6,8 +6,8 @@ import com.epam.az.flower.shop.dao.TransactionDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 
 public class TransactionService {
-    DAOFactory daoFactory = DAOFactory.getInstance();
-    TransactionDAO transactionDAO = daoFactory.getDao(TransactionDAO.class);
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private TransactionDAO transactionDAO = daoFactory.getDao(TransactionDAO.class);
 
     public Transaction getTransactionByName(String name) throws ServiceException {
         try {

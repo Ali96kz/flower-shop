@@ -13,9 +13,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "DeleteUserFilter", urlPatterns = "/flower-shop/*")
 public class DeleteUserFilter implements Filter {
-
     private UserService userService = new UserService();
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

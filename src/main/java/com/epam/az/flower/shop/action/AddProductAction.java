@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
-
     private static final String JSP_PAGE_PRODUCT_INF = "product-inf?productId=";
     private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     private static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";

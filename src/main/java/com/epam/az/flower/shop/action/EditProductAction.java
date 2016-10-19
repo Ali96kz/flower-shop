@@ -13,11 +13,11 @@ import java.util.List;
 
 public class EditProductAction extends AbstractProduct {
 
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
-    public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
-    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
-    public static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
+    private static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
+    private static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
