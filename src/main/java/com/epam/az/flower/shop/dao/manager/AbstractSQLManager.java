@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 
 public class AbstractSQLManager {
 
-    public static final String ENTITY_ID = "id";
+    private static final String ENTITY_ID = "id";
 
     protected Date getTodayDay() {
         Calendar c = new GregorianCalendar();

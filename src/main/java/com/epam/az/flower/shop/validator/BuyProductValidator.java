@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator extends AbstractValidator {
-    public static final String PARAMETER_USER_ID = "userId";
-    public static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String PARAMETER_USER_ID = "userId";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
     private UserService userService = new UserService();
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();

@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class OrderService {
-    DAOFactory daoFactory = DAOFactory.getInstance();
+    private DAOFactory daoFactory = DAOFactory.getInstance();
     private OrderDAO orderDAO = daoFactory.getDao(OrderDAO.class);
     private UserService userService = new UserService();
     private UserTransactionService userTransactionService = new UserTransactionService();

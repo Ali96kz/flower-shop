@@ -85,11 +85,6 @@ public class TestHttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setStatus(int i) {
-
-    }
-
-    @Override
     public void setStatus(int i, String s) {
 
     }
@@ -97,6 +92,11 @@ public class TestHttpResponse implements HttpServletResponse {
     @Override
     public int getStatus() {
         return 0;
+    }
+
+    @Override
+    public void setStatus(int i) {
+
     }
 
     @Override
@@ -120,8 +120,18 @@ public class TestHttpResponse implements HttpServletResponse {
     }
 
     @Override
+    public void setCharacterEncoding(String s) {
+
+    }
+
+    @Override
     public String getContentType() {
         return null;
+    }
+
+    @Override
+    public void setContentType(String s) {
+
     }
 
     @Override
@@ -135,11 +145,6 @@ public class TestHttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setCharacterEncoding(String s) {
-
-    }
-
-    @Override
     public void setContentLength(int i) {
 
     }
@@ -150,18 +155,13 @@ public class TestHttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setContentType(String s) {
-
+    public int getBufferSize() {
+        return 0;
     }
 
     @Override
     public void setBufferSize(int i) {
 
-    }
-
-    @Override
-    public int getBufferSize() {
-        return 0;
     }
 
     @Override
@@ -185,12 +185,12 @@ public class TestHttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setLocale(Locale locale) {
-
+    public Locale getLocale() {
+        return null;
     }
 
     @Override
-    public Locale getLocale() {
-        return null;
+    public void setLocale(Locale locale) {
+
     }
 }

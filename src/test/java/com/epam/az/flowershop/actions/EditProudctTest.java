@@ -44,11 +44,9 @@ public class EditProudctTest {
     private ConnectionPool connectionPool = new ConnectionPool();
     private String flowerName, description, price, originId, productId;
     private String visualParametersId, flowerTypeId, growingConditionId, averageHeight;
-    public EditProudctTest() throws ActionException {
-    }
 
     @Before
-    public void init(){
+    public void init() {
         Random random = new Random(System.currentTimeMillis());
         flowerName = UUID.randomUUID().toString().substring(0, 6);
 
@@ -79,7 +77,7 @@ public class EditProudctTest {
 
         Product product = getProductById(Integer.parseInt(productId));
         assertEquals(Integer.parseInt(flowerTypeId), (int) product.getFlower().getFlowerType().getId());
-        assertEquals(flowerName,  product.getFlower().getName());
+        assertEquals(flowerName, product.getFlower().getName());
         assertEquals(description, product.getDescription());
         assertEquals(Integer.parseInt(averageHeight), product.getFlower().getAverageHeight());
         assertEquals(Integer.parseInt(originId), (int) product.getOrigin().getId());
@@ -95,7 +93,7 @@ public class EditProudctTest {
         ActionResult actionResult = editProductAction.execute(request, response);
         List<String> errorMsg = (List<String>) request.getAttribute("errorMsg");
         assertEquals(actionResult.getView(), "product-edit");
-        assertEquals(errorMsg.size() , 1);
+        assertEquals(errorMsg.size(), 1);
         assertTrue(errorMsg.contains("flower name must contain min 4 max 16"));
     }
 
@@ -112,7 +110,7 @@ public class EditProudctTest {
         return result;
     }
 
-    public Product getProductById(int id ) throws SQLException, DAOException {
+    public Product getProductById(int id) throws SQLException, DAOException {
         productDAO = new ProductDAO();
         flowerDAO = new FlowerDAO();
         Connection productDAOConnection = connectionPool.getConnection();

@@ -7,8 +7,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestSession implements HttpSession{
+public class TestSession implements HttpSession {
     private Map<String, Object> items = new HashMap<>();
+
     @Override
     public long getCreationTime() {
         return 0;
@@ -30,13 +31,13 @@ public class TestSession implements HttpSession{
     }
 
     @Override
-    public void setMaxInactiveInterval(int i) {
-
+    public int getMaxInactiveInterval() {
+        return 0;
     }
 
     @Override
-    public int getMaxInactiveInterval() {
-        return 0;
+    public void setMaxInactiveInterval(int i) {
+
     }
 
     @Override

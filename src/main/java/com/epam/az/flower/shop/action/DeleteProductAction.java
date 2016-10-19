@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteProductAction implements Action {
-    public static final String JSP_PAGE_NAME_MANAGER = "manager";
-    public static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String JSP_PAGE_NAME_MANAGER = "manager";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();
 

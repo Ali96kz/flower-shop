@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegisterAction extends AddUser {
-    public static final String JSP_PAGE_NAME_PROFILE = "profile";
-    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+    private static final String JSP_PAGE_NAME_PROFILE = "profile";
+    private static final String JSP_PAGE_NAME_REGISTRATION = "registration";
     private UserService userService = new UserService();
 
     @Override

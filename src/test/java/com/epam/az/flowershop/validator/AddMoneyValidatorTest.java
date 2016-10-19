@@ -10,12 +10,12 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class AddMoneyValidatorTest {
+    private static final String PARAMETER_MONEY = "money";
     private TestHttpRequest testHttpRequest = new TestHttpRequest();
     private AddMoneyValidator addMoneyValidator = new AddMoneyValidator();
-    private static final String PARAMETER_MONEY = "money";
 
     @Test
-    public void testWithNormalValue(){
+    public void testWithNormalValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, "45");
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
         assertEquals("Incorrect validate right value", 0, errorMsg.size());
@@ -29,22 +29,22 @@ public class AddMoneyValidatorTest {
     }
 
     @Test
-    public void testWithFractionalValue(){
+    public void testWithFractionalValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, "45.5");
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
         assertTrue("Incorrect validate right value", errorMsg.contains("please insert money"));
     }
 
     @Test
-    public void testWithNullValue(){
+    public void testWithNullValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, null);
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
         assertTrue("Incorrect validate right value", errorMsg.contains("You didn't insert money"));
     }
 
     @Test
-    public void testToNumberMoreThenInt(){
-        long test = Integer.MAX_VALUE+64846;
+    public void testToNumberMoreThenInt() {
+        long test = Integer.MAX_VALUE + 64846;
         testHttpRequest.setParameter(PARAMETER_MONEY, String.valueOf(test));
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
         assertTrue("Incorrect validate right value", errorMsg.contains("please insert money"));

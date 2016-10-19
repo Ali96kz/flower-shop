@@ -4,7 +4,6 @@ import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.action.ActionResult;
 import com.epam.az.flower.shop.action.DeleteProductFromBasket;
 import com.epam.az.flower.shop.entity.Basket;
-import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flowershop.TestHttpRequest;
@@ -19,14 +18,11 @@ public class DeleteProductFromBasketTest {
     public static final String JSP_PAGE_NAME_BASKET = "basket";
     public static final String PRODUCT_ID = "id";
     private TestHttpResponse response = new TestHttpResponse();
-    private TestHttpRequest request   = new TestHttpRequest();
+    private TestHttpRequest request = new TestHttpRequest();
     private TestSession session = new TestSession();
     private Basket basket = new Basket();
     private ProductService productService = new ProductService();
     private DeleteProductFromBasket deleteProductFromBasket = new DeleteProductFromBasket();
-
-    public DeleteProductFromBasketTest() throws ServiceException {
-    }
 
     @Before
     public void init() throws ServiceException {

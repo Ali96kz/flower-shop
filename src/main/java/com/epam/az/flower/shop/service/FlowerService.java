@@ -8,9 +8,9 @@ import com.epam.az.flower.shop.entity.GrowingCondition;
 import com.epam.az.flower.shop.entity.VisualParameters;
 
 public class FlowerService {
-    public static final Class<FlowerDAO> daoClass = FlowerDAO.class;
+    private static final Class<FlowerDAO> daoClass = FlowerDAO.class;
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private FlowerDAO flowerDAO;
+    private FlowerDAO flowerDAO = daoFactory.getDao(daoClass);
     private VisualParametersService visualParametersService = new VisualParametersService();
     private GrowingConditionService growingConditionService = new GrowingConditionService();
 
@@ -18,7 +18,6 @@ public class FlowerService {
     public Flower findById(int id) throws ServiceException {
         Flower flower;
         try {
-            flowerDAO = daoFactory.getDao(daoClass);
             daoFactory.startOperation(flowerDAO);
             flower = flowerDAO.findById(id);
             VisualParameters visualParameters = visualParametersService.findById(flower.getVisualParameters().getId());

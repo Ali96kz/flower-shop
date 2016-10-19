@@ -5,7 +5,7 @@ import com.epam.az.flower.shop.util.StringAdapter;
 import java.util.List;
 
 public abstract class AbstractValidator implements Validator {
-    public static final String NUMBER_REGEX = "[0-9]+";
+    private static final String NUMBER_REGEX = "[0-9]+";
     private StringAdapter stringAdapter = new StringAdapter();
 
     protected void validatePositiveNumber(List<String> errorMsg, String number, String name) {

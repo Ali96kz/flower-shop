@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductPage implements Action {
-    public static final String PARAMETER_PRODUCT_ID = "productId";
-    public static final String ATTRIBUTE_NAME_PRODUCT = "product";
-    public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String ATTRIBUTE_NAME_PRODUCT = "product";
+    private static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();
 

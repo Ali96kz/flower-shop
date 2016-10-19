@@ -11,20 +11,18 @@ import java.util.*;
 public class TestHttpRequest implements HttpServletRequest {
     private Map<String, String> parameters = new HashMap<>();
     private Map<String, Object> attributes = new HashMap<>();
-
-
+    private HttpSession httpSession;
 
     public void setHttpSession(HttpSession httpSession) {
         this.httpSession = httpSession;
     }
 
-    private HttpSession httpSession;
     @Override
     public String getParameter(String s) {
         return parameters.get(s);
     }
 
-    public void setParameter(String key, String value){
+    public void setParameter(String key, String value) {
         parameters.put(key, value);
     }
 

@@ -10,9 +10,9 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ShowTransactionAction implements Action {
-    public static final String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
-    public static final String SESSION_PARAMETER_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_TRANSACTION = "transaction";
+    private static final String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
+    private static final String SESSION_PARAMETER_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_TRANSACTION = "transaction";
     private UserTransactionService userTransactionService = new UserTransactionService();
 
     @Override

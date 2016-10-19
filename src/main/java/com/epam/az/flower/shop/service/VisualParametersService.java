@@ -28,7 +28,6 @@ public class VisualParametersService {
 
     public VisualParameters findById(int id) throws ServiceException {
         try {
-
             daoFactory.startOperation(visualParametersDAO);
             logger.info("try to find visual parameters id = {}", id);
             VisualParameters visualParameters = visualParametersDAO.findById(id);

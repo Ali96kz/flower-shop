@@ -8,14 +8,13 @@ import com.epam.az.flowershop.TestHttpResponse;
 import org.junit.Test;
 
 import java.util.List;
+
 import static junit.framework.TestCase.assertTrue;
 
 public class ShowOnlineVitrineTest {
     private TestHttpRequest request = new TestHttpRequest();
     private ShowOnlineVitrineAction showOnlineVitrineAction = new ShowOnlineVitrineAction();
     private TestHttpResponse response = new TestHttpResponse();
-    public ShowOnlineVitrineTest() throws ActionException {
-    }
 
     @Test
     public void testProductPageNotEmpty() throws ActionException {

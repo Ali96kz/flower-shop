@@ -4,9 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowOnlineVitrineAction extends AbstractVitrine {
-
-    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
-
+    private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

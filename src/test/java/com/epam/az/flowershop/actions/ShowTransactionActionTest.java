@@ -1,22 +1,15 @@
 package com.epam.az.flowershop.actions;
 
 import com.epam.az.flower.shop.action.ActionException;
-import com.epam.az.flower.shop.action.AddMoneyAction;
 import com.epam.az.flower.shop.action.ShowTransactionAction;
-import com.epam.az.flower.shop.dao.UserDAO;
-import com.epam.az.flower.shop.dao.UserTransactionDAO;
 import com.epam.az.flower.shop.entity.UserTransaction;
-import com.epam.az.flower.shop.pool.ConnectionPool;
 import com.epam.az.flowershop.TestHttpRequest;
 import com.epam.az.flowershop.TestHttpResponse;
 import com.epam.az.flowershop.TestSession;
-import com.sun.glass.ui.EventLoop;
 import org.junit.Test;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Random;
 
 import static junit.framework.TestCase.assertNotNull;
 
@@ -29,8 +22,6 @@ public class ShowTransactionActionTest {
     private TestHttpResponse response = new TestHttpResponse();
     private TestSession session = new TestSession();
 
-    public ShowTransactionActionTest() throws ActionException {
-    }
 
     @Test
     public void testRequestContainAllTransaction() throws SQLException, ActionException {

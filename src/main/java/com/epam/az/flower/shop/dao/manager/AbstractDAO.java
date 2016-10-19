@@ -33,6 +33,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSql(preparedStatement);
         } catch (SQLException e) {
+            throw new DAOException("can't create delete statement", e);
         }
     }
 

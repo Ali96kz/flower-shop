@@ -15,11 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class AddMoneyAction implements Action {
-    public static final String MENU_ERROR_MSG = "errorMsg";
-    public static final String JSP_PAGE_NAME_CASH = "cash";
-    public static final String PARAMETER_NAME_MONEY = "money";
-    public static final String ATTRIBUTE_NAME_USER = "user";
-    public static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
+    private static final String MENU_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_CASH = "cash";
+    private static final String PARAMETER_NAME_MONEY = "money";
+    private static final String ATTRIBUTE_NAME_USER = "user";
+    private static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
     private static final Logger logger = LoggerFactory.getLogger(AddMoneyAction.class);
     private UserService userService = new UserService();
 

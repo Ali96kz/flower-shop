@@ -5,7 +5,10 @@ import com.epam.az.flower.shop.action.ActionResult;
 import com.epam.az.flower.shop.action.BuyBasketAction;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.UserDAO;
-import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.entity.Basket;
+import com.epam.az.flower.shop.entity.Product;
+import com.epam.az.flower.shop.entity.User;
+import com.epam.az.flower.shop.entity.UserTransaction;
 import com.epam.az.flower.shop.pool.ConnectionPool;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
@@ -15,7 +18,6 @@ import com.epam.az.flowershop.TestHttpResponse;
 import com.epam.az.flowershop.TestSession;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -34,13 +36,11 @@ public class BuyBasketTest {
     private TestSession session = new TestSession();
     private Basket basket = new Basket();
     private ProductService productService = new ProductService();
-    private BuyBasketAction buyBasketAction ;
+    private BuyBasketAction buyBasketAction;
     private ConnectionPool connectionPool = new ConnectionPool();
     private UserDAO userDAO = new UserDAO();
     private UserTransactionService transactionService = new UserTransactionService();
 
-    public BuyBasketTest() throws ServiceException{
-    }
 
     @Before
     public void init() throws ServiceException, ActionException {
@@ -60,7 +60,7 @@ public class BuyBasketTest {
     public void testBasketWithSomeProducts() throws ActionException, SQLException, DAOException, ServiceException {
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        statement.execute("UPDATE User SET User.balance = 15000 where User.id = "+ TEST_USER_ID);
+        statement.execute("UPDATE User SET User.balance = 15000 where User.id = " + TEST_USER_ID);
         connection.close();
 
         session.setAttribute("userId", TEST_USER_ID);
@@ -74,8 +74,8 @@ public class BuyBasketTest {
         List<UserTransaction> transactions = transactionService.getAll(TEST_USER_ID_WITHOUT_MONEY);
         List<Product> products = basket.getProducts();
 
-        for (int i = transactions.size() - 1, j = 1;i >=  0; i--, j++) {
-            if(j < 4) {
+        for (int i = transactions.size() - 1, j = 1; i >= 0; i--, j++) {
+            if (j < 4) {
                 assertEquals(transactions.get(i).getSum(), products.get(j).getPrice());
                 assertEquals(transactions.get(i).getTransaction().getName(), TRANSACTION_NAME_BUY_PRODUCT);
             }
@@ -114,7 +114,7 @@ public class BuyBasketTest {
 
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        statement.execute("UPDATE User SET User.balance = 0 where User.id = "+ TEST_USER_ID_WITHOUT_MONEY);
+        statement.execute("UPDATE User SET User.balance = 0 where User.id = " + TEST_USER_ID_WITHOUT_MONEY);
         User beforeUpdateUser = getUncacheUserById(TEST_USER_ID_WITHOUT_MONEY);
 
         ActionResult actionResult = buyBasketAction.execute(request, response);

@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginAction implements Action {
-    public static final String JSP_PAGE_NAME_PROFILE = "profile";
-    public static final String PARAMETER_NICK_NAME = "nickName";
-    public static final String PARAMETER_PASSWORD = "password";
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_LOGIN = "login";
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_PROFILE = "profile";
+    private static final String PARAMETER_NICK_NAME = "nickName";
+    private static final String PARAMETER_PASSWORD = "password";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_LOGIN = "login";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
     private static Logger log = LoggerFactory.getLogger(LoginAction.class);
     private Validator validator = new LogInValidator();

@@ -35,6 +35,7 @@ public class EditProductAction extends AbstractProduct {
             product.getFlower().setId(flower.getId());
             product.setId(productId);
             productService.update(product);
+
             return new ActionResult(JSP_PAGE_NAME_PRODUCT + ATTRIBUTE_NAME_PRODUCT_ID + productId, true);
         } catch (ServiceException e) {
             throw new ActionException("can't get user by id", e);

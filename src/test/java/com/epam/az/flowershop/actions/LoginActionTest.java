@@ -21,9 +21,6 @@ public class LoginActionTest {
     private TestSession session = new TestSession();
     private LoginAction loginAction = new LoginAction();
 
-    public LoginActionTest() throws ActionException {
-    }
-
     @Test
     public void testWithNormalParameter() throws ActionException {
         request.setParameter(PARAMETER_NICK_NAME, "admin");

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LogoutAction implements Action {
-    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
     private UserService userService = new UserService();
 
     @Override

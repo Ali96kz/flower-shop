@@ -12,9 +12,9 @@ import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
 
-    public static final String JSP_PAGE_PRODUCT_INF = "product-inf?productId=";
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    public static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
+    private static final String JSP_PAGE_PRODUCT_INF = "product-inf?productId=";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

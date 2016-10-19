@@ -14,16 +14,8 @@ import java.io.IOException;
 @WebFilter(filterName = "DeleteUserFilter", urlPatterns = "/flower-shop/*")
 public class DeleteUserFilter implements Filter {
 
-    private UserService userService;
+    private UserService userService = new UserService();
 
-    public DeleteUserFilter() throws FilterException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new FilterException("can't create service class", e);
-        }
-
-    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

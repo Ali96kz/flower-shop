@@ -5,20 +5,18 @@ import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
-import com.epam.az.flower.shop.util.Hasher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class UserService {
-    private static final Logger lo = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final String CUSTOMER_USER_ROLE = "customer";
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserDAO userDAO = daoFactory.getDao(UserDAO.class);
     private UserRoleService userRoleService = new UserRoleService();
     private UserTransactionService userTransactionService = new UserTransactionService();
-    private Hasher hasher = new Hasher();
 
     public void addMoneyToBalance(User user, int sum) throws ServiceException {
         user.setBalance(user.getBalance() + sum);
@@ -35,7 +33,7 @@ public class UserService {
             } catch (DAOException e1) {
                 throw new ServiceException("can't rollback transaction", e);
             }
-            throw new ServiceException("can't update user");
+            throw new ServiceException("can't update user", e);
         }
     }
 
@@ -74,7 +72,7 @@ public class UserService {
             user.setUserRole(userRole);
 
             daoFactory.startTransaction(userDAO);
-            lo.info("user role id {}", userRole.getId());
+            logger.info("user role id {}", userRole.getId());
             int index = userDAO.insert(user);
             user.setId(index);
             daoFactory.commitTransaction(userDAO);
@@ -100,9 +98,7 @@ public class UserService {
             throw new ServiceException("Can't get user by id", e);
         } finally {
             daoFactory.endOperation(userDAO);
-
         }
-
         return user;
     }
 
@@ -147,7 +143,7 @@ public class UserService {
             try {
                 daoFactory.rollBack(userDAO);
             } catch (DAOException e1) {
-                throw new ServiceException("can't rollback transaction");
+                throw new ServiceException("can't rollback transaction", e);
             }
             throw new ServiceException("can't update user", e);
         }

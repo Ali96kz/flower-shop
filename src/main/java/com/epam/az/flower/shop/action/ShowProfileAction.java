@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowProfileAction implements Action {
-    public static final String JSP_PAGE_NAME_PROFILE = "profile";
-    public static final String SESSION_PARAMETER_USER_ID = "userId";
-    public static final String ATTRIBUTE_NAME_USER = "user";
+    private static final String JSP_PAGE_NAME_PROFILE = "profile";
+    private static final String SESSION_PARAMETER_USER_ID = "userId";
+    private static final String ATTRIBUTE_NAME_USER = "user";
     private UserService userService = new UserService();
 
     @Override

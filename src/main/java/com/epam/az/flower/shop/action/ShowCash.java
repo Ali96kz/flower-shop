@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowCash implements Action {
-    public static final String JSP_PAGE_NAME_CASH = "cash";
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    public static final String ATTRIBUTE_NAME_USER = "user";
+    private static final String JSP_PAGE_NAME_CASH = "cash";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String ATTRIBUTE_NAME_USER = "user";
     private UserService userService = new UserService();
 
 

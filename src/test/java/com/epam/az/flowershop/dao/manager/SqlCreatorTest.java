@@ -2,7 +2,8 @@ package com.epam.az.flowershop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.manager.PrepareSQLCreator;
-import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.entity.Flower;
+import com.epam.az.flower.shop.entity.Origin;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -10,9 +11,9 @@ import static junit.framework.TestCase.assertEquals;
 public class SqlCreatorTest {
 
     private static final int EXAMPLE_OBJECT_ID = 5;
-    private PrepareSQLCreator prepareSqlCreator = new PrepareSQLCreator();
     private static final Class PRIMITIVE_OBJECT_CLASS = Origin.class;
     private static final Class CLASS_OF_OBJECT_WITH_NESTED_OBJECT = Flower.class;
+    private PrepareSQLCreator prepareSqlCreator = new PrepareSQLCreator();
 
     @Test
     public void testGetAll() {
@@ -60,6 +61,7 @@ public class SqlCreatorTest {
         assertEquals("Create incorrect sql for get all method", "SELECT Flower.id, Flower.deleteDay, Flower.name, " +
                 "Flower.averageHeight, visualParametersId, growingConditionId, flowerTypeId FROM Flower;", sql);
     }
+
     @Test
     public void testInsertForComplexObject() throws DAOException {
         String sql = prepareSqlCreator.createInsertSQL(CLASS_OF_OBJECT_WITH_NESTED_OBJECT);
@@ -84,14 +86,14 @@ public class SqlCreatorTest {
     public void testUpdateForComplexObject() throws DAOException {
         Flower flower = initializeFlower();
         String sql = prepareSqlCreator.createSQLForUpdate(flower);
-        assertEquals("Create incorrect sql for update", "UPDATE Flower SET nameId = ?," +
-                "averageHeight = ?, visualParametersId = ?,growingConditionId = ?,flowerTypeId = ? where id = 5;", sql);
+        assertEquals("Create incorrect sql for update", "UPDATE Flower SET name =  ?" +
+                ", averageHeight =  ?, visualParametersId =  ?, growingConditionId =  ?, flowerTypeId =  ? where id = 5;", sql);
     }
-
 
 
     public Flower initializeFlower() {
         Flower flower = new Flower();
+        flower.setName("asd");
         flower.setId(EXAMPLE_OBJECT_ID);
         return flower;
     }

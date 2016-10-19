@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActionFactory {
-    static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
 
 

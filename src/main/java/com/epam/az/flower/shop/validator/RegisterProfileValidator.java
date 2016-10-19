@@ -29,15 +29,7 @@ public class RegisterProfileValidator extends AbstractValidator {
     public static final int LAST_NAME_MIN_LENGTH = 3;
     public static final int FIRST_NAME_MAX_LENGTH = 16;
     public static final int FIRST_NAME_MIN_LENGTH = 3;
-    private UserService userService;
-
-    public RegisterProfileValidator() throws ValidatorException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ValidatorException("can't initialize user service", e);
-        }
-    }
+    private UserService userService = new UserService();
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();
@@ -59,8 +51,10 @@ public class RegisterProfileValidator extends AbstractValidator {
             throw new ValidatorException("can't validate nickname", e);
         }
 
-
         if (date == null) {
+            errorMsg.add("You insert incorrect date Example: 1996-12-11");
+        }
+        if (!date.toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
             errorMsg.add("You insert incorrect date Example: 1996-12-11");
         }
 

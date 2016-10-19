@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class DeleteProductFromBasket implements Action {
-    public static final String JSP_PAGE_NAME_BASKET = "basket";
-    public static final String ATTRIBUTE_BASKET = "basket";
-    public static final String PARAMETER_PRODUCT_ID = "id";
+    private static final String JSP_PAGE_NAME_BASKET = "basket";
+    private static final String ATTRIBUTE_BASKET = "basket";
+    private static final String PARAMETER_PRODUCT_ID = "id";
     private Validator validator = new DeleteFromBasketValidator();
     private StringAdapter stringAdapter = new StringAdapter();
 

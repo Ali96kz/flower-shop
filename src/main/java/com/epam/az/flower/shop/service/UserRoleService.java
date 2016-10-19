@@ -46,7 +46,7 @@ public class UserRoleService {
             UserRole userRole = userRoleDao.findUserRoleByName(roleName);
             return userRole;
         } catch (DAOException e) {
-            throw new ServiceException("can't commit transaction");
+            throw new ServiceException("can't commit transaction", e);
         } finally {
             daoFactory.endOperation(userRoleDao);
         }

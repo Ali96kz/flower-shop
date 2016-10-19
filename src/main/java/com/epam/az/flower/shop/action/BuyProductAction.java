@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class BuyProductAction implements Action {
-    public static final String JSP_PAGE_NAME_BILL = "bill";
-    public static final String ATTRIBUTE_NAME_PRICE = "price";
-    public static final String PARAMETER_PRODUCT_ID = "productId";
-    public static final String ATTRIBUTE_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_BILL = "bill";
+    private static final String ATTRIBUTE_NAME_PRICE = "price";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String ATTRIBUTE_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();

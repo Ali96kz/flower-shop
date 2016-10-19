@@ -1,9 +1,9 @@
 package com.epam.az.flowershop.actions;
 
-import com.epam.az.flower.shop.action.*;
+import com.epam.az.flower.shop.action.ActionException;
+import com.epam.az.flower.shop.action.ActionResult;
+import com.epam.az.flower.shop.action.BuyProductAction;
 import com.epam.az.flower.shop.dao.DAOException;
-import com.epam.az.flower.shop.dao.UserDAO;
-import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserTransaction;
@@ -11,6 +11,7 @@ import com.epam.az.flower.shop.pool.ConnectionPool;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserTransactionService;
+import com.epam.az.flowershop.AbstractTest;
 import com.epam.az.flowershop.TestHttpRequest;
 import com.epam.az.flowershop.TestHttpResponse;
 import com.epam.az.flowershop.TestSession;
@@ -21,9 +22,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+
 import static junit.framework.TestCase.assertEquals;
 
-public class BuyProductTest {
+public class BuyProductTest extends AbstractTest {
     public static final int TEST_USER_ID_WITHOUT_MONEY = 1;
     public static final int TEST_USER_ID = 2;
     public static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
@@ -36,11 +38,8 @@ public class BuyProductTest {
     private TestSession session = new TestSession();
     private BuyProductAction buyProductAction = new BuyProductAction();
     private ConnectionPool connectionPool = new ConnectionPool();
-    private UserDAO userDAO;
     private ProductService productService = new ProductService();
     private UserTransactionService transactionService = new UserTransactionService();
-    public BuyProductTest() throws ActionException, ServiceException {
-    }
 
     @Before
     public void init() throws ServiceException, SQLException {
@@ -50,10 +49,9 @@ public class BuyProductTest {
 
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        statement.execute("UPDATE User SET User.balance = 10000 where User.id = "+TEST_USER_ID+";");
+        statement.execute("UPDATE User SET User.balance = 10000 where User.id = " + TEST_USER_ID + ";");
         connection.close();
     }
-
 
 
     @Test
@@ -68,8 +66,8 @@ public class BuyProductTest {
         assertEquals(beforeUpdateUser.getBalance() - product.getPrice(), afterActionExecuteUser.getBalance());
 
         List<UserTransaction> transactions = transactionService.getAll(TEST_USER_ID);
-        assertEquals(transactions.get(transactions.size()-1).getSum(), product.getPrice());
-        assertEquals(transactions.get(transactions.size()-1).getTransaction().getName(), TRANSACTION_NAME_BUY_PRODUCT);
+        assertEquals(transactions.get(transactions.size() - 1).getSum(), product.getPrice());
+        assertEquals(transactions.get(transactions.size() - 1).getTransaction().getName(), TRANSACTION_NAME_BUY_PRODUCT);
     }
 
     @Test
@@ -105,19 +103,13 @@ public class BuyProductTest {
         User afterActionExecuteUser = getUncacheUserById(TEST_USER_ID);
         assertEquals(beforeUpdateUser.getBalance(), afterActionExecuteUser.getBalance());
     }
+
     @Test
     public void testWithUserDontHaveMoney() throws SQLException {
         Connection connection = connectionPool.getConnection();
         Statement statement = connection.createStatement();
-        statement.execute("UPDATE User SET User.balance = 0 where User.id = "+TEST_USER_ID_WITHOUT_MONEY+";");
+        statement.execute("UPDATE User SET User.balance = 0 where User.id = " + TEST_USER_ID_WITHOUT_MONEY + ";");
         connection.close();
     }
 
-    public User getUncacheUserById(int id) throws SQLException, DAOException {
-        userDAO = new UserDAO();
-        userDAO.setConnection(connectionPool.getConnection());
-        User user = userDAO.findById(id);
-        userDAO.getConnection().close();
-        return user;
-    }
 }

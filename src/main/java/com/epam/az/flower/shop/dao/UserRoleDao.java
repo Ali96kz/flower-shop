@@ -24,7 +24,7 @@ public class UserRoleDao extends CachedDAO<UserRole> {
             }
             return userRole;
         } catch (SQLException e) {
-            throw new DAOException("can't parse user role");
+            throw new DAOException("can't parse user role", e);
         }
     }
 }

@@ -11,10 +11,9 @@ import java.util.List;
 
 public class GrowingConditionService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureService temperatureService = new TemperatureService();
-    ;
-    private WaterInWeekService waterInWeekService = new WaterInWeekService();
     private GrowingConditionDAO growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
+    private TemperatureService temperatureService = new TemperatureService();
+    private WaterInWeekService waterInWeekService = new WaterInWeekService();
 
     public List<GrowingCondition> getAllGrowingConditions() throws ServiceException {
         try {

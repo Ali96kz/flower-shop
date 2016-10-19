@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class BuyBasketAction implements Action {
-    public static final String JSP_PAGE_NAME_BILL = "bill";
-    public static final String ATTRIBUTE_NAME_BASKET = "basket";
-    public static final String ATTRIBUTE_NAME_SUM = "sum";
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_BASKET = "basket";
-    public static final String ATTRIBUTE_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_BILL = "bill";
+    private static final String ATTRIBUTE_NAME_BASKET = "basket";
+    private static final String ATTRIBUTE_NAME_SUM = "sum";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_BASKET = "basket";
+    private static final String ATTRIBUTE_ERROR_MSG = "errorMsg";
     private UserService userService = new UserService();
     private Validator validator = new BuyBasketValidator();
 

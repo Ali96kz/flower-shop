@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OnlineVitrineValidator extends AbstractValidator {
-    public static final String PARAMETER_NAME_PAGE = "page";
+    private static final String PARAMETER_NAME_PAGE = "page";
 
     @Override
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {

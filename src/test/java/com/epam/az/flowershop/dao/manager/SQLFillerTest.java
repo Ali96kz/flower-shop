@@ -12,17 +12,16 @@ import java.sql.SQLException;
 import static junit.framework.TestCase.assertEquals;
 
 public class SQLFillerTest {
-    private static final int EXAMPLE_OBJECT_ID = 5;
     public static final int FLOWER_AVERAGE_HEIGHT = 54;
     public static final String FLOWER_NAME = "Catalina";
     public static final String ORIGIN_COUNTRY_NAME = "Kazakhstan";
     public static final String ORIGIN_PROVINCE_NAME = "Almaty";
-
+    private static final int EXAMPLE_OBJECT_ID = 5;
+    private static final String FLOWER_INSERT_SQL = "INSERT INTO Flower(name, averageHeight, visualParametersId, growingConditionId, flowerTypeId)values(?, ?, ?, ?, ?);";
+    private static final String ORIGIN_INSERT_SQL = "INSERT INTO Origin(country,province)values(?, ?);";
     private static Origin origin = new Origin();
     private static Flower flower = new Flower();
     private static ConnectionPool connectionPool = new ConnectionPool();
-    private static final String FLOWER_INSERT_SQL = "INSERT INTO Flower(name, averageHeight, visualParametersId, growingConditionId, flowerTypeId)values(?, ?, ?, ?, ?);";
-    private static final String ORIGIN_INSERT_SQL = "INSERT INTO Origin(country,province)values(?, ?);";
     private SQLFiller sqlFiller = new SQLFiller();
 
     public static PreparedStatement createPrepareStatementForOrigin() throws SQLException {
@@ -56,14 +55,15 @@ public class SQLFillerTest {
         sqlFiller.fillPrepareStatement(preparedStatement, flower);
         String prepareSQL = ((com.mysql.cj.jdbc.PreparedStatement) preparedStatement).asSql();
         assertEquals("Create incorrect sql for insert", "INSERT INTO Flower(name, averageHeight, visualParametersId, growingConditionId," +
-                " flowerTypeId)values('"+FLOWER_NAME+"', "+FLOWER_AVERAGE_HEIGHT+", 5, 5, 5);", prepareSQL);
+                " flowerTypeId)values('" + FLOWER_NAME + "', " + FLOWER_AVERAGE_HEIGHT + ", 5, 5, 5);", prepareSQL);
     }
+
     @Test
     public void testFillPrepareStatementForPrimitiveObject() throws SQLException, DAOException {
         PreparedStatement preparedStatement = createPrepareStatementForOrigin();
         sqlFiller.fillPrepareStatement(preparedStatement, origin);
         String prepareSQL = ((com.mysql.cj.jdbc.PreparedStatement) preparedStatement).asSql();
-        assertEquals("Create incorrect sql for insert", "INSERT INTO Origin(country,province)values('"+ORIGIN_COUNTRY_NAME+"', '"+ORIGIN_PROVINCE_NAME+"');", prepareSQL);
+        assertEquals("Create incorrect sql for insert", "INSERT INTO Origin(country,province)values('" + ORIGIN_COUNTRY_NAME + "', '" + ORIGIN_PROVINCE_NAME + "');", prepareSQL);
 
     }
 

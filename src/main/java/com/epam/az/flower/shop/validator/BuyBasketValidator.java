@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyBasketValidator implements Validator {
-    public static final String SESSION_PARAMETER_USER_ID = "userId";
-    public static final String SESSION_PARAMETER_BASKET_OBJECT = "basket";
+    private static final String SESSION_PARAMETER_USER_ID = "userId";
+    private static final String SESSION_PARAMETER_BASKET_OBJECT = "basket";
     private UserService userService = new UserService();
 
 

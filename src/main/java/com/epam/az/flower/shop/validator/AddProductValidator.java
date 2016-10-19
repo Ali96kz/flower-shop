@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddProductValidator extends AbstractValidator {
-    public static final int DESCRIPTION_MIN_LENGTH = 16;
-    public static final int DESCRIPTION_MAX_LENGTH = 144;
-    public static final int FLOWER_NAME_MIN_LENGTH = 4;
-    public static final int FLOWER_NAME_MAX_LENGTH = 16;
+    private static final int DESCRIPTION_MIN_LENGTH = 16;
+    private static final int DESCRIPTION_MAX_LENGTH = 144;
+    private static final int FLOWER_NAME_MIN_LENGTH = 4;
+    private static final int FLOWER_NAME_MAX_LENGTH = 16;
     private static final String FIELD_MENU_FLOWER_NAME = "flower name";
     private static final String FIELD_MENU_DESCRIPTION = "description";
     private static final String FIELD_MENU_AVERAGE_HEIGHT = "average height";

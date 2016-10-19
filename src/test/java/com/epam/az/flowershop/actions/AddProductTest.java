@@ -17,16 +17,9 @@ import org.junit.Test;
 import java.sql.SQLException;
 import java.util.Random;
 
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 public class AddProductTest {
-    private ConnectionPool connectionPool = new ConnectionPool();
-    private AddProductAction addProductAction = new AddProductAction();
-    private TestHttpRequest request = new TestHttpRequest();
-    private TestHttpResponse response = new TestHttpResponse();
-    private ProductDAO productDAO = new ProductDAO();
-    private FlowerDAO flowerDAO = new FlowerDAO();
     public static final String PARAMETER_NAME_ORIGIN_ID = "originId";
     public static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
     public static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
@@ -35,9 +28,12 @@ public class AddProductTest {
     public static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
     public static final String PARAMETER_NAME_DESCRIPTION = "description";
     public static final String PARAMETER_NAME_PRICE = "price";
-
-    public AddProductTest() throws ActionException {
-    }
+    private ConnectionPool connectionPool = new ConnectionPool();
+    private AddProductAction addProductAction = new AddProductAction();
+    private TestHttpRequest request = new TestHttpRequest();
+    private TestHttpResponse response = new TestHttpResponse();
+    private ProductDAO productDAO = new ProductDAO();
+    private FlowerDAO flowerDAO = new FlowerDAO();
 
     @Before
     public void initRequestWithCorrectParameters() throws SQLException {

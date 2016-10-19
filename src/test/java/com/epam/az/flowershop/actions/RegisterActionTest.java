@@ -8,6 +8,7 @@ import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.pool.ConnectionPool;
 import com.epam.az.flower.shop.util.Hasher;
+import com.epam.az.flowershop.AbstractTest;
 import com.epam.az.flowershop.TestHttpRequest;
 import com.epam.az.flowershop.TestHttpResponse;
 import com.epam.az.flowershop.TestSession;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class RegisterActionTest {
+public class RegisterActionTest extends AbstractTest {
     public static final String PARAMETER_FIRST_NAME = "firstName";
     public static final String PARAMETER_NICK_NAME = "nickName";
     public static final String PARAMETER_LAST_NAME = "lastName";
@@ -33,8 +34,8 @@ public class RegisterActionTest {
     public static final String TEST_USER_LAST_NAME = "Zhagparov";
     public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
 
-    public String userPassword ;
-    public String confirmUserPassword ;
+    public String userPassword;
+    public String confirmUserPassword;
     private RegisterAction registerAction = new RegisterAction();
     private TestSession session = new TestSession();
     private TestHttpRequest request = new TestHttpRequest();
@@ -45,13 +46,8 @@ public class RegisterActionTest {
     private Integer customerRoleId = 3;
     private Hasher hasher = new Hasher();
 
-
-
-    public RegisterActionTest() throws ActionException {
-    }
-
     @Before
-    public void init(){
+    public void init() {
         UUID nicknameUUID = UUID.randomUUID();
         UUID userPasswordUUID = UUID.randomUUID();
         nickname = nicknameUUID.toString().substring(0, 12);
@@ -59,7 +55,7 @@ public class RegisterActionTest {
         userPassword = confirmUserPassword;
 
         request.setParameter(PARAMETER_FIRST_NAME, TEST_USER_FIRST_NAME);
-        request.setParameter(PARAMETER_LAST_NAME,  TEST_USER_LAST_NAME);
+        request.setParameter(PARAMETER_LAST_NAME, TEST_USER_LAST_NAME);
         request.setParameter(PARAMETER_NICK_NAME, nickname);
         request.setParameter(PARAMETER_PASSWORD, userPassword);
         request.setParameter(PARAMETER_CONFIRM_PASSWORD, userPassword);
@@ -99,19 +95,12 @@ public class RegisterActionTest {
     }
 
 
-    public int  getUncacheUserIdByNickname(String nickname) throws SQLException, DAOException {
+    public int getUncacheUserIdByNickname(String nickname) throws SQLException, DAOException {
         userDAO = new UserDAO();
         userDAO.setConnection(connectionPool.getConnection());
         int userId = userDAO.findByCredentials(nickname);
         userDAO.getConnection().close();
 
         return userId;
-    }
-    public User getUncacheUserById(int id) throws SQLException, DAOException {
-        userDAO = new UserDAO();
-        userDAO.setConnection(connectionPool.getConnection());
-        User user = userDAO.findById(id);
-        userDAO.getConnection().close();
-        return user;
     }
 }

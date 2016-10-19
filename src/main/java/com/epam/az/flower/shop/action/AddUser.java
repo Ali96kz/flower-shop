@@ -26,6 +26,7 @@ public abstract class AddUser implements Action {
     protected StringAdapter stringAdapter = new StringAdapter();
     protected UserRoleService userRoleService = new UserRoleService();
     private Hasher hasher = new Hasher();
+    private RegisterProfileValidator validator = new RegisterProfileValidator();
 
     public User fillUser(HttpServletRequest request, User user) {
         user.setPassword(hasher.hash(request.getParameter(PARAMETER_PASSWORD)));
@@ -48,12 +49,6 @@ public abstract class AddUser implements Action {
     }
 
     public boolean validate(HttpServletRequest request) throws ActionException {
-        RegisterProfileValidator validator;
-        try {
-            validator = new RegisterProfileValidator();
-        } catch (ValidatorException e) {
-            throw new ActionException("can;t create validator", e);
-        }
 
         List<String> errorMsg;
         try {

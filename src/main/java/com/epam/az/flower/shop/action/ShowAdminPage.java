@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ShowAdminPage implements Action {
-    public static final String JSP_PAGE_NAME_ADMIN = "admin";
-    public static final String ATTRIBUTE_NAME_USERS = "users";
+    private static final String JSP_PAGE_NAME_ADMIN = "admin";
+    private static final String ATTRIBUTE_NAME_USERS = "users";
     private UserService userService = new UserService();
 
     @Override

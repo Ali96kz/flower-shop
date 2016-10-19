@@ -18,17 +18,14 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 
 public class TestShowAdminPage {
+    private static final String JSP_PAGE_NAME_ADMIN = "admin";
+    private static final String ATTRIBUTE_NAME_USERS = "users";
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();
     private TestSession session = new TestSession();
     private ShowAdminPage showAdminPage = new ShowAdminPage();
     private ConnectionPool connectionPool = new ConnectionPool();
     private UserDAO userDAO;
-    private static final String JSP_PAGE_NAME_ADMIN = "admin";
-    private static final String ATTRIBUTE_NAME_USERS = "users";
-
-    public TestShowAdminPage() throws ActionException {
-    }
 
     @Test
     public void testAllUser() throws ActionException, SQLException, DAOException {

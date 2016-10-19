@@ -11,7 +11,6 @@ public class FlowerTypeService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private FlowerTypeDAO flowerTypeDAO = daoFactory.getDao(FlowerTypeDAO.class);
 
-
     public List<FlowerType> getAllFlowerType() throws ServiceException {
         try {
             daoFactory.startOperation(flowerTypeDAO);
