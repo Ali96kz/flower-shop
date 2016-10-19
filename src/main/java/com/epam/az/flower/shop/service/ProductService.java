@@ -49,7 +49,7 @@ public class ProductService {
             daoFactory.endOperation(productDAO);
             return products;
         } catch (DAOException e) {
-            throw new ServiceException("can't execute", e);
+            throw new ServiceException("can't get all not deleted product", e);
         }
     }
 

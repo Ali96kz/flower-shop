@@ -14,6 +14,7 @@ public class DeleteProductFromBasket implements Action {
     private static final String JSP_PAGE_NAME_BASKET = "basket";
     private static final String ATTRIBUTE_BASKET = "basket";
     private static final String PARAMETER_PRODUCT_ID = "id";
+
     private Validator validator = new DeleteFromBasketValidator();
     private StringAdapter stringAdapter = new StringAdapter();
 

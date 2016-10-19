@@ -12,12 +12,12 @@ public class UserTransactionDAO extends CachedDAO<UserTransaction> {
 
     public List<UserTransaction> getAll(int id) throws DAOException {
         List<UserTransaction> resultList = new ArrayList<>();
-        String selectSQL = prepareSqlCreator.createSQL(UserTransaction.class);
+        String selectSQL = preparedStatementSqlCreator.createSQL(UserTransaction.class);
         try {
             ResultSet resultSet = sqlExecutor.executeSqlQuery("SELECT " + selectSQL +
                     " where userId = " + id + ";", connection.createStatement());
             while (resultSet.next()) {
-                UserTransaction e = (UserTransaction) sqlParser.parseResultSet(getGenericClass().newInstance(), resultSet);
+                UserTransaction e = (UserTransaction) resultSetParser.parseResultSet(getGenericClass().newInstance(), resultSet);
                 resultList.add(e);
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {

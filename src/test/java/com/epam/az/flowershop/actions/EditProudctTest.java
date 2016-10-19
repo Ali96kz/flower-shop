@@ -26,15 +26,15 @@ import static junit.framework.TestCase.assertTrue;
 
 
 public class EditProudctTest {
-    public static final String PARAMETER_PRODUCT_ID = "productId";
-    public static final String PARAMETER_NAME_ORIGIN_ID = "originId";
-    public static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
-    public static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
-    public static final String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
-    public static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
-    public static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
-    public static final String PARAMETER_NAME_DESCRIPTION = "description";
-    public static final String PARAMETER_NAME_PRICE = "price";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String PARAMETER_NAME_ORIGIN_ID = "originId";
+    private static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
+    private static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
+    private static final String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
+    private static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
+    private static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
+    private static final String PARAMETER_NAME_DESCRIPTION = "description";
+    private static final String PARAMETER_NAME_PRICE = "price";
     private EditProductAction editProductAction = new EditProductAction();
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();

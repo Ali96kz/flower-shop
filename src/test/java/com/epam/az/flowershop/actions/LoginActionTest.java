@@ -11,11 +11,11 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class LoginActionTest {
-    public static final String JSP_PAGE_NAME_PROFILE = "profile";
-    public static final String PARAMETER_NICK_NAME = "nickName";
-    public static final String PARAMETER_PASSWORD = "password";
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_LOGIN = "login";
+    private static final String JSP_PAGE_NAME_PROFILE = "profile";
+    private static final String PARAMETER_NICK_NAME = "nickName";
+    private static final String PARAMETER_PASSWORD = "password";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_LOGIN = "login";
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();
     private TestSession session = new TestSession();

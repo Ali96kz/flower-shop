@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SQLParser<E extends BaseEntity> extends AbstractSQLManager {
+public class ResultSetParser<E extends BaseEntity> extends AbstractSQLManager {
 
     public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
         try {

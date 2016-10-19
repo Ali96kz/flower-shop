@@ -8,7 +8,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SQLFiller<E extends BaseEntity> extends AbstractSQLManager {
+/**
+ * fill prepared statement
+ * @param <E>
+ */
+public class PrepareStatementFiller<E extends BaseEntity> extends AbstractSQLManager {
 
     public void fillPrepareStatement(PreparedStatement preparedStatement, E object) throws DAOException {
         Field[] fields = object.getClass().getDeclaredFields();

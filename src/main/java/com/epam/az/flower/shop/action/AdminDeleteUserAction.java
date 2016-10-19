@@ -21,7 +21,7 @@ public class AdminDeleteUserAction implements Action {
             userService.delete(userId);
             return new ActionResult(JSP_PAGE_NAME_DELETE_PROFILE, true);
         } catch (ServiceException e) {
-            throw new ActionException("", e);
+            throw new ActionException("can't delete user", e);
         }
 
     }

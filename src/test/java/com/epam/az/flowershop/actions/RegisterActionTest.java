@@ -21,21 +21,21 @@ import java.util.UUID;
 import static junit.framework.TestCase.assertEquals;
 
 public class RegisterActionTest extends AbstractTest {
-    public static final String PARAMETER_FIRST_NAME = "firstName";
-    public static final String PARAMETER_NICK_NAME = "nickName";
-    public static final String PARAMETER_LAST_NAME = "lastName";
-    public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    public static final String PARAMETER_PASSWORD = "password";
-    public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    public static final String JSP_PAGE_NAME_PROFILE = "profile";
-    public static final String PARAMETER_USER_ID = "userId";
-    public static final String TEST_USER_BIRTHDAY = "1996-12-11";
-    public static final String TEST_USER_FIRST_NAME = "Ali";
-    public static final String TEST_USER_LAST_NAME = "Zhagparov";
-    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+    private static final String PARAMETER_FIRST_NAME = "firstName";
+    private static final String PARAMETER_NICK_NAME = "nickName";
+    private static final String PARAMETER_LAST_NAME = "lastName";
+    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+    private static final String PARAMETER_PASSWORD = "password";
+    private static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+    private static final String JSP_PAGE_NAME_PROFILE = "profile";
+    private static final String PARAMETER_USER_ID = "userId";
+    private static final String TEST_USER_BIRTHDAY = "1996-12-11";
+    private static final String TEST_USER_FIRST_NAME = "Ali";
+    private static final String TEST_USER_LAST_NAME = "Zhagparov";
+    private static final String JSP_PAGE_NAME_REGISTRATION = "registration";
 
-    public String userPassword;
-    public String confirmUserPassword;
+    private String userPassword;
+    private String confirmUserPassword;
     private RegisterAction registerAction = new RegisterAction();
     private TestSession session = new TestSession();
     private TestHttpRequest request = new TestHttpRequest();

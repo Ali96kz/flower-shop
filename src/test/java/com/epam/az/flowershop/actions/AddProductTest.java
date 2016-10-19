@@ -20,14 +20,14 @@ import java.util.Random;
 import static junit.framework.TestCase.assertNotNull;
 
 public class AddProductTest {
-    public static final String PARAMETER_NAME_ORIGIN_ID = "originId";
-    public static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
-    public static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
-    public static final String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
-    public static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
-    public static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
-    public static final String PARAMETER_NAME_DESCRIPTION = "description";
-    public static final String PARAMETER_NAME_PRICE = "price";
+    private static final String PARAMETER_NAME_ORIGIN_ID = "originId";
+    private static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
+    private static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
+    private static final String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
+    private static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
+    private static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
+    private static final String PARAMETER_NAME_DESCRIPTION = "description";
+    private static final String PARAMETER_NAME_PRICE = "price";
     private ConnectionPool connectionPool = new ConnectionPool();
     private AddProductAction addProductAction = new AddProductAction();
     private TestHttpRequest request = new TestHttpRequest();

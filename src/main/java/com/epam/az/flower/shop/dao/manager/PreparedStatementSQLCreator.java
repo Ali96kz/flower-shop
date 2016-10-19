@@ -6,7 +6,11 @@ import com.epam.az.flower.shop.entity.BaseEntity;
 import java.lang.reflect.Field;
 import java.sql.Date;
 
-public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager {
+/**
+ * Create prepare statement sql,
+ * @param <E>
+ */
+public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractSQLManager {
 
     public static final String SQL_INSERT_INTO = "INSERT INTO ";
     public static final String VALUES = ")values(";

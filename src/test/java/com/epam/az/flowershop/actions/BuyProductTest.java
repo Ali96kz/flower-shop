@@ -26,12 +26,12 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 
 public class BuyProductTest extends AbstractTest {
-    public static final int TEST_USER_ID_WITHOUT_MONEY = 1;
-    public static final int TEST_USER_ID = 2;
-    public static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
-    public static final String JSP_PAGE_NAME_BILL = "bill";
-    public static final String TEST_PRODUCT_ID = "1";
-    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
+    private static final int TEST_USER_ID_WITHOUT_MONEY = 1;
+    private static final int TEST_USER_ID = 2;
+    private static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
+    private static final String JSP_PAGE_NAME_BILL = "bill";
+    private static final String TEST_PRODUCT_ID = "1";
+    private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
 
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();

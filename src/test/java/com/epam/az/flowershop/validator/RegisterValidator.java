@@ -12,12 +12,12 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class RegisterValidator {
-    public static final String PARAMETER_NICK_NAME = "nickName";
-    public static final String PARAMETER_LAST_NAME = "lastName";
-    public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    public static final String PARAMETER_PASSWORD = "password";
-    public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    public static final String PARAMETER_FIRST_NAME = "firstName";
+    private static final String PARAMETER_NICK_NAME = "nickName";
+    private static final String PARAMETER_LAST_NAME = "lastName";
+    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+    private static final String PARAMETER_PASSWORD = "password";
+    private static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+    private static final String PARAMETER_FIRST_NAME = "firstName";
     private RegisterProfileValidator registerProfileValidator = new RegisterProfileValidator();
     private TestHttpRequest testHttpRequest;
 

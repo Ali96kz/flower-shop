@@ -13,6 +13,7 @@ import com.epam.az.flower.shop.pool.ConnectionPool;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserTransactionService;
+import com.epam.az.flowershop.AbstractTest;
 import com.epam.az.flowershop.TestHttpRequest;
 import com.epam.az.flowershop.TestHttpResponse;
 import com.epam.az.flowershop.TestSession;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class BuyBasketTest {
+public class BuyBasketTest extends AbstractTest{
     public static final int TEST_USER_ID_WITHOUT_MONEY = 3;
     public static final int TEST_USER_ID = 2;
     public static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
@@ -124,14 +125,5 @@ public class BuyBasketTest {
         User user = getUncacheUserById(TEST_USER_ID_WITHOUT_MONEY);
         assertEquals(beforeUpdateUser.getBalance(), user.getBalance());
 
-    }
-
-
-    public User getUncacheUserById(int id) throws SQLException, DAOException {
-        userDAO = new UserDAO();
-        userDAO.setConnection(connectionPool.getConnection());
-        User user = userDAO.findById(id);
-        userDAO.getConnection().close();
-        return user;
     }
 }
