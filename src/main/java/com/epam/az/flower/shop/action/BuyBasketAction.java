@@ -22,20 +22,10 @@ public class BuyBasketAction implements Action {
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
     public static final String JSP_PAGE_NAME_BASKET = "basket";
     public static final String ATTRIBUTE_ERROR_MSG = "errorMsg";
-    private UserService userService;
+    private UserService userService = new UserService();
     private Validator validator = new BuyBasketValidator();
 
-    private OrderService orderService;
-
-
-    public BuyBasketAction() throws ActionException {
-        try {
-            orderService = new OrderService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private OrderService orderService = new OrderService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

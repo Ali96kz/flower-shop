@@ -1,8 +1,8 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.*;
 import com.epam.az.flower.shop.service.*;
+import com.epam.az.flower.shop.util.StringAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,33 +20,17 @@ public abstract class AbstractProduct implements Action {
     public static final String PARAMETER_NAME_VISUAL_PARAMETERS = "visualParameters";
     public static final String PARAMETER_NAME_GROWING_CONDITIONS = "growingConditions";
     public static final String REQUEST_ATTRIBUTE_NAME_PRODUCT = "product";
-
-
     public static final String PARAMETER_NAME_FLOWER_TYPES = "flowerTypes";
     public static final String PARAMETER_NAME_TEMPERATURES = "temperatures";
 
-    protected ProductService productService;
-    protected OriginService originService;
-    protected VisualParametersService visualParametersService;
-    protected GrowingConditionService growingConditionService;
-    protected FlowerTypeService flowerTypeService;
-    protected TemperatureService temperatureService;
+    protected ProductService productService = new ProductService();
+    protected OriginService originService = new OriginService();
+    protected VisualParametersService visualParametersService = new VisualParametersService();
+    protected GrowingConditionService growingConditionService = new GrowingConditionService();
+    protected FlowerTypeService flowerTypeService = new FlowerTypeService();
+    protected TemperatureService temperatureService = new TemperatureService();
+    protected StringAdapter stringAdapter = new StringAdapter();
 
-
-    StringAdapter stringAdapter = new StringAdapter();
-
-    public AbstractProduct() throws ActionException {
-        try {
-            productService = new ProductService();
-            originService = new OriginService();
-            temperatureService = new TemperatureService();
-            flowerTypeService = new FlowerTypeService();
-            visualParametersService = new VisualParametersService();
-            growingConditionService = new GrowingConditionService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
 
     public void setProduct(HttpServletRequest request) throws ActionException {
         int id = stringAdapter.toInt(request.getParameter(REQUEST_ATTRIBUTE_NAME_PRODUCT_ID));

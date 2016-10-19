@@ -9,14 +9,8 @@ import java.util.List;
 
 public class FlowerTypeService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private FlowerTypeDAO flowerTypeDAO;
-    public FlowerTypeService() throws ServiceException {
-        try {
-            flowerTypeDAO = daoFactory.getDao(FlowerTypeDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize ", e);
-        }
-    }
+    private FlowerTypeDAO flowerTypeDAO = daoFactory.getDao(FlowerTypeDAO.class);
+
 
     public List<FlowerType> getAllFlowerType() throws ServiceException {
         try {

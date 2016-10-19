@@ -1,6 +1,8 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.*;
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
+import com.epam.az.flower.shop.dao.OrderDAO;
 import com.epam.az.flower.shop.entity.*;
 
 import java.util.Calendar;
@@ -8,21 +10,10 @@ import java.util.GregorianCalendar;
 
 public class OrderService {
     DAOFactory daoFactory = DAOFactory.getInstance();
-    private OrderDAO orderDAO;
-    private UserService userService;
-    private UserTransactionService userTransactionService;
+    private OrderDAO orderDAO = daoFactory.getDao(OrderDAO.class);
+    private UserService userService = new UserService();
+    private UserTransactionService userTransactionService = new UserTransactionService();
     private Transaction transaction = new Transaction();
-
-    public OrderService() throws ServiceException {
-        try {
-            userService = new UserService();
-            userTransactionService = new UserTransactionService();
-
-            orderDAO = daoFactory.getDao(OrderDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao classes", e);
-        }
-    }
 
     public void createOrder(User user, Product product) throws ServiceException {
         try {

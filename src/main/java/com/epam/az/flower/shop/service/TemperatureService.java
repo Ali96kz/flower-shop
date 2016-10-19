@@ -9,15 +9,8 @@ import java.util.List;
 
 public class TemperatureService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureDAO temperatureDAO ;
+    private TemperatureDAO  temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
 
-    public TemperatureService() throws ServiceException {
-        try {
-            temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao", e);
-        }
-    }
     public Temperature findById(int id) throws ServiceException {
         try {
             daoFactory.startOperation(temperatureDAO);

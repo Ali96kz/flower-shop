@@ -16,21 +16,13 @@ import java.util.List;
 public class UserTransactionService {
     private static final String ADD_MONEY_TRANSACTION_NAME = "add money";
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserTransactionDAO userTransactionDAO;
-    private TransactionService transactionService;
+    private UserTransactionDAO userTransactionDAO = daoFactory.getDao(UserTransactionDAO.class);
+    private TransactionService transactionService = new TransactionService();
     private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
-    public UserTransactionService() throws ServiceException {
-        try {
-            transactionService = new TransactionService();
-            userTransactionDAO = daoFactory.getDao(UserTransactionDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("", e);
-        }
-    }
 
 
     public List<UserTransaction> getAll(int userId) throws ServiceException {
-        List<UserTransaction> userTransactions ;
+        List<UserTransaction> userTransactions;
         try {
             daoFactory.startOperation(userTransactionDAO);
             userTransactions = userTransactionDAO.getAll(userId);
@@ -40,7 +32,7 @@ public class UserTransactionService {
             }
         } catch (DAOException e) {
             throw new ServiceException("Can't get all user transactions", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userTransactionDAO);
         }
 

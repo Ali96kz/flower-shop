@@ -11,16 +11,9 @@ import java.util.List;
 
 public class VisualParametersService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private VisualParametersDAO visualParametersDAO;
+    private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
     private static Logger logger = LoggerFactory.getLogger(VisualParametersService.class);
 
-    public VisualParametersService() throws ServiceException {
-        try {
-            visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize visualParametersDAO", e);
-        }
-    }
     public List<VisualParameters> getAll() throws ServiceException {
         try {
             daoFactory.startOperation(visualParametersDAO);
@@ -32,6 +25,7 @@ public class VisualParametersService {
             daoFactory.endOperation(visualParametersDAO);
         }
     }
+
     public VisualParameters  findById(int id) throws ServiceException {
         try {
 

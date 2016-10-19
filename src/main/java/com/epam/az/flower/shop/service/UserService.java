@@ -14,21 +14,13 @@ import java.util.List;
 public class UserService {
     private final String CUSTOMER_USER_ROLE = "customer";
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserDAO userDAO;
-    private UserRoleService userRoleService;
-    private UserTransactionService userTransactionService;
+    private UserDAO userDAO = daoFactory.getDao(UserDAO.class);
+
+    private UserRoleService userRoleService = new UserRoleService();
+    private UserTransactionService userTransactionService = new UserTransactionService();
     private Hasher hasher = new Hasher();
     private static final Logger lo = LoggerFactory.getLogger(UserService.class);
-    public UserService() throws ServiceException {
-        try {
-            userDAO = daoFactory.getDao(UserDAO.class);
-            userRoleService = new UserRoleService();
-            userTransactionService = new UserTransactionService();
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize class", e);
-        }
 
-    }
 
     public void addMoneyToBalance(User user, int sum) throws ServiceException {
         user.setBalance(user.getBalance() + sum);
@@ -53,14 +45,14 @@ public class UserService {
         try {
             daoFactory.startOperation(userDAO);
             Integer id = userDAO.findByCredentials(name);
-            if(id == null || id == 0){
+            if (id == null || id == 0) {
                 return true;
             }
 
             return false;
         } catch (DAOException e) {
             throw new ServiceException("can't execute", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userDAO);
         }
     }
@@ -72,7 +64,7 @@ public class UserService {
 
         } catch (DAOException e) {
             throw new ServiceException("can't delete user from DB", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userDAO);
         }
     }
@@ -108,7 +100,7 @@ public class UserService {
             user.setUserRole(userRole);
         } catch (DAOException e) {
             throw new ServiceException("Can't get user by id", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userDAO);
 
         }
@@ -119,15 +111,15 @@ public class UserService {
     public List<User> getAllActiveUsers() throws ServiceException {
         try {
             daoFactory.startOperation(userDAO);
-            List<User> users=  userDAO.getAll();
+            List<User> users = userDAO.getAll();
             for (int i = 0; i < users.size(); i++) {
-                if(users.get(i).getDeleteDay() != null)
+                if (users.get(i).getDeleteDay() != null)
                     users.remove(i);
             }
             return users;
         } catch (DAOException e) {
             throw new ServiceException("can't get all user from dao", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userDAO);
         }
     }
@@ -139,7 +131,7 @@ public class UserService {
             return id;
         } catch (DAOException e) {
             throw new ServiceException("can't find user by credentials", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userDAO);
         }
     }

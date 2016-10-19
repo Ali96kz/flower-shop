@@ -13,15 +13,7 @@ import java.util.GregorianCalendar;
 
 public class TransactionService {
     DAOFactory daoFactory = DAOFactory.getInstance();
-    TransactionDAO transactionDAO ;
-
-    public TransactionService() throws ServiceException {
-        try {
-            transactionDAO = daoFactory.getDao(TransactionDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao class", e);
-        }
-    }
+    TransactionDAO transactionDAO = daoFactory.getDao(TransactionDAO.class);
     public Transaction getTransactionByName(String name) throws ServiceException {
         try {
             daoFactory.startOperation(transactionDAO);

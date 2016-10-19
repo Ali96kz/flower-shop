@@ -9,15 +9,8 @@ import java.util.List;
 
 public class OriginService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private OriginDAO originDAO ;
+    private OriginDAO originDAO = daoFactory.getDao(OriginDAO.class);
 
-    public OriginService() throws ServiceException {
-        try {
-            originDAO = daoFactory.getDao(OriginDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao class", e);
-        }
-    }
 
     public List<Origin> getAll() throws ServiceException {
         try {
@@ -26,7 +19,7 @@ public class OriginService {
             return origins;
         } catch (DAOException e) {
             throw new ServiceException("can't execute ", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(originDAO);
         }
     }

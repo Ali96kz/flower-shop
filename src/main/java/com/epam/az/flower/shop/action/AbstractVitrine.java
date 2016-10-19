@@ -16,19 +16,12 @@ public abstract class AbstractVitrine implements Action {
     public static final String PARAMETER_NAME_PAGE = "page";
     private final int PAGE_SIZE = 12;
     private List<Integer> pageNumbers;
-    private ProductService productService;
+    private ProductService productService = new ProductService();
     private OnlineVitrineValidator onlineVitrineValidator = new OnlineVitrineValidator();
 
     private StringAdapter stringAdapter = new StringAdapter();
     private PaginatedList paginatedList;
 
-    public AbstractVitrine() throws ActionException {
-        try {
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize class", e);
-        }
-    }
 
     public void setPaginationList(HttpServletRequest req) throws ActionException {
         int pageNumber;

@@ -11,12 +11,9 @@ public class FlowerService {
     public static final Class<FlowerDAO> daoClass = FlowerDAO.class;
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private FlowerDAO flowerDAO;
-    private VisualParametersService visualParametersService ;
-    private GrowingConditionService growingConditionService ;
-    public FlowerService() throws ServiceException {
-        visualParametersService = new VisualParametersService();
-        growingConditionService = new GrowingConditionService();
-    }
+    private VisualParametersService visualParametersService = new VisualParametersService();
+    private GrowingConditionService growingConditionService  = new GrowingConditionService();
+
 
     public Flower findById(int id) throws ServiceException {
         Flower flower;

@@ -1,12 +1,12 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.OrderService;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.validator.BuyProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
@@ -22,28 +22,19 @@ public class BuyProductAction implements Action {
     public static final String ATTRIBUTE_NAME_PRICE = "price";
     public static final String PARAMETER_PRODUCT_ID = "productId";
     public static final String ATTRIBUTE_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
-    private StringAdapter stringAdapter = new StringAdapter();
-    private ProductService productService;
-    private Validator validator = new BuyProductValidator();
-
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
-    private UserService userService;
-    private OrderService orderService;
-    public BuyProductAction() throws ActionException {
-        try {
-            orderService = new OrderService();
-            userService = new UserService();
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
+    private StringAdapter stringAdapter = new StringAdapter();
+    private ProductService     productService=new ProductService();
+    private Validator validator = new BuyProductValidator();
+    private UserService userService = new UserService();
+    private OrderService orderService = new OrderService();
+
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        List<String> errorMsg ;
+        List<String> errorMsg;
 
         try {
             errorMsg = validator.isValidate(req);
@@ -60,7 +51,7 @@ public class BuyProductAction implements Action {
         int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
 
         int userId = (int) req.getSession().getAttribute(ATTRIBUTE_USER_ID);
-        Product product ;
+        Product product;
         User user;
         try {
             product = productService.findById(productId);

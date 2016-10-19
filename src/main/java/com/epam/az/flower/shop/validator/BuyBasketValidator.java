@@ -1,8 +1,6 @@
 package com.epam.az.flower.shop.validator;
 
-import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.entity.Basket;
-import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
@@ -16,17 +14,7 @@ import java.util.List;
 public class BuyBasketValidator implements Validator {
     public static final String SESSION_PARAMETER_USER_ID = "userId";
     public static final String SESSION_PARAMETER_BASKET_OBJECT = "basket";
-    UserService userService;
-    ProductService productService;
-
-    public BuyBasketValidator() throws ActionException {
-        try {
-            productService = new ProductService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserService     userService=new UserService();
 
 
     @Override
@@ -45,7 +33,7 @@ public class BuyBasketValidator implements Validator {
         }
 
         Basket basket = (Basket) session.getAttribute(SESSION_PARAMETER_BASKET_OBJECT);
-        if(basket == null || basket.getProducts().size() == 0){
+        if (basket == null || basket.getProducts().size() == 0) {
             errorMsg.add("Basket is empty");
             return errorMsg;
         }

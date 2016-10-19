@@ -1,7 +1,11 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.*;
-import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
+import com.epam.az.flower.shop.dao.ProductDAO;
+import com.epam.az.flower.shop.entity.Flower;
+import com.epam.az.flower.shop.entity.Origin;
+import com.epam.az.flower.shop.entity.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,20 +13,11 @@ import java.util.List;
 
 public class ProductService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private ProductDAO productDAO;
-    private FlowerService flowerService;
-    private OriginService originService;
+    private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
+    private FlowerService flowerService = new FlowerService();
+    private OriginService originService = new OriginService();
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
 
-    public ProductService() throws ServiceException {
-        try {
-            productDAO = daoFactory.getDao(ProductDAO.class);
-            flowerService = new FlowerService();
-            originService = new OriginService();
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao class", e);
-        }
-    }
 
     public void update(Product product) throws ServiceException {
         try {
@@ -44,7 +39,7 @@ public class ProductService {
         try {
             daoFactory.startOperation(productDAO);
             List<Product> products = productDAO.getAll();
-            logger.info("get {} products from data",products.size());
+            logger.info("get {} products from data", products.size());
 
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getDeleteDay() == null) {
@@ -91,7 +86,7 @@ public class ProductService {
             fillProduct(product);
         } catch (DAOException e) {
             throw new ServiceException("can't get product by id", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(productDAO);
         }
 
@@ -117,7 +112,7 @@ public class ProductService {
             return true;
         } catch (DAOException e) {
             throw new ServiceException("can't get product by id", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(productDAO);
         }
 

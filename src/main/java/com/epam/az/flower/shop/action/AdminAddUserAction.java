@@ -14,17 +14,8 @@ public class AdminAddUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
     public static final String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
     public static final String JSP_PAGE_ADMIN_REGISTRATION = "admin-registration";
-    private UserService userService;
-    UserRoleService userRoleService;
-
-    public AdminAddUserAction() throws ActionException {
-        try {
-            userRoleService = new UserRoleService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserService             userService = new UserService();
+    private UserRoleService userRoleService = new UserRoleService();
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {

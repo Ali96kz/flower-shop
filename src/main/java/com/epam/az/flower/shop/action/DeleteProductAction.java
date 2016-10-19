@@ -12,15 +12,7 @@ public class DeleteProductAction implements Action {
     public static final String JSP_PAGE_NAME_MANAGER = "manager";
     public static final String PARAMETER_PRODUCT_ID = "productId";
     private StringAdapter stringAdapter = new StringAdapter();
-    private ProductService productService;
-
-    public DeleteProductAction() throws ActionException {
-        try {
-            productService = new ProductService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private ProductService productService = new ProductService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

@@ -15,23 +15,24 @@ public class DAOFactory {
     private static DAOFactory daoFactory = new DAOFactory();
     private ConnectionPool connectionPool = new ConnectionPool();
     private static Logger logger = LoggerFactory.getLogger(DAOFactory.class);
+
     private DAOFactory() {
 
     }
 
-    public static DAOFactory getInstance(){
+    public static DAOFactory getInstance() {
         return daoFactory;
     }
 
-    public <E> E getDao(Class aClass) throws DAOException {
+    public <E> E getDao(Class aClass) {
         if (daoClassMap.get(aClass) == null) {
             try {
                 AbstractDAO abstractDAO = (AbstractDAO) aClass.newInstance();
                 daoClassMap.put(aClass, abstractDAO);
             } catch (InstantiationException e) {
-                throw new DAOException("can't create instance of that class", e);
+                logger.error("can't get dao class from dao", e);
             } catch (IllegalAccessException e) {
-                throw new DAOException("field or class is private", e);
+                logger.error("try to get access to private field", e);
             }
         }
         return (E) daoClassMap.get(aClass);
@@ -45,6 +46,7 @@ public class DAOFactory {
             throw new DAOException("can't set connection", e);
         }
     }
+
     public <E extends AbstractDAO> void endOperation(E dao) {
         try {
             logger.info("end operation {}", dao.getClass().getSimpleName());
@@ -73,7 +75,7 @@ public class DAOFactory {
         }
     }
 
-    public <E extends AbstractDAO>  void commitTransaction(E dao) throws DAOException {
+    public <E extends AbstractDAO> void commitTransaction(E dao) throws DAOException {
         Connection connection = dao.getConnection();
         try {
             connection.commit();
@@ -81,11 +83,11 @@ public class DAOFactory {
             connection.close();
         } catch (SQLException e) {
             throw new DAOException("can't commit transaction", e);
-        }finally {
+        } finally {
         }
     }
 
-    public<E extends AbstractDAO> void rollBack(E dao) throws DAOException {
+    public <E extends AbstractDAO> void rollBack(E dao) throws DAOException {
         Connection connection = dao.getConnection();
         try {
             connection.rollback();

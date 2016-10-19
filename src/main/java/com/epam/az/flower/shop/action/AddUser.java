@@ -1,11 +1,11 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.service.ServiceException;
-import com.epam.az.flower.shop.service.UserRoleService;
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import com.epam.az.flower.shop.service.ServiceException;
+import com.epam.az.flower.shop.service.UserRoleService;
 import com.epam.az.flower.shop.util.Hasher;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.validator.RegisterProfileValidator;
 import com.epam.az.flower.shop.validator.ValidatorException;
 
@@ -18,7 +18,7 @@ public abstract class AddUser implements Action {
     public static final String ATTRIBUTE_NAME_USER = "user";
     private Hasher hasher = new Hasher();
     protected StringAdapter stringAdapter = new StringAdapter();
-    protected UserRoleService userRoleService;
+    protected UserRoleService userRoleService = new UserRoleService();
 
     public static final String ATTRIBUTE_NAME_USER_ID = "userId";
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
@@ -29,16 +29,7 @@ public abstract class AddUser implements Action {
     public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    public static final String ROLE_CUSTOMER= "customer";
-
-    public AddUser() throws ActionException {
-        try {
-            userRoleService = new UserRoleService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-
-    }
+    public static final String ROLE_CUSTOMER = "customer";
 
     public User fillUser(HttpServletRequest request, User user) {
         user.setPassword(hasher.hash(request.getParameter(PARAMETER_PASSWORD)));
@@ -61,14 +52,14 @@ public abstract class AddUser implements Action {
     }
 
     public boolean validate(HttpServletRequest request) throws ActionException {
-        RegisterProfileValidator validator ;
+        RegisterProfileValidator validator;
         try {
             validator = new RegisterProfileValidator();
         } catch (ValidatorException e) {
             throw new ActionException("can;t create validator", e);
         }
 
-        List<String> errorMsg ;
+        List<String> errorMsg;
         try {
             errorMsg = validator.isValidate(request);
         } catch (ValidatorException e) {

@@ -1,6 +1,8 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.*;
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
+import com.epam.az.flower.shop.dao.GrowingConditionDAO;
 import com.epam.az.flower.shop.entity.GrowingCondition;
 import com.epam.az.flower.shop.entity.Temperature;
 import com.epam.az.flower.shop.entity.WaterInWeek;
@@ -9,18 +11,9 @@ import java.util.List;
 
 public class GrowingConditionService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureService temperatureService;
-    private WaterInWeekService waterInWeekService;
-    private GrowingConditionDAO growingConditionDAO;
-    public GrowingConditionService() throws ServiceException {
-        try {
-            temperatureService = new TemperatureService();
-            waterInWeekService = new WaterInWeekService();
-            growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("", e);
-        }
-    }
+    private TemperatureService     temperatureService=new TemperatureService();;
+    private WaterInWeekService     waterInWeekService= new WaterInWeekService();
+    private GrowingConditionDAO growingConditionDAO = daoFactory.getDao(GrowingConditionDAO.class);
 
     public List<GrowingCondition> getAllGrowingConditions() throws ServiceException {
         try {
@@ -29,7 +22,7 @@ public class GrowingConditionService {
             return growingConditions;
         } catch (DAOException e) {
             throw new ServiceException("can't end operation", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(growingConditionDAO);
         }
     }
@@ -42,13 +35,13 @@ public class GrowingConditionService {
             return growingCondition;
         } catch (DAOException e) {
             throw new ServiceException("", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(growingConditionDAO);
         }
     }
 
     public void fillGrowingCondition(GrowingCondition growingCondition) throws ServiceException {
-        Temperature temperature ;
+        Temperature temperature;
         try {
             temperature = temperatureService.findById(growingCondition.getTemperature().getId());
             WaterInWeek waterInWeek = waterInWeekService.findById(growingCondition.getWaterInWeek().getId());

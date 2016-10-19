@@ -7,16 +7,7 @@ import com.epam.az.flower.shop.entity.WaterInWeek;
 
 public class WaterInWeekService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private WaterInWeekDAO waterInWeekDAO ;
-
-    public WaterInWeekService() throws ServiceException {
-        try {
-            waterInWeekDAO = daoFactory.getDao(WaterInWeekDAO.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize dao class", e);
-        }
-    }
-
+    private WaterInWeekDAO waterInWeekDAO = daoFactory.getDao(WaterInWeekDAO.class);
 
     public WaterInWeek findById(int id) throws ServiceException {
         try {

@@ -11,22 +11,16 @@ import java.util.List;
 
 public class UserRoleService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserRoleDao userRoleDao ;
+    private UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
     private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
-    public UserRoleService() throws ServiceException {
-        try {
-            userRoleDao = daoFactory.getDao(UserRoleDao.class);
-        } catch (DAOException e) {
-            throw new ServiceException("can't initialize class", e);
-        }
-    }
+
     public List<UserRole> getAll() throws ServiceException {
         try {
             daoFactory.startOperation(userRoleDao);
             return userRoleDao.getAll();
         } catch (DAOException e) {
             throw new ServiceException("can't get all userRole", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userRoleDao);
         }
     }
@@ -35,12 +29,12 @@ public class UserRoleService {
         UserRole userRole;
         try {
             daoFactory.startOperation(userRoleDao);
-            System.out.println(userRoleDao.getConnection()+" user role dao get connection");
+            System.out.println(userRoleDao.getConnection() + " user role dao get connection");
             userRole = userRoleDao.findById(id);
             logger.info("get user role by id {}", id);
         } catch (DAOException e) {
             throw new ServiceException("can't find user role by id", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(userRoleDao);
         }
         return userRole;
@@ -53,7 +47,7 @@ public class UserRoleService {
             return userRole;
         } catch (DAOException e) {
             throw new ServiceException("can't commit transaction");
-        }finally {
+        } finally {
             daoFactory.endOperation(userRoleDao);
         }
     }
