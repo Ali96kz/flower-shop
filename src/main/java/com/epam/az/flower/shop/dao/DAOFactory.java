@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DAOFactory {
-    private Map<Class, AbstractDAO> daoClassMap = new HashMap<>();
     private static DAOFactory daoFactory = new DAOFactory();
-    private ConnectionPool connectionPool = new ConnectionPool();
     private static Logger logger = LoggerFactory.getLogger(DAOFactory.class);
+    private Map<Class, AbstractDAO> daoClassMap = new HashMap<>();
+    private ConnectionPool connectionPool = new ConnectionPool();
 
     private DAOFactory() {
 

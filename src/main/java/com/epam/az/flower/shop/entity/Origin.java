@@ -1,11 +1,10 @@
 package com.epam.az.flower.shop.entity;
 
 
-import java.sql.Date;
-
-public class Origin extends BaseEntity{
+public class Origin extends BaseEntity {
     private String country;
     private String province;
+
     public Origin() {
     }
 
@@ -29,7 +28,6 @@ public class Origin extends BaseEntity{
     public String toString() {
         return country + " " + province;
     }
-
 
 
 }

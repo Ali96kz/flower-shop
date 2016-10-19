@@ -15,11 +15,10 @@ import java.util.List;
 
 public class UserTransactionService {
     private static final String ADD_MONEY_TRANSACTION_NAME = "add money";
+    private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserTransactionDAO userTransactionDAO = daoFactory.getDao(UserTransactionDAO.class);
     private TransactionService transactionService = new TransactionService();
-    private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
-
 
     public List<UserTransaction> getAll(int userId) throws ServiceException {
         List<UserTransaction> userTransactions;

@@ -6,6 +6,7 @@ import java.util.List;
 public class Basket {
     private List<Product> products = new ArrayList<>();
     private int sum;
+
     public void add(Product product) {
         sum += product.getPrice();
         products.add(product);
@@ -23,7 +24,7 @@ public class Basket {
 
                 return;
             }
-          }
+        }
     }
 
     public List<Product> getProducts() {

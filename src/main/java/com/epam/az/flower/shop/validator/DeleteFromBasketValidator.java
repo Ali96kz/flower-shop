@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteFromBasketValidator extends AbstractValidator{
+public class DeleteFromBasketValidator extends AbstractValidator {
 
     public static final String PRODUCT_ID = "id";
     public static final String ATTRIBUTE_NAME_BASKET = "basket";
@@ -19,7 +19,7 @@ public class DeleteFromBasketValidator extends AbstractValidator{
         List<String> errorMsg = new ArrayList<>();
         String productId = request.getParameter(PRODUCT_ID);
         validatePositiveNumber(errorMsg, productId, ERROR_PRODUCT_NAME);
-        if(errorMsg.size() > 0){
+        if (errorMsg.size() > 0) {
             return errorMsg;
         }
         Basket basket = (Basket) request.getSession().getAttribute(ATTRIBUTE_NAME_BASKET);

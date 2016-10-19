@@ -18,7 +18,7 @@ public class PaginatedList {
         List<Product> result = new ArrayList<>();
 
         for (int i = id * pageSize; i < id * pageSize + pageSize; i++) {
-            if(productList.size() <= i) {
+            if (productList.size() <= i) {
                 break;
             }
             result.add(productList.get(i));
@@ -27,9 +27,8 @@ public class PaginatedList {
     }
 
 
-
     public int getPageNumber() {
-        if (productList.size() % pageSize== 0) {
+        if (productList.size() % pageSize == 0) {
             return productList.size() / pageSize;
         }
         return productList.size() / pageSize;

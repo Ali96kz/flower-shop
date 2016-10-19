@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
-import com.epam.az.flower.shop.dao.manager.AbstractDAO;
 import com.epam.az.flower.shop.entity.BaseEntity;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     }
 
     @Override
-    public int insert(E item)throws DAOException {
+    public int insert(E item) throws DAOException {
         int id = 0;
         try {
             id = super.insert(item);
@@ -80,7 +79,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
         cache.remove(id);
     }
 
-    public void deleteFromCache(int id){
+    public void deleteFromCache(int id) {
         cache.put(id, null);
     }
 }

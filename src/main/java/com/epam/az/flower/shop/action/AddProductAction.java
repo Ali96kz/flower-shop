@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
@@ -37,7 +37,7 @@ public class AddProductAction extends AbstractProduct {
 
     public ActionResult validate(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         Validator validator = new AddProductValidator();
-        List<String> errorMsg ;
+        List<String> errorMsg;
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {

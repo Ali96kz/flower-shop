@@ -19,7 +19,7 @@ public class FlowerTypeService {
             return flowerTypes;
         } catch (DAOException e) {
             throw new ServiceException("", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(flowerTypeDAO);
         }
     }
@@ -31,7 +31,7 @@ public class FlowerTypeService {
             return flowerType;
         } catch (DAOException e) {
             throw new ServiceException("can't get flower type from dao", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(flowerTypeDAO);
         }
     }

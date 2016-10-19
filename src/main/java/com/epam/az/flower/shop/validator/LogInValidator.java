@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.validator;
 
-import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.Hasher;
@@ -9,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogInValidator extends AbstractValidator{
+public class LogInValidator extends AbstractValidator {
 
     public static final int NICKNAME_MAX_LENGTH = 16;
     public static final int NICKNAME_MIN_LENGTH = 3;
@@ -20,6 +19,7 @@ public class LogInValidator extends AbstractValidator{
     public static final String PARAMETER_NICK_NAME = "nickName";
     public static final String PARAMETER_PASSWORD = "password";
     private Hasher hasher = new Hasher();
+
     @Override
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         UserService userService;

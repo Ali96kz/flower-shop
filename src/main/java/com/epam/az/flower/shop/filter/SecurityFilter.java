@@ -7,8 +7,8 @@ import com.epam.az.flower.shop.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class SecurityFilter implements Filter {
     private List<String> managerViews;
     private List<String> adminViews;
 
-    public void initAnonymousUser(){
+    public void initAnonymousUser() {
         anonymousUserViews = new ArrayList<>();
         anonymousUserViews.add("/vitrine");
         anonymousUserViews.add("/set-language");
@@ -40,7 +40,7 @@ public class SecurityFilter implements Filter {
         anonymousUserViews.add("/add-product");
     }
 
-    public void initUser(){
+    public void initUser() {
         userViews = new ArrayList<>(anonymousUserViews);
 
         userViews.remove("/registration");
@@ -60,7 +60,8 @@ public class SecurityFilter implements Filter {
         userViews.add("/delete-profile");
 
     }
-    public void initManagerViews(){
+
+    public void initManagerViews() {
         managerViews = new ArrayList<>(userViews);
         managerViews.add("/edit-product");
         managerViews.add("/delete-product");
@@ -68,7 +69,8 @@ public class SecurityFilter implements Filter {
         managerViews.add("/add-product");
 
     }
-    public void initAdminViews(){
+
+    public void initAdminViews() {
         adminViews = new ArrayList<>(managerViews);
         adminViews.add("/admin");
         adminViews.add("/delete-user");

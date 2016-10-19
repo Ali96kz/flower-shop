@@ -1,9 +1,10 @@
 package com.epam.az.flower.shop.entity;
 
 
-public class Temperature extends BaseEntity{
+public class Temperature extends BaseEntity {
     private int tmin;
     private int tmax;
+
     public Temperature() {
 
     }

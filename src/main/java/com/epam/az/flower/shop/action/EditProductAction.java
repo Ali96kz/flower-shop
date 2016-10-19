@@ -6,23 +6,18 @@ import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class EditProductAction extends AbstractProduct{
+public class EditProductAction extends AbstractProduct {
 
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
     public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
     public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
     public static final String PARAMETER_PRODUCT_ID = "productId";
-    private static Logger logger = LoggerFactory.getLogger(EditProductAction.class);
-    public EditProductAction() throws ActionException {
-    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

@@ -12,7 +12,7 @@ public class FlowerService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private FlowerDAO flowerDAO;
     private VisualParametersService visualParametersService = new VisualParametersService();
-    private GrowingConditionService growingConditionService  = new GrowingConditionService();
+    private GrowingConditionService growingConditionService = new GrowingConditionService();
 
 
     public Flower findById(int id) throws ServiceException {
@@ -30,12 +30,13 @@ public class FlowerService {
             try {
                 daoFactory.rollBack(flowerDAO);
             } catch (DAOException e1) {
-                   throw new ServiceException("can't rollback transaction", e);
+                throw new ServiceException("can't rollback transaction", e);
             }
             throw new ServiceException("Can't find object by id", e);
         }
         return flower;
     }
+
     public void update(Flower flower) throws ServiceException {
         try {
             daoFactory.startTransaction(flowerDAO);

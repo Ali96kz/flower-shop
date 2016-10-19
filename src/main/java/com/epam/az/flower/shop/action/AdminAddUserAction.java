@@ -2,7 +2,6 @@ package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
-import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserRoleService;
 import com.epam.az.flower.shop.service.UserService;
@@ -14,7 +13,7 @@ public class AdminAddUserAction extends AddUser {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
     public static final String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
     public static final String JSP_PAGE_ADMIN_REGISTRATION = "admin-registration";
-    private UserService             userService = new UserService();
+    private UserService userService = new UserService();
     private UserRoleService userRoleService = new UserRoleService();
 
     @Override
@@ -38,7 +37,7 @@ public class AdminAddUserAction extends AddUser {
     @Override
     public void setUserRole(User user, HttpServletRequest request) throws ActionException {
         int userRoleId = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_USER_ROLE_ID));
-        UserRole userRole ;
+        UserRole userRole;
         try {
             userRole = userRoleService.findById(userRoleId);
         } catch (ServiceException e) {

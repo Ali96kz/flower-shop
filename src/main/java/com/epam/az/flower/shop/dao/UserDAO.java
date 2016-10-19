@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.dao.manager.CachedDAO;
-import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.entity.User;
 
 import java.sql.PreparedStatement;

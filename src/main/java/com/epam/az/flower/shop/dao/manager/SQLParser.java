@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
-import com.epam.az.flower.shop.dao.manager.AbstractSQLManager;
 import com.epam.az.flower.shop.entity.BaseEntity;
 
 import java.lang.reflect.Field;
@@ -9,7 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SQLParser <E extends BaseEntity> extends AbstractSQLManager {
+public class SQLParser<E extends BaseEntity> extends AbstractSQLManager {
 
     public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
         try {
@@ -23,7 +22,7 @@ public class SQLParser <E extends BaseEntity> extends AbstractSQLManager {
 
             object.setId(resultSet.getInt(object.getClass().getSimpleName() + ".id"));
             object.setDeleteDay(resultSet.getDate(object.getClass().getSimpleName() + ".deleteDay"));
-            return  object;
+            return object;
         } catch (SQLException | IllegalAccessException e1) {
             throw new DAOException("parse resulSet error", e1);
         }

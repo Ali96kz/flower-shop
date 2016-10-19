@@ -12,15 +12,13 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class UserService {
+    private static final Logger lo = LoggerFactory.getLogger(UserService.class);
     private final String CUSTOMER_USER_ROLE = "customer";
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserDAO userDAO = daoFactory.getDao(UserDAO.class);
-
     private UserRoleService userRoleService = new UserRoleService();
     private UserTransactionService userTransactionService = new UserTransactionService();
     private Hasher hasher = new Hasher();
-    private static final Logger lo = LoggerFactory.getLogger(UserService.class);
-
 
     public void addMoneyToBalance(User user, int sum) throws ServiceException {
         user.setBalance(user.getBalance() + sum);

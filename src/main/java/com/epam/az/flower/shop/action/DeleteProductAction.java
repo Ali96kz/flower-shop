@@ -1,9 +1,8 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.service.ServiceException;
-import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.service.ProductService;
+import com.epam.az.flower.shop.service.ServiceException;
+import com.epam.az.flower.shop.util.StringAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

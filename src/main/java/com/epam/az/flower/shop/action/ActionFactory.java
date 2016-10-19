@@ -1,11 +1,11 @@
 package com.epam.az.flower.shop.action;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ActionFactory {
     static final Logger log = LoggerFactory.getLogger(ActionFactory.class);

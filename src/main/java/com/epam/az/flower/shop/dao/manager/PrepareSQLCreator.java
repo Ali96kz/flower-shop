@@ -2,10 +2,11 @@ package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
+
 import java.lang.reflect.Field;
 import java.sql.Date;
 
-public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
+public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager {
 
     public static final String SQL_INSERT_INTO = "INSERT INTO ";
     public static final String VALUES = ")values(";
@@ -46,9 +47,9 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
         }
     }
 
-    public String createSqlForFindById(Class genericClass, int id){
-       String sql = SQL_SELECT + createSQL(genericClass) + SQL_WHERE + genericClass.getSimpleName() +
-                ".id = " + id +";";
+    public String createSqlForFindById(Class genericClass, int id) {
+        String sql = SQL_SELECT + createSQL(genericClass) + SQL_WHERE + genericClass.getSimpleName() +
+                ".id = " + id + ";";
         return sql;
     }
 
@@ -97,7 +98,7 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
         }
     }
 
-    public String createSQLForDelete(E item){
+    public String createSQLForDelete(E item) {
         try {
             Field field = item.getClass().getDeclaredField("id");
             field.setAccessible(true);
@@ -110,11 +111,12 @@ public class PrepareSQLCreator<E extends BaseEntity> extends AbstractSQLManager{
         }
     }
 
-    public String createSQLForDelete(int id, Class genericClass){
+    public String createSQLForDelete(int id, Class genericClass) {
         String sql = ("UPDATE " + genericClass.getSimpleName() + " set deleteDAY = ? where id = " + id + ";");
         return sql;
     }
-    public String createSqlForGetAll(Class genericClass){
-        return  SQL_SELECT + createSQL(genericClass)+";";
+
+    public String createSqlForGetAll(Class genericClass) {
+        return SQL_SELECT + createSQL(genericClass) + ";";
     }
 }

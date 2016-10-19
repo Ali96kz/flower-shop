@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class VisualParametersService {
+    private static Logger logger = LoggerFactory.getLogger(VisualParametersService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
-    private static Logger logger = LoggerFactory.getLogger(VisualParametersService.class);
 
     public List<VisualParameters> getAll() throws ServiceException {
         try {
@@ -21,12 +21,12 @@ public class VisualParametersService {
             return visualParameterses;
         } catch (DAOException e) {
             throw new ServiceException("can't get all", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(visualParametersDAO);
         }
     }
 
-    public VisualParameters  findById(int id) throws ServiceException {
+    public VisualParameters findById(int id) throws ServiceException {
         try {
 
             daoFactory.startOperation(visualParametersDAO);

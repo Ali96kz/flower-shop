@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class UserRoleService {
+    private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
-    private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
 
     public List<UserRole> getAll() throws ServiceException {
         try {

@@ -2,7 +2,6 @@ package com.epam.az.flower.shop.validator;
 
 import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.User;
-import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public class BuyBasketValidator implements Validator {
     public static final String SESSION_PARAMETER_USER_ID = "userId";
     public static final String SESSION_PARAMETER_BASKET_OBJECT = "basket";
-    private UserService     userService=new UserService();
+    private UserService userService = new UserService();
 
 
     @Override

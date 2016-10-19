@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.entity.Origin;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.OriginService;
 import com.epam.az.flower.shop.service.ServiceException;
@@ -15,17 +14,9 @@ public class ShowUserEditPage implements Action {
     public static final String ATTRIBUTE_NAME_USER = "user";
     public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
     public static final String SESSION_PARAMETER_USER_ID = "userId";
-    private UserService userService;
-    private OriginService originService;
+    private UserService userService = new UserService();
+    private OriginService originService = new OriginService();
 
-    public ShowUserEditPage() throws ActionException {
-        try {
-            originService = new OriginService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();

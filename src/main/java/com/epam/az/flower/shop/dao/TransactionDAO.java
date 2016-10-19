@@ -8,8 +8,8 @@ import java.sql.SQLException;
 
 public class TransactionDAO extends CachedDAO<Transaction> {
     public Transaction getTransactionByName(String name) throws DAOException {
-        String sql = "SELECT Transaction.id, Transaction.name FROM Transaction where name = '" + name+"';";
-        ResultSet resultSet ;
+        String sql = "SELECT Transaction.id, Transaction.name FROM Transaction where name = '" + name + "';";
+        ResultSet resultSet;
         try {
             resultSet = sqlExecutor.executeSqlQuery(sql, connection.createStatement());
         } catch (SQLException e) {

@@ -17,16 +17,14 @@ import java.util.List;
 
 public class BuyProductAction implements Action {
     public static final String JSP_PAGE_NAME_BILL = "bill";
-    public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
-    public static final String ATTRIBUTE_PRODUCT_ID = "?productId =";
     public static final String ATTRIBUTE_NAME_PRICE = "price";
     public static final String PARAMETER_PRODUCT_ID = "productId";
     public static final String ATTRIBUTE_USER_ID = "userId";
+    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
 
-    public static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     private StringAdapter stringAdapter = new StringAdapter();
-    private ProductService     productService=new ProductService();
+    private ProductService productService = new ProductService();
     private Validator validator = new BuyProductValidator();
     private UserService userService = new UserService();
     private OrderService orderService = new OrderService();

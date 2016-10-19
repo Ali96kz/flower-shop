@@ -4,12 +4,17 @@ import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.*;
-/**
- *Execute sql statement
- * */
 
-public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * Execute sql statement
+ */
+
+public class SQLExecutor<E extends BaseEntity> extends AbstractSQLManager {
     private static Logger logger = LoggerFactory.getLogger(SQLExecutor.class);
 
     public ResultSet executeSqlQuery(String sql, Statement statement) throws DAOException {
@@ -17,11 +22,12 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery(sql.toString());
-               return resultSet;
+            return resultSet;
         } catch (SQLException e1) {
             throw new DAOException("can't execute sql", e1);
         }
     }
+
     public ResultSet executePreaparedSqlQuery(PreparedStatement statement) throws DAOException {
         ResultSet resultSet;
         try {
@@ -47,6 +53,7 @@ public class SQLExecutor <E extends BaseEntity> extends AbstractSQLManager{
             throw new DAOException("can't execute sql", e);
         }
     }
+
     public void executeSql(PreparedStatement preparedStatement) throws DAOException {
         int result = 0;
         try {

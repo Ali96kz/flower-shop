@@ -3,38 +3,33 @@ package com.epam.az.flower.shop.validator;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.StringAdapter;
+
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterProfileValidator extends AbstractValidator{
-    private UserService userService ;
+public class RegisterProfileValidator extends AbstractValidator {
     public static final String PARAMETER_FIRST_NAME = "firstName";
-
     public static final String PARAMETER_NICK_NAME = "nickName";
     public static final String PARAMETER_LAST_NAME = "lastName";
     public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-
     public static final String ATTRIBUTE_FIRST_NAME = "first name";
     public static final String ATTRIBUTE_NAME_LAST_NAME = "last name";
     public static final String ATTRIBUTE_NAME_NICK_NAME = "nick name";
     public static final String ATTRIBUTE_NAME_CONFIRM_PASSWORD = "confirm password";
     public static final String ATTRIBUTE_NAME_PASSWORD = "password";
-
     public static final int NICKNAME_MAX_LENGTH = 16;
     public static final int NICKNAME_MIN_LENGTH = 3;
-
     public static final int PASSWORD_MIN_LENGTH = 6;
     public static final int PASSWORD_MAX_LENGTH = 12;
-
     public static final int LAST_NAME_MAX_LENGTH = 16;
     public static final int LAST_NAME_MIN_LENGTH = 3;
-
     public static final int FIRST_NAME_MAX_LENGTH = 16;
     public static final int FIRST_NAME_MIN_LENGTH = 3;
+    private UserService userService;
 
     public RegisterProfileValidator() throws ValidatorException {
         try {
@@ -57,14 +52,12 @@ public class RegisterProfileValidator extends AbstractValidator{
 
         try {
             boolean isFree = userService.isFree(nickName);
-            if(!isFree){
+            if (!isFree) {
                 errorMsg.add("This nickname is busy, please insert another nickname");
             }
         } catch (ServiceException e) {
             throw new ValidatorException("can't validate nickname", e);
         }
-
-
 
 
         if (date == null) {
@@ -77,7 +70,7 @@ public class RegisterProfileValidator extends AbstractValidator{
         validateString(errorMsg, password, ATTRIBUTE_NAME_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
         validateString(errorMsg, confirmPassword, ATTRIBUTE_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
 
-        if(!password.equals(confirmPassword)){
+        if (!password.equals(confirmPassword)) {
             errorMsg.add("Confirm password has a different value");
         }
 

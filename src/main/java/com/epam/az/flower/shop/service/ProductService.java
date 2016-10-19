@@ -12,12 +12,11 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class ProductService {
+    private static Logger logger = LoggerFactory.getLogger(ProductService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
-    private static Logger logger = LoggerFactory.getLogger(ProductService.class);
-
 
     public void update(Product product) throws ServiceException {
         try {

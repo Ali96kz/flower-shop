@@ -21,7 +21,7 @@ public class UserTransactionDAO extends CachedDAO<UserTransaction> {
                 resultList.add(e);
             }
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            throw new DAOException("Can't get user from database",e);
+            throw new DAOException("Can't get user from database", e);
         }
 
         return resultList;

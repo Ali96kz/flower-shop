@@ -1,7 +1,7 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Basket;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.validator.DeleteFromBasketValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
@@ -16,6 +16,7 @@ public class DeleteProductFromBasket implements Action {
     public static final String PARAMETER_PRODUCT_ID = "id";
     private Validator validator = new DeleteFromBasketValidator();
     private StringAdapter stringAdapter = new StringAdapter();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {

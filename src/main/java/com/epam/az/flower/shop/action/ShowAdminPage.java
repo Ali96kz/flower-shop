@@ -11,19 +11,11 @@ import java.util.List;
 public class ShowAdminPage implements Action {
     public static final String JSP_PAGE_NAME_ADMIN = "admin";
     public static final String ATTRIBUTE_NAME_USERS = "users";
-    private UserService userService;
-
-    public ShowAdminPage() throws ActionException {
-        try {
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize service class", e);
-        }
-    }
+    private UserService userService = new UserService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        List<User> users ;
+        List<User> users;
         try {
             users = userService.getAllActiveUsers();
         } catch (ServiceException e) {

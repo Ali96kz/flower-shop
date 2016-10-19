@@ -2,8 +2,6 @@ package com.epam.az.flower.shop.action;
 
 import com.epam.az.flower.shop.entity.UserTransaction;
 import com.epam.az.flower.shop.service.ServiceException;
-import com.epam.az.flower.shop.service.TransactionService;
-import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.service.UserTransactionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,17 +13,7 @@ public class ShowTransactionAction implements Action {
     public static final String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
     public static final String SESSION_PARAMETER_USER_ID = "userId";
     public static final String JSP_PAGE_NAME_TRANSACTION = "transaction";
-    private UserService userService;
-    private UserTransactionService userTransactionService;
-
-    public ShowTransactionAction() throws ActionException {
-        try {
-            userTransactionService = new UserTransactionService();
-            userService = new UserService();
-        } catch (ServiceException e) {
-            throw new ActionException("can't initialize ", e);
-        }
-    }
+    private UserTransactionService userTransactionService = new UserTransactionService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

@@ -9,26 +9,27 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.*;
-/**Create, and execute sql.
- *
- * */
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Create, and execute sql.
+ */
 
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected Connection connection;
-    private Class genericClass;
-    private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
-
     protected SQLExecutor sqlExecutor = new SQLExecutor();
     protected PrepareSQLCreator prepareSqlCreator = new PrepareSQLCreator();
     protected SQLFiller sqlFiller = new SQLFiller();
     protected SQLParser sqlParser = new SQLParser();
+    private Class genericClass;
+    private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
     @Override
     public void delete(int id) throws DAOException {
         try {
             String sql = prepareSqlCreator.createSQLForDelete(id, getGenericClass());
-            logger.info("delete sql {}",sql);
+            logger.info("delete sql {}", sql);
             PreparedStatement preparedStatement = sqlFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSql(preparedStatement);
         } catch (SQLException e) {
@@ -94,7 +95,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         List<E> resultList = new ArrayList<>();
         String selectSQL = prepareSqlCreator.createSqlForGetAll(getGenericClass());
 
-        ResultSet resultSet ;
+        ResultSet resultSet;
         try {
             resultSet = sqlExecutor.executeSqlQuery(selectSQL, connection.createStatement());
             while (resultSet.next()) {
@@ -103,7 +104,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             }
 
             return resultList;
-        } catch (SQLException | InstantiationException | IllegalAccessException  e) {
+        } catch (SQLException | InstantiationException | IllegalAccessException e) {
             throw new DAOException("can;t execute sql", e);
         }
     }
@@ -122,15 +123,15 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         return genericClass;
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
+    public void setGenericClass(Class genericClass) {
+        this.genericClass = genericClass;
     }
 
     public Connection getConnection() {
         return connection;
     }
 
-    public void setGenericClass(Class genericClass) {
-        this.genericClass = genericClass;
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }

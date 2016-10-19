@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.entity;
 
-public class GrowingCondition extends BaseEntity{
+public class GrowingCondition extends BaseEntity {
     public String name;
     private boolean lovelight;
     private Temperature temperature;

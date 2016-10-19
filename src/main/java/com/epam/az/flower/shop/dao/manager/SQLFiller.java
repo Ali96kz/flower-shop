@@ -2,12 +2,13 @@ package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
+
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SQLFiller <E extends BaseEntity> extends AbstractSQLManager{
+public class SQLFiller<E extends BaseEntity> extends AbstractSQLManager {
 
     public void fillPrepareStatement(PreparedStatement preparedStatement, E object) throws DAOException {
         Field[] fields = object.getClass().getDeclaredFields();
@@ -36,7 +37,7 @@ public class SQLFiller <E extends BaseEntity> extends AbstractSQLManager{
         }
     }
 
-    public PreparedStatement fillDeleteStatement(PreparedStatement preparedStatement){
+    public PreparedStatement fillDeleteStatement(PreparedStatement preparedStatement) {
         try {
             preparedStatement.setDate(1, getTodayDay());
             return preparedStatement;

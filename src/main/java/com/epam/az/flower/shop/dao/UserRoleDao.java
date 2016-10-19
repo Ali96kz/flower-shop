@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class UserRoleDao extends CachedDAO<UserRole> {
     public UserRole findUserRoleByName(String name) throws DAOException {
-        String sql = "SELECT UserRole.id, UserRole.name FROM UserRole where name = '"+name+"'";
+        String sql = "SELECT UserRole.id, UserRole.name FROM UserRole where name = '" + name + "'";
         ResultSet resultSet = null;
         try {
             resultSet = sqlExecutor.executeSqlQuery(sql, connection.createStatement());

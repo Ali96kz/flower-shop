@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TemperatureService {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureDAO  temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
+    private TemperatureDAO temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
 
     public Temperature findById(int id) throws ServiceException {
         try {
