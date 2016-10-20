@@ -12,7 +12,7 @@ public class UserTransactionDAO extends CachedDAO<UserTransaction> {
 
     public List<UserTransaction> getAll(int id) throws DAOException {
         List<UserTransaction> resultList = new ArrayList<>();
-        String selectSQL = preparedStatementSqlCreator.createSQL(UserTransaction.class);
+        String selectSQL = sqlCreator.createSQL(UserTransaction.class);
         try {
             ResultSet resultSet = sqlExecutor.executeSqlQuery("SELECT " + selectSQL +
                     " where userId = " + id + ";", connection.createStatement());

@@ -7,10 +7,10 @@ import java.lang.reflect.Field;
 import java.sql.Date;
 
 /**
- * Create prepare statement sql,
+ * Create sql for statement or prepared statement.
  * @param <E>
  */
-public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractSQLManager {
+public class SQLCreator<E extends BaseEntity> extends AbstractSQLManager {
 
     public static final String SQL_INSERT_INTO = "INSERT INTO ";
     public static final String VALUES = ")values(";
@@ -24,7 +24,13 @@ public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractS
     public static final String SQL_FROM = " FROM ";
     public static final String PREAPARED_STATEMENT_SET = " SET ";
 
-    public String createInsertSQL(Class object) throws DAOException {
+    /**
+     * create insert sql for prepared statement.
+     * @param
+     * @return prepare sql
+     * @throws DAOException
+     */
+    public String createPrepareInsertSQL(Class object) throws DAOException {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
 
@@ -48,7 +54,7 @@ public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractS
         return sql + VALUES + values + ");";
     }
 
-    public void deleteLastDot(StringBuilder stringBuilder) {
+    private void deleteLastDot(StringBuilder stringBuilder) {
         for (int i = stringBuilder.length() - 1; i >= 0; i--) {
             if (stringBuilder.charAt(i) == ',') {
                 stringBuilder.delete(i, stringBuilder.length());
@@ -57,13 +63,19 @@ public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractS
         }
     }
 
-    public String createSqlForFindById(Class genericClass, int id) {
+    /**
+     * create sql for find by id.
+     * @param genericClass
+     * @param id
+     * @return
+     */
+    public String createStatementSqlForFindById(Class genericClass, int id) {
         String sql = SQL_SELECT + createSQL(genericClass) + SQL_WHERE + genericClass.getSimpleName() +
                 ".id = " + id + ";";
         return sql;
     }
 
-    public String createSQL(Class clazz) {
+    protected String createSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
 
         Field[] fields = clazz.getDeclaredFields();
@@ -82,6 +94,12 @@ public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractS
         return sql.toString() + SQL_FROM + clazz.getSimpleName();
     }
 
+    /**
+     * create update sql for prepared statement
+     * @param item
+     * @return
+     * @throws DAOException
+     */
     public String createSQLForUpdate(E item) throws DAOException {
         try {
             StringBuilder sql = new StringBuilder(SQL_UPDATE + item.getClass().getSimpleName() + PREAPARED_STATEMENT_SET);
@@ -124,6 +142,8 @@ public class PreparedStatementSQLCreator<E extends BaseEntity> extends AbstractS
         return sql;
     }
 
+    /**create select sql statement, and get all rows from database
+    * */
     public String createSqlForGetAll(Class genericClass) {
         return SQL_SELECT + createSQL(genericClass) + ";";
     }
