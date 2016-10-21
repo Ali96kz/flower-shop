@@ -12,10 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
-
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     protected Connection connection;
     protected SQLExecutor sqlExecutor = new SQLExecutor();

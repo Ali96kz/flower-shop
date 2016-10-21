@@ -142,8 +142,6 @@ public class SQLCreator<E extends BaseEntity> {
         return sql;
     }
 
-    /**create select sql statement, and get all rows from database
-    * */
     public String createSqlForGetAll(Class genericClass) {
         return SQL_SELECT + createSQL(genericClass) + ";";
     }

@@ -24,7 +24,7 @@ public class ResultSetParser<E extends BaseEntity> {
             object.setDeleteDay(resultSet.getDate(object.getClass().getSimpleName() + ".deleteDay"));
             return object;
         } catch (SQLException | IllegalAccessException e1) {
-            throw new DAOException("parse resulSet error", e1);
+            throw new DAOException("parse resultSet error", e1);
         }
     }
 
