@@ -17,7 +17,7 @@ public class AddProductAction extends AbstractProduct {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        ActionResult actionResult = validate(req, resp);
+        ActionResult actionResult = validate(req);
         if (actionResult != null) {
             setValue(req);
 
@@ -29,12 +29,12 @@ public class AddProductAction extends AbstractProduct {
         try {
             productId = productService.addNewProduct(product);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            throw new ActionException("can't add product to data", e);
         }
         return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
     }
 
-    public ActionResult validate(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+    public ActionResult validate(HttpServletRequest req) throws ActionException {
         Validator validator = new AddProductValidator();
         List<String> errorMsg;
         try {

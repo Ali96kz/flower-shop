@@ -28,15 +28,10 @@ public class AddMoneyAction implements Action {
         try {
             HttpSession session = req.getSession();
             Validator validator = new AddMoneyValidator();
-            List<String> errorMsg;
+            List<String>                 errorMsg = validator.isValidate(req);
             int userId = (int) session.getAttribute(SESSION_PARAMETER_NAME_USER_ID);
 
             User user = userService.findById(userId);
-            try {
-                errorMsg = validator.isValidate(req);
-            } catch (ValidatorException e) {
-                throw new ActionException("problem with validator balance ", e);
-            }
 
             if (errorMsg.size() > 0) {
                 req.setAttribute(MENU_ERROR_MSG, errorMsg);
@@ -49,7 +44,9 @@ public class AddMoneyAction implements Action {
             logger.info("add money to user {}", user.getNickName());
             return new ActionResult(JSP_PAGE_NAME_CASH, true);
         } catch (ServiceException e) {
-            throw new ActionException("can;t get user from service", e);
+            throw new ActionException("can't get user from service", e);
+        } catch (ValidatorException e) {
+            throw new ActionException("can't validate", e);
         }
     }
 }
