@@ -15,9 +15,9 @@ public class ShowAdminRegisterNewPAge implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
             req.setAttribute(ATTRIBUTE_USER_ROLES, userRoleService.getAll());
+            return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
         } catch (ServiceException e) {
             throw new ActionException("can't get all userROle", e);
         }
-        return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
     }
 }

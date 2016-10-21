@@ -21,9 +21,9 @@ public class ShowUserEditPage implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
         Integer userId = (Integer) session.getAttribute(SESSION_PARAMETER_USER_ID);
-        User user;
+
         try {
-            user = userService.findById(userId);
+            User user = userService.findById(userId);
             req.setAttribute(ATTRIBUTE_NAME_ORIGIN_LIST, originService.getAll());
             req.setAttribute(ATTRIBUTE_NAME_USER, user);
         } catch (ServiceException e) {

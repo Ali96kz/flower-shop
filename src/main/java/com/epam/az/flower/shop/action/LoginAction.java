@@ -7,8 +7,6 @@ import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.validator.LogInValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,32 +27,30 @@ public class LoginAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        HttpSession session = req.getSession();
-
-        List<String> errorMsg;
         try {
-            errorMsg = validator.isValidate(req);
+            HttpSession session = req.getSession();
+
+            List<String> errorMsg = validator.isValidate(req);
 
             if (errorMsg.size() > 0) {
                 req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
                 return new ActionResult(JSP_PAGE_NAME_LOGIN);
             }
+
+            String nickName = req.getParameter(PARAMETER_NICK_NAME);
+            String password = req.getParameter(PARAMETER_PASSWORD);
+
+            int userId;
+            userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
+
+            session.setAttribute(ATTRIBUTE_NAME_USER_ID, userId);
+            return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         } catch (ValidatorException e) {
             throw new ActionException("problem with validating ", e);
-        }
-
-
-        String nickName = req.getParameter(PARAMETER_NICK_NAME);
-        String password = req.getParameter(PARAMETER_PASSWORD);
-
-        int userId;
-        try {
-            userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
         } catch (ServiceException e) {
-            throw new ActionException("can't find user by id", e);
+            throw new ActionException("can't get user from data", e);
         }
 
-        session.setAttribute(ATTRIBUTE_NAME_USER_ID, userId);
-        return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
+
     }
 }

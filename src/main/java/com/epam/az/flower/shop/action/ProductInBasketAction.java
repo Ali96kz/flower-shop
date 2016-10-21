@@ -20,20 +20,21 @@ public class ProductInBasketAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        HttpSession session = req.getSession();
-
-        if (session.getAttribute(ATTRIBUTE_NAME_BASKET) == null) {
-            basket = new Basket();
-        }
-
-        String productId = req.getParameter(PARAMETER_PRODUCT_ID);
-        int id = stringAdapter.toInt(productId);
         try {
+            HttpSession session = req.getSession();
+
+            if (session.getAttribute(ATTRIBUTE_NAME_BASKET) == null) {
+                basket = new Basket();
+            }
+
+            String productId = req.getParameter(PARAMETER_PRODUCT_ID);
+            int id = stringAdapter.toInt(productId);
+
             basket.add(productService.findById(id));
+            session.setAttribute(ATTRIBUTE_BASKET, basket);
+            return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
         } catch (ServiceException e) {
             throw new ActionException("can't find product by id ", e);
         }
-        session.setAttribute(ATTRIBUTE_BASKET, basket);
-        return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
     }
 }

@@ -15,14 +15,12 @@ public class ShowAdminPage implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        List<User> users;
         try {
-            users = userService.getAllActiveUsers();
+            List<User> users = userService.getAllActiveUsers();
+            req.setAttribute(ATTRIBUTE_NAME_USERS, users);
+            return new ActionResult(JSP_PAGE_NAME_ADMIN);
         } catch (ServiceException e) {
             throw new ActionException("can't get all user", e);
         }
-
-        req.setAttribute(ATTRIBUTE_NAME_USERS, users);
-        return new ActionResult(JSP_PAGE_NAME_ADMIN);
     }
 }

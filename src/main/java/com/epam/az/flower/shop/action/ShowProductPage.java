@@ -18,10 +18,9 @@ public class ShowProductPage implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        Product product;
         int id = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
         try {
-            product = productService.findById(id);
+            Product product = productService.findById(id);
 
             request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
             return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF);

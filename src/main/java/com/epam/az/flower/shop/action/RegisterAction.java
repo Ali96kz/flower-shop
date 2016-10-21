@@ -14,13 +14,13 @@ public class RegisterAction extends AddUser {
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
-
-        boolean isValidate = validate(request);
-        if (isValidate == false) {
-
-            return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
-        }
         try {
+            boolean isValidate = validate(request);
+            if (isValidate == false) {
+
+                return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
+            }
+
             User user = fillUser(request, new User());
             user = userService.registerUser(user);
             putInSession(user, request);

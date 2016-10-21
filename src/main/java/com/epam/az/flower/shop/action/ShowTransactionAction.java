@@ -20,11 +20,13 @@ public class ShowTransactionAction implements Action {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
         List<UserTransaction> userTransactionList;
+
         try {
             userTransactionList = userTransactionService.getAll(userId);
         } catch (ServiceException e) {
             throw new ActionException("can't get user transaction list ", e);
         }
+
         req.setAttribute(ATTRIBUTE_NAME_TRANSACTION_LIST, userTransactionList);
         return new ActionResult(JSP_PAGE_NAME_TRANSACTION);
     }

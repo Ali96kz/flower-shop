@@ -17,15 +17,14 @@ public class ShowCash implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
-        User user;
         try {
-            user = userService.findById(userId);
+            HttpSession session = req.getSession();
+            int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
+            User user = userService.findById(userId);
+            req.setAttribute(ATTRIBUTE_NAME_USER, user);
+            return new ActionResult(JSP_PAGE_NAME_CASH);
         } catch (ServiceException e) {
             throw new ActionException("can't get user by id from service", e);
         }
-        req.setAttribute(ATTRIBUTE_NAME_USER, user);
-        return new ActionResult(JSP_PAGE_NAME_CASH);
     }
 }

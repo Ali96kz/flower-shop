@@ -19,11 +19,13 @@ public class ShowProfileAction implements Action {
         HttpSession session = req.getSession();
         int i = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
         User user;
+
         try {
             user = userService.findById(i);
         } catch (ServiceException e) {
             throw new ActionException("can't get user from service", e);
         }
+
         req.setAttribute(ATTRIBUTE_NAME_USER, user);
         return new ActionResult(JSP_PAGE_NAME_PROFILE);
     }
