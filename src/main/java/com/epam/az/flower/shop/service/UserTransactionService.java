@@ -15,10 +15,12 @@ import java.util.List;
 
 public class UserTransactionService {
     private static final String ADD_MONEY_TRANSACTION_NAME = "add money";
+    public static final Class<UserTransactionDAO> USER_TRANSACTION_DAO_CLASS = UserTransactionDAO.class;
     private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserTransactionDAO userTransactionDAO = daoFactory.getDao(UserTransactionDAO.class);
+    private UserTransactionDAO userTransactionDAO = daoFactory.getDao(USER_TRANSACTION_DAO_CLASS);
     private TransactionService transactionService = new TransactionService();
+    private ProxyService proxyService = new ProxyService(USER_TRANSACTION_DAO_CLASS);
 
     public List<UserTransaction> getAll(int userId) throws ServiceException {
         List<UserTransaction> userTransactions;
@@ -39,45 +41,22 @@ public class UserTransactionService {
     }
 
     public int insert(UserTransaction userTransaction) throws ServiceException {
-        try {
-            daoFactory.startTransaction(userTransactionDAO);
-            int id = userTransactionDAO.insert(userTransaction);
-            daoFactory.commitTransaction(userTransactionDAO);
-            return id;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(userTransactionDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't rollback transaction", e);
-            }
-            throw new ServiceException("can't execute transaction", e);
-        }
+        int id = proxyService.insert(userTransaction);
+        return id;
     }
 
     public void addMoneyTransaction(User user, int summ) throws ServiceException {
         UserTransaction userTransaction = new UserTransaction();
-        Transaction transaction;
-        try {
-            transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
+        Transaction transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
 
-            logger.info("Find transaction by name {}", transaction.getName());
-            daoFactory.startTransaction(userTransactionDAO);
+        logger.info("Find transaction by name {}", transaction.getName());
 
-            userTransaction.setTransaction(transaction);
-            userTransaction.setUser(user);
-            userTransaction.setSum(summ);
-            userTransaction.setTransactionDate(getDate());
+        userTransaction.setTransaction(transaction);
+        userTransaction.setUser(user);
+        userTransaction.setSum(summ);
+        userTransaction.setTransactionDate(getDate());
 
-            userTransactionDAO.insert(userTransaction);
-            daoFactory.commitTransaction(userTransactionDAO);
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(userTransactionDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't rollback transaction", e1);
-            }
-            throw new ServiceException("can't add money", e);
-        }
+        proxyService.insert(userTransaction);
     }
 
     private java.sql.Date getDate() {

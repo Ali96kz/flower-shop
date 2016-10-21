@@ -10,33 +10,18 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class UserRoleService {
+    public static final Class<UserRoleDao> USER_ROLE_DAO_CLASS = UserRoleDao.class;
     private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserRoleDao userRoleDao = daoFactory.getDao(UserRoleDao.class);
-
+    private ProxyService proxyService = new ProxyService(USER_ROLE_DAO_CLASS);
+    private UserRoleDao userRoleDao = daoFactory.getDao(USER_ROLE_DAO_CLASS);
     public List<UserRole> getAll() throws ServiceException {
-        try {
-            daoFactory.startOperation(userRoleDao);
-            return userRoleDao.getAll();
-        } catch (DAOException e) {
-            throw new ServiceException("can't get all userRole", e);
-        } finally {
-            daoFactory.endOperation(userRoleDao);
-        }
+        return proxyService.getAll();
     }
 
     public UserRole findById(int id) throws ServiceException {
-        UserRole userRole;
-        try {
-            daoFactory.startOperation(userRoleDao);
-            System.out.println(userRoleDao.getConnection() + " user role dao get connection");
-            userRole = userRoleDao.findById(id);
-            logger.info("get user role by id {}", id);
-        } catch (DAOException e) {
-            throw new ServiceException("can't find user role by id", e);
-        } finally {
-            daoFactory.endOperation(userRoleDao);
-        }
+        UserRole userRole = (UserRole) proxyService.findById(id);
+        logger.info("get user role by id {}", id);
         return userRole;
     }
 

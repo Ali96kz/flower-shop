@@ -12,29 +12,19 @@ import java.util.List;
 
 public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    public static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
     private final String CUSTOMER_USER_ROLE = "customer";
+
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserDAO userDAO = daoFactory.getDao(UserDAO.class);
+    private UserDAO userDAO = daoFactory.getDao(USER_DAO_CLASS);
     private UserRoleService userRoleService = new UserRoleService();
     private UserTransactionService userTransactionService = new UserTransactionService();
+    private ProxyService proxyService = new ProxyService(USER_DAO_CLASS);
 
     public void addMoneyToBalance(User user, int sum) throws ServiceException {
         user.setBalance(user.getBalance() + sum);
-        try {
-            daoFactory.startTransaction(userDAO);
-
-            userTransactionService.addMoneyTransaction(user, sum);
-            userDAO.update(user);
-
-            daoFactory.commitTransaction(userDAO);
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(userDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't rollback transaction", e);
-            }
-            throw new ServiceException("can't update user", e);
-        }
+        userTransactionService.addMoneyTransaction(user, sum);
+        proxyService.update(user);
     }
 
     public boolean isFree(String name) throws ServiceException {
@@ -54,68 +44,39 @@ public class UserService {
     }
 
     public void delete(int userId) throws ServiceException {
-        try {
-            daoFactory.startOperation(userDAO);
-            userDAO.delete(userId);
-
-        } catch (DAOException e) {
-            throw new ServiceException("can't delete user from DB", e);
-        } finally {
-            daoFactory.endOperation(userDAO);
-        }
+        proxyService.delete(userId);
     }
 
     public User registerUser(User user) throws ServiceException {
-        UserRole userRole;
-        try {
-            userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
-            user.setUserRole(userRole);
-
-            daoFactory.startTransaction(userDAO);
-            logger.info("user role id {}", userRole.getId());
-            int index = userDAO.insert(user);
-            user.setId(index);
-            daoFactory.commitTransaction(userDAO);
-            return user;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(userDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e1);
-            }
-            throw new ServiceException("can't get user role bu name", e);
-        }
+        UserRole userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
+        user.setUserRole(userRole);
+        int userId = proxyService.insert(user);
+        user.setId(userId);
+        return user;
     }
 
     public User findById(int id) throws ServiceException {
-        User user;
-        try {
-            daoFactory.startOperation(userDAO);
-            user = userDAO.findById(id);
-            UserRole userRole = userRoleService.findById(user.getUserRole().getId());
-            user.setUserRole(userRole);
-        } catch (DAOException e) {
-            throw new ServiceException("Can't get user by id", e);
-        } finally {
-            daoFactory.endOperation(userDAO);
-        }
+        User user = (User) proxyService.findById(id);
+        UserRole userRole = userRoleService.findById(user.getUserRole().getId());
+        user.setUserRole(userRole);
         return user;
     }
 
     public List<User> getAllActiveUsers() throws ServiceException {
-        try {
-            daoFactory.startOperation(userDAO);
-            List<User> users = userDAO.getAll();
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getDeleteDay() != null)
-                    users.remove(i);
-            }
-            return users;
-        } catch (DAOException e) {
-            throw new ServiceException("can't get all user from dao", e);
-        } finally {
-            daoFactory.endOperation(userDAO);
+        List<User> users = proxyService.getAll();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getDeleteDay() != null)
+                users.remove(i);
         }
+        return users;
+    }
+
+    public void logout(int id) {
+        userDAO.deleteFromCache(id);
+    }
+
+    public void update(User user) throws ServiceException {
+        proxyService.update(user);
     }
 
     public Integer getUserIdByCredentials(String nickName, String password) throws ServiceException {
@@ -127,25 +88,6 @@ public class UserService {
             throw new ServiceException("can't find user by credentials", e);
         } finally {
             daoFactory.endOperation(userDAO);
-        }
-    }
-
-    public void logout(int id) {
-        userDAO.deleteFromCache(id);
-    }
-
-    public void update(User user) throws ServiceException {
-        try {
-            daoFactory.startTransaction(userDAO);
-            userDAO.update(user);
-            daoFactory.commitTransaction(userDAO);
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(userDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't rollback transaction", e);
-            }
-            throw new ServiceException("can't update user", e);
         }
     }
 }

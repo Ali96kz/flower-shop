@@ -1,41 +1,21 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.DAOException;
-import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.TemperatureDAO;
 import com.epam.az.flower.shop.entity.Temperature;
 
 import java.util.List;
 
 public class TemperatureService {
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TemperatureDAO temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
+    public static final Class<TemperatureDAO> TEMPERATURE_DAO_CLASS = TemperatureDAO.class;
+    private ProxyService proxyService = new ProxyService(TEMPERATURE_DAO_CLASS);
 
     public Temperature findById(int id) throws ServiceException {
-        try {
-            daoFactory.startOperation(temperatureDAO);
-            Temperature temperature = temperatureDAO.findById(id);
-            daoFactory.endOperation(temperatureDAO);
-            return temperature;
-
-        } catch (DAOException e) {
-            throw new ServiceException("can't find temperature by id", e);
-        }
+        Temperature temperature = (Temperature) proxyService.findById(id);
+        return temperature;
     }
 
     public List<Temperature> getAll() throws ServiceException {
-        try {
-            daoFactory.startTransaction(temperatureDAO);
-            List<Temperature> temperatures = temperatureDAO.getAll();
-            daoFactory.commitTransaction(temperatureDAO);
-            return temperatures;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(temperatureDAO);
-            } catch (DAOException e1) {
-                e1.printStackTrace();
-            }
-            throw new ServiceException("", e);
-        }
+        List<Temperature> temperatures = proxyService.getAll();
+        return temperatures;
     }
 }

@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.VisualParametersDAO;
 import com.epam.az.flower.shop.entity.VisualParameters;
@@ -10,31 +9,20 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class VisualParametersService {
+    public static final Class<VisualParametersDAO> VISUAL_PARAMETERS_DAO_CLASS = VisualParametersDAO.class;
     private static Logger logger = LoggerFactory.getLogger(VisualParametersService.class);
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
+    private ProxyService proxyService = new ProxyService(VISUAL_PARAMETERS_DAO_CLASS);
 
     public List<VisualParameters> getAll() throws ServiceException {
-        try {
-            daoFactory.startOperation(visualParametersDAO);
-            List<VisualParameters> visualParameterses = visualParametersDAO.getAll();
-            return visualParameterses;
-        } catch (DAOException e) {
-            throw new ServiceException("can't get all", e);
-        } finally {
-            daoFactory.endOperation(visualParametersDAO);
-        }
+        List<VisualParameters> visualParameterses = proxyService.getAll();
+
+        return visualParameterses;
     }
 
     public VisualParameters findById(int id) throws ServiceException {
-        try {
-            daoFactory.startOperation(visualParametersDAO);
-            logger.info("try to find visual parameters id = {}", id);
-            VisualParameters visualParameters = visualParametersDAO.findById(id);
-            daoFactory.endOperation(visualParametersDAO);
-            return visualParameters;
-        } catch (DAOException e) {
-            throw new ServiceException("Can't find object by id ", e);
-        }
+        logger.info("try to find visual parameters id = {}", id);
+        VisualParameters visualParameters = (VisualParameters) proxyService.findById(id);
+
+        return visualParameters;
     }
 }

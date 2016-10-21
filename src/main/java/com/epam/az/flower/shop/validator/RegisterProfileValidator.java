@@ -53,6 +53,7 @@ public class RegisterProfileValidator extends AbstractValidator {
 
         if (date == null) {
             errorMsg.add("You insert incorrect date Example: 1996-12-11");
+            return errorMsg;
         }
         if (!date.toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
             errorMsg.add("You insert incorrect date Example: 1996-12-11");

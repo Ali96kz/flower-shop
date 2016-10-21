@@ -5,3 +5,4 @@
 .idea/
 target/
 task-4-db.iml
+/src/main/resources/database.properties

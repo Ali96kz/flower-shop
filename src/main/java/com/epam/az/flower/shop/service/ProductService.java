@@ -1,7 +1,5 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.DAOException;
-import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.ProductDAO;
 import com.epam.az.flower.shop.entity.Flower;
 import com.epam.az.flower.shop.entity.Origin;
@@ -12,83 +10,43 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class ProductService {
+    public static final Class<ProductDAO> PRODUCT_DAO_CLASS = ProductDAO.class;
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
+    private ProxyService proxyService = new ProxyService(PRODUCT_DAO_CLASS);
 
     public void update(Product product) throws ServiceException {
-        try {
-            daoFactory.startTransaction(productDAO);
-            productDAO.update(product);
-            flowerService.update(product.getFlower());
-            daoFactory.commitTransaction(productDAO);
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(productDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll ack transaction", e);
-            }
-            throw new ServiceException("can't initialize dao class", e);
-        }
+        flowerService.update(product.getFlower());
+        proxyService.update(product);
     }
 
     public List<Product> getAllNotDeleteProduct() throws ServiceException {
-        try {
-            daoFactory.startOperation(productDAO);
-            List<Product> products = productDAO.getAll();
-            logger.info("get {} products from data", products.size());
+        List<Product> products = proxyService.getAll();
+        logger.info("get {} products from data", products.size());
 
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getDeleteDay() == null) {
-                    fillProduct(products.get(i));
-                }
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getDeleteDay() == null) {
+                fillProduct(products.get(i));
             }
-
-            daoFactory.endOperation(productDAO);
-            return products;
-        } catch (DAOException e) {
-            throw new ServiceException("can't get all not deleted product", e);
         }
+        return products;
     }
 
 
     public int addNewProduct(Product product) throws ServiceException {
-        try {
-            int id;
-            int flowerId = flowerService.insert(product.getFlower());
-            Flower flower = flowerService.findById(flowerId);
-            flower.setId(flowerId);
-            product.setFlower(flower);
-            daoFactory.startTransaction(productDAO);
-            id = productDAO.insert(product);
-            daoFactory.commitTransaction(productDAO);
-            return id;
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(productDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
-            throw new ServiceException("can't add product", e);
-        }
+        int flowerId = flowerService.insert(product.getFlower());
+
+        Flower flower = flowerService.findById(flowerId);
+        flower.setId(flowerId);
+        product.setFlower(flower);
+
+        return proxyService.insert(product);
     }
 
     public Product findById(int id) throws ServiceException {
-        Product product;
-
-        try {
-            daoFactory.startOperation(productDAO);
-            product = productDAO.findById(id);
-
-            fillProduct(product);
-        } catch (DAOException e) {
-            throw new ServiceException("can't get product by id", e);
-        } finally {
-            daoFactory.endOperation(productDAO);
-        }
-
+        Product product = (Product) proxyService.findById(id);
+        fillProduct(product);
         return product;
     }
 
@@ -102,33 +60,14 @@ public class ProductService {
     }
 
     public boolean isExist(int id) throws ServiceException {
-        try {
-            daoFactory.startOperation(productDAO);
-            Product product = productDAO.findById(id);
-            if (product.getFlower() == null) {
-                return false;
-            }
-            return true;
-        } catch (DAOException e) {
-            throw new ServiceException("can't get product by id", e);
-        } finally {
-            daoFactory.endOperation(productDAO);
+        Product product = (Product) proxyService.findById(id);
+        if (product.getFlower() == null) {
+            return false;
         }
-
+        return true;
     }
 
     public void deleteProduct(int id) throws ServiceException {
-        try {
-            daoFactory.startTransaction(productDAO);
-            productDAO.delete(id);
-            daoFactory.commitTransaction(productDAO);
-        } catch (DAOException e) {
-            try {
-                daoFactory.rollBack(productDAO);
-            } catch (DAOException e1) {
-                throw new ServiceException("can't roll back transaction", e);
-            }
-            throw new ServiceException("can't initialize class", e);
-        }
+        proxyService.delete(id);
     }
 }

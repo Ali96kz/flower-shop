@@ -112,7 +112,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
-    private Class<E> getGenericClass() throws DAOException {
+    protected Class<E> getGenericClass() throws DAOException {
         if (genericClass == null) {
             Type mySuperClass = getClass().getGenericSuperclass();
             Type tType = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];
