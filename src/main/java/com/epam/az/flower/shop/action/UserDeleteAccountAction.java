@@ -8,13 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UserDeleteAccountAction implements Action {
-    public static final String USER_ID = "userId";
-    public static final String PAGE_DELETE_PROFILE = "delete-profile";
-    private UserService userService;
-
-    public UserDeleteAccountAction() {
-        userService = new UserService();
-    }
+    private static final String USER_ID = "userId";
+    private static final String PAGE_DELETE_PROFILE = "delete-profile";
+    private UserService userService = new UserService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

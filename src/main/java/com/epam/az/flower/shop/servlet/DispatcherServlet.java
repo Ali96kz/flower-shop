@@ -2,8 +2,8 @@ package com.epam.az.flower.shop.servlet;
 
 import com.epam.az.flower.shop.action.Action;
 import com.epam.az.flower.shop.action.ActionException;
-import com.epam.az.flower.shop.action.ActionResult;
 import com.epam.az.flower.shop.action.ActionFactory;
+import com.epam.az.flower.shop.action.ActionResult;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,8 +42,9 @@ public class DispatcherServlet extends HttpServlet {
 
         doForwardOrRedirect(result, req, resp);
     }
+
     private void doForwardOrRedirect(ActionResult result, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (result.isRedirect()){
+        if (result.isRedirect()) {
             resp.sendRedirect(result.getView());
         } else {
             String path = String.format("/WEB-INF/jsp/" + result.getView() + ".jsp");

@@ -1,12 +1,12 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.OrderService;
 import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.validator.BuyProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
@@ -16,26 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class BuyProductAction implements Action {
-    public static final String JSP_PAGE_NAME_BILL = "bill";
-    public static final String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
-    public static final String ATTRIBUTE_PRODUCT_ID = "?productId =";
-    public static final String ATTRIBUTE_NAME_PRICE = "price";
+    private static final String JSP_PAGE_NAME_BILL = "bill";
+    private static final String ATTRIBUTE_NAME_PRICE = "price";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
+    private static final String ATTRIBUTE_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+
     private StringAdapter stringAdapter = new StringAdapter();
-    private ProductService productService;
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private ProductService productService = new ProductService();
+    private Validator validator = new BuyProductValidator();
+    private UserService userService = new UserService();
+    private OrderService orderService = new OrderService();
 
-    private UserService userService;
-    private OrderService orderService;
-
-    public BuyProductAction() throws ActionException {
-        orderService = new OrderService();
-        userService = new UserService();
-        productService = new ProductService();
-    }
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        Validator validator = new BuyProductValidator();
         List<String> errorMsg;
 
         try {
@@ -44,14 +40,15 @@ public class BuyProductAction implements Action {
             throw new ActionException("problem with validating", e);
         }
 
-        int productId = stringAdapter.toInt(req.getParameter("productId"));
 
         if (errorMsg.size() > 0) {
             req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
-            return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF + ATTRIBUTE_PRODUCT_ID + productId, true);
+            return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
         }
 
-        int userId = (int) req.getSession().getAttribute("userId");
+        int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
+
+        int userId = (int) req.getSession().getAttribute(ATTRIBUTE_USER_ID);
         Product product;
         User user;
         try {

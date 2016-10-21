@@ -1,38 +1,40 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.*;
-import com.epam.az.flower.shop.entity.*;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
+import com.epam.az.flower.shop.dao.TransactionDAO;
+import com.epam.az.flower.shop.entity.Transaction;
 
 public class TransactionService {
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private TransactionDAO transactionDAO = daoFactory.getDao(TransactionDAO.class);
+
     public Transaction getTransactionByName(String name) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                TransactionDAO transactionDAO = daoFactory.createDAO(TransactionDAO.class);
-                Transaction transaction = transactionDAO.getTransactionByName(name);
-                return transaction;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        try {
+            daoFactory.startOperation(transactionDAO);
+            Transaction transaction = transactionDAO.getTransactionByName(name);
+
+            return transaction;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        } finally {
+            daoFactory.endOperation(transactionDAO);
         }
     }
+
     public Transaction findById(Integer id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            daoFactory.startTransaction(transactionDAO);
+            Transaction transaction = transactionDAO.findById(id);
+            daoFactory.commitTransaction(transactionDAO);
+            return transaction;
+        } catch (DAOException e) {
             try {
-                TransactionDAO transactionDAO = daoFactory.createDAO(TransactionDAO.class);
-                Transaction transaction = transactionDAO.findById(id);
-                return transaction;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(transactionDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("", e);
         }
     }
 

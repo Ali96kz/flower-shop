@@ -1,7 +1,7 @@
 package com.epam.az.flower.shop.filter;
 
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,24 +9,28 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.Locale;
 
-public class LocaleFilter implements Filter{
+@WebFilter(filterName = "LocaleFilter", urlPatterns = "/flower-shop/*")
+public class LocaleFilter implements Filter {
+
+    public static final String COOKIE_ATTRIBUTE_LANG = "lang";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("locale")) {
+            if (cookie.getName().equals(COOKIE_ATTRIBUTE_LANG)) {
                 Locale locale = new Locale(cookie.getValue());
-                Config.set(req.getSession(),Config.FMT_LOCALE,locale);
+                Config.set(req.getSession(), Config.FMT_LOCALE, locale);
             }
         }
-        filterChain.doFilter(req,resp);
+        filterChain.doFilter(req, resp);
     }
 
     @Override

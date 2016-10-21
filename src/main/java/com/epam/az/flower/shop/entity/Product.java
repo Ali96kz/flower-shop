@@ -1,14 +1,14 @@
 package com.epam.az.flower.shop.entity;
 
 
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
     private int price;
     private int quantity;
     private Origin origin;
     private Flower flower;
     private String description;
 
-    public Product(){
+    public Product() {
 
     }
 

@@ -4,33 +4,47 @@ import com.epam.az.flower.shop.util.StringAdapter;
 
 import java.util.List;
 
-public abstract class AbstractValidator implements Validator{
+public abstract class AbstractValidator implements Validator {
+    private static final String NUMBER_REGEX = "[0-9]+";
     private StringAdapter stringAdapter = new StringAdapter();
-    public void validatePositiveNumber(List<String> errorMsg, String number, String name) {
-        int  value =  stringAdapter.toInt(number);
-        //TODO add validate to <>, . and same symbol
 
-        if (number == null || number ==  "") {
-            errorMsg.add("please insert "+name);
+    protected void validatePositiveNumber(List<String> errorMsg, String number, String name) {
+        if (number == null || number.replaceAll("\\s", "").equals("")) {
+            errorMsg.add("You didn't insert " + name);
+            return;
         }
-        if (value <= 0 ){
-            errorMsg.add(name+"couldn't be <= 0");
+        if (!number.matches(NUMBER_REGEX)) {
+            errorMsg.add("please insert " + name);
+            return;
+        }
+
+        int value = stringAdapter.toInt(number);
+
+        if (value <= 0) {
+            errorMsg.add(name + "couldn't be <= 0");
         }
 
     }
-    public void validateString(List<String> errorMsg, String parameter, String name){
-        if (parameter == null || parameter == "") {
-            errorMsg.add("please insert "+name);
+
+    protected void validateString(List<String> errorMsg, String parameter, String name) {
+        if (parameter.replaceAll("\\s", "").equals("")) {
+            errorMsg.add(name + " can't contain just white space");
         }
         if (parameter.matches("\\W")) {
-            errorMsg.add("incorrect ,"+name+"must contain just name must contain A-Z,a-z, white space");
+            errorMsg.add("incorrect, " + name + " must contain just name must contain A-Z,a-z, white space");
+        }
+
+        if (parameter.matches("\\d")) {
+            errorMsg.add(name + " can't contain a number");
         }
     }
 
-    public void validateString(List<String> errorMsg, String parameter, String name, int minLength, int maxLength){
+    protected void validateString(List<String> errorMsg, String parameter, String name, int minLength, int maxLength) {
         validateString(errorMsg, parameter, name);
-        if(parameter.length() < minLength){
-            errorMsg.add(name + "must contain min "+minLength+" max"+maxLength);
+        if (parameter.length() < minLength) {
+            errorMsg.add(name + " must contain min " + minLength + " max " + maxLength);
+        } else if (parameter.length() > maxLength) {
+            errorMsg.add(name + " must contain min " + minLength + " max " + maxLength);
         }
     }
 }

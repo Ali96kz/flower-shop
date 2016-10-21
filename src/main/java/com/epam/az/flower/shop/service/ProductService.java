@@ -1,101 +1,95 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.*;
-import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
+import com.epam.az.flower.shop.dao.ProductDAO;
+import com.epam.az.flower.shop.entity.Flower;
+import com.epam.az.flower.shop.entity.Origin;
+import com.epam.az.flower.shop.entity.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class ProductService {
+    private static Logger logger = LoggerFactory.getLogger(ProductService.class);
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private ProductDAO productDAO = daoFactory.getDao(ProductDAO.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
 
     public void update(Product product) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            daoFactory.startTransaction(productDAO);
+            productDAO.update(product);
+            flowerService.update(product.getFlower());
+            daoFactory.commitTransaction(productDAO);
+        } catch (DAOException e) {
             try {
-                FlowerService flowerService = new FlowerService();
-                ProductDAO productDAO = daoFactory.createDAO(ProductDAO.class);
-                flowerService.update(product.getFlower());
-
-                daoFactory.startTransaction();
-                productDAO.update(product);
-                daoFactory.commitTransaction();
-
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(productDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll ack transaction", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't initialize dao class", e);
         }
     }
 
-    public List<Product> getAllProduct() throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                ProductDAO productDAO = daoFactory.createDAO(ProductDAO.class);
-                List<Product> products = productDAO.getAll();
-                for (Product product : products) {
-                    fillProduct(product);
+    public List<Product> getAllNotDeleteProduct() throws ServiceException {
+        try {
+            daoFactory.startOperation(productDAO);
+            List<Product> products = productDAO.getAll();
+            logger.info("get {} products from data", products.size());
+
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getDeleteDay() == null) {
+                    fillProduct(products.get(i));
                 }
-                return products;
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+
+            daoFactory.endOperation(productDAO);
+            return products;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get all not deleted product", e);
         }
     }
 
-    public void getPaginatedProduct() throws ServiceException {
-        List<Product> products = getAllProduct();
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getDeleteDay() != null) {
-                products.remove(i);
-            }
-        }
-
-    }
 
     public int addNewProduct(Product product) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            int id;
+            int flowerId = flowerService.insert(product.getFlower());
+            Flower flower = flowerService.findById(flowerId);
+            flower.setId(flowerId);
+            product.setFlower(flower);
+            daoFactory.startTransaction(productDAO);
+            id = productDAO.insert(product);
+            daoFactory.commitTransaction(productDAO);
+            return id;
+        } catch (DAOException e) {
             try {
-                FlowerService flowerService = new FlowerService();
-                ProductDAO productDAO = daoFactory.createDAO(ProductDAO.class);
-                daoFactory.startTransaction();
-
-                int flowerId = flowerService.insert(product.getFlower());
-                Flower flower = flowerService.findById(flowerId);
-                flower.setId(flowerId);
-                product.setFlower(flower);
-
-                int id = productDAO.insert(product);
-                daoFactory.commitTransaction();
-                return id;
-
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(productDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back transaction", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't add product", e);
         }
     }
 
     public Product findById(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                ProductDAO productDAO = daoFactory.createDAO(ProductDAO.class);
-                Product product = productDAO.findById(id);
-                fillProduct(product);
-                return product;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        Product product;
 
+        try {
+            daoFactory.startOperation(productDAO);
+            product = productDAO.findById(id);
+
+            fillProduct(product);
+        } catch (DAOException e) {
+            throw new ServiceException("can't get product by id", e);
+        } finally {
+            daoFactory.endOperation(productDAO);
         }
+
+        return product;
     }
 
     public void fillProduct(Product product) throws ServiceException {
@@ -105,24 +99,36 @@ public class ProductService {
             product.setFlower(flower);
             product.setOrigin(origin);
         }
+    }
+
+    public boolean isExist(int id) throws ServiceException {
+        try {
+            daoFactory.startOperation(productDAO);
+            Product product = productDAO.findById(id);
+            if (product.getFlower() == null) {
+                return false;
+            }
+            return true;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get product by id", e);
+        } finally {
+            daoFactory.endOperation(productDAO);
+        }
 
     }
 
     public void deleteProduct(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            daoFactory.startTransaction(productDAO);
+            productDAO.delete(id);
+            daoFactory.commitTransaction(productDAO);
+        } catch (DAOException e) {
             try {
-                ProductDAO productDAO = daoFactory.createDAO(ProductDAO.class);
-                daoFactory.startTransaction();
-                productDAO.delete(id);
-                daoFactory.commitTransaction();
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(productDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back transaction", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
-
+            throw new ServiceException("can't initialize class", e);
         }
     }
 }
-

@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.entity;
 
-public class VisualParameters extends BaseEntity{
+public class VisualParameters extends BaseEntity {
     private String colorSteam;
     private String colorLeaves;
 

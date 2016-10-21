@@ -8,31 +8,34 @@ import com.epam.az.flower.shop.entity.Temperature;
 import java.util.List;
 
 public class TemperatureService {
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private TemperatureDAO temperatureDAO = daoFactory.getDao(TemperatureDAO.class);
+
     public Temperature findById(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                TemperatureDAO temperatureDAO= daoFactory.createDAO(TemperatureDAO.class);
-                temperatureDAO = daoFactory.createDAO(TemperatureDAO.class);
-                return temperatureDAO.findById(id);
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        try {
+            daoFactory.startOperation(temperatureDAO);
+            Temperature temperature = temperatureDAO.findById(id);
+            daoFactory.endOperation(temperatureDAO);
+            return temperature;
+
+        } catch (DAOException e) {
+            throw new ServiceException("can't find temperature by id", e);
         }
     }
 
     public List<Temperature> getAll() throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            daoFactory.startTransaction(temperatureDAO);
+            List<Temperature> temperatures = temperatureDAO.getAll();
+            daoFactory.commitTransaction(temperatureDAO);
+            return temperatures;
+        } catch (DAOException e) {
             try {
-                TemperatureDAO temperatureDAO= daoFactory.createDAO(TemperatureDAO.class);
-                List<Temperature> temperatures = temperatureDAO.getAll();
-                return temperatures;
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(temperatureDAO);
+            } catch (DAOException e1) {
+                e1.printStackTrace();
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("", e);
         }
     }
 }

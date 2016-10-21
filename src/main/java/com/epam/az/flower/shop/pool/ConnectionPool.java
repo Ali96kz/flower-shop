@@ -1,18 +1,11 @@
 package com.epam.az.flower.shop.pool;
 
-import com.epam.az.flower.shop.util.PropertyWorker;
+import com.epam.az.flower.shop.util.PropertyManager;
 import com.epam.az.flower.shop.util.UtilClassException;
-import org.apache.log4j.Logger;
+
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.*;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -22,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool implements DataSource {
-    private static final Logger logger = Logger.getLogger(ConnectionPool.class);
     private String driver;
     private String url;
     private String username;
@@ -31,18 +23,28 @@ public class ConnectionPool implements DataSource {
     private int timeout;
     private volatile BlockingQueue<PooledConnection> freeConnections;
     private BlockingQueue<PooledConnection> usedConnections;
-    private static ConnectionPool connectionPool = new ConnectionPool();
 
-    public static ConnectionPool getInstancePool(){
-        return connectionPool;
-    }
+    public ConnectionPool() throws ConnectionPoolException {
+        PropertyManager propertyManager = new PropertyManager();
+        Properties properties;
+        try {
+            properties = propertyManager.readProperty("database.properties");
+        } catch (UtilClassException e) {
+            throw new ConnectionPoolException("Could not load properties", e);
 
-    private ConnectionPool() throws ConnectionPoolException {
+        }
+        if (properties != null) {
+            this.driver = properties.getProperty("driver");
+            this.url = properties.getProperty("url");
+            this.username = properties.getProperty("username");
+            this.password = properties.getProperty("password");
+            this.connectionsLimit = Integer.parseInt(properties.getProperty("connections.limit"));
+            this.timeout = Integer.parseInt(properties.getProperty("connection.timeout"));
+        }
         initConnections();
     }
 
     private void initConnections() {
-        setDataFROMProperty();
         if (freeConnections == null) {
             synchronized (ConnectionPool.class) {
                 if (freeConnections == null) {
@@ -60,33 +62,10 @@ public class ConnectionPool implements DataSource {
             e.printStackTrace();
         }
     }
-    public void setDataFROMProperty(){
-        PropertyWorker propertyWorker = new PropertyWorker();
-        Properties properties;
-        try {
-            properties = propertyWorker.readProperty("database.properties");
-        } catch (UtilClassException e) {
-            throw new ConnectionPoolException("Could not load properties", e);
-
-        }
-        if (properties != null) {
-            this.driver = properties.getProperty("driver");
-            this.url = properties.getProperty("url");
-            this.username = properties.getProperty("username");
-            this.password = properties.getProperty("password");
-            this.connectionsLimit = Integer.parseInt(properties.getProperty("connections.limit"));
-            this.timeout = Integer.parseInt(properties.getProperty("connection.timeout"));
-        }
-    }
-    public static DataSource getInstance() {
-        logger.info("Get Instance of ConnectionPool");
-        return InstanceHolder.instance;
-    }
 
     public void close() throws ConnectionPoolException {
         closeAllConnectionsInQueue(freeConnections);
         closeAllConnectionsInQueue(usedConnections);
-        logger.info("Close ConnectionPool");
     }
 
     private void closeAllConnectionsInQueue(BlockingQueue<PooledConnection> queue) throws ConnectionPoolException {
@@ -107,12 +86,11 @@ public class ConnectionPool implements DataSource {
         } catch (SQLException e) {
             throw new ConnectionPoolException("Could not get PooledConnection" + e.getMessage(), e);
         }
-        logger.info("Create new PooledConnection");
         return pooledConnection;
     }
 
     @Override
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         PooledConnection connection;
         try {
             if (usedConnections == null)
@@ -120,13 +98,12 @@ public class ConnectionPool implements DataSource {
 
             connection = freeConnections.poll(timeout, TimeUnit.SECONDS);
             if (connection == null)
-                throw new ConnectionPoolException("No free connection in pool");
+                throw new SQLException("No free connection in pool");
 
             usedConnections.put(connection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Could not get connection", e);
+            throw new SQLException("Could not get connection", e);
         }
-        logger.info("Connection was taken, freeConnections: " + freeConnections.size());
         return connection;
     }
 
@@ -167,10 +144,6 @@ public class ConnectionPool implements DataSource {
 
     public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
         throw new UnsupportedOperationException("Unsupported operation");
-    }
-
-    private static class InstanceHolder {
-        static final DataSource instance = new ConnectionPool();
     }
 
     private class PooledConnection extends com.mysql.cj.jdbc.ConnectionImpl {
@@ -231,7 +204,6 @@ public class ConnectionPool implements DataSource {
             } catch (SQLException | InterruptedException e) {
                 throw new SQLException("Could not release current connection", e);
             }
-            logger.info("Connection was back to CP, freeConnections: " + freeConnections.size());
         }
 
         @Override

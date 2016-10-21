@@ -1,5 +1,6 @@
-package com.epam.az.flower.shop.dao;
+package com.epam.az.flower.shop.dao.manager;
 
+import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E>{
+public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     private Map<Integer, E> cache = new HashMap<>();
     private boolean getAll = false;
 
@@ -22,19 +23,28 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E>{
     }
 
     @Override
-    public void update(E item) throws DAOException {
-        super.update(item);
+    public void update(E item) {
+        try {
+            super.update(item);
+            cache.put(item.getId(), item);
+        } catch (DAOException e) {
+        }
+    }
+
+    @Override
+    public int insert(E item) throws DAOException {
+        int id = 0;
+        try {
+            id = super.insert(item);
+        } catch (DAOException e) {
+            throw new DAOException("can't insert", e);
+        }
         cache.put(item.getId(), item);
+        return id;
     }
 
     @Override
-    public int insert(E e) throws DAOException {
-        cache.put(e.getId(), e);
-        return super.insert(e);
-    }
-
-    @Override
-    public List<E> getAll() {
+    public List<E> getAll() throws DAOException {
         if (!getAll) {
             List<E> list = super.getAll();
             cache = new HashMap<>();
@@ -51,17 +61,25 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E>{
 
     @Override
     public void delete(E item) throws DAOException {
-        cache.put(item.getId(), null);
-        super.delete(item);
+        try {
+            super.delete(item);
+        } catch (DAOException e) {
+            throw new DAOException("can't delete object", e);
+        }
+        cache.put(item.getId(), item);
     }
 
     @Override
     public void delete(int id) throws DAOException {
-        cache.put(id, null);
-        super.delete(id);
+        try {
+            super.delete(id);
+        } catch (DAOException e) {
+            throw new DAOException("can't delete user", e);
+        }
+        cache.remove(id);
     }
 
-    public void deleteFromCache(int id){
+    public void deleteFromCache(int id) {
         cache.put(id, null);
     }
 }

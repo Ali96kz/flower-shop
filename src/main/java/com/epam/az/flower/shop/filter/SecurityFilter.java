@@ -7,8 +7,8 @@ import com.epam.az.flower.shop.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,25 +23,32 @@ public class SecurityFilter implements Filter {
     private List<String> managerViews;
     private List<String> adminViews;
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void initAnonymousUser() {
         anonymousUserViews = new ArrayList<>();
-        adminViews = new ArrayList<>();
-
         anonymousUserViews.add("/vitrine");
+        anonymousUserViews.add("/set-language");
         anonymousUserViews.add("/basket");
         anonymousUserViews.add("/main");
+        anonymousUserViews.add("/about-project");
+        anonymousUserViews.add("/contact");
+        anonymousUserViews.add("/cash");
         anonymousUserViews.add("/login");
+        anonymousUserViews.add("/delete-product-basket");
         anonymousUserViews.add("/registration");
         anonymousUserViews.add("/product-inf");
         anonymousUserViews.add("/product-in-basket");
+        anonymousUserViews.add("/add-product");
+    }
 
+    public void initUser() {
         userViews = new ArrayList<>(anonymousUserViews);
-        userViews.remove("registration");
-        userViews.remove("login");
+
+        userViews.remove("/registration");
+        userViews.remove("/login");
 
         userViews.add("/delete-account");
         userViews.add("/profile");
+        userViews.add("/delete-profile");
         userViews.add("/edit-user");
         userViews.add("/addMoneyToBalance");
         userViews.add("/logout");
@@ -52,17 +59,30 @@ public class SecurityFilter implements Filter {
         userViews.add("/edit-account");
         userViews.add("/delete-profile");
 
+    }
+
+    public void initManagerViews() {
         managerViews = new ArrayList<>(userViews);
-        managerViews.add("/add-product");
         managerViews.add("/edit-product");
         managerViews.add("/delete-product");
         managerViews.add("/manager");
+        managerViews.add("/add-product");
 
+    }
+
+    public void initAdminViews() {
         adminViews = new ArrayList<>(managerViews);
         adminViews.add("/admin");
         adminViews.add("/delete-user");
         adminViews.add("/admin-registration");
+    }
 
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        initAnonymousUser();
+        initUser();
+        initManagerViews();
+        initAdminViews();
     }
 
     @Override
@@ -87,7 +107,8 @@ public class SecurityFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        User user = null;
+        User user;
+
         try {
             UserService userService = new UserService();
             user = userService.findById(userId);

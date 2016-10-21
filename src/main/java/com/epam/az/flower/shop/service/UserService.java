@@ -1,133 +1,151 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.*;
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
+import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final String CUSTOMER_USER_ROLE = "customer";
-    private UserTransactionService userTransactionService = new UserTransactionService();
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private UserDAO userDAO = daoFactory.getDao(UserDAO.class);
     private UserRoleService userRoleService = new UserRoleService();
+    private UserTransactionService userTransactionService = new UserTransactionService();
 
-    public void addMoneyToBalance(User user, int summ) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+    public void addMoneyToBalance(User user, int sum) throws ServiceException {
+        user.setBalance(user.getBalance() + sum);
+        try {
+            daoFactory.startTransaction(userDAO);
+
+            userTransactionService.addMoneyTransaction(user, sum);
+            userDAO.update(user);
+
+            daoFactory.commitTransaction(userDAO);
+        } catch (DAOException e) {
             try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                daoFactory.startTransaction();
-                user.setBalance(user.getBalance() + summ);
-                userDAO.update(user);
-                userTransactionService.addMoneyTransaction(user, summ);
-                daoFactory.commitTransaction();
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(userDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't update user", e);
+        }
+    }
+
+    public boolean isFree(String name) throws ServiceException {
+        try {
+            daoFactory.startOperation(userDAO);
+            Integer id = userDAO.findByCredentials(name);
+            if (id == null || id == 0) {
+                return true;
+            }
+
+            return false;
+        } catch (DAOException e) {
+            throw new ServiceException("can't execute", e);
+        } finally {
+            daoFactory.endOperation(userDAO);
         }
     }
 
     public void delete(int userId) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                daoFactory.startTransaction();
-                userDAO.delete(userId);
-                daoFactory.commitTransaction();
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        try {
+            daoFactory.startOperation(userDAO);
+            userDAO.delete(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("can't delete user from DB", e);
+        } finally {
+            daoFactory.endOperation(userDAO);
         }
     }
 
     public User registerUser(User user) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        UserRole userRole;
+        try {
+            userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
+            user.setUserRole(userRole);
+
+            daoFactory.startTransaction(userDAO);
+            logger.info("user role id {}", userRole.getId());
+            int index = userDAO.insert(user);
+            user.setId(index);
+            daoFactory.commitTransaction(userDAO);
+            return user;
+        } catch (DAOException e) {
             try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                daoFactory.startTransaction();
-                UserRole userRole;
-                userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
-                user.setUserRole(userRole);
-                int index = userDAO.insert(user);
-                user.setId(index);
-                daoFactory.commitTransaction();
-                return user;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(userDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't roll back transaction", e1);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't get user role bu name", e);
         }
     }
 
     public User findById(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                User user = userDAO.findById(id);
-                UserRole userRole = userRoleService.findById(user.getUserRole().getId());
-                user.setUserRole(userRole);
-                return user;
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
+        User user;
+        try {
+            daoFactory.startOperation(userDAO);
+            user = userDAO.findById(id);
+            UserRole userRole = userRoleService.findById(user.getUserRole().getId());
+            user.setUserRole(userRole);
+        } catch (DAOException e) {
+            throw new ServiceException("Can't get user by id", e);
+        } finally {
+            daoFactory.endOperation(userDAO);
+        }
+        return user;
+    }
+
+    public List<User> getAllActiveUsers() throws ServiceException {
+        try {
+            daoFactory.startOperation(userDAO);
+            List<User> users = userDAO.getAll();
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getDeleteDay() != null)
+                    users.remove(i);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            return users;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get all user from dao", e);
+        } finally {
+            daoFactory.endOperation(userDAO);
         }
     }
 
-    public List<User> getAll() throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                return userDAO.getAll();
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
-        }
-    }
-
-    public Integer getUserByCredentials(String nickName, String passHash) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                daoFactory.startTransaction();
-                Integer userID = userDAO.findByCredentials(nickName, passHash);
-                daoFactory.commitTransaction();
-                return userID;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+    public Integer getUserIdByCredentials(String nickName, String password) throws ServiceException {
+        try {
+            daoFactory.startOperation(userDAO);
+            Integer id = userDAO.findByCredentials(nickName, password);
+            return id;
+        } catch (DAOException e) {
+            throw new ServiceException("can't find user by credentials", e);
+        } finally {
+            daoFactory.endOperation(userDAO);
         }
     }
 
     public void logout(int id) {
+        userDAO.deleteFromCache(id);
     }
 
     public void update(User user) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            daoFactory.startTransaction(userDAO);
+            userDAO.update(user);
+            daoFactory.commitTransaction(userDAO);
+        } catch (DAOException e) {
             try {
-                UserDAO userDAO = daoFactory.createDAO(UserDAO.class);
-                daoFactory.startTransaction();
-                userDAO.update(user);
-                daoFactory.commitTransaction();
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(userDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't update user", e);
         }
     }
 }

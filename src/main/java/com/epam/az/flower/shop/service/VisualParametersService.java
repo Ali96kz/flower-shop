@@ -2,38 +2,39 @@ package com.epam.az.flower.shop.service;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
-import com.epam.az.flower.shop.dao.FlowerDAO;
 import com.epam.az.flower.shop.dao.VisualParametersDAO;
-import com.epam.az.flower.shop.entity.Flower;
-import com.epam.az.flower.shop.entity.GrowingCondition;
 import com.epam.az.flower.shop.entity.VisualParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class VisualParametersService {
+    private static Logger logger = LoggerFactory.getLogger(VisualParametersService.class);
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private VisualParametersDAO visualParametersDAO = daoFactory.getDao(VisualParametersDAO.class);
+
     public List<VisualParameters> getAll() throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                VisualParametersDAO visualParametersDAO = daoFactory.createDAO(VisualParametersDAO.class);
-                return visualParametersDAO.getAll();
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        try {
+            daoFactory.startOperation(visualParametersDAO);
+            List<VisualParameters> visualParameterses = visualParametersDAO.getAll();
+            return visualParameterses;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get all", e);
+        } finally {
+            daoFactory.endOperation(visualParametersDAO);
         }
     }
 
-    public VisualParameters  findById(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                VisualParametersDAO visualParametersDAO = daoFactory.createDAO(VisualParametersDAO.class);
-                return visualParametersDAO.findById(id);
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+    public VisualParameters findById(int id) throws ServiceException {
+        try {
+            daoFactory.startOperation(visualParametersDAO);
+            logger.info("try to find visual parameters id = {}", id);
+            VisualParameters visualParameters = visualParametersDAO.findById(id);
+            daoFactory.endOperation(visualParametersDAO);
+            return visualParameters;
+        } catch (DAOException e) {
+            throw new ServiceException("Can't find object by id ", e);
         }
     }
 }

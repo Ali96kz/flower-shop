@@ -2,11 +2,12 @@ package com.epam.az.flower.shop.service;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
-import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.dao.UserTransactionDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserTransaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -14,66 +15,68 @@ import java.util.List;
 
 public class UserTransactionService {
     private static final String ADD_MONEY_TRANSACTION_NAME = "add money";
+    private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private UserTransactionDAO userTransactionDAO = daoFactory.getDao(UserTransactionDAO.class);
     private TransactionService transactionService = new TransactionService();
 
     public List<UserTransaction> getAll(int userId) throws ServiceException {
-        List<UserTransaction> userTransactions ;
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                UserTransactionDAO userTransactionDAO = daoFactory.createDAO(UserTransactionDAO.class);
-                userTransactions = userTransactionDAO.getAll(userId);
-                for (UserTransaction userTransaction : userTransactions) {
-                    Transaction transaction = transactionService.findById(userTransaction.getTransaction().getId());
-                    userTransaction.setTransaction(transaction);
-                }
-                return userTransactions;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+        List<UserTransaction> userTransactions;
+        try {
+            daoFactory.startOperation(userTransactionDAO);
+            userTransactions = userTransactionDAO.getAll(userId);
+            for (UserTransaction userTransaction : userTransactions) {
+                Transaction transaction = transactionService.findById(userTransaction.getTransaction().getId());
+                userTransaction.setTransaction(transaction);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        } catch (DAOException e) {
+            throw new ServiceException("Can't get all user transactions", e);
+        } finally {
+            daoFactory.endOperation(userTransactionDAO);
         }
+
+        return userTransactions;
     }
 
     public int insert(UserTransaction userTransaction) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        try {
+            daoFactory.startTransaction(userTransactionDAO);
+            int id = userTransactionDAO.insert(userTransaction);
+            daoFactory.commitTransaction(userTransactionDAO);
+            return id;
+        } catch (DAOException e) {
             try {
-                UserTransactionDAO userTransactionDAO = daoFactory.createDAO(UserTransactionDAO.class);
-                daoFactory.startTransaction();
-                int id = userTransactionDAO.insert(userTransaction);
-                daoFactory.commitTransaction();
-                return id;
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(userTransactionDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction", e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't execute transaction", e);
         }
     }
 
     public void addMoneyTransaction(User user, int summ) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
+        UserTransaction userTransaction = new UserTransaction();
+        Transaction transaction;
+        try {
+            transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
+
+            logger.info("Find transaction by name {}", transaction.getName());
+            daoFactory.startTransaction(userTransactionDAO);
+
+            userTransaction.setTransaction(transaction);
+            userTransaction.setUser(user);
+            userTransaction.setSum(summ);
+            userTransaction.setTransactionDate(getDate());
+
+            userTransactionDAO.insert(userTransaction);
+            daoFactory.commitTransaction(userTransactionDAO);
+        } catch (DAOException e) {
             try {
-                UserTransactionDAO userTransactionDAO = daoFactory.createDAO(UserTransactionDAO.class);
-                Transaction transaction = transactionService.getTransactionByName(ADD_MONEY_TRANSACTION_NAME);
-
-                UserTransaction userTransaction = new UserTransaction();
-                daoFactory.startTransaction();
-                userTransaction.setTransaction(transaction);
-                userTransaction.setUser(user);
-                userTransaction.setSum(summ);
-                userTransaction.setTransactionDate(getDate());
-                userTransactionDAO.insert(userTransaction);
-
-                daoFactory.commitTransaction();
-            } catch (DAOException e) {
-                daoFactory.rollBack();
-                throw new ServiceException("Problem with dao factory", e);
+                daoFactory.rollBack(userTransactionDAO);
+            } catch (DAOException e1) {
+                throw new ServiceException("can't rollback transaction", e1);
             }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+            throw new ServiceException("can't add money", e);
         }
     }
 
@@ -83,4 +86,5 @@ public class UserTransactionService {
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         return sqlDate;
     }
+
 }

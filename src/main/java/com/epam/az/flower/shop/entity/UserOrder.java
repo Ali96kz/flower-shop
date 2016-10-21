@@ -3,11 +3,12 @@ package com.epam.az.flower.shop.entity;
 
 import java.sql.Date;
 
-public class UserOrder extends BaseEntity{
+public class UserOrder extends BaseEntity {
     private User user;
     private Product product;
     private Date orderDate;
-    public UserOrder(){
+
+    public UserOrder() {
     }
 
     public Date getOrderDate() {

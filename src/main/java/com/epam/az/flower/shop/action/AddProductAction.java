@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.entity.*;
+import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
@@ -11,15 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
-
-    public static final String JSP_PAGE_PRODUCT_INF = "product-inf?id=";
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    public static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
+    private static final String JSP_PAGE_PRODUCT_INF = "product-inf?productId=";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        ActionResult actionResult = validate(req, resp);
+        ActionResult actionResult = validate(req);
         if (actionResult != null) {
+            setValue(req);
+
             return actionResult;
         }
 
@@ -28,14 +29,14 @@ public class AddProductAction extends AbstractProduct {
         try {
             productId = productService.addNewProduct(product);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            throw new ActionException("can't add product to data", e);
         }
         return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
     }
 
-    public ActionResult validate(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+    public ActionResult validate(HttpServletRequest req) throws ActionException {
         Validator validator = new AddProductValidator();
-        List<String> errorMsg ;
+        List<String> errorMsg;
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {

@@ -1,20 +1,19 @@
 package com.epam.az.flower.shop.action;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class ActionFactory {
-    static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
 
 
     public void initActions() throws ActionException {
         actions = new HashMap<>();
-
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
         actions.put("POST/login", new LoginAction());
@@ -25,9 +24,12 @@ public class ActionFactory {
         actions.put("POST/edit-account", new EditUserAction());
 
         actions.put("GET/delete-account", new UserDeleteAccountAction());
+        actions.put("GET/delete-profile", new ShowPageAction("delete-profile"));
         actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/edit-account", new ShowUserEditPage());
-
+        actions.put("GET/set-language", new SelectLanguageAction());
+        actions.put("GET/about-project", new ShowPageAction("about-project"));
+        actions.put("GET/contact", new ShowPageAction("contact"));
         actions.put("GET/delete-product", new DeleteProductAction());
         actions.put("GET/add-product", new ShowAddProductPageAction());
         actions.put("GET/admin-registration", new ShowAdminRegisterNewPAge());

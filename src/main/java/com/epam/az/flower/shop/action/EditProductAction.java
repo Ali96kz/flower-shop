@@ -11,22 +11,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class EditProductAction extends AbstractProduct{
+public class EditProductAction extends AbstractProduct {
 
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    public static final String JSP_PAGE_NAME_EDIT_PRODUCT = "edit-product";
-    public static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
-    public static final String ATTRIBUTE_NAME_PRODUCT_ID = "?id=";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
+    private static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
+    private static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
+    private static final String PARAMETER_PRODUCT_ID = "productId";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            int productId = stringAdapter.toInt(req.getParameter(ATTRIBUTE_NAME_PRODUCT_ID));
+            ActionResult actionResult = validate(req);
+            if (actionResult != null) {
+                setValue(req);
+                setProduct(req);
+                return actionResult;
+            }
+
+            int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
             Flower flower = productService.findById(productId).getFlower();
             Product product = getProduct(req, new Product());
             product.getFlower().setId(flower.getId());
             product.setId(productId);
             productService.update(product);
+
             return new ActionResult(JSP_PAGE_NAME_PRODUCT + ATTRIBUTE_NAME_PRODUCT_ID + productId, true);
         } catch (ServiceException e) {
             throw new ActionException("can't get user by id", e);
@@ -40,6 +49,7 @@ public class EditProductAction extends AbstractProduct{
             errorMsg = validator.isValidate(req);
             if (errorMsg.size() > 0) {
                 req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+
                 return new ActionResult(JSP_PAGE_NAME_EDIT_PRODUCT);
             }
         } catch (ValidatorException e) {

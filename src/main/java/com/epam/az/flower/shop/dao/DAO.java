@@ -9,7 +9,8 @@ public interface DAO<E> {
 
     void update(E item) throws DAOException;
 
-    List<E> getAll();
+    List<E> getAll() throws DAOException;
+
     void delete(int id) throws DAOException;
 
     void delete(E item) throws DAOException;

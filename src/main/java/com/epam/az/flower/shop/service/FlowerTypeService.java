@@ -8,32 +8,30 @@ import com.epam.az.flower.shop.entity.FlowerType;
 import java.util.List;
 
 public class FlowerTypeService {
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private FlowerTypeDAO flowerTypeDAO = daoFactory.getDao(FlowerTypeDAO.class);
+
     public List<FlowerType> getAllFlowerType() throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                FlowerTypeDAO flowerTypeDAO = daoFactory.createDAO(FlowerTypeDAO.class);
-                List<FlowerType> flowerTypes = flowerTypeDAO.getAll();
-                return flowerTypes;
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        try {
+            daoFactory.startOperation(flowerTypeDAO);
+            List<FlowerType> flowerTypes = flowerTypeDAO.getAll();
+            return flowerTypes;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        } finally {
+            daoFactory.endOperation(flowerTypeDAO);
         }
     }
 
     public FlowerType findById(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            try {
-                FlowerTypeDAO flowerTypeDAO = daoFactory.createDAO(FlowerTypeDAO.class);
-                FlowerType flowerType = flowerTypeDAO.findById(id);
-                return flowerType;
-            } catch (DAOException e) {
-                throw new ServiceException("Problem with dao factory", e);
-            }
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        try {
+            daoFactory.startOperation(flowerTypeDAO);
+            FlowerType flowerType = flowerTypeDAO.findById(id);
+            return flowerType;
+        } catch (DAOException e) {
+            throw new ServiceException("can't get flower type from dao", e);
+        } finally {
+            daoFactory.endOperation(flowerTypeDAO);
         }
-
     }
 }

@@ -1,35 +1,32 @@
 package com.epam.az.flower.shop.action;
 
-import com.epam.az.flower.shop.service.ServiceException;
-import com.epam.az.flower.shop.service.UserRoleService;
-import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import com.epam.az.flower.shop.service.ServiceException;
+import com.epam.az.flower.shop.service.UserRoleService;
 import com.epam.az.flower.shop.util.Hasher;
+import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.validator.RegisterProfileValidator;
+import com.epam.az.flower.shop.validator.ValidatorException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public abstract class AddUser implements Action {
-    public static final String JSP_PAGE_NAME_REGISTRATION = "registration";
-    public static final String ATTRIBUTE_NAME_USER = "user";
-    private Hasher hasher = new Hasher();
+    private static final String ATTRIBUTE_NAME_USER = "user";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    private static final String PARAMETER_FIRST_NAME = "firstName";
+    private static final String PARAMETER_NICK_NAME = "nickName";
+    private static final String PARAMETER_LAST_NAME = "lastName";
+    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+    private static final String PARAMETER_PASSWORD = "password";
+    private static final String ROLE_CUSTOMER = "customer";
     protected StringAdapter stringAdapter = new StringAdapter();
     protected UserRoleService userRoleService = new UserRoleService();
-    protected UserService userService = new UserService();
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    public static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-
-    public static final String PARAMETER_FIRST_NAME = "firstName";
-    public static final String PARAMETER_NICK_NAME = "nickName";
-    public static final String PARAMETER_LAST_NAME = "lastName";
-    public static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    public static final String PARAMETER_PASSWORD = "password";
-    public static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    public static final String ROLE_CUSTOMER = "customer";
+    private Hasher hasher = new Hasher();
+    private RegisterProfileValidator validator = new RegisterProfileValidator();
 
     public User fillUser(HttpServletRequest request, User user) {
         user.setPassword(hasher.hash(request.getParameter(PARAMETER_PASSWORD)));
@@ -41,15 +38,6 @@ public abstract class AddUser implements Action {
         return user;
     }
 
-    public void registerUser(HttpServletRequest request, User user) throws ActionException {
-        fillUser(request, user);
-        try {
-            user = userService.registerUser(user);
-        } catch (ServiceException e) {
-            throw new ActionException("problem with service", e);
-        }
-        putInSession(user, request);
-    }
     public void setUserRole(User user, HttpServletRequest request) throws ActionException {
         try {
             UserRole userRole;
@@ -60,9 +48,14 @@ public abstract class AddUser implements Action {
         }
     }
 
-    public ActionResult validate(HttpServletRequest request) {
-        RegisterProfileValidator validator = new RegisterProfileValidator();
-        List<String> errorMsg = validator.isValidate(request);
+    public boolean validate(HttpServletRequest request) throws ActionException {
+
+        List<String> errorMsg;
+        try {
+            errorMsg = validator.isValidate(request);
+        } catch (ValidatorException e) {
+            throw new ActionException("can't validate", e);
+        }
 
         if (errorMsg.size() > 0) {
             String name = request.getParameter(PARAMETER_FIRST_NAME);
@@ -76,9 +69,9 @@ public abstract class AddUser implements Action {
 
             request.setAttribute(ATTRIBUTE_NAME_USER, user);
             request.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
-            return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
+            return false;
         }
-        return null;
+        return true;
     }
 
     public void putInSession(User user, HttpServletRequest request) {

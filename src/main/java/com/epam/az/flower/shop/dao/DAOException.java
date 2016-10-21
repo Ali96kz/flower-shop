@@ -1,16 +1,14 @@
 package com.epam.az.flower.shop.dao;
 
-import com.epam.az.flower.shop.entity.BaseEntity;
-
-import java.sql.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DAOException extends Exception {
-    public DAOException(String msg) {
-        super(msg);
-    }
+    private static Logger logger = LoggerFactory.getLogger(DAOException.class);
 
-    public <E extends BaseEntity> DAOException(String msg, Exception e){
+    public DAOException(String msg, Exception e) {
         super(msg, e);
+        logger.error(msg, e);
     }
 
 }

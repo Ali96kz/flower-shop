@@ -8,24 +8,30 @@ import com.epam.az.flower.shop.entity.Origin;
 import java.util.List;
 
 public class OriginService {
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+    private OriginDAO originDAO = daoFactory.getDao(OriginDAO.class);
+
 
     public List<Origin> getAll() throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            OriginDAO originDAO = daoFactory.createDAO(OriginDAO.class);
+        try {
+            daoFactory.startOperation(originDAO);
             List<Origin> origins = originDAO.getAll();
             return origins;
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        } catch (DAOException e) {
+            throw new ServiceException("can't execute ", e);
+        } finally {
+            daoFactory.endOperation(originDAO);
         }
     }
 
     public Origin findById(int id) throws ServiceException {
-        try (DAOFactory daoFactory = new DAOFactory()) {
-            OriginDAO originDAO = daoFactory.createDAO(OriginDAO.class);
+        try {
+            daoFactory.startOperation(originDAO);
             Origin origin = originDAO.findById(id);
+            daoFactory.endOperation(originDAO);
             return origin;
-        } catch (Exception e) {
-            throw new ServiceException("Can't find object by id", e);
+        } catch (DAOException e) {
+            throw new ServiceException("can't find origin by id", e);
         }
     }
 }

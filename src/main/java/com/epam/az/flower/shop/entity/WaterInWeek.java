@@ -1,8 +1,9 @@
 package com.epam.az.flower.shop.entity;
 
-public class WaterInWeek extends BaseEntity{
+public class WaterInWeek extends BaseEntity {
     private int min;
     private int max;
+
     public WaterInWeek() {
     }
 

@@ -16,14 +16,16 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class BuyBasketAction implements Action {
-    public static final String JSP_PAGE_NAME_BILL = "bill";
-    public static final String ATTRIBUTE_NAME_BASKET = "basket";
-    public static final String ATTRIBUTE_NAME_SUM = "sum";
-    public static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    public static final String JSP_PAGE_NAME_BASKET = "basket";
+    private static final String JSP_PAGE_NAME_BILL = "bill";
+    private static final String ATTRIBUTE_NAME_BASKET = "basket";
+    private static final String ATTRIBUTE_NAME_SUM = "sum";
+    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+    private static final String JSP_PAGE_NAME_BASKET = "basket";
+    private static final String ATTRIBUTE_ERROR_MSG = "errorMsg";
     private UserService userService = new UserService();
-    private OrderService orderService = new OrderService();
     private Validator validator = new BuyBasketValidator();
+
+    private OrderService orderService = new OrderService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -35,11 +37,12 @@ public class BuyBasketAction implements Action {
             throw new ActionException("problem with validation", e);
         }
         if (errorMsg.size() > 0) {
-            req.setAttribute("errorMsg", errorMsg);
+            req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 
         Basket basket = (Basket) session.getAttribute(ATTRIBUTE_NAME_BASKET);
+        System.out.println(basket);
         int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
         User user;
         try {

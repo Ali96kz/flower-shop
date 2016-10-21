@@ -6,9 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class StringAdapter {
-    public Date toSqlDate(String date){
-        if(date == null)
-            return null;
+    public Date toSqlDate(String date) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date sqlDate = null;
         try {
@@ -19,7 +17,8 @@ public class StringAdapter {
         }
         return sqlDate;
     }
-    public int toInt(String s){
+
+    public int toInt(String s) {
         return Integer.parseInt(s);
     }
 }

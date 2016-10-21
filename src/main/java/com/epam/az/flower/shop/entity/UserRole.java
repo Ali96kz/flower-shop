@@ -1,6 +1,6 @@
 package com.epam.az.flower.shop.entity;
 
-public class UserRole extends BaseEntity{
+public class UserRole extends BaseEntity {
     private String name;
 
     public String getName() {
