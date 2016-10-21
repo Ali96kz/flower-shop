@@ -14,7 +14,7 @@ import java.sql.Statement;
  * Execute sql statement
  */
 
-public class SQLExecutor<E extends BaseEntity> extends AbstractSQLManager {
+public class SQLExecutor<E extends BaseEntity> {
     private static Logger logger = LoggerFactory.getLogger(SQLExecutor.class);
 
     public ResultSet executeSqlQuery(String sql, Statement statement) throws DAOException {

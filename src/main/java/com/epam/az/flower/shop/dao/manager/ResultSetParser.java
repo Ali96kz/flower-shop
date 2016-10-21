@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ResultSetParser<E extends BaseEntity> extends AbstractSQLManager {
+public class ResultSetParser<E extends BaseEntity> {
 
     public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
         try {
@@ -47,7 +47,7 @@ public class ResultSetParser<E extends BaseEntity> extends AbstractSQLManager {
                 Field idField = BaseEntity.class.getDeclaredField("id");
                 idField.setAccessible(true);
                 E value = (E) fieldType.newInstance();
-                idField.set(value, resultSet.getInt(lowFirstLetter(fieldType.getSimpleName()) + "Id"));
+                idField.set(value, resultSet.getInt(Util.lowFirstLetter(fieldType.getSimpleName()) + "Id"));
                 return value;
             }
         } catch (SQLException | IllegalAccessException | InstantiationException | NoSuchFieldException e) {

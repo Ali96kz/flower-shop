@@ -7,10 +7,10 @@ import java.lang.reflect.Field;
 import java.sql.Date;
 
 /**
- * Create sql for statement or prepared statement.
+ *  SQLCreator create select sql, For insert, update or delete  create sql for prepared statement
  * @param <E>
  */
-public class SQLCreator<E extends BaseEntity> extends AbstractSQLManager {
+public class SQLCreator<E extends BaseEntity> {
 
     public static final String SQL_INSERT_INTO = "INSERT INTO ";
     public static final String VALUES = ")values(";
@@ -42,7 +42,7 @@ public class SQLCreator<E extends BaseEntity> extends AbstractSQLManager {
             String name = fields[i].getName();
 
             if (fieldSuperclass == BaseEntity.class) {
-                sql.append(lowFirstLetter(name) + "Id, ");
+                sql.append(Util.lowFirstLetter(name) + "Id, ");
             } else {
                 sql.append(name + ", ");
             }
@@ -84,7 +84,7 @@ public class SQLCreator<E extends BaseEntity> extends AbstractSQLManager {
 
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getType().getSuperclass() == BaseEntity.class) {
-                sql.append(lowFirstLetter(fields[i].getType().getSimpleName()) + "Id, ");
+                sql.append(Util.lowFirstLetter(fields[i].getType().getSimpleName()) + "Id, ");
             } else {
                 sql.append(clazz.getSimpleName() + "." + fields[i].getName() + ", ");
             }
@@ -118,7 +118,7 @@ public class SQLCreator<E extends BaseEntity> extends AbstractSQLManager {
                 }
             }
             deleteLastDot(sql);
-            sql.append(SQL_WHERE_ID + getObjectId(item) + ";");
+            sql.append(SQL_WHERE_ID + Util.getObjectId(item) + ";");
 
             return sql.toString();
         } catch (IllegalAccessException e) {

@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * fill prepared statement
  * @param <E>
  */
-public class PrepareStatementFiller<E extends BaseEntity> extends AbstractSQLManager {
+public class PrepareStatementFiller<E extends BaseEntity> {
 
     public void fillPrepareStatement(PreparedStatement preparedStatement, E object) throws DAOException {
         Field[] fields = object.getClass().getDeclaredFields();
@@ -30,7 +30,7 @@ public class PrepareStatementFiller<E extends BaseEntity> extends AbstractSQLMan
                 } else if (value instanceof Boolean) {
                     preparedStatement.setBoolean(i + 1, (Boolean) value);
                 } else if (value instanceof BaseEntity) {
-                    int id = getObjectId(value);
+                    int id = Util.getObjectId(value);
                     preparedStatement.setInt(i + 1, id);
                 }
             }
@@ -43,7 +43,7 @@ public class PrepareStatementFiller<E extends BaseEntity> extends AbstractSQLMan
 
     public PreparedStatement fillDeleteStatement(PreparedStatement preparedStatement) {
         try {
-            preparedStatement.setDate(1, getTodayDay());
+            preparedStatement.setDate(1, Util.getTodayDay());
             return preparedStatement;
         } catch (SQLException e) {
             throw new UnsupportedOperationException();

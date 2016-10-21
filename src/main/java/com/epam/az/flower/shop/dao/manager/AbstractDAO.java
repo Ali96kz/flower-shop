@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Create, and execute sql.
+ *
  */
 
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
@@ -53,7 +53,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             throw new DAOException("can't execute", e);
         }
     }
-
     @Override
     public E findById(int id) throws DAOException {
         try {
@@ -81,7 +80,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
             return generatedKey;
         } catch (SQLException e1) {
-            throw new DAOException("", e1);
+            throw new DAOException("can't execute", e1);
         }
     }
 
@@ -117,7 +116,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
-    protected Class<E> getGenericClass() throws DAOException {
+    private Class<E> getGenericClass() throws DAOException {
         if (genericClass == null) {
             Type mySuperClass = getClass().getGenericSuperclass();
             Type tType = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];
