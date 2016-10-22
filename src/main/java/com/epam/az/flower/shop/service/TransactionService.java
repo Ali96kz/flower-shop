@@ -8,11 +8,22 @@ import com.epam.az.flower.shop.entity.Transaction;
 public class TransactionService {
     private static final Class<TransactionDAO> TRANSACTION_DAO_CLASS = TransactionDAO.class;
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TransactionDAO transactionDAO = daoFactory.getDao(TRANSACTION_DAO_CLASS);
+    private TransactionDAO transactionDAO;
     private ProxyService proxyService = new ProxyService(TRANSACTION_DAO_CLASS);
+
+    public void initDao() throws ServiceException {
+        try {
+            if (transactionDAO == null) {
+                transactionDAO = daoFactory.getDao(TRANSACTION_DAO_CLASS);
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("can't get transaction Dao", e);
+        }
+    }
 
     public Transaction getTransactionByName(String name) throws ServiceException {
         try {
+            initDao();
             daoFactory.startOperation(transactionDAO);
             Transaction transaction = transactionDAO.getTransactionByName(name);
             return transaction;

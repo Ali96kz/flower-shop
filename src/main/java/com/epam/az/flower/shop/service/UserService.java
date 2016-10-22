@@ -11,12 +11,20 @@ import java.util.List;
 public class UserService {
     private static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
     private final String CUSTOMER_USER_ROLE = "customer";
-
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserDAO userDAO = daoFactory.getDao(USER_DAO_CLASS);
+    private UserDAO userDAO;
     private UserRoleService userRoleService = new UserRoleService();
     private UserTransactionService userTransactionService = new UserTransactionService();
     private ProxyService proxyService = new ProxyService(USER_DAO_CLASS);
+
+    public void init() throws ServiceException {
+        try {
+            if (userDAO == null)
+                userDAO = daoFactory.getDao(USER_DAO_CLASS);
+        } catch (DAOException e) {
+            throw new ServiceException("can't get dao class", e);
+        }
+    }
 
     public void addMoneyToBalance(User user, int sum) throws ServiceException {
         user.setBalance(user.getBalance() + sum);
@@ -26,6 +34,7 @@ public class UserService {
 
     public boolean isFree(String name) throws ServiceException {
         try {
+            init();
             daoFactory.startOperation(userDAO);
             Integer id = userDAO.findByCredentials(name);
             if (id == null || id == 0) {
@@ -78,6 +87,7 @@ public class UserService {
 
     public Integer getUserIdByCredentials(String nickName, String password) throws ServiceException {
         try {
+            init();
             daoFactory.startOperation(userDAO);
             Integer id = userDAO.findByCredentials(nickName, password);
             return id;

@@ -14,7 +14,15 @@ public class UserRoleService {
     private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private ProxyService proxyService = new ProxyService(USER_ROLE_DAO_CLASS);
-    private UserRoleDao userRoleDao = daoFactory.getDao(USER_ROLE_DAO_CLASS);
+    private UserRoleDao userRoleDao;
+
+    public void init() throws ServiceException {
+        try {
+            userRoleDao = daoFactory.getDao(USER_ROLE_DAO_CLASS);
+        } catch (DAOException e) {
+            throw new ServiceException("can't get dao class", e);
+        }
+    }
 
     public List<UserRole> getAll() throws ServiceException {
         return proxyService.getAll();
@@ -28,6 +36,7 @@ public class UserRoleService {
 
     public UserRole getUserRoleByName(String roleName) throws ServiceException {
         try {
+            init();
             daoFactory.startOperation(userRoleDao);
             UserRole userRole = userRoleDao.findUserRoleByName(roleName);
             return userRole;

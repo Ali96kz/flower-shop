@@ -30,8 +30,9 @@ public class BuyProductTest extends AbstractTest {
     private static final int TEST_USER_ID = 2;
     private static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
     private static final String JSP_PAGE_NAME_BILL = "bill";
-    private static final String TEST_PRODUCT_ID = "1";
+    private static final String TEST_PRODUCT_ID = "10";
     private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
+    public static final String PRODUCT_ID = "productId";
 
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();
@@ -72,7 +73,7 @@ public class BuyProductTest extends AbstractTest {
 
     @Test
     public void testWithIncorrectProductId() throws ServiceException, SQLException, DAOException, ActionException {
-        request.setParameter("productId", "45.6");
+        request.setParameter(PRODUCT_ID, "45.6");
         User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
         ActionResult actionResult = buyProductAction.execute(request, response);
         assertEquals(JSP_PAGE_NAME_VITRINE, actionResult.getView());
@@ -83,7 +84,7 @@ public class BuyProductTest extends AbstractTest {
 
     @Test
     public void testWithProductIdBelowZero() throws ServiceException, SQLException, DAOException, ActionException {
-        request.setParameter("productId", "-45");
+        request.setParameter(PRODUCT_ID, "-45");
         User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
         ActionResult actionResult = buyProductAction.execute(request, response);
         assertEquals(JSP_PAGE_NAME_VITRINE, actionResult.getView());
@@ -94,7 +95,7 @@ public class BuyProductTest extends AbstractTest {
 
     @Test
     public void testWithUnexistProduct() throws SQLException, DAOException, ActionException, ServiceException {
-        request.setParameter("productId", "1000");
+        request.setParameter(PRODUCT_ID, "1000");
         User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
 
         ActionResult actionResult = buyProductAction.execute(request, response);
