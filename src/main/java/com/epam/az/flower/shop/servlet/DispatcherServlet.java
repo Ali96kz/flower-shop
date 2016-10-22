@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet("/flower-shop/*")
 public class DispatcherServlet extends HttpServlet {
-    ActionFactory actionFactory;
+    private ActionFactory actionFactory;
 
     @Override
     public void init() throws ServletException {

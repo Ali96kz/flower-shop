@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator extends AbstractValidator {
+    public static final String SIGN_IN_ERROR_MSG = "You must sign in, to buy something in own shop";
+    public static final String UNEXIST_PRODUCT_ERROR = "This product don't exist in our vitrine";
+    public static final String HANVEN_T_ENOUGH_MONEY = "You haven't enough money";
     private static final String PARAMETER_USER_ID = "userId";
     private static final String PARAMETER_PRODUCT_ID = "productId";
     private UserService userService = new UserService();
@@ -25,7 +28,7 @@ public class BuyProductValidator extends AbstractValidator {
         HttpSession session = request.getSession();
 
         if (session.getAttribute(PARAMETER_USER_ID) == null) {
-            errorMsg.add("You must sign in, to buy something in own shop");
+            errorMsg.add(SIGN_IN_ERROR_MSG);
             return errorMsg;
         }
         try {
@@ -39,7 +42,7 @@ public class BuyProductValidator extends AbstractValidator {
 
 
             if (!productService.isExist(productId)) {
-                errorMsg.add("This product don't exist in our vitrine");
+                errorMsg.add(UNEXIST_PRODUCT_ERROR);
                 return errorMsg;
             }
 
@@ -47,7 +50,7 @@ public class BuyProductValidator extends AbstractValidator {
             Product product = productService.findById(productId);
 
             if (user.getBalance() < product.getPrice()) {
-                errorMsg.add("You haven't enough money");
+                errorMsg.add(HANVEN_T_ENOUGH_MONEY);
             }
 
         } catch (ServiceException e) {

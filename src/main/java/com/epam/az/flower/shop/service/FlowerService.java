@@ -23,7 +23,7 @@ public class FlowerService {
     }
 
     public void update(Flower flower) throws ServiceException {
-            proxyService.update(flower);
+        proxyService.update(flower);
     }
 
     public int insert(Flower flower) throws ServiceException {

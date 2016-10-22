@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.service;
 
-import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.VisualParametersDAO;
 import com.epam.az.flower.shop.entity.VisualParameters;
 import org.slf4j.Logger;
@@ -9,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class VisualParametersService {
-    public static final Class<VisualParametersDAO> VISUAL_PARAMETERS_DAO_CLASS = VisualParametersDAO.class;
+    private static final Class<VisualParametersDAO> VISUAL_PARAMETERS_DAO_CLASS = VisualParametersDAO.class;
     private static Logger logger = LoggerFactory.getLogger(VisualParametersService.class);
     private ProxyService proxyService = new ProxyService(VISUAL_PARAMETERS_DAO_CLASS);
 

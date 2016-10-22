@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.entity.Temperature;
 import java.util.List;
 
 public class TemperatureService {
-    public static final Class<TemperatureDAO> TEMPERATURE_DAO_CLASS = TemperatureDAO.class;
+    private static final Class<TemperatureDAO> TEMPERATURE_DAO_CLASS = TemperatureDAO.class;
     private ProxyService proxyService = new ProxyService(TEMPERATURE_DAO_CLASS);
 
     public Temperature findById(int id) throws ServiceException {

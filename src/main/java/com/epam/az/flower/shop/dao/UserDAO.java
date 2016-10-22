@@ -8,18 +8,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO extends CachedDAO<User> {
-    public static final String FIND_BY_NAME_SQL = "Select User.id, User.password from User where User.nickName = ?";
-    public static final String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
+    public static final Class<User> USER_CLASS = User.class;
+    private static final String FIND_BY_NAME_SQL = "Select User.id, User.password from User where User.nickName = ?";
+    private static final String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
             "User.nickName = ? and User.password = ?";
+    private static final String USER_ID = "User.id";
 
     public int findByCredentials(String name, String password) throws DAOException {
-        setGenericClass(User.class);
+        setGenericClass(USER_CLASS);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_AND_PASSWORD_SQL);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(FIND_BY_NAME_AND_PASSWORD_SQL);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, password);
 
-            ResultSet resultSet = sqlExecutor.executePreaparedSqlQuery(preparedStatement);
+            ResultSet resultSet = getSqlExecutor().executePreparedSqlQuery(preparedStatement);
             Integer id = 0;
             if (resultSet.next()) {
                 id = resultSet.getInt("User.id");
@@ -32,15 +34,15 @@ public class UserDAO extends CachedDAO<User> {
     }
 
     public Integer findByCredentials(String name) throws DAOException {
-        setGenericClass(User.class);
+        setGenericClass(USER_CLASS);
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_SQL);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(FIND_BY_NAME_SQL);
             preparedStatement.setString(1, name);
-            ResultSet resultSet = sqlExecutor.executePreaparedSqlQuery(preparedStatement);
+            ResultSet resultSet = getSqlExecutor().executePreparedSqlQuery(preparedStatement);
             Integer id = 0;
 
             if (resultSet.next()) {
-                id = resultSet.getInt("User.id");
+                id = resultSet.getInt(USER_ID);
             }
 
             return id;

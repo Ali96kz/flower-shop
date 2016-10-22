@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.dao.TransactionDAO;
 import com.epam.az.flower.shop.entity.Transaction;
 
 public class TransactionService {
-    public static final Class<TransactionDAO> TRANSACTION_DAO_CLASS = TransactionDAO.class;
+    private static final Class<TransactionDAO> TRANSACTION_DAO_CLASS = TransactionDAO.class;
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private TransactionDAO transactionDAO = daoFactory.getDao(TRANSACTION_DAO_CLASS);
     private ProxyService proxyService = new ProxyService(TRANSACTION_DAO_CLASS);

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class ProductService {
-    public static final Class<ProductDAO> PRODUCT_DAO_CLASS = ProductDAO.class;
+    private static final Class<ProductDAO> PRODUCT_DAO_CLASS = ProductDAO.class;
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();

@@ -55,7 +55,9 @@ public abstract class AbstractProduct implements Action {
         }
     }
 
-
+    /**
+     * fill product, information get from request
+     */
     public Product getProduct(HttpServletRequest req, Product product) {
         product.setOrigin(getOrigin(req, new Origin()));
         product.setFlower(getFlower(req, new Flower()));

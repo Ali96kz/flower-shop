@@ -9,14 +9,8 @@ import java.sql.SQLException;
 public class TransactionDAO extends CachedDAO<Transaction> {
     public Transaction getTransactionByName(String name) throws DAOException {
         String sql = "SELECT Transaction.id, Transaction.name FROM Transaction where name = '" + name + "';";
-        ResultSet resultSet;
         try {
-            resultSet = sqlExecutor.executeSqlQuery(sql, connection.createStatement());
-        } catch (SQLException e) {
-            throw new DAOException("can't create statement", e);
-        }
-
-        try {
+            ResultSet resultSet = getSqlExecutor().executeSqlQuery(sql, getConnection().createStatement());
             Transaction transaction = new Transaction();
             if (resultSet.next()) {
                 transaction.setId(resultSet.getInt("Transaction.id"));
@@ -24,7 +18,7 @@ public class TransactionDAO extends CachedDAO<Transaction> {
             }
             return transaction;
         } catch (SQLException e) {
-            throw new DAOException("", e);
+            throw new DAOException("can't get transaction by name", e);
         }
     }
 }

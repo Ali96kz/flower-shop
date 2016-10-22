@@ -6,8 +6,6 @@ import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.validator.AddMoneyValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +18,6 @@ public class AddMoneyAction implements Action {
     private static final String PARAMETER_NAME_MONEY = "money";
     private static final String ATTRIBUTE_NAME_USER = "user";
     private static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
-    private static final Logger logger = LoggerFactory.getLogger(AddMoneyAction.class);
     private UserService userService = new UserService();
 
     @Override
@@ -28,7 +25,7 @@ public class AddMoneyAction implements Action {
         try {
             HttpSession session = req.getSession();
             Validator validator = new AddMoneyValidator();
-            List<String>                 errorMsg = validator.isValidate(req);
+            List<String> errorMsg = validator.isValidate(req);
             int userId = (int) session.getAttribute(SESSION_PARAMETER_NAME_USER_ID);
 
             User user = userService.findById(userId);
@@ -41,7 +38,6 @@ public class AddMoneyAction implements Action {
 
             int money = Integer.parseInt(req.getParameter(PARAMETER_NAME_MONEY));
             userService.addMoneyToBalance(user, money);
-            logger.info("add money to user {}", user.getNickName());
             return new ActionResult(JSP_PAGE_NAME_CASH, true);
         } catch (ServiceException e) {
             throw new ActionException("can't get user from service", e);

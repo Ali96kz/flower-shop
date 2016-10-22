@@ -19,9 +19,11 @@ public class DeleteFromBasketValidator extends AbstractValidator {
         List<String> errorMsg = new ArrayList<>();
         String productId = request.getParameter(PRODUCT_ID);
         validatePositiveNumber(errorMsg, productId, ERROR_PRODUCT_NAME);
+
         if (errorMsg.size() > 0) {
             return errorMsg;
         }
+
         Basket basket = (Basket) request.getSession().getAttribute(ATTRIBUTE_NAME_BASKET);
         if ((basket.getProducts().size() - 1) < stringAdapter.toInt(productId)) {
             errorMsg.add("this product don't add in basket");

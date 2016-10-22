@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.entity.FlowerType;
 import java.util.List;
 
 public class FlowerTypeService {
-    public static final Class<FlowerTypeDAO> FLOWER_TYPE_DAO_CLASS = FlowerTypeDAO.class;
+    private static final Class<FlowerTypeDAO> FLOWER_TYPE_DAO_CLASS = FlowerTypeDAO.class;
     private ProxyService proxyService = new ProxyService(FLOWER_TYPE_DAO_CLASS);
 
     public List<FlowerType> getAllFlowerType() throws ServiceException {

@@ -6,7 +6,7 @@ import com.epam.az.flower.shop.entity.Origin;
 import java.util.List;
 
 public class OriginService {
-    public static final Class<OriginDAO> ORIGIN_DAO_CLASS = OriginDAO.class;
+    private static final Class<OriginDAO> ORIGIN_DAO_CLASS = OriginDAO.class;
     private ProxyService proxyService = new ProxyService(ORIGIN_DAO_CLASS);
 
     public List<Origin> getAll() throws ServiceException {

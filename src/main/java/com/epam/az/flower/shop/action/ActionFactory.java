@@ -55,6 +55,7 @@ public class ActionFactory {
     public Action getAction(HttpServletRequest request) throws ActionException {
         if (actions == null) {
             initActions();
+            log.info("all action class were initialized");
         }
         return actions.get(request.getMethod() + request.getPathInfo());
     }

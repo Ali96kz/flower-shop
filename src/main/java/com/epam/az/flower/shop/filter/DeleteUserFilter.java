@@ -13,6 +13,8 @@ import java.io.IOException;
 
 @WebFilter(filterName = "DeleteUserFilter", urlPatterns = "/flower-shop/*")
 public class DeleteUserFilter implements Filter {
+    public static final String SESSION_ATTRIBUTE_USER_ID = "userId";
+    public static final String URL_LOGIN = "login";
     private UserService userService = new UserService();
 
     @Override
@@ -33,13 +35,13 @@ public class DeleteUserFilter implements Filter {
         HttpSession session = servletRequest.getSession(false);
 
         if (session != null) {
-            Integer userId = (Integer) session.getAttribute("userId");
+            Integer userId = (Integer) session.getAttribute(SESSION_ATTRIBUTE_USER_ID);
             if (userId != null) {
 
                 try {
                     User user = userService.findById(userId);
                     if (user.getDeleteDay() != null) {
-                        response.sendRedirect("login");
+                        response.sendRedirect(URL_LOGIN);
                         return;
                     }
 

@@ -13,15 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
-    protected Connection connection;
-    protected SQLExecutor sqlExecutor = new SQLExecutor();
-    protected SQLCreator sqlCreator = new SQLCreator();
-    protected PrepareStatementFiller prepareStatementFiller = new PrepareStatementFiller();
-    protected ResultSetParser resultSetParser = new ResultSetParser();
+    private Connection connection;
+    private SQLExecutor sqlExecutor = new SQLExecutor();
+    private SQLCreator sqlCreator = new SQLCreator();
+    private PrepareStatementFiller prepareStatementFiller = new PrepareStatementFiller();
+    private ResultSetParser resultSetParser = new ResultSetParser();
     private Class genericClass;
     private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
-    /** This method don't delete information from DB,
+    /**
+     * This method don't delete information from DB,
      * just set deleted day
      */
     @Override
@@ -36,7 +37,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
-    /** This method don't delete information from DB,
+    /**
+     * This method don't delete information from DB,
      * just set deleted day
      */
     @Override
@@ -49,6 +51,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             throw new DAOException("can't execute", e);
         }
     }
+
     @Override
     public E findById(int id) throws DAOException {
         try {
@@ -65,6 +68,9 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
+    /**
+     * Insert into database.
+     */
     @Override
     public int insert(E e) throws DAOException {
         String insertSQL = sqlCreator.createPrepareInsertSQL(e.getClass());
@@ -136,5 +142,21 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public SQLExecutor getSqlExecutor() {
+        return sqlExecutor;
+    }
+
+    public SQLCreator getSqlCreator() {
+        return sqlCreator;
+    }
+
+    public PrepareStatementFiller getPrepareStatementFiller() {
+        return prepareStatementFiller;
+    }
+
+    public ResultSetParser getResultSetParser() {
+        return resultSetParser;
     }
 }

@@ -8,7 +8,7 @@ import com.epam.az.flower.shop.entity.WaterInWeek;
 import java.util.List;
 
 public class GrowingConditionService {
-    public static final Class<GrowingConditionDAO> GROWING_CONDITION_DAO_CLASS = GrowingConditionDAO.class;
+    private static final Class<GrowingConditionDAO> GROWING_CONDITION_DAO_CLASS = GrowingConditionDAO.class;
     private TemperatureService temperatureService = new TemperatureService();
     private WaterInWeekService waterInWeekService = new WaterInWeekService();
     private ProxyService proxyService = new ProxyService(GROWING_CONDITION_DAO_CLASS);

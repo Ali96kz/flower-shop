@@ -7,7 +7,8 @@ import java.lang.reflect.Field;
 import java.sql.Date;
 
 /**
- *  SQLCreator create select sql, For insert, update or delete  create sql for prepared statement
+ * SQLCreator create select sql, For insert, update or delete  create sql for prepared statement
+ *
  * @param <E>
  */
 public class SQLCreator<E extends BaseEntity> {
@@ -26,6 +27,7 @@ public class SQLCreator<E extends BaseEntity> {
 
     /**
      * create insert sql for prepared statement.
+     *
      * @param
      * @return prepare sql
      * @throws DAOException
@@ -65,6 +67,7 @@ public class SQLCreator<E extends BaseEntity> {
 
     /**
      * create sql for find by id.
+     *
      * @param genericClass
      * @param id
      * @return
@@ -96,6 +99,7 @@ public class SQLCreator<E extends BaseEntity> {
 
     /**
      * create update sql for prepared statement
+     *
      * @param item
      * @return
      * @throws DAOException

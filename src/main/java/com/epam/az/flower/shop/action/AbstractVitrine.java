@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractVitrine implements Action {
+    public static final String REQUEST_ATTRIBUTE_PRODUCTS = "products";
+    public static final String REQUEST_ATTRIBUTE_PAGE_LIST = "pageList";
     private static final String ATTRIBUTE_NAME_PRODUCTS = "products";
     private static final String PARAMETER_NAME_PAGE = "page";
     private final int PAGE_SIZE = 12;
@@ -28,11 +30,6 @@ public abstract class AbstractVitrine implements Action {
 
         try {
             paginatedList = new PaginatedList(PAGE_SIZE, productService.getAllNotDeleteProduct());
-        } catch (ServiceException e) {
-            throw new ActionException("can't get product from service", e);
-        }
-
-        try {
             List<String> erorrMsg = onlineVitrineValidator.isValidate(req);
 
             if (erorrMsg.size() > 0) {
@@ -43,15 +40,15 @@ public abstract class AbstractVitrine implements Action {
 
             String page = req.getParameter(PARAMETER_NAME_PAGE);
             pageNumber = stringAdapter.toInt(page);
-
-
             if (pageNumber > paginatedList.getPageNumber()) {
                 pageNumber = 0;
             }
 
-            req.setAttribute("products", paginatedList.getPage(pageNumber));
+            req.setAttribute(REQUEST_ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
         } catch (ValidatorException e) {
             throw new ActionException("can't validate", e);
+        } catch (ServiceException e) {
+            throw new ActionException("can't get all products", e);
         }
     }
 
@@ -67,7 +64,7 @@ public abstract class AbstractVitrine implements Action {
                 pageNumbers.add(i + 1);
             }
         }
-        req.setAttribute("pageList", pageNumbers);
+        req.setAttribute(REQUEST_ATTRIBUTE_PAGE_LIST, pageNumbers);
     }
 
 

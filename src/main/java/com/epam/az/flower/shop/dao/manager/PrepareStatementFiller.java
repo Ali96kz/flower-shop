@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 /**
  * fill prepared statement
+ *
  * @param <E>
  */
 public class PrepareStatementFiller<E extends BaseEntity> {

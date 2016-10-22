@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegisterProfileValidator extends AbstractValidator {
+    public static final String INCORRECT_DATE_ERROR_MSG = "You insert incorrect date Example: 1996-12-11";
+    public static final String DIFFERENT_PASSWORD_ERROR_MSG = "Confirm password has a different value";
+    public static final String BUSY_NICKNAME_ERROR_MSG = "This nickname is busy, please insert another nickname";
+    public static final String MATCH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
     private static final String PARAMETER_FIRST_NAME = "firstName";
     private static final String PARAMETER_NICK_NAME = "nickName";
     private static final String PARAMETER_LAST_NAME = "lastName";
@@ -45,18 +49,18 @@ public class RegisterProfileValidator extends AbstractValidator {
         try {
             boolean isFree = userService.isFree(nickName);
             if (!isFree) {
-                errorMsg.add("This nickname is busy, please insert another nickname");
+                errorMsg.add(BUSY_NICKNAME_ERROR_MSG);
             }
         } catch (ServiceException e) {
             throw new ValidatorException("can't validate nickname", e);
         }
 
         if (date == null) {
-            errorMsg.add("You insert incorrect date Example: 1996-12-11");
+            errorMsg.add(INCORRECT_DATE_ERROR_MSG);
             return errorMsg;
         }
-        if (!date.toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
-            errorMsg.add("You insert incorrect date Example: 1996-12-11");
+        if (!date.toString().matches(MATCH_DATE_REGEX)) {
+            errorMsg.add(INCORRECT_DATE_ERROR_MSG);
         }
 
         validateString(errorMsg, name, ATTRIBUTE_FIRST_NAME, FIRST_NAME_MIN_LENGTH, FIRST_NAME_MAX_LENGTH);
@@ -66,7 +70,7 @@ public class RegisterProfileValidator extends AbstractValidator {
         validateString(errorMsg, confirmPassword, ATTRIBUTE_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
 
         if (!password.equals(confirmPassword)) {
-            errorMsg.add("Confirm password has a different value");
+            errorMsg.add(DIFFERENT_PASSWORD_ERROR_MSG);
         }
 
         return errorMsg;

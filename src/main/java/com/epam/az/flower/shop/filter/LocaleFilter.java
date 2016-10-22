@@ -12,7 +12,7 @@ import java.util.Locale;
 @WebFilter(filterName = "LocaleFilter", urlPatterns = "/flower-shop/*")
 public class LocaleFilter implements Filter {
 
-    public static final String COOKIE_ATTRIBUTE_LANG = "lang";
+    public static final String COOKIE_ATTRIBUTE_LANGUAGE = "lang";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,7 +25,7 @@ public class LocaleFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(COOKIE_ATTRIBUTE_LANG)) {
+            if (cookie.getName().equals(COOKIE_ATTRIBUTE_LANGUAGE)) {
                 Locale locale = new Locale(cookie.getValue());
                 Config.set(req.getSession(), Config.FMT_LOCALE, locale);
             }

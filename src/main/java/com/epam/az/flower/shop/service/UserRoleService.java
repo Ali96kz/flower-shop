@@ -10,11 +10,12 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class UserRoleService {
-    public static final Class<UserRoleDao> USER_ROLE_DAO_CLASS = UserRoleDao.class;
+    private static final Class<UserRoleDao> USER_ROLE_DAO_CLASS = UserRoleDao.class;
     private static Logger logger = LoggerFactory.getLogger(UserRoleService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private ProxyService proxyService = new ProxyService(USER_ROLE_DAO_CLASS);
     private UserRoleDao userRoleDao = daoFactory.getDao(USER_ROLE_DAO_CLASS);
+
     public List<UserRole> getAll() throws ServiceException {
         return proxyService.getAll();
     }

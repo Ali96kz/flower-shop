@@ -15,6 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool implements DataSource {
+    public static final String DB_DRIVER = "driver";
+    public static final String DB_URL = "url";
+    public static final String DB_USERNAME = "username";
+    public static final String DB_PASSWORD = "password";
+    public static final String DB_CONNECTIONS_LIMIT = "connections.limit";
+    public static final String DB_CONNECTION_TIMEOUT = "connection.timeout";
+    public static final String DATABASE_PROPERTIES = "database.properties";
     private String driver;
     private String url;
     private String username;
@@ -28,18 +35,18 @@ public class ConnectionPool implements DataSource {
         PropertyManager propertyManager = new PropertyManager();
         Properties properties;
         try {
-            properties = propertyManager.readProperty("database.properties");
+            properties = propertyManager.readProperty(DATABASE_PROPERTIES);
         } catch (UtilClassException e) {
             throw new ConnectionPoolException("Could not load properties", e);
 
         }
         if (properties != null) {
-            this.driver = properties.getProperty("driver");
-            this.url = properties.getProperty("url");
-            this.username = properties.getProperty("username");
-            this.password = properties.getProperty("password");
-            this.connectionsLimit = Integer.parseInt(properties.getProperty("connections.limit"));
-            this.timeout = Integer.parseInt(properties.getProperty("connection.timeout"));
+            this.driver = properties.getProperty(DB_DRIVER);
+            this.url = properties.getProperty(DB_URL);
+            this.username = properties.getProperty(DB_USERNAME);
+            this.password = properties.getProperty(DB_PASSWORD);
+            this.connectionsLimit = Integer.parseInt(properties.getProperty(DB_CONNECTIONS_LIMIT));
+            this.timeout = Integer.parseInt(properties.getProperty(DB_CONNECTION_TIMEOUT));
         }
         initConnections();
     }

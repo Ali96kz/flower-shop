@@ -4,19 +4,18 @@ import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.manager.AbstractDAO;
 import com.epam.az.flower.shop.entity.BaseEntity;
-import com.epam.az.flower.shop.entity.Origin;
 
 import java.util.List;
 
-public class ProxyService <E extends AbstractDAO>{
+public class ProxyService<E extends AbstractDAO> {
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private Class <E> daoClass;
+    private Class<E> daoClass;
 
-    public ProxyService(Class <E> daoClass){
+    public ProxyService(Class<E> daoClass) {
         this.daoClass = daoClass;
     }
 
-    public BaseEntity findById(int id ) throws ServiceException {
+    public BaseEntity findById(int id) throws ServiceException {
         E abstractDAO = null;
         try {
             abstractDAO = daoFactory.getDao(daoClass);
@@ -25,12 +24,12 @@ public class ProxyService <E extends AbstractDAO>{
             return baseEntity;
         } catch (DAOException e) {
             throw new ServiceException("can't find by id", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(abstractDAO);
         }
     }
 
-    public int insert(BaseEntity baseEntity) throws ServiceException{
+    public int insert(BaseEntity baseEntity) throws ServiceException {
         E abstractDAO = null;
         try {
             abstractDAO = daoFactory.getDao(daoClass);
@@ -48,7 +47,7 @@ public class ProxyService <E extends AbstractDAO>{
         }
     }
 
-    public void update(BaseEntity entity) throws ServiceException{
+    public void update(BaseEntity entity) throws ServiceException {
         E abstractDAO = null;
         try {
             abstractDAO = daoFactory.getDao(daoClass);
@@ -66,13 +65,14 @@ public class ProxyService <E extends AbstractDAO>{
 
     }
 
-    public void delete (BaseEntity baseEntity) throws ServiceException {
+    public void delete(BaseEntity baseEntity) throws ServiceException {
         delete(baseEntity.getId());
     }
 
     public void delete(int id) throws ServiceException {
-        E abstracDao = daoFactory.getDao(daoClass);
+        E abstracDao = null;
         try {
+            abstracDao = daoFactory.getDao(daoClass);
             daoFactory.startTransaction(abstracDao);
             abstracDao.delete(id);
             daoFactory.commitTransaction(abstracDao);
@@ -86,15 +86,15 @@ public class ProxyService <E extends AbstractDAO>{
     }
 
     public List<BaseEntity> getAll() throws ServiceException {
-        E abstractDao = daoFactory.getDao(daoClass);
-
+        E abstractDao = null;
         try {
+            abstractDao = daoFactory.getDao(daoClass);
             daoFactory.startOperation(abstractDao);
             List<BaseEntity> baseEntities = abstractDao.getAll();
             return baseEntities;
         } catch (DAOException e) {
             throw new ServiceException("can't get all", e);
-        }finally {
+        } finally {
             daoFactory.endOperation(abstractDao);
         }
     }

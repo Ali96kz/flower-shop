@@ -5,14 +5,11 @@ import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    public static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
+    private static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
     private final String CUSTOMER_USER_ROLE = "customer";
 
     private DAOFactory daoFactory = DAOFactory.getInstance();

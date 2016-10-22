@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
-import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,7 @@ import java.sql.Statement;
  * Execute sql statement
  */
 
-public class SQLExecutor<E extends BaseEntity> {
+public class SQLExecutor {
     private static Logger logger = LoggerFactory.getLogger(SQLExecutor.class);
 
     public ResultSet executeSqlQuery(String sql, Statement statement) throws DAOException {
@@ -28,7 +27,7 @@ public class SQLExecutor<E extends BaseEntity> {
         }
     }
 
-    public ResultSet executePreaparedSqlQuery(PreparedStatement statement) throws DAOException {
+    public ResultSet executePreparedSqlQuery(PreparedStatement statement) throws DAOException {
         ResultSet resultSet;
         try {
             logger.info("prepared sql = {}", statement);

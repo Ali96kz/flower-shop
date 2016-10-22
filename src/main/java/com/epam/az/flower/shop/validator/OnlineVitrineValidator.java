@@ -11,7 +11,7 @@ public class OnlineVitrineValidator extends AbstractValidator {
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         String pageNumber = request.getParameter(PARAMETER_NAME_PAGE);
         List<String> errorMsg = new ArrayList<>();
-        validatePositiveNumber(errorMsg, pageNumber, "page");
+        validatePositiveNumber(errorMsg, pageNumber, PARAMETER_NAME_PAGE);
         return errorMsg;
     }
 }

@@ -17,6 +17,10 @@ import java.util.List;
 
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "/flower-shop/*")
 public class SecurityFilter implements Filter {
+    public static final String URL_LOGIN = "login";
+    public static final String USER_ROLE_ADMIN = "admin";
+    public static final String USER_ROLE_MANAGER = "manager";
+    public static final String USER_ROLE_CUSTOMER = "customer";
     Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
     private List<String> anonymousUserViews;
     private List<String> userViews;
@@ -101,7 +105,7 @@ public class SecurityFilter implements Filter {
         String contextPath = request.getPathInfo();
         if (userId == null) {
             if (!anonymousUserViews.contains(contextPath)) {
-                response.sendRedirect("login");
+                response.sendRedirect(URL_LOGIN);
                 return;
             }
             chain.doFilter(request, response);
@@ -133,11 +137,14 @@ public class SecurityFilter implements Filter {
     private List<String> getViewsForRole(UserRole role) {
         List<String> views;
         switch (role.getName()) {
-            case "admin":
+            case USER_ROLE_ADMIN:
                 views = adminViews;
                 break;
-            case "manager":
+            case USER_ROLE_MANAGER:
                 views = managerViews;
+                break;
+            case USER_ROLE_CUSTOMER:
+                views = userViews;
                 break;
             default:
                 views = userViews;
