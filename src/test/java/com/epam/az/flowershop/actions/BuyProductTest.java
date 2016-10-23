@@ -33,6 +33,7 @@ public class BuyProductTest extends AbstractTest {
     private static final String TEST_PRODUCT_ID = "10";
     private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
     public static final String PRODUCT_ID = "productId";
+    public static final String SESSION_ATTRIBUTE_USER_ID = "userId";
 
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();
@@ -44,8 +45,8 @@ public class BuyProductTest extends AbstractTest {
 
     @Before
     public void init() throws ServiceException, SQLException {
-        request.setParameter("productId", TEST_PRODUCT_ID);
-        session.setAttribute("userId", TEST_USER_ID);
+        request.setParameter(PRODUCT_ID, TEST_PRODUCT_ID);
+        session.setAttribute(SESSION_ATTRIBUTE_USER_ID, TEST_USER_ID);
         request.setHttpSession(session);
 
         Connection connection = connectionPool.getConnection();
@@ -55,7 +56,7 @@ public class BuyProductTest extends AbstractTest {
     }
 
 
-    @Test
+  @Test
     public void testWithNormalValue() throws ActionException, SQLException, DAOException, ServiceException {
         User beforeUpdateUser = getUncacheUserById(TEST_USER_ID);
 

@@ -15,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool implements DataSource {
-    public static final String DB_DRIVER = "driver";
-    public static final String DB_URL = "url";
-    public static final String DB_USERNAME = "username";
-    public static final String DB_PASSWORD = "password";
-    public static final String DB_CONNECTIONS_LIMIT = "connections.limit";
-    public static final String DB_CONNECTION_TIMEOUT = "connection.timeout";
-    public static final String DATABASE_PROPERTIES = "database.properties";
+    private static final String DB_DRIVER = "driver";
+    private static final String DB_URL = "url";
+    private static final String DB_USERNAME = "username";
+    private static final String DB_PASSWORD = "password";
+    private static final String DB_CONNECTIONS_LIMIT = "connections.limit";
+    private static final String DB_CONNECTION_TIMEOUT = "connection.timeout";
+    private static final String DATABASE_PROPERTIES = "database.properties";
     private String driver;
     private String url;
     private String username;

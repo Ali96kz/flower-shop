@@ -18,19 +18,20 @@ public class UserTransactionService {
     private static final Class<UserTransactionDAO> USER_TRANSACTION_DAO_CLASS = UserTransactionDAO.class;
     private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserTransactionDAO userTransactionDAO ;
+    private UserTransactionDAO userTransactionDAO;
     private TransactionService transactionService = new TransactionService();
     private ProxyService proxyService = new ProxyService(USER_TRANSACTION_DAO_CLASS);
 
     public void initDao() throws ServiceException {
         try {
-            if(userTransactionDAO == null)
+            if (userTransactionDAO == null)
                 userTransactionDAO = daoFactory.getDao(USER_TRANSACTION_DAO_CLASS);
         } catch (DAOException e) {
             throw new ServiceException("can't get user order dao class", e);
         }
 
     }
+
     public List<UserTransaction> getAll(int userId) throws ServiceException {
         List<UserTransaction> userTransactions;
         try {
