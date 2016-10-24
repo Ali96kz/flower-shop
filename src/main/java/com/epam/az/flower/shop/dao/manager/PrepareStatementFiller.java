@@ -2,6 +2,8 @@ package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.sql.Date;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
  * @param <E>
  */
 public class PrepareStatementFiller<E extends BaseEntity> {
+    private static final Logger logger = LoggerFactory.getLogger(CachedDAO.class);
     /**
      * fill preapare statement by object value
      * @param preparedStatement
@@ -41,8 +44,10 @@ public class PrepareStatementFiller<E extends BaseEntity> {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException("can't into prepared statement", e);
+            logger.error("can't fill prepared statement", e);
+            throw new DAOException("can't fill into prepared statement", e);
         } catch (IllegalAccessException e) {
+            logger.error("try to get access to private field", e);
             throw new DAOException("try to get access to private object", e);
         }
     }
@@ -52,12 +57,13 @@ public class PrepareStatementFiller<E extends BaseEntity> {
      * @param preparedStatement
      * @return fill prepared statement
      */
-    public PreparedStatement fillDeleteStatement(PreparedStatement preparedStatement) {
+    public PreparedStatement fillDeleteStatement(PreparedStatement preparedStatement) throws DAOException {
         try {
             preparedStatement.setDate(1, Util.getTodayDay());
             return preparedStatement;
         } catch (SQLException e) {
-            throw new UnsupportedOperationException();
+            logger.error("can't fill delete statement", e);
+            throw new DAOException("can't fill delete statement", e);
         }
     }
 }

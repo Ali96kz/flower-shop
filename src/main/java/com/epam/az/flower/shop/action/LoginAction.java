@@ -7,6 +7,8 @@ import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.validator.LogInValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,34 +19,40 @@ public class LoginAction implements Action {
     private Validator validator = new LogInValidator();
     private UserService userService = new UserService();
     private Hasher hasher = new Hasher();
+    private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
 
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            HttpSession session = req.getSession();
-
-            List<String> errorMsg = validator.isValidate(req);
-
-            if (errorMsg.size() > 0) {
-                req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
+            if(!isValidate(req)){
                 return new ActionResult(JSP_PAGE_NAME_LOGIN);
             }
 
+            HttpSession session = req.getSession();
             String nickName = req.getParameter(PARAMETER_NICK_NAME);
             String password = req.getParameter(PARAMETER_PASSWORD);
 
-            int userId;
-            userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
-
+            int userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
             session.setAttribute(SESSION_PARAMETER_USER_ID, userId);
+
             return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
-        } catch (ValidatorException e) {
-            throw new ActionException("problem with validating ", e);
         } catch (ServiceException e) {
+            logger.error("can't get user from data", e);
             throw new ActionException("can't get user from data", e);
         }
+    }
 
-
+    public boolean isValidate(HttpServletRequest req) throws ActionException {
+        try {
+            List<String> errorMsg = validator.isValidate(req);
+            if (errorMsg.size() > 0) {
+                req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
+                return false;
+            }
+            return true;
+        } catch (ValidatorException e) {
+            throw new ActionException("problem with validating ", e);
+        }
     }
 }

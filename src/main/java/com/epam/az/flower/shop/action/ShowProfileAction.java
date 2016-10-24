@@ -3,6 +3,8 @@ package com.epam.az.flower.shop.action;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 public class ShowProfileAction implements Action {
     private UserService userService = new UserService();
+    private static final Logger logger = LoggerFactory.getLogger(ShowProfileAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -20,6 +23,7 @@ public class ShowProfileAction implements Action {
         try {
             user = userService.findById(i);
         } catch (ServiceException e) {
+            logger.error("can't get user from service", e);
             throw new ActionException("can't get user from service", e);
         }
 

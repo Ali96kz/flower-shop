@@ -9,8 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ResultSetParser<E extends BaseEntity> {
-
-    public static final String DECLARED_FIELD_ID = "id";
+    private static final String DECLARED_FIELD_ID = "id";
 
     public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
         try {

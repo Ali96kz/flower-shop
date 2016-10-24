@@ -50,6 +50,7 @@ public class EditProductAction extends AbstractProduct {
             }
             return true;
         } catch (ValidatorException e) {
+            logger.error("can't validate object", e);
             throw new ActionException("problem with validator", e);
         }
     }

@@ -19,18 +19,15 @@ public class OrderService {
         userTransaction.setTransaction(transaction);
         userTransaction.setUser(user);
         userTransaction.setSum(product.getPrice());
-
         userTransaction.setTransactionDate(getDate());
         userTransactionService.insert(userTransaction);
-
         UserOrder userOrder = new UserOrder();
         userOrder.setUser(user);
         userOrder.setProduct(product);
         userOrder.setOrderDate(getDate());
+        user.setBalance(user.getBalance() - product.getPrice());
 
         proxyService.insert(userOrder);
-
-        user.setBalance(user.getBalance() - product.getPrice());
         userService.update(user);
     }
 

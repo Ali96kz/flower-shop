@@ -2,7 +2,8 @@ package com.epam.az.flower.shop.dao.manager;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     private Map<Integer, E> cache = new HashMap<>();
     private boolean getAll = false;
+    private static final Logger logger = LoggerFactory.getLogger(CachedDAO.class);
 
     @Override
     public E findById(int id) throws DAOException {
@@ -23,11 +25,13 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     }
 
     @Override
-    public void update(E item) {
+    public void update(E item) throws DAOException {
         try {
             super.update(item);
             cache.put(item.getId(), item);
         } catch (DAOException e) {
+            logger.error("can't update project", e);
+            throw new DAOException("can't update project", e);
         }
     }
 
@@ -37,6 +41,7 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
         try {
             id = super.insert(item);
         } catch (DAOException e) {
+            logger.error("can't insert object", e);
             throw new DAOException("can't insert", e);
         }
         cache.put(item.getId(), item);

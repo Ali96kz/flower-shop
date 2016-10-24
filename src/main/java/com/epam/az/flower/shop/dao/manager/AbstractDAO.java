@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.dao.manager;
 
+import com.epam.az.flower.shop.action.ShowCash;
 import com.epam.az.flower.shop.dao.DAO;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
@@ -38,6 +39,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             PreparedStatement preparedStatement = prepareStatementFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSql(preparedStatement);
         } catch (SQLException e) {
+            logger.error("can't create delete statement", e);
             throw new DAOException("can't create delete statement", e);
         }
     }
@@ -53,6 +55,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             PreparedStatement preparedStatement = prepareStatementFiller.fillDeleteStatement(connection.prepareStatement(sql));
             sqlExecutor.executeSqlWithGeneratedKeys(preparedStatement);
         } catch (SQLException e) {
+            logger.error("", e);
             throw new DAOException("can't execute", e);
         }
     }
@@ -113,6 +116,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             prepareStatementFiller.fillPrepareStatement(preparedStatement, item);
             sqlExecutor.executeSqlWithGeneratedKeys(preparedStatement);
         } catch (SQLException e) {
+            logger.error("can't execute update sql", e);
             throw new DAOException("can't execute update sql", e);
         }
     }
@@ -137,7 +141,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
             return resultList;
         } catch (SQLException | InstantiationException | IllegalAccessException e) {
-            throw new DAOException("can;t execute sql", e);
+            logger.error("can't execute sql", e);
+            throw new DAOException("can't execute sql", e);
         }
     }
 
@@ -149,6 +154,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
             try {
                 genericClass = Class.forName(className);
             } catch (ClassNotFoundException e) {
+                logger.error("can't get generic class", e);
                 throw new DAOException("can't get generic class", e);
             }
         }

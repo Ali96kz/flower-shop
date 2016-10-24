@@ -4,6 +4,8 @@ import com.epam.az.flower.shop.action.Action;
 import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.action.ActionFactory;
 import com.epam.az.flower.shop.action.ActionResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,7 @@ import java.io.IOException;
 @WebServlet("/flower-shop/*")
 public class DispatcherServlet extends HttpServlet {
     private ActionFactory actionFactory;
-
+    private static Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
     @Override
     public void init() throws ServletException {
         actionFactory = new ActionFactory();
@@ -27,20 +29,18 @@ public class DispatcherServlet extends HttpServlet {
         try {
             action = actionFactory.getAction(req);
         } catch (ActionException e) {
-        }
-        if (action == null) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
-            return;
+            logger.error("can't initialize action class", e);
         }
 
-        ActionResult result;
+
         try {
-            result = action.execute(req, resp);
+            ActionResult result = action.execute(req, resp);
+            doForwardOrRedirect(result, req, resp);
         } catch (Exception e) {
+            logger.error("can't execute action", e);
             throw new ServletException("Cannot execute action", e);
         }
 
-        doForwardOrRedirect(result, req, resp);
     }
 
     private void doForwardOrRedirect(ActionResult result, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

@@ -1,8 +1,11 @@
 package com.epam.az.flower.shop.filter;
 
+import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,9 +16,11 @@ import java.io.IOException;
 
 @WebFilter(filterName = "DeleteUserFilter", urlPatterns = "/flower-shop/*")
 public class DeleteUserFilter implements Filter {
-    public static final String SESSION_ATTRIBUTE_USER_ID = "userId";
-    public static final String URL_LOGIN = "login";
+
+    private static final String SESSION_ATTRIBUTE_USER_ID = "userId";
+    private static final String URL_LOGIN = "login";
     private UserService userService = new UserService();
+    private static final Logger logger = LoggerFactory.getLogger(DeleteUserFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,7 +32,7 @@ public class DeleteUserFilter implements Filter {
         try {
             doFilter((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse, filterChain);
         } catch (FilterException e) {
-            e.printStackTrace();
+            logger.error("can't filter", e);
         }
     }
 
@@ -37,15 +42,14 @@ public class DeleteUserFilter implements Filter {
         if (session != null) {
             Integer userId = (Integer) session.getAttribute(SESSION_ATTRIBUTE_USER_ID);
             if (userId != null) {
-
                 try {
                     User user = userService.findById(userId);
                     if (user.getDeleteDay() != null) {
                         response.sendRedirect(URL_LOGIN);
                         return;
                     }
-
                 } catch (ServiceException | IOException e) {
+                    logger.error("can't find user by id", e);
                     throw new FilterException("can't find user by id", e);
                 }
             }
