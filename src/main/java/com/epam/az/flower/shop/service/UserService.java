@@ -9,8 +9,8 @@ import com.epam.az.flower.shop.entity.UserRole;
 import java.util.List;
 
 public class UserService {
-    private static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
     private final String CUSTOMER_USER_ROLE = "customer";
+    private static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserDAO userDAO;
     private UserRoleService userRoleService = new UserRoleService();

@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
+    private  Validator validator = new AddProductValidator();
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        if (isValidate(req)) {
+        if (!isValidate(req)) {
             setValue(req);
             return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
         }
@@ -29,7 +31,6 @@ public class AddProductAction extends AbstractProduct {
     }
 
     public boolean isValidate(HttpServletRequest req) throws ActionException {
-        Validator validator = new AddProductValidator();
         List<String> errorMsg;
         try {
             errorMsg = validator.isValidate(req);

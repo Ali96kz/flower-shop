@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegisterProfileValidator extends AbstractValidator {
-    public static final String INCORRECT_DATE_ERROR_MSG = "You insert incorrect date Example: 1996-12-11";
-    public static final String DIFFERENT_PASSWORD_ERROR_MSG = "Confirm password has a different value";
-    public static final String BUSY_NICKNAME_ERROR_MSG = "This nickname is busy, please insert another nickname";
-    public static final String MATCH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
+      String INCORRECT_DATE_ERROR_MSG = "You insert incorrect date Example: 1996-12-11";
+      String DIFFERENT_PASSWORD_ERROR_MSG = "Confirm password has a different value";
+      String BUSY_NICKNAME_ERROR_MSG = "This nickname is busy, please insert another nickname";
+      String MATCH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
      String PARAMETER_FIRST_NAME = "firstName";
      String PARAMETER_NICK_NAME = "nickName";
      String PARAMETER_LAST_NAME = "lastName";

@@ -5,6 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface Action {
     int PAGE_SIZE = 12;
+
+    String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+    String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
+    String JSP_PAGE_NAME_PRODUCT = "product-inf";
+    String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
+
     String JSP_PAGE_NAME_CASH = "cash";
     String JSP_PAGE_NAME_BASKET = "basket";
     String JSP_PAGE_NAME_MANAGER = "manager";
@@ -20,9 +26,12 @@ public interface Action {
     String JSP_PAGE_NAME_PRODUCT_INF = "product-inf";
     String JSP_PAGE_NAME_PROFILE = "profile";
     String JSP_PAGE_NAME_TRANSACTION = "transaction";
-
     String JSP_PAGE_NAME_REGISTRATION = "registration";
+    String JSP_PAGE_NAME_EDIT_USER = "edit-user";
+
     String REQUEST_ATTRIBUTE_NAME_PRODUCT_ID = "productId";
+    String REQUEST_ATTRIBUTE_NAME_PRODUCT = "product";
+    String REQUEST_ATTRIBUTE_PAGE_LIST = "pageList";
     String PARAMETER_NAME_ORIGIN_ID = "originId";
     String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
     String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
@@ -34,18 +43,15 @@ public interface Action {
     String PARAMETER_NAME_ORIGINS = "origins";
     String PARAMETER_NAME_VISUAL_PARAMETERS = "visualParameters";
     String PARAMETER_NAME_GROWING_CONDITIONS = "growingConditions";
-    String REQUEST_ATTRIBUTE_NAME_PRODUCT = "product";
     String PARAMETER_NAME_FLOWER_TYPES = "flowerTypes";
     String PARAMETER_NAME_TEMPERATURES = "temperatures";
     String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
     String ATTRIBUTE_PRODUCTS = "products";
-    String REQUEST_ATTRIBUTE_PAGE_LIST = "pageList";
     String PARAMETER_NAME_PAGE = "page";
     String PARAMETER_USER_ID = "id";
     String ATTRIBUTE_NAME_SUM = "sum";
     String ATTRIBUTE_ERROR_MSG = "errorMsg";
     String ATTRIBUTE_NAME_PRICE = "price";
-    String JSP_PAGE_NAME_EDIT_USER = "edit-user";
     String PARAMETER_NICK_NAME = "nickName";
     String PARAMETER_PASSWORD = "password";
     String PARAMETER_NAME_MONEY = "money";

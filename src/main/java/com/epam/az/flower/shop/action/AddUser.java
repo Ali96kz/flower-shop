@@ -26,7 +26,6 @@ public abstract class AddUser implements Action {
         user.setLastName(request.getParameter(PARAMETER_LAST_NAME));
         user.setNickName(request.getParameter(PARAMETER_NICK_NAME));
         user.setDateBirthday(stringAdapter.toSqlDate(request.getParameter(PARAMETER_DATE_BIRTHDAY)));
-
         return user;
     }
 
@@ -40,7 +39,7 @@ public abstract class AddUser implements Action {
         }
     }
 
-    public boolean validate(HttpServletRequest request) throws ActionException {
+    public boolean isValidate(HttpServletRequest request) throws ActionException {
 
         List<String> errorMsg;
         try {

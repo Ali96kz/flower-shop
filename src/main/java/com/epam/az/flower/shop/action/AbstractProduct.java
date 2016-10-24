@@ -3,10 +3,14 @@ package com.epam.az.flower.shop.action;
 import com.epam.az.flower.shop.entity.*;
 import com.epam.az.flower.shop.service.*;
 import com.epam.az.flower.shop.util.StringAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
+    private static Logger logger = LoggerFactory.getLogger(AbstractProduct.class);
+
     protected ProductService productService = new ProductService();
     protected OriginService originService = new OriginService();
     protected VisualParametersService visualParametersService = new VisualParametersService();
@@ -15,16 +19,15 @@ public abstract class AbstractProduct implements Action {
     protected TemperatureService temperatureService = new TemperatureService();
     protected StringAdapter stringAdapter = new StringAdapter();
 
-
     public void setProduct(HttpServletRequest request) throws ActionException {
         try {
             int id = stringAdapter.toInt(request.getParameter(REQUEST_ATTRIBUTE_NAME_PRODUCT_ID));
             Product product = productService.findById(id);
             request.setAttribute(REQUEST_ATTRIBUTE_NAME_PRODUCT, product);
         } catch (ServiceException e) {
+            logger.error("get product from service", e);
             throw new ActionException("can't get product by id from service", e);
         }
-
     }
 
     public void setValue(HttpServletRequest req) throws ActionException {
@@ -35,7 +38,8 @@ public abstract class AbstractProduct implements Action {
             req.setAttribute(PARAMETER_NAME_GROWING_CONDITIONS, growingConditionService.getAllGrowingConditions());
             req.setAttribute(PARAMETER_NAME_TEMPERATURES, temperatureService.getAll());
         } catch (ServiceException e) {
-            throw new ActionException("can't initialize ", e);
+            logger.error("can't get entity from service", e);
+            throw new ActionException("can't get entity from service", e);
         }
     }
 
