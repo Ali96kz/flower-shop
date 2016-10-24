@@ -6,6 +6,8 @@ import com.epam.az.flower.shop.service.ProductService;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.StringAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator extends AbstractValidator {
+    private static Logger logger = LoggerFactory.getLogger(BuyProductValidator.class);
+
     private UserService userService = new UserService();
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();
@@ -49,6 +53,7 @@ public class BuyProductValidator extends AbstractValidator {
             }
 
         } catch (ServiceException e) {
+            logger.error("can't get entity from service class", e);
             throw new ValidatorException("can't get entity from service", e);
         }
 

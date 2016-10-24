@@ -8,7 +8,7 @@ public class ConnectionPoolException extends RuntimeException {
 
     public ConnectionPoolException(String message, Throwable cause) {
         super(message, cause);
-        logger.error(message,  cause);
+        logger.error(message, cause);
     }
 
 }

@@ -41,10 +41,10 @@ public abstract class AbstractVitrine implements Action {
             }
             req.setAttribute(ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
         } catch (ValidatorException e) {
-            logger.error("can't isValidate object",e);
+            logger.error("can't isValidate object", e);
             throw new ActionException("can't isValidate", e);
         } catch (ServiceException e) {
-            logger.error("can't isValidate object",e);
+            logger.error("can't isValidate object", e);
             throw new ActionException("can't get all products", e);
         }
     }

@@ -14,13 +14,13 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class DeleteProductFromBasket implements Action {
+    private static Logger logger = LoggerFactory.getLogger(DeleteProductFromBasket.class);
     private Validator validator = new DeleteFromBasketValidator();
     private StringAdapter stringAdapter = new StringAdapter();
-    private static Logger logger = LoggerFactory.getLogger(DeleteProductFromBasket.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        if(!isValidate(req)) {
+        if (!isValidate(req)) {
             return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 

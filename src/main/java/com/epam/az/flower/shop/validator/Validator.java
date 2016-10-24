@@ -38,10 +38,8 @@ public interface Validator {
     String PRODUCT_ID = "id";
     String ATTRIBUTE_NAME_BASKET = "basket";
     String ERROR_PRODUCT_NAME = "product id";
-    String PARAMETER_PASSWORD = "password";
     String NICK_NAME = "nick name";
     String PASSWORD_OR_NICK_NAME_INCORRECT = "password or nick name incorrect";
-    String PARAMETER_NICK_NAME = "nickName";
     String PARAMETER_NAME_PAGE = "page";
 
     int NICKNAME_MAX_LENGTH = 16;
@@ -52,6 +50,23 @@ public interface Validator {
     int DESCRIPTION_MAX_LENGTH = 144;
     int FLOWER_NAME_MIN_LENGTH = 4;
     int FLOWER_NAME_MAX_LENGTH = 16;
+
+
+    String INCORRECT_DATE_ERROR_MSG = "You insert incorrect date Example: 1996-12-11";
+    String DIFFERENT_PASSWORD_ERROR_MSG = "Confirm password has a different value";
+    String BUSY_NICKNAME_ERROR_MSG = "This nickname is busy, please insert another nickname";
+    String MATCH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
+    String PARAMETER_FIRST_NAME = "firstName";
+    String PARAMETER_NICK_NAME = "nickName";
+    String PARAMETER_LAST_NAME = "lastName";
+    String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+    String PARAMETER_PASSWORD = "password";
+    String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+    String ATTRIBUTE_FIRST_NAME = "first name";
+    String ATTRIBUTE_NAME_LAST_NAME = "last name";
+    String ATTRIBUTE_NAME_NICK_NAME = "nick name";
+    String ATTRIBUTE_NAME_CONFIRM_PASSWORD = "confirm password";
+    String ATTRIBUTE_NAME_PASSWORD = "password";
 
     List<String> isValidate(HttpServletRequest request) throws ValidatorException;
 

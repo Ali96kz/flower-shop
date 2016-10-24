@@ -10,12 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO extends CachedDAO<User> {
-    private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
     public static final Class<User> USER_CLASS = User.class;
-    String FIND_BY_NAME_SQL = "Select User.id, User.password from User where User.nickName = ?";
-    String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
+    private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
+    private static final String FIND_BY_NAME_SQL = "Select User.id, User.password from User where User.nickName = ?";
+    private static final String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
             "User.nickName = ? and User.password = ?";
-    String USER_ID = "User.id";
+    private static final String USER_ID = "User.id";
 
     public int findByCredentials(String name, String password) throws DAOException {
         setGenericClass(USER_CLASS);
@@ -51,7 +51,7 @@ public class UserDAO extends CachedDAO<User> {
 
             return id;
         } catch (SQLException e) {
-            logger.error("can't create prepared statement",e);
+            logger.error("can't create prepared statement", e);
             throw new DAOException("can't create prepare statement", e);
         }
     }

@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminDeleteUserAction implements Action {
+    private static Logger logger = LoggerFactory.getLogger(AdminDeleteUserAction.class);
     private UserService userService = new UserService();
     private StringAdapter stringAdapter = new StringAdapter();
-    private static Logger logger = LoggerFactory.getLogger(AdminDeleteUserAction.class);
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {

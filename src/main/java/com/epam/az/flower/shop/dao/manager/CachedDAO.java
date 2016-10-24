@@ -4,15 +4,16 @@ import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
+    private static final Logger logger = LoggerFactory.getLogger(CachedDAO.class);
     private Map<Integer, E> cache = new HashMap<>();
     private boolean getAll = false;
-    private static final Logger logger = LoggerFactory.getLogger(CachedDAO.class);
 
     @Override
     public E findById(int id) throws DAOException {

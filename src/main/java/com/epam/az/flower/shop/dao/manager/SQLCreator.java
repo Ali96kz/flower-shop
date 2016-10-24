@@ -10,7 +10,8 @@ import java.sql.Date;
 
 /**
  * SQLCreator create select sql, For insert, update or delete  create sql for prepared statement
- *  For example: insert into Origin(province, country)values(?, ?)
+ * For example: insert into Origin(province, country)values(?, ?)
+ *
  * @param <E>
  */
 public class SQLCreator<E extends BaseEntity> {
@@ -31,7 +32,7 @@ public class SQLCreator<E extends BaseEntity> {
     /**
      * create insert sql for prepared statement.
      *
-     * @param  entityClass class of entity which you want insert into data
+     * @param entityClass class of entity which you want insert into data
      * @return prepare sql
      * @throws DAOException
      */
@@ -135,7 +136,8 @@ public class SQLCreator<E extends BaseEntity> {
     }
 
     /**
-     *  Don't create delete sql. just mark row as deleted
+     * Don't create delete sql. just mark row as deleted
+     *
      * @param item
      * @return sql
      */
@@ -157,7 +159,6 @@ public class SQLCreator<E extends BaseEntity> {
     }
 
     /**
-     *
      * @param entityClass
      * @return sql for get all row from data
      */

@@ -3,6 +3,9 @@ package com.epam.az.flower.shop.validator;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.StringAdapter;
+import com.epam.az.flower.shop.util.UtilClassException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -10,32 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegisterProfileValidator extends AbstractValidator {
-      String INCORRECT_DATE_ERROR_MSG = "You insert incorrect date Example: 1996-12-11";
-      String DIFFERENT_PASSWORD_ERROR_MSG = "Confirm password has a different value";
-      String BUSY_NICKNAME_ERROR_MSG = "This nickname is busy, please insert another nickname";
-      String MATCH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
-     String PARAMETER_FIRST_NAME = "firstName";
-     String PARAMETER_NICK_NAME = "nickName";
-     String PARAMETER_LAST_NAME = "lastName";
-     String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-     String PARAMETER_PASSWORD = "password";
-     String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-     String ATTRIBUTE_FIRST_NAME = "first name";
-     String ATTRIBUTE_NAME_LAST_NAME = "last name";
-     String ATTRIBUTE_NAME_NICK_NAME = "nick name";
-     String ATTRIBUTE_NAME_CONFIRM_PASSWORD = "confirm password";
-     String ATTRIBUTE_NAME_PASSWORD = "password";
-     int NICKNAME_MAX_LENGTH = 16;
-     int NICKNAME_MIN_LENGTH = 3;
-     int PASSWORD_MIN_LENGTH = 6;
-     int PASSWORD_MAX_LENGTH = 12;
-     int LAST_NAME_MAX_LENGTH = 16;
-     int LAST_NAME_MIN_LENGTH = 3;
-     int FIRST_NAME_MAX_LENGTH = 16;
-     int FIRST_NAME_MIN_LENGTH = 3;
+
+    private static final int NICKNAME_MAX_LENGTH = 16;
+    private static final int NICKNAME_MIN_LENGTH = 3;
+    private static final int PASSWORD_MIN_LENGTH = 6;
+    private static final int PASSWORD_MAX_LENGTH = 12;
+    private static final int LAST_NAME_MAX_LENGTH = 16;
+    private static final int LAST_NAME_MIN_LENGTH = 3;
+    private static final int FIRST_NAME_MAX_LENGTH = 16;
+    private static final int FIRST_NAME_MIN_LENGTH = 3;
+    private static Logger logger = LoggerFactory.getLogger(RegisterProfileValidator.class);
     private UserService userService = new UserService();
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
+        Date date;
         List<String> errorMsg = new ArrayList<>();
         StringAdapter stringAdapter = new StringAdapter();
 
@@ -44,7 +35,12 @@ public class RegisterProfileValidator extends AbstractValidator {
         String lastName = request.getParameter(PARAMETER_LAST_NAME);
         String password = request.getParameter(PARAMETER_PASSWORD);
         String confirmPassword = request.getParameter(PARAMETER_CONFIRM_PASSWORD);
-        Date date = stringAdapter.toSqlDate(request.getParameter(PARAMETER_DATE_BIRTHDAY));
+        try {
+            date = stringAdapter.toSqlDate(request.getParameter(PARAMETER_DATE_BIRTHDAY));
+        } catch (UtilClassException e) {
+            logger.error("can't parse date", e);
+            throw new ValidatorException("can't parse date", e);
+        }
 
         try {
             boolean isFree = userService.isFree(nickName);
@@ -52,6 +48,7 @@ public class RegisterProfileValidator extends AbstractValidator {
                 errorMsg.add(BUSY_NICKNAME_ERROR_MSG);
             }
         } catch (ServiceException e) {
+            logger.error("can't validate object", e);
             throw new ValidatorException("can't isValidate nickname", e);
         }
 

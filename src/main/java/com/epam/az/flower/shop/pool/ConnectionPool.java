@@ -2,6 +2,8 @@ package com.epam.az.flower.shop.pool;
 
 import com.epam.az.flower.shop.util.PropertyManager;
 import com.epam.az.flower.shop.util.UtilClassException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -15,15 +17,15 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool implements DataSource {
-     String DB_DRIVER = "driver";
-     String DB_URL = "url";
-     String DB_USERNAME = "username";
-     String DB_PASSWORD = "password";
-     String DB_CONNECTIONS_LIMIT = "connections.limit";
-     String DB_CONNECTION_TIMEOUT = "connection.timeout";
-     String DATABASE_PROPERTIES = "database.properties";
-
-    public static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION = new UnsupportedOperationException("Unsupported operation");
+    private static final String DB_DRIVER = "driver";
+    private static final String DB_URL = "url";
+    private static final String DB_USERNAME = "username";
+    private static final String DB_PASSWORD = "password";
+    private static final String DB_CONNECTIONS_LIMIT = "connections.limit";
+    private static final String DB_CONNECTION_TIMEOUT = "connection.timeout";
+    private static final String DATABASE_PROPERTIES = "database.properties";
+    private static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION = new UnsupportedOperationException("Unsupported operation");
+    private static Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     private String driver;
     private String url;
     private String username;
@@ -68,7 +70,8 @@ public class ConnectionPool implements DataSource {
                 freeConnections.add((PooledConnection) connection);
             }
         } catch (ClassNotFoundException | ConnectionPoolException e) {
-            e.printStackTrace();
+            logger.error("can't create connection", e);
+            throw new ConnectionPoolException("can't create connections", e);
         }
     }
 
@@ -82,6 +85,7 @@ public class ConnectionPool implements DataSource {
             try {
                 connection.getConnection().close();
             } catch (SQLException e) {
+                logger.error("can't close operation", e);
                 throw new ConnectionPoolException("Could not close connection", e);
             }
         }
@@ -93,6 +97,7 @@ public class ConnectionPool implements DataSource {
             Connection connection = DriverManager.getConnection(url, username, password);
             pooledConnection = new PooledConnection(connection);
         } catch (SQLException e) {
+            logger.error("can't get connection ", e);
             throw new ConnectionPoolException("Could not get PooledConnection" + e.getMessage(), e);
         }
         return pooledConnection;
@@ -106,11 +111,13 @@ public class ConnectionPool implements DataSource {
                 usedConnections = new ArrayBlockingQueue<>(connectionsLimit);
 
             connection = freeConnections.poll(timeout, TimeUnit.SECONDS);
-            if (connection == null)
+            if (connection == null) {
+                logger.error("can't find free connection");
                 throw new SQLException("No free connection in pool");
-
+            }
             usedConnections.put(connection);
         } catch (InterruptedException e) {
+            logger.error("can't get connection", e);
             throw new SQLException("Could not get connection", e);
         }
         return connection;
@@ -360,7 +367,8 @@ public class ConnectionPool implements DataSource {
             try {
                 return connection.createBlob();
             } catch (SQLException e) {
-                throw new ConnectionPoolException("", e);
+                logger.error("can't create blob", e);
+                throw new ConnectionPoolException("can't create blob", e);
             }
         }
 
@@ -369,7 +377,8 @@ public class ConnectionPool implements DataSource {
             try {
                 return connection.createNClob();
             } catch (SQLException e) {
-                throw new ConnectionPoolException("", e);
+                logger.error("can't create nClob", e);
+                throw new ConnectionPoolException("can't create nClob", e);
             }
         }
 

@@ -3,6 +3,8 @@ package com.epam.az.flower.shop.validator;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.Hasher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class LogInValidator extends AbstractValidator {
 
+    private static Logger logger = LoggerFactory.getLogger(LogInValidator.class);
     private Hasher hasher = new Hasher();
 
     @Override
@@ -36,6 +39,7 @@ public class LogInValidator extends AbstractValidator {
                 errorMsg.add(PASSWORD_OR_NICK_NAME_INCORRECT);
             }
         } catch (ServiceException e) {
+            logger.error("can't get user by id", e);
             throw new ValidatorException("can't get user by id", e);
         }
         return errorMsg;

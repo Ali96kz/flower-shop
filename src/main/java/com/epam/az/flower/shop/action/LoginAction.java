@@ -16,16 +16,15 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginAction implements Action {
+    private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
     private Validator validator = new LogInValidator();
     private UserService userService = new UserService();
     private Hasher hasher = new Hasher();
-    private static final Logger logger = LoggerFactory.getLogger(LoginAction.class);
-
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            if(!isValidate(req)){
+            if (!isValidate(req)) {
                 return new ActionResult(JSP_PAGE_NAME_LOGIN);
             }
 

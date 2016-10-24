@@ -27,6 +27,7 @@ public class UserTransactionService {
             if (userTransactionDAO == null)
                 userTransactionDAO = daoFactory.getDao(USER_TRANSACTION_DAO_CLASS);
         } catch (DAOException e) {
+            logger.error("can't get user order dao class", e);
             throw new ServiceException("can't get user order dao class", e);
         }
 
@@ -43,6 +44,7 @@ public class UserTransactionService {
                 userTransaction.setTransaction(transaction);
             }
         } catch (DAOException e) {
+            logger.error("can't get all user transaction", e);
             throw new ServiceException("Can't get all user transactions", e);
         } finally {
             daoFactory.endOperation(userTransactionDAO);

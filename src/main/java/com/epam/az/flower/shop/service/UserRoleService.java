@@ -20,6 +20,7 @@ public class UserRoleService {
         try {
             userRoleDao = daoFactory.getDao(USER_ROLE_DAO_CLASS);
         } catch (DAOException e) {
+            logger.error("can't initailize user role dao ", e);
             throw new ServiceException("can't get dao class", e);
         }
     }
@@ -41,7 +42,8 @@ public class UserRoleService {
             UserRole userRole = userRoleDao.findUserRoleByName(roleName);
             return userRole;
         } catch (DAOException e) {
-            throw new ServiceException("can't commit transaction", e);
+            logger.error("can't get user role", e);
+            throw new ServiceException("can't get user role", e);
         } finally {
             daoFactory.endOperation(userRoleDao);
         }

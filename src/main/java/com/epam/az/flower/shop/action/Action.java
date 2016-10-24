@@ -10,6 +10,7 @@ public interface Action {
     String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
     String JSP_PAGE_NAME_PRODUCT = "product-inf";
     String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
+    String ATTRIBUTE_NAME_USERS = "users";
 
     String JSP_PAGE_NAME_CASH = "cash";
     String JSP_PAGE_NAME_BASKET = "basket";

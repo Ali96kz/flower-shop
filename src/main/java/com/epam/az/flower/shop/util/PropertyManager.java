@@ -9,6 +9,7 @@ import java.util.Properties;
 
 public class PropertyManager {
     private static Logger logger = LoggerFactory.getLogger(PropertyManager.class);
+
     public Properties readProperty(String fileName) throws UtilClassException {
         Properties properties = new Properties();
         try (InputStream in = PropertyManager.class.getClassLoader().getResourceAsStream(fileName)) {

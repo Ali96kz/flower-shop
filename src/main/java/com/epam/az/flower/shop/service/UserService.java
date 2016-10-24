@@ -5,23 +5,27 @@ import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.entity.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class UserService {
-    private final String CUSTOMER_USER_ROLE = "customer";
     private static final Class<UserDAO> USER_DAO_CLASS = UserDAO.class;
+    private final String CUSTOMER_USER_ROLE = "customer";
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserDAO userDAO;
     private UserRoleService userRoleService = new UserRoleService();
     private UserTransactionService userTransactionService = new UserTransactionService();
     private ProxyService proxyService = new ProxyService(USER_DAO_CLASS);
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public void init() throws ServiceException {
         try {
             if (userDAO == null)
                 userDAO = daoFactory.getDao(USER_DAO_CLASS);
         } catch (DAOException e) {
+            logger.error("can't initialize dao class", e);
             throw new ServiceException("can't get dao class", e);
         }
     }
@@ -43,6 +47,7 @@ public class UserService {
 
             return false;
         } catch (DAOException e) {
+            logger.error("can't check user ", e);
             throw new ServiceException("can't execute", e);
         } finally {
             daoFactory.endOperation(userDAO);
@@ -92,6 +97,7 @@ public class UserService {
             Integer id = userDAO.findByCredentials(nickName, password);
             return id;
         } catch (DAOException e) {
+            logger.error("can't find object by id", e);
             throw new ServiceException("can't find user by credentials", e);
         } finally {
             daoFactory.endOperation(userDAO);

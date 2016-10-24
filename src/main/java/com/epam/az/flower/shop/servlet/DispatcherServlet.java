@@ -16,8 +16,9 @@ import java.io.IOException;
 
 @WebServlet("/flower-shop/*")
 public class DispatcherServlet extends HttpServlet {
-    private ActionFactory actionFactory;
     private static Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
+    private ActionFactory actionFactory;
+
     @Override
     public void init() throws ServletException {
         actionFactory = new ActionFactory();

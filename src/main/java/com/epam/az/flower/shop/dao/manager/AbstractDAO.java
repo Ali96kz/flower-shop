@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.dao.manager;
 
-import com.epam.az.flower.shop.action.ShowCash;
 import com.epam.az.flower.shop.dao.DAO;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.entity.BaseEntity;
@@ -14,8 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *   Execute CRUD operation for entity
- *   SqlCreator create sql for query, then
+ * Execute CRUD operation for entity
+ * SqlCreator create sql for query, then
+ *
  * @param <E> entity
  */
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
@@ -60,7 +60,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
-    /**Find object from data by id
+    /**
+     * Find object from data by id
      *
      * @param id
      * @return
@@ -84,6 +85,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     /**
      * Insert into database.
+     *
      * @return generated keys from database
      * @throws DAOException
      */
@@ -104,6 +106,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     /**
      * update object
+     *
      * @param item
      * @throws DAOException
      */
@@ -123,6 +126,7 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     /**
      * Get all rows from database
+     *
      * @return list<E> of all rows from data
      * @throws DAOException
      */

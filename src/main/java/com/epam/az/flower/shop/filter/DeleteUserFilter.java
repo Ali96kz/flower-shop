@@ -1,6 +1,5 @@
 package com.epam.az.flower.shop.filter;
 
-import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
@@ -19,8 +18,8 @@ public class DeleteUserFilter implements Filter {
 
     private static final String SESSION_ATTRIBUTE_USER_ID = "userId";
     private static final String URL_LOGIN = "login";
-    private UserService userService = new UserService();
     private static final Logger logger = LoggerFactory.getLogger(DeleteUserFilter.class);
+    private UserService userService = new UserService();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

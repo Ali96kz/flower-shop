@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowProductPage implements Action {
+    private static final Logger logger = LoggerFactory.getLogger(ShowProductPage.class);
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();
-    private static final Logger logger = LoggerFactory.getLogger(ShowProductPage.class);
-
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {

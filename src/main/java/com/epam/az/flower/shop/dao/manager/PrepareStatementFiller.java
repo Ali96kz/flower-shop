@@ -17,8 +17,10 @@ import java.sql.SQLException;
  */
 public class PrepareStatementFiller<E extends BaseEntity> {
     private static final Logger logger = LoggerFactory.getLogger(CachedDAO.class);
+
     /**
      * fill preapare statement by object value
+     *
      * @param preparedStatement
      * @param object
      * @throws DAOException
@@ -53,7 +55,6 @@ public class PrepareStatementFiller<E extends BaseEntity> {
     }
 
     /**
-     *
      * @param preparedStatement
      * @return fill prepared statement
      */

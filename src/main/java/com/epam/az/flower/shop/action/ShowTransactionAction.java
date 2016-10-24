@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ShowTransactionAction implements Action {
-    private UserTransactionService userTransactionService = new UserTransactionService();
     private static final Logger logger = LoggerFactory.getLogger(ShowTransactionAction.class);
+    private UserTransactionService userTransactionService = new UserTransactionService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

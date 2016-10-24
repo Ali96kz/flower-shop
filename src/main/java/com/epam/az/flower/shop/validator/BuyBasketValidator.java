@@ -4,6 +4,8 @@ import com.epam.az.flower.shop.entity.Basket;
 import com.epam.az.flower.shop.entity.User;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyBasketValidator implements Validator {
+    private static Logger logger = LoggerFactory.getLogger(BuyBasketValidator.class);
     private UserService userService = new UserService();
 
 
@@ -40,6 +43,7 @@ public class BuyBasketValidator implements Validator {
         try {
             user = userService.findById(userId);
         } catch (ServiceException e) {
+            logger.error("can't get user by id", e);
             throw new ValidatorException("can;t get user by id from dao", e);
         }
 

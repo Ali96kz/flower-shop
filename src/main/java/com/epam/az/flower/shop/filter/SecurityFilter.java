@@ -21,7 +21,7 @@ public class SecurityFilter implements Filter {
     public static final String USER_ROLE_ADMIN = "admin";
     public static final String USER_ROLE_MANAGER = "manager";
     public static final String USER_ROLE_CUSTOMER = "customer";
-    Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
     private List<String> anonymousUserViews;
     private List<String> userViews;
     private List<String> managerViews;
@@ -96,7 +96,7 @@ public class SecurityFilter implements Filter {
         try {
             doFilter(req, resp, chain);
         } catch (FilterException e) {
-            logger.trace("can't ", e);
+            logger.trace("can't filter request", e);
         }
     }
 
@@ -117,6 +117,7 @@ public class SecurityFilter implements Filter {
             UserService userService = new UserService();
             user = userService.findById(userId);
         } catch (ServiceException e) {
+            logger.error("can't find user role by id", e);
             throw new FilterException("can't get user by id", e);
         }
 

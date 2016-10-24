@@ -15,9 +15,9 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class AddMoneyAction implements Action {
+    private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private UserService userService = new UserService();
     private Validator validator = new AddMoneyValidator();
-    private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

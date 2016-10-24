@@ -5,13 +5,16 @@ import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.validator.AddProductValidator;
 import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
-    private  Validator validator = new AddProductValidator();
+    private Logger logger = LoggerFactory.getLogger(AddProductAction.class);
+    private Validator validator = new AddProductValidator();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
@@ -21,10 +24,11 @@ public class AddProductAction extends AbstractProduct {
         }
 
         Product product = getProduct(req, new Product());
-        int productId ;
+        int productId;
         try {
             productId = productService.addNewProduct(product);
         } catch (ServiceException e) {
+            logger.error("can't add product", e);
             throw new ActionException("can't add product to data", e);
         }
         return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
@@ -35,6 +39,7 @@ public class AddProductAction extends AbstractProduct {
         try {
             errorMsg = validator.isValidate(req);
         } catch (ValidatorException e) {
+            logger.error("can't validate object", e);
             throw new ActionException("problem with product validator", e);
         }
         if (errorMsg.size() > 0) {

@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminAddUserAction extends AddUser {
+    private static final Logger log = LoggerFactory.getLogger(AdminAddUserAction.class);
     private UserService userService = new UserService();
     private UserRoleService userRoleService = new UserRoleService();
-    private static final Logger log = LoggerFactory.getLogger(AdminAddUserAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
         boolean isValidate = isValidate(request);
-        if (!isValidate ) {
+        if (!isValidate) {
             return new ActionResult(JSP_PAGE_ADMIN_REGISTRATION);
         }
         try {

@@ -18,21 +18,21 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class BuyBasketAction implements Action {
+    private static Logger logger = LoggerFactory.getLogger(BuyBasketAction.class);
     private UserService userService = new UserService();
     private Validator validator = new BuyBasketValidator();
     private OrderService orderService = new OrderService();
-    private static Logger logger = LoggerFactory.getLogger(BuyBasketAction.class);
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
-        if (!isValidate(req)){
+        if (!isValidate(req)) {
             return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 
         Basket basket = (Basket) session.getAttribute(ATTRIBUTE_BASKET);
         int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
-        User user  = findUserById(userId);
+        User user = findUserById(userId);
 
         int sum = createOrder(user, basket);
         session.setAttribute(ATTRIBUTE_BASKET, null);
@@ -40,7 +40,7 @@ public class BuyBasketAction implements Action {
         return new ActionResult(JSP_PAGE_NAME_BILL);
     }
 
-    public int createOrder(User user,Basket basket) throws ActionException {
+    public int createOrder(User user, Basket basket) throws ActionException {
         int sum = 0;
         for (Product product : basket.getProducts()) {
             sum += product.getPrice();
@@ -53,6 +53,7 @@ public class BuyBasketAction implements Action {
         }
         return sum;
     }
+
     public boolean isValidate(HttpServletRequest req) throws ActionException {
         try {
             List<String> errorMsg = validator.isValidate(req);
@@ -66,6 +67,7 @@ public class BuyBasketAction implements Action {
             throw new ActionException("problem with validation", e);
         }
     }
+
     public User findUserById(int userId) throws ActionException {
         try {
             User user = userService.findById(userId);

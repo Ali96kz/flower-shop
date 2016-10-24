@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class EditUserAction extends AddUser {
-    private UserService userService = new UserService();
     private static final Logger logger = LoggerFactory.getLogger(EditUserAction.class);
+    private UserService userService = new UserService();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
