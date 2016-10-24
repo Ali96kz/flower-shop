@@ -37,7 +37,7 @@ public class AddProductAction extends AbstractProduct {
             throw new ActionException("problem with product validator", e);
         }
         if (errorMsg.size() > 0) {
-            req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+            req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             return false;
         }
         return true;

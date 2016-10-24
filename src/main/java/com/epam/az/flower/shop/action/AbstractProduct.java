@@ -7,7 +7,6 @@ import com.epam.az.flower.shop.util.StringAdapter;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
-
     protected ProductService productService = new ProductService();
     protected OriginService originService = new OriginService();
     protected VisualParametersService visualParametersService = new VisualParametersService();
@@ -18,12 +17,12 @@ public abstract class AbstractProduct implements Action {
 
 
     public void setProduct(HttpServletRequest request) throws ActionException {
-        int id = stringAdapter.toInt(request.getParameter(REQUEST_ATTRIBUTE_NAME_PRODUCT_ID));
         try {
+            int id = stringAdapter.toInt(request.getParameter(REQUEST_ATTRIBUTE_NAME_PRODUCT_ID));
             Product product = productService.findById(id);
             request.setAttribute(REQUEST_ATTRIBUTE_NAME_PRODUCT, product);
         } catch (ServiceException e) {
-            throw new ActionException("can;t get product by id from service", e);
+            throw new ActionException("can't get product by id from service", e);
         }
 
     }

@@ -36,13 +36,13 @@ public class BuyProductAction implements Action {
 
 
         if (errorMsg.size() > 0) {
-            req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+            req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
         }
 
         int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
 
-        int userId = (int) req.getSession().getAttribute(ATTRIBUTE_USER_ID);
+        int userId = (int) req.getSession().getAttribute(SESSION_PARAMETER_sUSER_ID);
         Product product;
         User user;
         try {

@@ -27,7 +27,7 @@ public class LoginAction implements Action {
             List<String> errorMsg = validator.isValidate(req);
 
             if (errorMsg.size() > 0) {
-                req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+                req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
                 return new ActionResult(JSP_PAGE_NAME_LOGIN);
             }
 
@@ -37,7 +37,7 @@ public class LoginAction implements Action {
             int userId;
             userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
 
-            session.setAttribute(ATTRIBUTE_NAME_USER_ID, userId);
+            session.setAttribute(SESSION_PARAMETER_USER_ID, userId);
             return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         } catch (ValidatorException e) {
             throw new ActionException("problem with validating ", e);

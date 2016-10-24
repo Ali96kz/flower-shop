@@ -15,10 +15,8 @@ public abstract class AbstractVitrine implements Action {
     private List<Integer> pageNumbers;
     private ProductService productService = new ProductService();
     private OnlineVitrineValidator onlineVitrineValidator = new OnlineVitrineValidator();
-
     private StringAdapter stringAdapter = new StringAdapter();
     private PaginatedList paginatedList;
-
 
     public void setPaginationList(HttpServletRequest req) throws ActionException {
         int pageNumber;
@@ -28,7 +26,7 @@ public abstract class AbstractVitrine implements Action {
 
             if (erorrMsg.size() > 0) {
                 pageNumber = 0;
-                req.setAttribute(ATTRIBUTE_NAME_PRODUCTS, paginatedList.getPage(pageNumber));
+                req.setAttribute(ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
                 return;
             }
 
@@ -37,7 +35,7 @@ public abstract class AbstractVitrine implements Action {
             if (pageNumber > paginatedList.getPageNumber()) {
                 pageNumber = 0;
             }
-            req.setAttribute(REQUEST_ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
+            req.setAttribute(ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
         } catch (ValidatorException e) {
             throw new ActionException("can't isValidate", e);
         } catch (ServiceException e) {
@@ -54,6 +52,4 @@ public abstract class AbstractVitrine implements Action {
         }
         req.setAttribute(REQUEST_ATTRIBUTE_PAGE_LIST, pageNumbers);
     }
-
-
 }

@@ -60,7 +60,7 @@ public abstract class AddUser implements Action {
             user.setLastName(lastName);
 
             request.setAttribute(ATTRIBUTE_NAME_USER, user);
-            request.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
+            request.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             return false;
         }
         return true;
@@ -68,6 +68,6 @@ public abstract class AddUser implements Action {
 
     public void putInSession(User user, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute(ATTRIBUTE_NAME_USER_ID, user.getId());
+        session.setAttribute(SESSION_PARAMETER_USER_ID, user.getId());
     }
 }

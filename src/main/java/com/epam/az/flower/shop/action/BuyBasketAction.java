@@ -18,7 +18,6 @@ import java.util.List;
 public class BuyBasketAction implements Action {
     private UserService userService = new UserService();
     private Validator validator = new BuyBasketValidator();
-
     private OrderService orderService = new OrderService();
 
     @Override
@@ -35,9 +34,9 @@ public class BuyBasketAction implements Action {
             return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 
-        Basket basket = (Basket) session.getAttribute(ATTRIBUTE_NAME_BASKET);
+        Basket basket = (Basket) session.getAttribute(ATTRIBUTE_BASKET);
         System.out.println(basket);
-        int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
+        int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
         User user;
         try {
             user = userService.findById(userId);
@@ -55,7 +54,7 @@ public class BuyBasketAction implements Action {
             }
         }
 
-        session.setAttribute(ATTRIBUTE_NAME_BASKET, null);
+        session.setAttribute(ATTRIBUTE_BASKET, null);
         req.setAttribute(ATTRIBUTE_NAME_SUM, sum);
         return new ActionResult(JSP_PAGE_NAME_BILL);
     }

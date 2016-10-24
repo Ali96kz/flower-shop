@@ -18,7 +18,7 @@ public class EditUserAction extends AddUser {
             if (isValidate == false)
                 return new ActionResult(JSP_PAGE_NAME_EDIT_USER);
             HttpSession session = req.getSession();
-            int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
+            int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
             User user;
 
             user = userService.findById(userId);

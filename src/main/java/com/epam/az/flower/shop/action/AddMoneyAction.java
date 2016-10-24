@@ -21,12 +21,12 @@ public class AddMoneyAction implements Action {
             HttpSession session = req.getSession();
             Validator validator = new AddMoneyValidator();
             List<String> errorMsg = validator.isValidate(req);
-            int userId = (int) session.getAttribute(SESSION_PARAMETER_NAME_USER_ID);
+            int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
 
             User user = userService.findById(userId);
 
             if (errorMsg.size() > 0) {
-                req.setAttribute(MENU_ERROR_MSG, errorMsg);
+                req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
                 req.setAttribute(ATTRIBUTE_NAME_USER, user);
                 return new ActionResult(JSP_PAGE_NAME_CASH);
             }

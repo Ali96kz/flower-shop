@@ -16,7 +16,7 @@ public class ShowCash implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
             HttpSession session = req.getSession();
-            int userId = (int) session.getAttribute(ATTRIBUTE_NAME_USER_ID);
+            int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
             User user = userService.findById(userId);
             req.setAttribute(ATTRIBUTE_NAME_USER, user);
             return new ActionResult(JSP_PAGE_NAME_CASH);

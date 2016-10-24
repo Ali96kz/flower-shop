@@ -12,7 +12,7 @@ public class LogoutAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        userService.logout((Integer) session.getAttribute(ATTRIBUTE_NAME_USER_ID));
+        userService.logout((Integer) session.getAttribute(SESSION_PARAMETER_USER_ID));
         session.invalidate();
         return new ActionResult(JSP_PAGE_NAME_REGISTRATION, true);
     }

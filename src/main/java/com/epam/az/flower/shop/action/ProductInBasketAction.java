@@ -19,7 +19,7 @@ public class ProductInBasketAction implements Action {
         try {
             HttpSession session = req.getSession();
 
-            if (session.getAttribute(ATTRIBUTE_NAME_BASKET) == null) {
+            if (session.getAttribute(ATTRIBUTE_BASKET) == null) {
                 basket = new Basket();
             }
 

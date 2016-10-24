@@ -14,7 +14,7 @@ public class UserDeleteAccountAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
             HttpSession session = req.getSession();
-            int userId = (int) session.getAttribute(USER_ID);
+            int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
             userService.delete(userId);
         } catch (ServiceException e) {
             throw new ActionException("can't find user by id", e);
