@@ -9,10 +9,10 @@ import java.sql.SQLException;
 
 public class UserDAO extends CachedDAO<User> {
     public static final Class<User> USER_CLASS = User.class;
-    private static final String FIND_BY_NAME_SQL = "Select User.id, User.password from User where User.nickName = ?";
-    private static final String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
+     String FIND_BY_NAME_SQL = "Select User.id, User.password from User where User.nickName = ?";
+     String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
             "User.nickName = ? and User.password = ?";
-    private static final String USER_ID = "User.id";
+     String USER_ID = "User.id";
 
     public int findByCredentials(String name, String password) throws DAOException {
         setGenericClass(USER_CLASS);

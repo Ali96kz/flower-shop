@@ -17,7 +17,7 @@ public class PrepareStatementFillerTest {
     private static final String ORIGIN_COUNTRY_NAME = "Kazakhstan";
     private static final String ORIGIN_PROVINCE_NAME = "Almaty";
     private static final int EXAMPLE_OBJECT_ID = 5;
-    private static final String FLOWER_INSERT_SQL = "INSERT INTO Flower(name, averageHeight, visualParametersId, growingConditionId, flowerTypeId)values(?, ?, ?, ?, ?);";
+    private static final  String FLOWER_INSERT_SQL = "INSERT INTO Flower(name, averageHeight, visualParametersId, growingConditionId, flowerTypeId)values(?, ?, ?, ?, ?);";
     private static final String ORIGIN_INSERT_SQL = "INSERT INTO Origin(country,province)values(?, ?);";
     private static Origin origin = new Origin();
     private static Flower flower = new Flower();

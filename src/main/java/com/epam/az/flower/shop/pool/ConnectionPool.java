@@ -15,13 +15,15 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionPool implements DataSource {
-    private static final String DB_DRIVER = "driver";
-    private static final String DB_URL = "url";
-    private static final String DB_USERNAME = "username";
-    private static final String DB_PASSWORD = "password";
-    private static final String DB_CONNECTIONS_LIMIT = "connections.limit";
-    private static final String DB_CONNECTION_TIMEOUT = "connection.timeout";
-    private static final String DATABASE_PROPERTIES = "database.properties";
+     String DB_DRIVER = "driver";
+     String DB_URL = "url";
+     String DB_USERNAME = "username";
+     String DB_PASSWORD = "password";
+     String DB_CONNECTIONS_LIMIT = "connections.limit";
+     String DB_CONNECTION_TIMEOUT = "connection.timeout";
+     String DATABASE_PROPERTIES = "database.properties";
+
+    public static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION = new UnsupportedOperationException("Unsupported operation");
     private String driver;
     private String url;
     private String username;
@@ -116,41 +118,41 @@ public class ConnectionPool implements DataSource {
 
     @Override
     public Connection getConnection(String username, String password) throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     @Override
     public <T> T unwrap(Class<T> iface) throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     @Override
     public PrintWriter getLogWriter() throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     @Override
     public void setLogWriter(PrintWriter out) throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     @Override
     public int getLoginTimeout() throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     @Override
     public void setLoginTimeout(int seconds) throws SQLException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        throw new UnsupportedOperationException("Unsupported operation");
+        throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
     private class PooledConnection extends com.mysql.cj.jdbc.ConnectionImpl {

@@ -13,11 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator extends AbstractValidator {
-    public static final String SIGN_IN_ERROR_MSG = "You must sign in, to buy something in own shop";
-    public static final String UNEXIST_PRODUCT_ERROR = "This product don't exist in our vitrine";
-    public static final String HANVEN_T_ENOUGH_MONEY = "You haven't enough money";
-    private static final String PARAMETER_USER_ID = "userId";
-    private static final String PARAMETER_PRODUCT_ID = "productId";
     private UserService userService = new UserService();
     private StringAdapter stringAdapter = new StringAdapter();
     private ProductService productService = new ProductService();

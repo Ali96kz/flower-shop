@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class EditUserAction extends AddUser {
-    private static final String JSP_PAGE_NAME_PROFILE = "profile";
-    private static final String JSP_PAGE_NAME_EDIT_USER = "edit-user";
-    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
     private UserService userService = new UserService();
 
     @Override

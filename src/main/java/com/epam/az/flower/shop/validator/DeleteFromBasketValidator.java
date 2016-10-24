@@ -9,9 +9,6 @@ import java.util.List;
 
 public class DeleteFromBasketValidator extends AbstractValidator {
 
-    private static final String PRODUCT_ID = "id";
-    private static final String ATTRIBUTE_NAME_BASKET = "basket";
-    private static final String ERROR_PRODUCT_NAME = "product id";
     private StringAdapter stringAdapter = new StringAdapter();
 
     @Override

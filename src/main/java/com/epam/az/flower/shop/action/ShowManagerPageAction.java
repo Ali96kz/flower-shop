@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowManagerPageAction extends AbstractVitrine {
-    private static final String JSP_PAGE_NAME_MANAGER = "manager";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {

@@ -11,21 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddProductAction extends AbstractProduct {
-    private static final String JSP_PAGE_PRODUCT_INF = "product-inf?productId=";
-    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    private static final String JSP_PAGE_NAME_PRODUCT_ADD = "product-add";
-
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        ActionResult actionResult = validate(req);
-        if (actionResult != null) {
+        if (isValidate(req)) {
             setValue(req);
-
-            return actionResult;
+            return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
         }
 
         Product product = getProduct(req, new Product());
-        int productId = 0;
+        int productId ;
         try {
             productId = productService.addNewProduct(product);
         } catch (ServiceException e) {
@@ -34,7 +28,7 @@ public class AddProductAction extends AbstractProduct {
         return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
     }
 
-    public ActionResult validate(HttpServletRequest req) throws ActionException {
+    public boolean isValidate(HttpServletRequest req) throws ActionException {
         Validator validator = new AddProductValidator();
         List<String> errorMsg;
         try {
@@ -44,8 +38,8 @@ public class AddProductAction extends AbstractProduct {
         }
         if (errorMsg.size() > 0) {
             req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
-            return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
+            return false;
         }
-        return null;
+        return true;
     }
 }

@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class AddMoneyValidatorTest {
-    private static final String PARAMETER_MONEY = "money";
+     String PARAMETER_MONEY = "money";
     private TestHttpRequest testHttpRequest = new TestHttpRequest();
     private AddMoneyValidator addMoneyValidator = new AddMoneyValidator();
 
@@ -18,28 +18,28 @@ public class AddMoneyValidatorTest {
     public void testWithNormalValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, "45");
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
-        assertEquals("Incorrect validate right value", 0, errorMsg.size());
+        assertEquals("Incorrect isValidate right value", 0, errorMsg.size());
     }
 
     @Test
     public void testWithEmptyValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, "");
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate right value", errorMsg.contains("You didn't insert money"));
+        assertTrue("Incorrect isValidate right value", errorMsg.contains("You didn't insert money"));
     }
 
     @Test
     public void testWithFractionalValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, "45.5");
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate right value", errorMsg.contains("please insert money"));
+        assertTrue("Incorrect isValidate right value", errorMsg.contains("please insert money"));
     }
 
     @Test
     public void testWithNullValue() {
         testHttpRequest.setParameter(PARAMETER_MONEY, null);
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate right value", errorMsg.contains("You didn't insert money"));
+        assertTrue("Incorrect isValidate right value", errorMsg.contains("You didn't insert money"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class AddMoneyValidatorTest {
         long test = Integer.MAX_VALUE + 64846;
         testHttpRequest.setParameter(PARAMETER_MONEY, String.valueOf(test));
         List<String> errorMsg = addMoneyValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate right value", errorMsg.contains("please insert money"));
+        assertTrue("Incorrect isValidate right value", errorMsg.contains("please insert money"));
     }
 
 }

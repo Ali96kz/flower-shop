@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminAddUserAction extends AddUser {
-    private static final String JSP_PAGE_NAME_ADMIN = "admin";
-    private static final String ATTRIBUTE_NAME_USER_ROLE_ID = "userRoleId";
-    private static final String JSP_PAGE_ADMIN_REGISTRATION = "admin-registration";
     private UserService userService = new UserService();
     private UserRoleService userRoleService = new UserRoleService();
 

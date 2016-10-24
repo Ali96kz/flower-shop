@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class DeleteProductFromBasket implements Action {
-    private static final String JSP_PAGE_NAME_BASKET = "basket";
-    private static final String ATTRIBUTE_BASKET = "basket";
-    private static final String PARAMETER_PRODUCT_ID = "id";
+     String JSP_PAGE_NAME_BASKET = "basket";
+     String ATTRIBUTE_BASKET = "basket";
+     String PARAMETER_PRODUCT_ID = "id";
 
     private Validator validator = new DeleteFromBasketValidator();
     private StringAdapter stringAdapter = new StringAdapter();
@@ -26,7 +26,7 @@ public class DeleteProductFromBasket implements Action {
             }
 
         } catch (ValidatorException e) {
-            throw new ActionException("can't validate product id", e);
+            throw new ActionException("can't isValidate product id", e);
         }
         HttpSession session = req.getSession();
         Basket basket = (Basket) session.getAttribute(ATTRIBUTE_BASKET);

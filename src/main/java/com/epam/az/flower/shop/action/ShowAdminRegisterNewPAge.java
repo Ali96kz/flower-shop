@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowAdminRegisterNewPAge implements Action {
-    private static final String JSP_PAGE_NAME_REGISTRATION = "admin-registration";
-    private static final String ATTRIBUTE_USER_ROLES = "userRoles";
     private UserRoleService userRoleService = new UserRoleService();
 
     @Override

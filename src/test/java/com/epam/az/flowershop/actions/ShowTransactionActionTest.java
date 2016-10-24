@@ -14,9 +14,9 @@ import java.util.List;
 import static junit.framework.TestCase.assertNotNull;
 
 public class ShowTransactionActionTest {
-    private static final int TEST_USER_ID = 1;
-    private static final String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
-    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
+     int TEST_USER_ID = 1;
+     String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
+     String ATTRIBUTE_NAME_USER_ID = "userId";
     private ShowTransactionAction showTransactionAction = new ShowTransactionAction();
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();

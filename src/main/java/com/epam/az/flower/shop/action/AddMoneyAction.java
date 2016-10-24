@@ -13,11 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class AddMoneyAction implements Action {
-    private static final String MENU_ERROR_MSG = "errorMsg";
-    private static final String JSP_PAGE_NAME_CASH = "cash";
-    private static final String PARAMETER_NAME_MONEY = "money";
-    private static final String ATTRIBUTE_NAME_USER = "user";
-    private static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
     private UserService userService = new UserService();
 
     @Override
@@ -42,7 +37,7 @@ public class AddMoneyAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException("can't get user from service", e);
         } catch (ValidatorException e) {
-            throw new ActionException("can't validate", e);
+            throw new ActionException("can't isValidate", e);
         }
     }
 }

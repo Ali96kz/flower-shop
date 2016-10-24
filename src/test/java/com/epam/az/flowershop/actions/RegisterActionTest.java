@@ -21,18 +21,18 @@ import java.util.UUID;
 import static junit.framework.TestCase.assertEquals;
 
 public class RegisterActionTest extends AbstractTest {
-    private static final String PARAMETER_FIRST_NAME = "firstName";
-    private static final String PARAMETER_NICK_NAME = "nickName";
-    private static final String PARAMETER_LAST_NAME = "lastName";
-    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    private static final String PARAMETER_PASSWORD = "password";
-    private static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    private static final String JSP_PAGE_NAME_PROFILE = "profile";
-    private static final String PARAMETER_USER_ID = "userId";
-    private static final String TEST_USER_BIRTHDAY = "1996-12-11";
-    private static final String TEST_USER_FIRST_NAME = "Ali";
-    private static final String TEST_USER_LAST_NAME = "Zhagparov";
-    private static final String JSP_PAGE_NAME_REGISTRATION = "registration";
+     String PARAMETER_FIRST_NAME = "firstName";
+     String PARAMETER_NICK_NAME = "nickName";
+     String PARAMETER_LAST_NAME = "lastName";
+     String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+     String PARAMETER_PASSWORD = "password";
+     String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+     String JSP_PAGE_NAME_PROFILE = "profile";
+     String PARAMETER_USER_ID = "userId";
+     String TEST_USER_BIRTHDAY = "1996-12-11";
+     String TEST_USER_FIRST_NAME = "Ali";
+     String TEST_USER_LAST_NAME = "Zhagparov";
+     String JSP_PAGE_NAME_REGISTRATION = "registration";
 
     private String userPassword;
     private String confirmUserPassword;

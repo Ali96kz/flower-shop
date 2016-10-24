@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddMoneyValidator extends AbstractValidator {
-    private static final String PARAMETER_MONEY = "money";
-    private static final String FIELD_MENU_NAME_MONEY = "money";
 
     @Override
     public List<String> isValidate(HttpServletRequest request) {

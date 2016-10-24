@@ -9,10 +9,6 @@ import javax.servlet.http.HttpSession;
 
 public class ShowBasketAction implements Action {
 
-    private static final String ATTRIBUTE_NAME_BASKET = "basket";
-    private static final String JSP_PAGE_NAME_BASKET = "basket";
-    private static final String ATTRIBUTE_NAME_BILL = "bill";
-
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);

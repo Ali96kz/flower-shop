@@ -26,15 +26,15 @@ import static junit.framework.TestCase.assertTrue;
 
 
 public class EditProudctTest {
-    private static final String PARAMETER_PRODUCT_ID = "productId";
-    private static final String PARAMETER_NAME_ORIGIN_ID = "originId";
-    private static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
-    private static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
-    private static final String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
-    private static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
-    private static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
-    private static final String PARAMETER_NAME_DESCRIPTION = "description";
-    private static final String PARAMETER_NAME_PRICE = "price";
+     String PARAMETER_PRODUCT_ID = "productId";
+     String PARAMETER_NAME_ORIGIN_ID = "originId";
+     String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
+     String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
+     String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
+     String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
+     String PARAMETER_NAME_FLOWER_NAME = "flowerName";
+     String PARAMETER_NAME_DESCRIPTION = "description";
+     String PARAMETER_NAME_PRICE = "price";
     private EditProductAction editProductAction = new EditProductAction();
     private TestHttpRequest request = new TestHttpRequest();
     private TestHttpResponse response = new TestHttpResponse();

@@ -13,20 +13,19 @@ import java.util.List;
 
 public class EditProductAction extends AbstractProduct {
 
-    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    private static final String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
-    private static final String JSP_PAGE_NAME_PRODUCT = "product-inf";
-    private static final String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
-    private static final String PARAMETER_PRODUCT_ID = "productId";
+     String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
+     String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
+     String JSP_PAGE_NAME_PRODUCT = "product-inf";
+     String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
+     String PARAMETER_PRODUCT_ID = "productId";
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
-            ActionResult actionResult = validate(req);
-            if (actionResult != null) {
+            if (isValidate(req)) {
                 setValue(req);
                 setProduct(req);
-                return actionResult;
+                return new ActionResult(JSP_PAGE_NAME_EDIT_PRODUCT) ;
             }
 
             int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
@@ -42,7 +41,7 @@ public class EditProductAction extends AbstractProduct {
         }
     }
 
-    public ActionResult validate(HttpServletRequest req) throws ActionException {
+    public boolean isValidate(HttpServletRequest req) throws ActionException {
         Validator validator = new AddProductValidator();
         List<String> errorMsg;
         try {
@@ -50,11 +49,11 @@ public class EditProductAction extends AbstractProduct {
             if (errorMsg.size() > 0) {
                 req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
 
-                return new ActionResult(JSP_PAGE_NAME_EDIT_PRODUCT);
+                return false;
             }
         } catch (ValidatorException e) {
             throw new ActionException("problem with validator", e);
         }
-        return null;
+        return true;
     }
 }

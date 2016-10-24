@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ProductInBasketAction implements Action {
-    private static final String JSP_PAGE_NAME_VITRINE = "vitrine";
-    private static final String ATTRIBUTE_NAME_BASKET = "basket";
-    private static final String PARAMETER_PRODUCT_ID = "productId";
-    private static final String ATTRIBUTE_BASKET = "basket";
     private ProductService productService = new ProductService();
     private Basket basket;
     private StringAdapter stringAdapter = new StringAdapter();

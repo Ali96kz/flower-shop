@@ -14,25 +14,25 @@ public class RegisterProfileValidator extends AbstractValidator {
     public static final String DIFFERENT_PASSWORD_ERROR_MSG = "Confirm password has a different value";
     public static final String BUSY_NICKNAME_ERROR_MSG = "This nickname is busy, please insert another nickname";
     public static final String MATCH_DATE_REGEX = "\\d{4}-\\d{2}-\\d{2}";
-    private static final String PARAMETER_FIRST_NAME = "firstName";
-    private static final String PARAMETER_NICK_NAME = "nickName";
-    private static final String PARAMETER_LAST_NAME = "lastName";
-    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    private static final String PARAMETER_PASSWORD = "password";
-    private static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    private static final String ATTRIBUTE_FIRST_NAME = "first name";
-    private static final String ATTRIBUTE_NAME_LAST_NAME = "last name";
-    private static final String ATTRIBUTE_NAME_NICK_NAME = "nick name";
-    private static final String ATTRIBUTE_NAME_CONFIRM_PASSWORD = "confirm password";
-    private static final String ATTRIBUTE_NAME_PASSWORD = "password";
-    private static final int NICKNAME_MAX_LENGTH = 16;
-    private static final int NICKNAME_MIN_LENGTH = 3;
-    private static final int PASSWORD_MIN_LENGTH = 6;
-    private static final int PASSWORD_MAX_LENGTH = 12;
-    private static final int LAST_NAME_MAX_LENGTH = 16;
-    private static final int LAST_NAME_MIN_LENGTH = 3;
-    private static final int FIRST_NAME_MAX_LENGTH = 16;
-    private static final int FIRST_NAME_MIN_LENGTH = 3;
+     String PARAMETER_FIRST_NAME = "firstName";
+     String PARAMETER_NICK_NAME = "nickName";
+     String PARAMETER_LAST_NAME = "lastName";
+     String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+     String PARAMETER_PASSWORD = "password";
+     String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+     String ATTRIBUTE_FIRST_NAME = "first name";
+     String ATTRIBUTE_NAME_LAST_NAME = "last name";
+     String ATTRIBUTE_NAME_NICK_NAME = "nick name";
+     String ATTRIBUTE_NAME_CONFIRM_PASSWORD = "confirm password";
+     String ATTRIBUTE_NAME_PASSWORD = "password";
+     int NICKNAME_MAX_LENGTH = 16;
+     int NICKNAME_MIN_LENGTH = 3;
+     int PASSWORD_MIN_LENGTH = 6;
+     int PASSWORD_MAX_LENGTH = 12;
+     int LAST_NAME_MAX_LENGTH = 16;
+     int LAST_NAME_MIN_LENGTH = 3;
+     int FIRST_NAME_MAX_LENGTH = 16;
+     int FIRST_NAME_MIN_LENGTH = 3;
     private UserService userService = new UserService();
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
@@ -52,7 +52,7 @@ public class RegisterProfileValidator extends AbstractValidator {
                 errorMsg.add(BUSY_NICKNAME_ERROR_MSG);
             }
         } catch (ServiceException e) {
-            throw new ValidatorException("can't validate nickname", e);
+            throw new ValidatorException("can't isValidate nickname", e);
         }
 
         if (date == null) {

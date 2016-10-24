@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UserDeleteAccountAction implements Action {
-    private static final String USER_ID = "userId";
-    private static final String PAGE_DELETE_PROFILE = "delete-profile";
     private UserService userService = new UserService();
 
     @Override

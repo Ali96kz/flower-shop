@@ -12,12 +12,12 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class RegisterValidator {
-    private static final String PARAMETER_NICK_NAME = "nickName";
-    private static final String PARAMETER_LAST_NAME = "lastName";
-    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    private static final String PARAMETER_PASSWORD = "password";
-    private static final String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    private static final String PARAMETER_FIRST_NAME = "firstName";
+     String PARAMETER_NICK_NAME = "nickName";
+     String PARAMETER_LAST_NAME = "lastName";
+     String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
+     String PARAMETER_PASSWORD = "password";
+     String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
+     String PARAMETER_FIRST_NAME = "firstName";
     private RegisterProfileValidator registerProfileValidator = new RegisterProfileValidator();
     private TestHttpRequest testHttpRequest;
 
@@ -39,14 +39,14 @@ public class RegisterValidator {
     @Test
     public void testWithRightValue() throws ValidatorException {
         List<String> errorMsg = registerProfileValidator.isValidate(testHttpRequest);
-        assertEquals("Incorrect validate with right value", 0, errorMsg.size());
+        assertEquals("Incorrect isValidate with right value", 0, errorMsg.size());
     }
 
     @Test
     public void testWithExistNickName() throws ValidatorException {
         testHttpRequest.setParameter(PARAMETER_NICK_NAME, "ali");
         List<String> errorMsg = registerProfileValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate", errorMsg.contains("This nickname is busy, please insert another nickname"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("This nickname is busy, please insert another nickname"));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class RegisterValidator {
         testHttpRequest.setParameter(PARAMETER_PASSWORD, "1234567");
         testHttpRequest.setParameter(PARAMETER_PASSWORD, "12345678");
         List<String> errorMsg = registerProfileValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate", errorMsg.contains("Confirm password has a different value"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("Confirm password has a different value"));
     }
 
     @Test
@@ -68,9 +68,9 @@ public class RegisterValidator {
             System.out.println(s);
         }
 
-        assertTrue("Incorrect validate", errorMsg.contains("nick name must contain min 3 max 16"));
-        assertTrue("Incorrect validate", errorMsg.contains("last name must contain min 3 max 16"));
-        assertTrue("Incorrect validate", errorMsg.contains("first name must contain min 3 max 16"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("nick name must contain min 3 max 16"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("last name must contain min 3 max 16"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("first name must contain min 3 max 16"));
     }
 
     @Test
@@ -80,15 +80,15 @@ public class RegisterValidator {
         testHttpRequest.setParameter(PARAMETER_NICK_NAME, "s");
         List<String> errorMsg = registerProfileValidator.isValidate(testHttpRequest);
 
-        assertTrue("Incorrect validate", errorMsg.contains("nick name must contain min 3 max 16"));
-        assertTrue("Incorrect validate", errorMsg.contains("last name must contain min 3 max 16"));
-        assertTrue("Incorrect validate", errorMsg.contains("first name must contain min 3 max 16"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("nick name must contain min 3 max 16"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("last name must contain min 3 max 16"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("first name must contain min 3 max 16"));
     }
 
     @Test
     public void testToIncorectDate() throws ValidatorException {
         testHttpRequest.setParameter(PARAMETER_DATE_BIRTHDAY, "1995656");
         List<String> errorMsg = registerProfileValidator.isValidate(testHttpRequest);
-        assertTrue("Incorrect validate", errorMsg.contains("You insert incorrect date Example: 1996-12-11"));
+        assertTrue("Incorrect isValidate", errorMsg.contains("You insert incorrect date Example: 1996-12-11"));
     }
 }

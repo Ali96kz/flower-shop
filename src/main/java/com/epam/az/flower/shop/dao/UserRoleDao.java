@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class UserRoleDao extends CachedDAO<UserRole> {
 
-    private static final String SQL_SELECT = "SELECT UserRole.id, UserRole.name FROM UserRole where name = '";
-    private static final String USER_ROLE_ID = "UserRole.id";
-    private static final String USER_ROLE_NAME = "UserRole.name";
+     String SQL_SELECT = "SELECT UserRole.id, UserRole.name FROM UserRole where name = '";
+     String USER_ROLE_ID = "UserRole.id";
+     String USER_ROLE_NAME = "UserRole.name";
 
     public UserRole findUserRoleByName(String name) throws DAOException {
         String sql = SQL_SELECT + name + "'";

@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ShowUserEditPage implements Action {
-    private static final String ATTRIBUTE_NAME_ORIGIN_LIST = "origins";
-    private static final String ATTRIBUTE_NAME_USER = "user";
-    private static final String JSP_PAGE_NAME_REGISTRATION = "registration";
-    private static final String SESSION_PARAMETER_USER_ID = "userId";
     private UserService userService = new UserService();
     private OriginService originService = new OriginService();
 

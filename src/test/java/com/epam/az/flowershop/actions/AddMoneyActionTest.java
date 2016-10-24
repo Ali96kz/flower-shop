@@ -22,11 +22,11 @@ import java.util.Random;
 import static junit.framework.TestCase.assertEquals;
 
 public class AddMoneyActionTest extends AbstractTest {
-    private static final String JSP_PAGE_NAME_CASH = "cash";
-    private static final String PARAMETER_NAME_MONEY = "money";
-    private static final String SESSION_PARAMETER_NAME_USER_ID = "userId";
-    private static final int TEST_USER_ID = 1;
-    private static final Integer ADD_MONEY_TRANSACTION_ID = 1;
+     String JSP_PAGE_NAME_CASH = "cash";
+     String PARAMETER_NAME_MONEY = "money";
+     String SESSION_PARAMETER_NAME_USER_ID = "userId";
+     int TEST_USER_ID = 1;
+     Integer ADD_MONEY_TRANSACTION_ID = 1;
     private Random random = new Random();
     private UserDAO userDAO;
     private UserTransactionDAO transactionDAO;

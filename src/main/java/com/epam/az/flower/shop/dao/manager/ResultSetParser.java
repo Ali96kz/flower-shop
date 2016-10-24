@@ -10,6 +10,8 @@ import java.sql.SQLException;
 
 public class ResultSetParser<E extends BaseEntity> {
 
+    public static final String DECLARED_FIELD_ID = "id";
+
     public E parseResultSet(E object, ResultSet resultSet) throws DAOException {
         try {
             Field[] fields = object.getClass().getDeclaredFields();
@@ -22,6 +24,7 @@ public class ResultSetParser<E extends BaseEntity> {
 
             object.setId(resultSet.getInt(object.getClass().getSimpleName() + ".id"));
             object.setDeleteDay(resultSet.getDate(object.getClass().getSimpleName() + ".deleteDay"));
+
             return object;
         } catch (SQLException | IllegalAccessException e1) {
             throw new DAOException("parse resultSet error", e1);
@@ -30,26 +33,23 @@ public class ResultSetParser<E extends BaseEntity> {
 
     private Object getValue(Field field, ResultSet resultSet) throws DAOException {
         try {
+            Object value;
             Class fieldType = field.getType();
             if (fieldType == Integer.class || fieldType == int.class) {
-                int value = resultSet.getInt(field.getName());
-                return value;
+                value = resultSet.getInt(field.getName());
             } else if (fieldType == String.class) {
-                String value = resultSet.getString(field.getName());
-                return value;
+                value = resultSet.getString(field.getName());
             } else if (fieldType == boolean.class || fieldType == Boolean.class) {
-                boolean value = resultSet.getBoolean(field.getName());
-                return value;
+                value = resultSet.getBoolean(field.getName());
             } else if (fieldType == Date.class) {
-                Date value = resultSet.getDate(field.getName());
-                return value;
+                value = resultSet.getDate(field.getName());
             } else {
-                Field idField = BaseEntity.class.getDeclaredField("id");
+                Field idField = BaseEntity.class.getDeclaredField(DECLARED_FIELD_ID);
                 idField.setAccessible(true);
-                E value = (E) fieldType.newInstance();
+                value = (E) fieldType.newInstance();
                 idField.set(value, resultSet.getInt(Util.lowFirstLetter(fieldType.getSimpleName()) + "Id"));
-                return value;
             }
+            return value;
         } catch (SQLException | IllegalAccessException | InstantiationException | NoSuchFieldException e) {
             throw new DAOException("can't get value ", e);
         }

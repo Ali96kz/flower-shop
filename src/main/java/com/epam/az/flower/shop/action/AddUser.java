@@ -14,15 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public abstract class AddUser implements Action {
-    private static final String ATTRIBUTE_NAME_USER = "user";
-    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
-    private static final String PARAMETER_FIRST_NAME = "firstName";
-    private static final String PARAMETER_NICK_NAME = "nickName";
-    private static final String PARAMETER_LAST_NAME = "lastName";
-    private static final String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
-    private static final String PARAMETER_PASSWORD = "password";
-    private static final String ROLE_CUSTOMER = "customer";
+
     protected StringAdapter stringAdapter = new StringAdapter();
     protected UserRoleService userRoleService = new UserRoleService();
     private Hasher hasher = new Hasher();
@@ -54,7 +46,7 @@ public abstract class AddUser implements Action {
         try {
             errorMsg = validator.isValidate(request);
         } catch (ValidatorException e) {
-            throw new ActionException("can't validate", e);
+            throw new ActionException("can't isValidate", e);
         }
 
         if (errorMsg.size() > 0) {

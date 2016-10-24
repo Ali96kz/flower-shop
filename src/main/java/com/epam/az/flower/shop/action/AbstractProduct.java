@@ -7,21 +7,6 @@ import com.epam.az.flower.shop.util.StringAdapter;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
-    private static final String REQUEST_ATTRIBUTE_NAME_PRODUCT_ID = "productId";
-    private static final String PARAMETER_NAME_ORIGIN_ID = "originId";
-    private static final String PARAMETER_NAME_VISUAL_PARAMETERS_ID = "visualParametersId";
-    private static final String PARAMETER_NAME_FLOWER_TYPE_ID = "flowerTypeId";
-    private static final String PARAMETER_NAME_GROWING_CONDITION_ID = "growingConditionId";
-    private static final String PARAMETER_NAME_AVERAGE_HEIGHT = "averageHeight";
-    private static final String PARAMETER_NAME_FLOWER_NAME = "flowerName";
-    private static final String PARAMETER_NAME_DESCRIPTION = "description";
-    private static final String PARAMETER_NAME_PRICE = "price";
-    private static final String PARAMETER_NAME_ORIGINS = "origins";
-    private static final String PARAMETER_NAME_VISUAL_PARAMETERS = "visualParameters";
-    private static final String PARAMETER_NAME_GROWING_CONDITIONS = "growingConditions";
-    private static final String REQUEST_ATTRIBUTE_NAME_PRODUCT = "product";
-    private static final String PARAMETER_NAME_FLOWER_TYPES = "flowerTypes";
-    private static final String PARAMETER_NAME_TEMPERATURES = "temperatures";
 
     protected ProductService productService = new ProductService();
     protected OriginService originService = new OriginService();

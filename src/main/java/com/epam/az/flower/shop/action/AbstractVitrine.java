@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractVitrine implements Action {
-    public static final String REQUEST_ATTRIBUTE_PRODUCTS = "products";
-    public static final String REQUEST_ATTRIBUTE_PAGE_LIST = "pageList";
-    private static final String ATTRIBUTE_NAME_PRODUCTS = "products";
-    private static final String PARAMETER_NAME_PAGE = "page";
-    private final int PAGE_SIZE = 12;
     private List<Integer> pageNumbers;
     private ProductService productService = new ProductService();
     private OnlineVitrineValidator onlineVitrineValidator = new OnlineVitrineValidator();
@@ -27,7 +22,6 @@ public abstract class AbstractVitrine implements Action {
 
     public void setPaginationList(HttpServletRequest req) throws ActionException {
         int pageNumber;
-
         try {
             paginatedList = new PaginatedList(PAGE_SIZE, productService.getAllNotDeleteProduct());
             List<String> erorrMsg = onlineVitrineValidator.isValidate(req);
@@ -43,22 +37,16 @@ public abstract class AbstractVitrine implements Action {
             if (pageNumber > paginatedList.getPageNumber()) {
                 pageNumber = 0;
             }
-
             req.setAttribute(REQUEST_ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
         } catch (ValidatorException e) {
-            throw new ActionException("can't validate", e);
+            throw new ActionException("can't isValidate", e);
         } catch (ServiceException e) {
             throw new ActionException("can't get all products", e);
         }
     }
 
     public void setPage(HttpServletRequest req) {
-        if (pageNumbers == null) {
-            pageNumbers = new ArrayList<>();
-            for (int i = 0; i < paginatedList.getPageNumber(); i++) {
-                pageNumbers.add(i + 1);
-            }
-        } else if (pageNumbers.size() != paginatedList.getPageNumber()) {
+        if (pageNumbers == null || pageNumbers.size() != paginatedList.getPageNumber()) {
             pageNumbers = new ArrayList<>();
             for (int i = 0; i < paginatedList.getPageNumber(); i++) {
                 pageNumbers.add(i + 1);

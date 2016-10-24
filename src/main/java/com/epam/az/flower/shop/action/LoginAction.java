@@ -14,12 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class LoginAction implements Action {
-    private static final String JSP_PAGE_NAME_PROFILE = "profile";
-    private static final String PARAMETER_NICK_NAME = "nickName";
-    private static final String PARAMETER_PASSWORD = "password";
-    private static final String ATTRIBUTE_NAME_USER_ID = "userId";
-    private static final String JSP_PAGE_NAME_LOGIN = "login";
-    private static final String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     private Validator validator = new LogInValidator();
     private UserService userService = new UserService();
     private Hasher hasher = new Hasher();

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class UserTransactionService {
     private static final String ADD_MONEY_TRANSACTION_NAME = "add money";
-    private static final Class<UserTransactionDAO> USER_TRANSACTION_DAO_CLASS = UserTransactionDAO.class;
+    private static Class<UserTransactionDAO> USER_TRANSACTION_DAO_CLASS = UserTransactionDAO.class;
     private static Logger logger = LoggerFactory.getLogger(UserTransactionService.class);
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private UserTransactionDAO userTransactionDAO;

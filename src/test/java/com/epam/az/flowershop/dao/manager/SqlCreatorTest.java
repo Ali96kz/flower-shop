@@ -10,9 +10,9 @@ import static junit.framework.TestCase.assertEquals;
 
 public class SqlCreatorTest {
 
-    private static final int EXAMPLE_OBJECT_ID = 5;
-    private static final Class PRIMITIVE_OBJECT_CLASS = Origin.class;
-    private static final Class CLASS_OF_OBJECT_WITH_NESTED_OBJECT = Flower.class;
+     int EXAMPLE_OBJECT_ID = 5;
+     Class PRIMITIVE_OBJECT_CLASS = Origin.class;
+     Class CLASS_OF_OBJECT_WITH_NESTED_OBJECT = Flower.class;
     private SQLCreator sqlCreator = new SQLCreator();
 
     @Test

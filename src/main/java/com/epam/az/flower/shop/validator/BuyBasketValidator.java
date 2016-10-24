@@ -11,12 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyBasketValidator implements Validator {
-    public static final String SIGN_IN_ERROR = "You must sign in to buy something in own shop";
-    public static final String ADD_PRODUCT_INTO_BASKET_ERROR_MSG = "You must add some products in your basket";
-    public static final String EMPTY_BASKET_ERROR = "Basket is empty";
-    public static final String HAVENT_ENOUGH_MONEY_ERROR = "you haven't enough money";
-    private static final String SESSION_PARAMETER_USER_ID = "userId";
-    private static final String SESSION_PARAMETER_BASKET_OBJECT = "basket";
     private UserService userService = new UserService();
 
 

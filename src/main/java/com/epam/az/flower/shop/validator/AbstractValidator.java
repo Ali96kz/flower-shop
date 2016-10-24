@@ -5,16 +5,6 @@ import com.epam.az.flower.shop.util.StringAdapter;
 import java.util.List;
 
 public abstract class AbstractValidator implements Validator {
-    public static final String YOU_DIDN_T_INSERT = "You didn't insert ";
-    public static final String COULDN_T_BE_BELOW_ZERO = "couldn't be <= 0";
-    public static final String PLEASE_INSERT = "please insert ";
-    public static final String MUST_CONTAIN_MIN = " must contain min ";
-    public static final String MAX = " max ";
-    public static final String NAME_MUST_CONTAIN = " must contain just name must contain A-Z,a-z, white space";
-    public static final String INCORRECT = "incorrect, ";
-    public static final String CAN_T_CONTAIN_A_NUMBER = " can't contain a number";
-    public static final String CAN_T_CONTAIN_JUST_WHITE_SPACE = " can't contain just white space";
-    private static final String NUMBER_REGEX = "[0-9]+";
     private StringAdapter stringAdapter = new StringAdapter();
 
     protected void validatePositiveNumber(List<String> errorMsg, String number, String name) {

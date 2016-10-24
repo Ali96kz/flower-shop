@@ -15,8 +15,8 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class DeleteProductFromBasketTest {
-    private static final String JSP_PAGE_NAME_BASKET = "basket";
-    private static final String PRODUCT_ID = "id";
+     String JSP_PAGE_NAME_BASKET = "basket";
+     String PRODUCT_ID = "id";
     private TestHttpResponse response = new TestHttpResponse();
     private TestHttpRequest request = new TestHttpRequest();
     private TestSession session = new TestSession();

@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AdminDeleteUserAction implements Action {
-    private static final String JSP_PAGE_NAME_DELETE_PROFILE = "delete-profile";
-    private static final String PARAMETER_USER_ID = "id";
     private UserService userService = new UserService();
     private StringAdapter stringAdapter = new StringAdapter();
 
