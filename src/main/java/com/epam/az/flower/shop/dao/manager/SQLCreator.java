@@ -78,7 +78,7 @@ public class SQLCreator<E extends BaseEntity> {
         return sql;
     }
 
-    protected String createSQL(Class clazz) {
+    public String createSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
 
         Field[] fields = clazz.getDeclaredFields();
