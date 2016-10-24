@@ -14,7 +14,12 @@ import java.sql.SQLException;
  * @param <E>
  */
 public class PrepareStatementFiller<E extends BaseEntity> {
-
+    /**
+     * fill preapare statement by object value
+     * @param preparedStatement
+     * @param object
+     * @throws DAOException
+     */
     public void fillPrepareStatement(PreparedStatement preparedStatement, E object) throws DAOException {
         Field[] fields = object.getClass().getDeclaredFields();
         try {
@@ -42,6 +47,11 @@ public class PrepareStatementFiller<E extends BaseEntity> {
         }
     }
 
+    /**
+     *
+     * @param preparedStatement
+     * @return fill prepared statement
+     */
     public PreparedStatement fillDeleteStatement(PreparedStatement preparedStatement) {
         try {
             preparedStatement.setDate(1, Util.getTodayDay());

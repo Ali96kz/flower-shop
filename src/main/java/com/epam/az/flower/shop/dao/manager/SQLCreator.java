@@ -8,7 +8,7 @@ import java.sql.Date;
 
 /**
  * SQLCreator create select sql, For insert, update or delete  create sql for prepared statement
- *
+ *  For example: insert into Origin(province, country)values(?, ?)
  * @param <E>
  */
 public class SQLCreator<E extends BaseEntity> {
@@ -28,17 +28,17 @@ public class SQLCreator<E extends BaseEntity> {
     /**
      * create insert sql for prepared statement.
      *
-     * @param
+     * @param  entityClass class of entity which you want insert into data
      * @return prepare sql
      * @throws DAOException
      */
-    public String createPrepareInsertSQL(Class object) throws DAOException {
+    public String createPrepareInsertSQL(Class entityClass) throws DAOException {
         StringBuilder sql = new StringBuilder();
         StringBuilder values = new StringBuilder();
 
-        sql.append(SQL_INSERT_INTO + object.getSimpleName() + "(");
+        sql.append(SQL_INSERT_INTO + entityClass.getSimpleName() + "(");
 
-        Field[] fields = object.getDeclaredFields();
+        Field[] fields = entityClass.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             Class fieldSuperclass = fields[i].getType().getSuperclass();
             String name = fields[i].getName();
@@ -68,17 +68,17 @@ public class SQLCreator<E extends BaseEntity> {
     /**
      * create sql for find by id.
      *
-     * @param genericClass
+     * @param entityClass
      * @param id
-     * @return
+     * @return sql string
      */
-    public String createStatementSqlForFindById(Class genericClass, int id) {
-        String sql = SQL_SELECT + createSQL(genericClass) + SQL_WHERE + genericClass.getSimpleName() +
+    public String createStatementSqlForFindById(Class entityClass, int id) {
+        String sql = SQL_SELECT + createSQL(entityClass) + SQL_WHERE + entityClass.getSimpleName() +
                 ".id = " + id + ";";
         return sql;
     }
 
-    public String createSQL(Class clazz) {
+    protected String createSQL(Class clazz) {
         StringBuilder sql = new StringBuilder();
 
         Field[] fields = clazz.getDeclaredFields();
@@ -130,6 +130,11 @@ public class SQLCreator<E extends BaseEntity> {
         }
     }
 
+    /**
+     *  Don't create delete sql. just mark row as deleted
+     * @param item
+     * @return sql
+     */
     public String createSQLForDelete(E item) {
         try {
             Field field = item.getClass().getDeclaredField(DECLARED_FIELD_ID);
@@ -146,7 +151,12 @@ public class SQLCreator<E extends BaseEntity> {
         return sql;
     }
 
-    public String createSqlForGetAll(Class genericClass) {
-        return SQL_SELECT + createSQL(genericClass) + ";";
+    /**
+     *
+     * @param entityClass
+     * @return sql for get all row from data
+     */
+    public String createSqlForGetAll(Class entityClass) {
+        return SQL_SELECT + createSQL(entityClass) + ";";
     }
 }

@@ -16,6 +16,7 @@ import java.sql.Statement;
 public class SQLExecutor {
     private static Logger logger = LoggerFactory.getLogger(SQLExecutor.class);
 
+
     public ResultSet executeSqlQuery(String sql, Statement statement) throws DAOException {
         logger.info("execute sql query {}", sql);
         ResultSet resultSet;
@@ -26,6 +27,7 @@ public class SQLExecutor {
             throw new DAOException("can't execute sql", e1);
         }
     }
+
 
     public ResultSet executePreparedSqlQuery(PreparedStatement statement) throws DAOException {
         ResultSet resultSet;

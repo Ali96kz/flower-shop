@@ -7,6 +7,10 @@ import com.epam.az.flower.shop.entity.BaseEntity;
 
 import java.util.List;
 
+/** This class delete template code from another service
+ *  Method insert, delete and update executes in transaction
+ * @param <E>
+ */
 public class ProxyService<E extends AbstractDAO> {
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private Class<E> daoClass;
@@ -15,6 +19,12 @@ public class ProxyService<E extends AbstractDAO> {
         this.daoClass = daoClass;
     }
 
+    /**
+     * Set connection into dao class
+     * @param id
+     * @return
+     * @throws ServiceException
+     */
     public BaseEntity findById(int id) throws ServiceException {
         E abstractDAO = null;
         try {
@@ -29,6 +39,12 @@ public class ProxyService<E extends AbstractDAO> {
         }
     }
 
+    /** Set connection to dao object
+     * this operations executes in transaction
+     * @param baseEntity
+     * @return generated key
+     * @throws ServiceException
+     */
     public int insert(BaseEntity baseEntity) throws ServiceException {
         E abstractDAO = null;
         try {

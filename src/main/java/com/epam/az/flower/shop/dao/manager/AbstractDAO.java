@@ -12,6 +12,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *   Execute CRUD operation for entity
+ *   SqlCreator create sql for query, then
+ * @param <E> entity
+ */
 public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
     private Connection connection;
     private SQLExecutor sqlExecutor = new SQLExecutor();
@@ -52,6 +57,12 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
+    /**Find object from data by id
+     *
+     * @param id
+     * @return
+     * @throws DAOException
+     */
     @Override
     public E findById(int id) throws DAOException {
         try {
@@ -70,6 +81,8 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     /**
      * Insert into database.
+     * @return generated keys from database
+     * @throws DAOException
      */
     @Override
     public int insert(E e) throws DAOException {
@@ -86,6 +99,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
+    /**
+     * update object
+     * @param item
+     * @throws DAOException
+     */
     @Override
     public void update(E item) throws DAOException {
         String sql = sqlCreator.createSQLForUpdate(item);
@@ -99,6 +117,11 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
         }
     }
 
+    /**
+     * Get all rows from database
+     * @return list<E> of all rows from data
+     * @throws DAOException
+     */
     @Override
     public List<E> getAll() throws DAOException {
         List<E> resultList = new ArrayList<>();
@@ -150,10 +173,6 @@ public abstract class AbstractDAO<E extends BaseEntity> implements DAO<E> {
 
     public SQLCreator getSqlCreator() {
         return sqlCreator;
-    }
-
-    public PrepareStatementFiller getPrepareStatementFiller() {
-        return prepareStatementFiller;
     }
 
     public ResultSetParser getResultSetParser() {
