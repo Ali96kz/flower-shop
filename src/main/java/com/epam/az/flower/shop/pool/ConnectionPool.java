@@ -2,6 +2,7 @@ package com.epam.az.flower.shop.pool;
 
 import com.epam.az.flower.shop.util.PropertyManager;
 import com.epam.az.flower.shop.util.UtilClassException;
+import com.mysql.cj.jdbc.ConnectionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,9 +163,7 @@ public class ConnectionPool implements DataSource {
         throw UNSUPPORTED_OPERATION_EXCEPTION;
     }
 
-    private class PooledConnection extends com.mysql.cj.jdbc.ConnectionImpl {
-
-
+    private class PooledConnection extends ConnectionImpl {
         private final Connection connection;
 
         PooledConnection(Connection connection) {
