@@ -17,10 +17,11 @@ public class ShowProductPage implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse response) throws ActionException {
-        int id = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
         try {
+            int id = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
             Product product = productService.findById(id);
             request.setAttribute(ATTRIBUTE_NAME_PRODUCT, product);
+
             return new ActionResult(JSP_PAGE_NAME_PRODUCT_INF);
         } catch (ServiceException e) {
             logger.error("can't get product from dao", e);

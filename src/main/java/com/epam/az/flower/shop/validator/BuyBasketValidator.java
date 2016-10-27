@@ -37,6 +37,7 @@ public class BuyBasketValidator implements Validator {
             errorMsg.add(EMPTY_BASKET_ERROR);
             return errorMsg;
         }
+
         int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
 
         User user;

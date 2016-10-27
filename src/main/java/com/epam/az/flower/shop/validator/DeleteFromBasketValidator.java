@@ -22,7 +22,7 @@ public class DeleteFromBasketValidator extends AbstractValidator {
         }
 
         Basket basket = (Basket) request.getSession().getAttribute(ATTRIBUTE_NAME_BASKET);
-        if ((basket.getProducts().size() - 1) < stringAdapter.toInt(productId)) {
+        if (basket.getProducts().get(stringAdapter.toInt(productId)) == null) {
             errorMsg.add("this product don't add in basket");
         }
 

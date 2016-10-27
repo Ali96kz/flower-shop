@@ -12,6 +12,7 @@ public abstract class AbstractValidator implements Validator {
             errorMsg.add(YOU_DIDN_T_INSERT + name);
             return;
         }
+
         if (!number.matches(NUMBER_REGEX)) {
             errorMsg.add(PLEASE_INSERT + name);
             return;
@@ -22,13 +23,13 @@ public abstract class AbstractValidator implements Validator {
         if (value <= 0) {
             errorMsg.add(name + COULDN_T_BE_BELOW_ZERO);
         }
-
     }
 
     protected void validateString(List<String> errorMsg, String parameter, String name) {
         if (parameter.replaceAll("\\s", "").equals("")) {
             errorMsg.add(name + CAN_T_CONTAIN_JUST_WHITE_SPACE);
         }
+
         if (parameter.matches("\\W")) {
             errorMsg.add(INCORRECT + name + NAME_MUST_CONTAIN);
         }

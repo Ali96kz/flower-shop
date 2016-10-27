@@ -18,10 +18,10 @@ public class AdminAddUserAction extends AddUser {
 
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
-        boolean isValidate = isValidate(request);
-        if (!isValidate) {
+        if (!isValidate(request)) {
             return new ActionResult(JSP_PAGE_ADMIN_REGISTRATION);
         }
+
         try {
             User user = fillUser(request, new User());
             setUserRole(user, request);
@@ -37,16 +37,14 @@ public class AdminAddUserAction extends AddUser {
 
     @Override
     public void setUserRole(User user, HttpServletRequest request) throws ActionException {
-        int userRoleId = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_USER_ROLE_ID));
-        UserRole userRole;
         try {
-            userRole = userRoleService.findById(userRoleId);
+            int userRoleId = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_USER_ROLE_ID));
+            UserRole userRole = userRoleService.findById(userRoleId);
+            user.setUserRole(userRole);
         } catch (ServiceException e) {
             log.error("can't get userRole from service", e);
-
             throw new ActionException("can't find user by id", e);
         }
-        user.setUserRole(userRole);
     }
 
 }

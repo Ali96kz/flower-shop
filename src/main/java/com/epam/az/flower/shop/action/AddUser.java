@@ -9,6 +9,7 @@ import com.epam.az.flower.shop.util.Hasher;
 import com.epam.az.flower.shop.util.StringAdapter;
 import com.epam.az.flower.shop.util.UtilClassException;
 import com.epam.az.flower.shop.validator.RegisterProfileValidator;
+import com.epam.az.flower.shop.validator.Validator;
 import com.epam.az.flower.shop.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public abstract class AddUser implements Action {
     protected UserRoleService userRoleService = new UserRoleService();
     private Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
     private Hasher hasher = new Hasher();
-    private RegisterProfileValidator validator = new RegisterProfileValidator();
+    private Validator validator = new RegisterProfileValidator();
 
     public User fillUser(HttpServletRequest request, User user) throws ActionException {
         user.setPassword(hasher.hash(request.getParameter(PARAMETER_PASSWORD)));
@@ -50,30 +51,29 @@ public abstract class AddUser implements Action {
     }
 
     public boolean isValidate(HttpServletRequest request) throws ActionException {
-
-        List<String> errorMsg;
         try {
-            errorMsg = validator.isValidate(request);
+            List<String> errorMsg = validator.isValidate(request);
+
+            if (errorMsg.size() > 0) {
+                String name = request.getParameter(PARAMETER_FIRST_NAME);
+                String nickName = request.getParameter(PARAMETER_NICK_NAME);
+                String lastName = request.getParameter(PARAMETER_LAST_NAME);
+
+                User user = new User();
+                user.setNickName(nickName);
+                user.setFirstName(name);
+                user.setLastName(lastName);
+
+                request.setAttribute(ATTRIBUTE_NAME_USER, user);
+                request.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
+                return false;
+            }
+            return true;
         } catch (ValidatorException e) {
             logger.error("can't validate", e);
             throw new ActionException("can't isValidate", e);
         }
 
-        if (errorMsg.size() > 0) {
-            String name = request.getParameter(PARAMETER_FIRST_NAME);
-            String nickName = request.getParameter(PARAMETER_NICK_NAME);
-            String lastName = request.getParameter(PARAMETER_LAST_NAME);
-
-            User user = new User();
-            user.setNickName(nickName);
-            user.setFirstName(name);
-            user.setLastName(lastName);
-
-            request.setAttribute(ATTRIBUTE_NAME_USER, user);
-            request.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
-            return false;
-        }
-        return true;
     }
 
     public void putInSession(User user, HttpServletRequest request) {

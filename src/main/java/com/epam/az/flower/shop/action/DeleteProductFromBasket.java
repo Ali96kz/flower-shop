@@ -10,10 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class DeleteProductFromBasket implements Action {
+public class DeleteProductFromBasket extends AbstractBasket {
     private static Logger logger = LoggerFactory.getLogger(DeleteProductFromBasket.class);
     private Validator validator = new DeleteFromBasketValidator();
     private StringAdapter stringAdapter = new StringAdapter();
@@ -24,10 +23,10 @@ public class DeleteProductFromBasket implements Action {
             return new ActionResult(JSP_PAGE_NAME_BASKET, true);
         }
 
-        HttpSession session = req.getSession();
-        Basket basket = (Basket) session.getAttribute(ATTRIBUTE_BASKET);
+        Basket basket = getBasket(req.getSession());
         int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
         basket.delete(productId);
+
         return new ActionResult(JSP_PAGE_NAME_BASKET, true);
     }
 

@@ -1,7 +1,7 @@
 package com.epam.az.flower.shop.action;
 
 public class ActionResult {
-    private String view;
+    private final String view;
     private boolean redirect = false;
 
     public ActionResult(String page, boolean redirect) {

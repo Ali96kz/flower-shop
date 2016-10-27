@@ -41,9 +41,8 @@ public class EditProductAction extends AbstractProduct {
     }
 
     public boolean isValidate(HttpServletRequest req) throws ActionException {
-        List<String> errorMsg;
         try {
-            errorMsg = validator.isValidate(req);
+            List<String> errorMsg = validator.isValidate(req);
             if (errorMsg.size() > 0) {
                 req.setAttribute(ATTRIBUTE_NAME_ERROR_MSG, errorMsg);
                 return false;

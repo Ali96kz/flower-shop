@@ -68,7 +68,7 @@
                             <label class="control-label" for="username">${birhday}</label>
                             <div class="controls">
                                 <input id="dateBirthday" name="dateBirthday" placeholder=""
-                                       class="form-control input-lg" type="text">
+                                       class="form-control input-lg" value="${user.dateBirthday}" type="text">
                                 <p class="help-block">${helpDate}</p>
                             </div>
                         </div>

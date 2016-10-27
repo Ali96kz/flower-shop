@@ -25,12 +25,12 @@ public class LogInValidator extends AbstractValidator {
 
         validateString(errorMsg, nickName, NICK_NAME, NICKNAME_MIN_LENGTH, NICKNAME_MAX_LENGTH);
         validateString(errorMsg, password, PARAMETER_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+
         if (errorMsg.size() != 0) {
             return errorMsg;
         }
 
         try {
-
             Integer userId;
             userService = new UserService();
             userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
@@ -42,6 +42,7 @@ public class LogInValidator extends AbstractValidator {
             logger.error("can't get user by id", e);
             throw new ValidatorException("can't get user by id", e);
         }
+
         return errorMsg;
     }
 }

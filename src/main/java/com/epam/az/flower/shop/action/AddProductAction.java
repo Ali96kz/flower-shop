@@ -23,15 +23,14 @@ public class AddProductAction extends AbstractProduct {
             return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
         }
 
-        Product product = getProduct(req, new Product());
-        int productId;
         try {
-            productId = productService.addNewProduct(product);
+            Product product = getProduct(req, new Product());
+            int productId = productService.addNewProduct(product);
+            return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
         } catch (ServiceException e) {
             logger.error("can't add product", e);
             throw new ActionException("can't add product to data", e);
         }
-        return new ActionResult(JSP_PAGE_PRODUCT_INF + productId, true);
     }
 
     public boolean isValidate(HttpServletRequest req) throws ActionException {
@@ -42,10 +41,12 @@ public class AddProductAction extends AbstractProduct {
             logger.error("can't validate object", e);
             throw new ActionException("problem with product validator", e);
         }
+
         if (errorMsg.size() > 0) {
             req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             return false;
         }
+
         return true;
     }
 }

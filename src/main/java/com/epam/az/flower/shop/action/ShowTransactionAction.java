@@ -17,18 +17,16 @@ public class ShowTransactionAction implements Action {
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
-        List<UserTransaction> userTransactionList;
-
         try {
+            HttpSession session = req.getSession();
+            int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
+            List<UserTransaction> userTransactionList;
             userTransactionList = userTransactionService.getAll(userId);
+            req.setAttribute(ATTRIBUTE_NAME_TRANSACTION_LIST, userTransactionList);
+            return new ActionResult(JSP_PAGE_NAME_TRANSACTION);
         } catch (ServiceException e) {
             logger.error("can't get transaction list", e);
             throw new ActionException("can't get user transaction list ", e);
         }
-
-        req.setAttribute(ATTRIBUTE_NAME_TRANSACTION_LIST, userTransactionList);
-        return new ActionResult(JSP_PAGE_NAME_TRANSACTION);
     }
 }

@@ -3,12 +3,10 @@ package com.epam.az.flower.shop.validator;
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.StringAdapter;
-import com.epam.az.flower.shop.util.UtilClassException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,6 @@ public class RegisterProfileValidator extends AbstractValidator {
     private UserService userService = new UserService();
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
-        Date date;
         List<String> errorMsg = new ArrayList<>();
         StringAdapter stringAdapter = new StringAdapter();
 
@@ -35,12 +32,7 @@ public class RegisterProfileValidator extends AbstractValidator {
         String lastName = request.getParameter(PARAMETER_LAST_NAME);
         String password = request.getParameter(PARAMETER_PASSWORD);
         String confirmPassword = request.getParameter(PARAMETER_CONFIRM_PASSWORD);
-        try {
-            date = stringAdapter.toSqlDate(request.getParameter(PARAMETER_DATE_BIRTHDAY));
-        } catch (UtilClassException e) {
-            logger.error("can't parse date", e);
-            throw new ValidatorException("can't parse date", e);
-        }
+        String date = request.getParameter(PARAMETER_DATE_BIRTHDAY);
 
         try {
             boolean isFree = userService.isFree(nickName);

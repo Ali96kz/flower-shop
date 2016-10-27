@@ -20,6 +20,7 @@ public class RegisterAction extends AddUser {
             User user = fillUser(request, new User());
             user = userService.registerUser(user);
             putInSession(user, request);
+
             return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         } catch (ServiceException e) {
             throw new ActionException("can't register new user", e);

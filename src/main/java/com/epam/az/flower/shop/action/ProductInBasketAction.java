@@ -9,24 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ProductInBasketAction implements Action {
+public class ProductInBasketAction extends AbstractBasket {
     private ProductService productService = new ProductService();
-    private Basket basket;
     private StringAdapter stringAdapter = new StringAdapter();
 
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         try {
             HttpSession session = req.getSession();
+            Basket basket = getBasket(session);
 
-            if (session.getAttribute(ATTRIBUTE_BASKET) == null) {
-                basket = new Basket();
-            }
+            int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
+            basket.add(productService.findById(productId));
 
-            String productId = req.getParameter(PARAMETER_PRODUCT_ID);
-            int id = stringAdapter.toInt(productId);
-
-            basket.add(productService.findById(id));
             session.setAttribute(ATTRIBUTE_BASKET, basket);
             return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
         } catch (ServiceException e) {

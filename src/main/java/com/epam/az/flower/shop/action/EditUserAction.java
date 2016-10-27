@@ -19,17 +19,17 @@ public class EditUserAction extends AddUser {
         try {
             if (!isValidate(req))
                 return new ActionResult(JSP_PAGE_NAME_EDIT_USER);
+
             HttpSession session = req.getSession();
             int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
-            User user;
-
-            user = userService.findById(userId);
+            User user = userService.findById(userId);
             user = fillUser(req, user);
             userService.update(user);
+
+            return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         } catch (ServiceException e) {
             logger.error("", e);
             throw new ActionException("can't find user by id", e);
         }
-        return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
     }
 }

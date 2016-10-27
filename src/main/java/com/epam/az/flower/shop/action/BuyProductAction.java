@@ -31,36 +31,34 @@ public class BuyProductAction implements Action {
         if (!isValidate(req)) {
             return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
         }
-        int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
-        int userId = (int) req.getSession().getAttribute(SESSION_PARAMETER_USER_ID);
-        Product product;
-        User user;
 
         try {
-            product = productService.findById(productId);
-            user = userService.findById(userId);
+            int productId = stringAdapter.toInt(req.getParameter(PARAMETER_PRODUCT_ID));
+            int userId = (int) req.getSession().getAttribute(SESSION_PARAMETER_USER_ID);
+            Product product = productService.findById(productId);
+            User user = userService.findById(userId);
             orderService.createOrder(user, product);
+            req.setAttribute(ATTRIBUTE_NAME_PRICE, product.getPrice());
+            return new ActionResult(JSP_PAGE_NAME_BILL);
+
         } catch (ServiceException e) {
             logger.error("can't create order", e);
             throw new ActionException("can't create order", e);
         }
-
-        req.setAttribute(ATTRIBUTE_NAME_PRICE, product.getPrice());
-        return new ActionResult(JSP_PAGE_NAME_BILL);
     }
 
     public boolean isValidate(HttpServletRequest req) throws ActionException {
-        List<String> errorMsg;
         try {
-            errorMsg = validator.isValidate(req);
+            List<String> errorMsg = validator.isValidate(req);
+
+            if (errorMsg.size() > 0) {
+                req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
+                return false;
+            }
+            return true;
         } catch (ValidatorException e) {
             throw new ActionException("problem with validating", e);
         }
 
-        if (errorMsg.size() > 0) {
-            req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
-            return false;
-        }
-        return true;
     }
 }

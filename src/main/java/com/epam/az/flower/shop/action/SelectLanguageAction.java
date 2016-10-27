@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class SelectLanguageAction implements Action {
     @Override
-    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
+    public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) {
         String language = req.getParameter("lang");
         Config.set(req.getSession(), Config.FMT_LOCALE, new Locale(language));
         Cookie cookie = new Cookie("lang", language);

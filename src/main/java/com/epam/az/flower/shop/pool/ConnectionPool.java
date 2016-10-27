@@ -25,6 +25,7 @@ public class ConnectionPool implements DataSource {
     private static final String DB_CONNECTIONS_LIMIT = "connections.limit";
     private static final String DB_CONNECTION_TIMEOUT = "connection.timeout";
     private static final String DATABASE_PROPERTIES = "database.properties";
+
     private static final UnsupportedOperationException UNSUPPORTED_OPERATION_EXCEPTION = new UnsupportedOperationException("Unsupported operation");
     private static Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     private String driver;
@@ -36,7 +37,11 @@ public class ConnectionPool implements DataSource {
     private volatile BlockingQueue<PooledConnection> freeConnections;
     private BlockingQueue<PooledConnection> usedConnections;
 
-    public ConnectionPool() throws ConnectionPoolException {
+    public ConnectionPool() {
+        initConnections();
+    }
+
+    public void getDataInf() {
         PropertyManager propertyManager = new PropertyManager();
         Properties properties;
         try {
@@ -53,10 +58,11 @@ public class ConnectionPool implements DataSource {
             this.connectionsLimit = Integer.parseInt(properties.getProperty(DB_CONNECTIONS_LIMIT));
             this.timeout = Integer.parseInt(properties.getProperty(DB_CONNECTION_TIMEOUT));
         }
-        initConnections();
+
     }
 
     private void initConnections() {
+        getDataInf();
         if (freeConnections == null) {
             synchronized (ConnectionPool.class) {
                 if (freeConnections == null) {

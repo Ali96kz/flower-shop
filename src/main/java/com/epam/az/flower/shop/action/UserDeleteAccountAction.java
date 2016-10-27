@@ -19,6 +19,7 @@ public class UserDeleteAccountAction implements Action {
             HttpSession session = req.getSession();
             int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
             userService.delete(userId);
+
             return new ActionResult(PAGE_DELETE_PROFILE);
         } catch (ServiceException e) {
             logger.error("can't find user by id", e);

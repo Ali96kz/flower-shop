@@ -12,7 +12,7 @@ public class ActionFactory {
     private Map<String, Action> actions;
 
 
-    public void initActions() throws ActionException {
+    public void initActions() {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/addMoneyToBalance", new AddMoneyAction());
@@ -52,7 +52,7 @@ public class ActionFactory {
         actions.put("GET/basket", new ShowBasketAction());
     }
 
-    public Action getAction(HttpServletRequest request) throws ActionException {
+    public Action getAction(HttpServletRequest request) {
         if (actions == null) {
             initActions();
             log.info("all action class were initialized");

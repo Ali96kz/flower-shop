@@ -17,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class BuyBasketAction implements Action {
+public class BuyBasketAction extends AbstractBasket {
     private static Logger logger = LoggerFactory.getLogger(BuyBasketAction.class);
+    private final ActionResult actionResult = new ActionResult(JSP_PAGE_NAME_BASKET, true);
     private UserService userService = new UserService();
     private Validator validator = new BuyBasketValidator();
     private OrderService orderService = new OrderService();
@@ -27,23 +28,20 @@ public class BuyBasketAction implements Action {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
         if (!isValidate(req)) {
-            return new ActionResult(JSP_PAGE_NAME_BASKET, true);
+            return actionResult;
         }
 
-        Basket basket = (Basket) session.getAttribute(ATTRIBUTE_BASKET);
+        Basket basket = getBasket(req.getSession());
         int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
         User user = findUserById(userId);
-
         int sum = createOrder(user, basket);
         session.setAttribute(ATTRIBUTE_BASKET, null);
         req.setAttribute(ATTRIBUTE_NAME_SUM, sum);
-        return new ActionResult(JSP_PAGE_NAME_BILL);
+        return actionResult;
     }
 
     public int createOrder(User user, Basket basket) throws ActionException {
-        int sum = 0;
         for (Product product : basket.getProducts()) {
-            sum += product.getPrice();
             try {
                 orderService.createOrder(user, product);
             } catch (ServiceException e) {
@@ -51,7 +49,7 @@ public class BuyBasketAction implements Action {
                 throw new ActionException("can't create order", e);
             }
         }
-        return sum;
+        return basket.getSum();
     }
 
     public boolean isValidate(HttpServletRequest req) throws ActionException {

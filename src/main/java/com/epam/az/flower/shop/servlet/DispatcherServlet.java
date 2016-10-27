@@ -1,7 +1,6 @@
 package com.epam.az.flower.shop.servlet;
 
 import com.epam.az.flower.shop.action.Action;
-import com.epam.az.flower.shop.action.ActionException;
 import com.epam.az.flower.shop.action.ActionFactory;
 import com.epam.az.flower.shop.action.ActionResult;
 import org.slf4j.Logger;
@@ -26,13 +25,7 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Action action = null;
-        try {
-            action = actionFactory.getAction(req);
-        } catch (ActionException e) {
-            logger.error("can't initialize action class", e);
-        }
-
+        Action action = actionFactory.getAction(req);
 
         try {
             ActionResult result = action.execute(req, resp);
@@ -41,7 +34,6 @@ public class DispatcherServlet extends HttpServlet {
             logger.error("can't execute action", e);
             throw new ServletException("Cannot execute action", e);
         }
-
     }
 
     private void doForwardOrRedirect(ActionResult result, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
