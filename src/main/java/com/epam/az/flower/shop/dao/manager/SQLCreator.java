@@ -57,6 +57,7 @@ public class SQLCreator<E extends BaseEntity> {
 
         deleteLastDot(sql);
         deleteLastDot(values);
+        logger.info(sql + VALUES + values + ");");
         return sql + VALUES + values + ");";
     }
 
@@ -79,6 +80,7 @@ public class SQLCreator<E extends BaseEntity> {
     public String createStatementSqlForFindById(Class entityClass, int id) {
         String sql = SQL_SELECT + createSQL(entityClass) + SQL_WHERE + entityClass.getSimpleName() +
                 ".id = " + id + ";";
+        System.out.println(sql);
         return sql;
     }
 

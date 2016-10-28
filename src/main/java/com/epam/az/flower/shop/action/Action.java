@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface Action {
     int PAGE_SIZE = 12;
-
+    String PRODUCT_ID = "id";
     String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
     String JSP_PAGE_NAME_PRODUCT = "product-inf";
@@ -70,6 +70,10 @@ public interface Action {
     String ATTRIBUTE_NAME_USER = "user";
     String SESSION_PARAMETER_USER_ID = "userId";
     String PAGE_DELETE_PROFILE = "delete-profile";
+
+    ActionResult ACTION_RESULT_CASH_REDIRECT_TRUE = new ActionResult(JSP_PAGE_NAME_CASH, true);
+    ActionResult ACTION_RESULT_ADD_PRODUCT_REDIRECT_FALSE = new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
+
 
     ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException;
 }

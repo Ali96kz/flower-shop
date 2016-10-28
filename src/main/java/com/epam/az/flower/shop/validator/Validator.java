@@ -35,7 +35,7 @@ public interface Validator {
     String HANVEN_T_ENOUGH_MONEY = "You haven't enough money";
     String PARAMETER_USER_ID = "userId";
     String PARAMETER_PRODUCT_ID = "productId";
-    String PRODUCT_ID = "id";
+
     String ATTRIBUTE_NAME_BASKET = "basket";
     String ERROR_PRODUCT_NAME = "product id";
     String NICK_NAME = "nick name";

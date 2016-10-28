@@ -25,6 +25,7 @@ public class SqlCreatorTest {
     @Test
     public void testFindById() {
         String sql = sqlCreator.createStatementSqlForFindById(PRIMITIVE_OBJECT_CLASS, EXAMPLE_OBJECT_ID);
+        System.out.println(sql);
         assertEquals("Create incorrect find by id", "SELECT Origin.id, Origin.deleteDay, Origin.country, Origin.province " +
                 "FROM Origin where Origin.id = 5;", sql);
     }
@@ -38,6 +39,7 @@ public class SqlCreatorTest {
     @Test
     public void testInsertSQL() throws DAOException {
         String sql = sqlCreator.createPrepareInsertSQL(PRIMITIVE_OBJECT_CLASS);
+        System.out.println(sql);
         assertEquals("Create incorrect sql for delete", "INSERT INTO Origin(country, province)values(?, ?);", sql);
     }
 

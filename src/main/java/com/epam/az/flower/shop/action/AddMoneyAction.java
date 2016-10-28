@@ -31,12 +31,14 @@ public class AddMoneyAction implements Action {
             if (errorMsg.size() > 0) {
                 req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
                 req.setAttribute(ATTRIBUTE_NAME_USER, user);
-                return new ActionResult(JSP_PAGE_NAME_CASH);
+                return ACTION_RESULT_CASH_REDIRECT_TRUE;
             }
 
             int money = Integer.parseInt(req.getParameter(PARAMETER_NAME_MONEY));
             userService.addMoneyToBalance(user, money);
-            return new ActionResult(JSP_PAGE_NAME_CASH, true);
+
+            return ACTION_RESULT_CASH_REDIRECT_TRUE;
+
         } catch (ServiceException e) {
             log.error("can't get entity from service", e);
             throw new ActionException("can't get user from service", e);

@@ -14,7 +14,7 @@ public class DeleteFromBasketValidator extends AbstractValidator {
     @Override
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();
-        String productId = request.getParameter(PRODUCT_ID);
+        String productId = request.getParameter(PARAMETER_PRODUCT_ID);
         validatePositiveNumber(errorMsg, productId, ERROR_PRODUCT_NAME);
 
         if (errorMsg.size() > 0) {
@@ -22,7 +22,7 @@ public class DeleteFromBasketValidator extends AbstractValidator {
         }
 
         Basket basket = (Basket) request.getSession().getAttribute(ATTRIBUTE_NAME_BASKET);
-        if (basket.getProducts().get(stringAdapter.toInt(productId)) == null) {
+        if (!basket.isExist(stringAdapter.toInt(productId))) {
             errorMsg.add("this product don't add in basket");
         }
 

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Basket {
-    private List<Product> products = new ArrayList<>();
+    public List<Product> products = new ArrayList<>();
     private int sum;
-
     public void add(Product product) {
         sum += product.getPrice();
         products.add(product);
@@ -21,12 +20,19 @@ public class Basket {
             if (products.get(i).getId() == id) {
                 sum -= products.get(i).getPrice();
                 products.remove(i);
-
                 return;
             }
         }
     }
 
+    public boolean isExist(int id){
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
     public List<Product> getProducts() {
         return products;
     }

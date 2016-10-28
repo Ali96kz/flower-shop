@@ -20,7 +20,7 @@ public class AddProductAction extends AbstractProduct {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         if (!isValidate(req)) {
             setValue(req);
-            return new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
+            return ACTION_RESULT_ADD_PRODUCT_REDIRECT_FALSE;
         }
 
         try {

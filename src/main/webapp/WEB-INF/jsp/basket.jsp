@@ -25,7 +25,7 @@
                         <br><c:out value="${product.flower.name}"/><br>
                             <c:out value="${product.price}"/><br>
                             <c:out value="${product.description}"/><br>
-                        <a href="delete-product-basket?id=${product.id}">
+                        <a href="delete-product-basket?productId=${product.id}">
                                 ${deleteProduct}
                         </a>
                         <a href="buy-product?productId=${product.id}">

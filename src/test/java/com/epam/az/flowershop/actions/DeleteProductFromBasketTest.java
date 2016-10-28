@@ -15,8 +15,8 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class DeleteProductFromBasketTest {
-     String JSP_PAGE_NAME_BASKET = "basket";
-     String PRODUCT_ID = "id";
+    private static final String JSP_PAGE_NAME_BASKET = "basket";
+    private static final String PRODUCT_ID = "productId";
     private TestHttpResponse response = new TestHttpResponse();
     private TestHttpRequest request = new TestHttpRequest();
     private TestSession session = new TestSession();
@@ -39,7 +39,7 @@ public class DeleteProductFromBasketTest {
     @Test
     public void testWithNormalParameter() throws ActionException {
         ActionResult actionResult = deleteProductFromBasket.execute(request, response);
-        assertEquals(basket.getProducts().size(), 3);
+        assertEquals(3, basket.getProducts().size());
         assertEquals(actionResult.getView(), JSP_PAGE_NAME_BASKET);
     }
 
