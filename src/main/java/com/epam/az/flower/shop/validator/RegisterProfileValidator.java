@@ -25,7 +25,6 @@ public class RegisterProfileValidator extends AbstractValidator {
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();
-        StringAdapter stringAdapter = new StringAdapter();
 
         String name = request.getParameter(PARAMETER_FIRST_NAME);
         String nickName = request.getParameter(PARAMETER_NICK_NAME);

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuyProductValidator extends AbstractValidator {
+    public static final String PRODUCT_ID = "";
     private static Logger logger = LoggerFactory.getLogger(BuyProductValidator.class);
 
     private UserService userService = new UserService();
@@ -30,20 +31,21 @@ public class BuyProductValidator extends AbstractValidator {
             errorMsg.add(SIGN_IN_ERROR_MSG);
             return errorMsg;
         }
+
         try {
-            validatePositiveNumber(errorMsg, request.getParameter(PARAMETER_PRODUCT_ID), "");
-            if (errorMsg.size() != 0) {
+            validatePositiveNumber(errorMsg, request.getParameter(PARAMETER_PRODUCT_ID), PRODUCT_ID);
+            if (errorMsg.size() > 0) {
                 return errorMsg;
             }
 
             int userId = (int) session.getAttribute(PARAMETER_USER_ID);
             int productId = stringAdapter.toInt(request.getParameter(PARAMETER_PRODUCT_ID));
 
-
             if (!productService.isExist(productId)) {
                 errorMsg.add(UNEXIST_PRODUCT_ERROR);
                 return errorMsg;
             }
+
 
             User user = userService.findById(userId);
             Product product = productService.findById(productId);
@@ -51,6 +53,7 @@ public class BuyProductValidator extends AbstractValidator {
             if (user.getBalance() < product.getPrice()) {
                 errorMsg.add(HANVEN_T_ENOUGH_MONEY);
             }
+
 
         } catch (ServiceException e) {
             logger.error("can't get entity from service class", e);

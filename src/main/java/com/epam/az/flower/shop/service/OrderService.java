@@ -14,6 +14,28 @@ public class OrderService {
     private ProxyService proxyService = new ProxyService(USER_ORDER_DAO_CLASS);
 
     public void createOrder(User user, Product product) throws ServiceException {
+        insertIntoUserTransaction(user, product);
+        UserOrder userOrder = fillUserOrder(user, product);
+        proxyService.insert(userOrder);
+        userService.update(user);
+
+    }
+    private UserOrder fillUserOrder(User user, Product product){
+        UserOrder userOrder = new UserOrder();
+        userOrder.setUser(user);
+        userOrder.setProduct(product);
+        userOrder.setOrderDate(getDate());
+        user.setBalance(user.getBalance() - product.getPrice());
+        return userOrder;
+    }
+    private java.sql.Date getDate() {
+        Calendar c = new GregorianCalendar();
+        java.util.Date utilDate = c.getTime();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        return sqlDate;
+    }
+
+    private void insertIntoUserTransaction(User user, Product product) throws ServiceException {
         transaction.setId(2);
         UserTransaction userTransaction = new UserTransaction();
         userTransaction.setTransaction(transaction);
@@ -21,21 +43,7 @@ public class OrderService {
         userTransaction.setSum(product.getPrice());
         userTransaction.setTransactionDate(getDate());
         userTransactionService.insert(userTransaction);
-        UserOrder userOrder = new UserOrder();
-        userOrder.setUser(user);
-        userOrder.setProduct(product);
-        userOrder.setOrderDate(getDate());
-        user.setBalance(user.getBalance() - product.getPrice());
 
-        proxyService.insert(userOrder);
-        userService.update(user);
-    }
-
-    private java.sql.Date getDate() {
-        Calendar c = new GregorianCalendar();
-        java.util.Date utilDate = c.getTime();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        return sqlDate;
     }
 
 }
