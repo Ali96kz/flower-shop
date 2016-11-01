@@ -1,21 +1,20 @@
 CREATE TABLE UserRole
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name CHAR(32),
-    deleteDay INT(11)
-);
+    name CHAR(32)  CHARACTER SET utf8,
+    deleteDay INT(11));
 
 CREATE TABLE FlowerType
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name CHAR(64),
+    name CHAR(64) CHARACTER SET utf8,
     deleteDay DATE
 );
 CREATE TABLE Origin
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    country CHAR(16),
-    province CHAR(16),
+    country CHAR(16) CHARACTER SET utf8,
+    province CHAR(16) CHARACTER SET utf8,
     deleteDay DATE
 );
 CREATE TABLE Temperature
@@ -28,19 +27,19 @@ CREATE TABLE Temperature
 CREATE TABLE Transaction
 (
     id INT(11) PRIMARY KEY NOT NULL,
-    name CHAR(32),
+    name CHAR(32) CHARACTER SET utf8,
     deleteDay DATE
 );
 CREATE TABLE User
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nickname CHAR(16),
-    firstName CHAR(16),
-    lastName CHAR(16),
+    nickname CHAR(16) CHARACTER SET utf8,
+    firstName CHAR(16) CHARACTER SET utf8,
+    lastName CHAR(16) CHARACTER SET utf8,
     dateBirthday DATE,
     originId INT(11),
     balance INT(11),
-    password CHAR(255),
+    password CHAR(255) CHARACTER SET utf8,
     deleteDay DATE,
     userRoleId INT(11),
     CONSTRAINT User_fk FOREIGN KEY (userRoleId) REFERENCES UserRole (id),
@@ -60,8 +59,8 @@ CREATE TABLE UserTransaction
 CREATE TABLE VisualParameters
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    colorSteam CHAR(32),
-    colorLeaves CHAR(32),
+    colorSteam CHAR(32) CHARACTER SET utf8,
+    colorLeaves CHAR(32) CHARACTER SET utf8,
     deleteDay DATE
 );
 CREATE TABLE WaterInWeek
@@ -77,8 +76,8 @@ CREATE TABLE GrowingCondition
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     waterInWeekId INT(11),
     temperatureId INT(11),
-    name CHAR(32),
-    lovelight TINYINT(1),
+    name CHAR(32) CHARACTER SET utf8,
+    lovelight boolean,
     deleteDay DATE,
     CONSTRAINT growingTips___fk FOREIGN KEY (waterInWeekId) REFERENCES WaterInWeek (id),
     CONSTRAINT temperatureID FOREIGN KEY (temperatureId) REFERENCES Temperature (id),
@@ -88,7 +87,7 @@ CREATE TABLE GrowingCondition
 CREATE TABLE Flower
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name CHAR(16),
+    name CHAR(16) CHARACTER SET utf8,
     growingConditionId INT(11),
     visualParametersId INT(11),
     flowerTypeId INT(11),
@@ -101,7 +100,7 @@ CREATE TABLE Flower
 CREATE TABLE Product
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    description CHAR(255),
+    description CHAR(255) CHARACTER SET utf8,
     originId INT(11),
     deleteDay DATE,
     price INT(11),

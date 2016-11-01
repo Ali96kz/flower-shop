@@ -69,7 +69,6 @@ public interface Action {
     String ATTRIBUTE_NAME_ORIGIN_LIST = "origins";
     String ATTRIBUTE_NAME_USER = "user";
     String SESSION_PARAMETER_USER_ID = "userId";
-    String PAGE_DELETE_PROFILE = "delete-profile";
 
     ActionResult ACTION_RESULT_CASH_REDIRECT_TRUE = new ActionResult(JSP_PAGE_NAME_CASH, true);
     ActionResult ACTION_RESULT_ADD_PRODUCT_REDIRECT_FALSE = new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);

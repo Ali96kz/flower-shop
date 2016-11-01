@@ -82,7 +82,8 @@ public class UserService {
         return users;
     }
 
-    public void logout(int id) {
+    public void logout(int id) throws ServiceException {
+        init();
         userDAO.deleteFromCache(id);
     }
 

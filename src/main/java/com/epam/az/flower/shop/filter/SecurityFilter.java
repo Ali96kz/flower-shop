@@ -22,6 +22,7 @@ public class SecurityFilter implements Filter {
     public static final String USER_ROLE_MANAGER = "manager";
     public static final String USER_ROLE_CUSTOMER = "customer";
     private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
+    public static final String SESSION_ATTRIBUTE_USER_ID = "userId";
     private List<String> anonymousUserViews;
     private List<String> userViews;
     private List<String> managerViews;
@@ -35,7 +36,6 @@ public class SecurityFilter implements Filter {
         anonymousUserViews.add("/main");
         anonymousUserViews.add("/about-project");
         anonymousUserViews.add("/contact");
-        anonymousUserViews.add("/cash");
         anonymousUserViews.add("/login");
         anonymousUserViews.add("/delete-product-basket");
         anonymousUserViews.add("/registration");
@@ -62,7 +62,6 @@ public class SecurityFilter implements Filter {
         userViews.add("/cash");
         userViews.add("/edit-account");
         userViews.add("/delete-profile");
-
     }
 
     public void initManagerViews() {
@@ -101,7 +100,7 @@ public class SecurityFilter implements Filter {
     }
 
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException, FilterException {
-        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        Integer userId = (Integer) request.getSession().getAttribute(SESSION_ATTRIBUTE_USER_ID);
         String contextPath = request.getPathInfo();
         if (userId == null) {
             if (!anonymousUserViews.contains(contextPath)) {

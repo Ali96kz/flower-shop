@@ -39,6 +39,7 @@ public abstract class AbstractVitrine implements Action {
             if (pageNumber > paginatedList.getPageNumber()) {
                 pageNumber = 0;
             }
+
             req.setAttribute(ATTRIBUTE_PRODUCTS, paginatedList.getPage(pageNumber));
         } catch (ValidatorException e) {
             logger.error("can't isValidate object", e);

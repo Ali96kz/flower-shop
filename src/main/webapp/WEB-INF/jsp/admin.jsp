@@ -24,9 +24,6 @@
 
             <c:forEach items="${users}" var="user">
                 ${nickName}<c:out value="${user.nickName}"/><br>
-                <a href="delete-user?id=${user.id}">
-                    <c:out value="${deleteUser}"/><br>
-                </a>
                 <br>
             </c:forEach>
             </div>

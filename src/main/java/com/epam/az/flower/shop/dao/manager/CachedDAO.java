@@ -86,6 +86,6 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
     }
 
     public void deleteFromCache(int id) {
-        cache.put(id, null);
+        cache.remove(id);
     }
 }

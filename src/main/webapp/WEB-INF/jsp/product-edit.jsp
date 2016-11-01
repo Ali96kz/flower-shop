@@ -123,9 +123,10 @@
 
                         <div class="control-group">
                            <div class="controls">
-                                <c:forEach items="${errorMsg}" var="msg">
-                                    <c:out value="${msg}"/><br>
-                                </c:forEach>
+
+                                    <c:forEach items="${errorMsg}" var="msg">
+                                        <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
+                                    </c:forEach>
                             </div>
                         </div>
 

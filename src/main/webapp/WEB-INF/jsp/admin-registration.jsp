@@ -113,7 +113,7 @@
     </div>
 
     <c:forEach items="${errorMsg}" var="msg">
-        <c:out value="${msg}"/><br>
+        <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
     </c:forEach>
 
      </jsp:attribute>

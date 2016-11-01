@@ -9,11 +9,14 @@
         Your balance ${user.balance}<br>
         <form action="addMoneyToBalance" method="POST">
             Add money to balance <input type="text" size="8" name="money"><br>
-            <button type="submit" name="add"><value>add money</value></button>
+            <button type="submit" name="add">
+                <value>add money</value>
+            </button>
         </form>
 
-        <c:forEach items="${errorMsg}" var="msg">
-            <c:out value="${msg}"/><br>
-        </c:forEach>
+
+            <c:forEach items="${errorMsg}" var="msg">
+                <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
+            </c:forEach>
     </jsp:attribute>
 </t:autorized-user-template>

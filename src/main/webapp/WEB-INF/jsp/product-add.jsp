@@ -41,7 +41,8 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${flowerName}</label>
                             <div class="controls">
-                                <input type="text" size="16" value="${product.flower.name}" name="flowerName" class="form-control input-lg" >
+                                <input type="text" size="16" value="${product.flower.name}" name="flowerName"
+                                       class="form-control input-lg">
                                 <p class="help-block">${flowerNameHelp}</p>
                             </div>
                         </div>
@@ -49,14 +50,16 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${price}</label>
                             <div class="controls">
-                                <input type="text" size="16" value="${product.price}" name="price" class="form-control input-lg">
+                                <input type="text" size="16" value="${product.price}" name="price"
+                                       class="form-control input-lg">
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label class="control-label" for="username">${description}</label>
                             <div class="controls">
-                                <input id="username" name="description" value="${product.description}" placeholder="" class="form-control input-lg"
+                                <input id="username" name="description" value="${product.description}" placeholder=""
+                                       class="form-control input-lg"
                                        type="text">
 
 
@@ -122,8 +125,9 @@
                         </div>
                         <div class="control-group">
                             <div class="controls">
+
                                 <c:forEach items="${errorMsg}" var="msg">
-                                    <c:out value="${msg}"/><br>
+                                    <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
                                 </c:forEach>
                             </div>
                         </div>
