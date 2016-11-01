@@ -20,7 +20,8 @@ public class OrderService {
         userService.update(user);
 
     }
-    private UserOrder fillUserOrder(User user, Product product){
+
+    private UserOrder fillUserOrder(User user, Product product) {
         UserOrder userOrder = new UserOrder();
         userOrder.setUser(user);
         userOrder.setProduct(product);
@@ -28,6 +29,7 @@ public class OrderService {
         user.setBalance(user.getBalance() - product.getPrice());
         return userOrder;
     }
+
     private java.sql.Date getDate() {
         Calendar c = new GregorianCalendar();
         java.util.Date utilDate = c.getTime();

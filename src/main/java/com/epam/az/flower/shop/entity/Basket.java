@@ -6,6 +6,7 @@ import java.util.List;
 public class Basket {
     public List<Product> products = new ArrayList<>();
     private int sum;
+
     public void add(Product product) {
         sum += product.getPrice();
         products.add(product);
@@ -25,7 +26,7 @@ public class Basket {
         }
     }
 
-    public boolean isExist(int id){
+    public boolean isExist(int id) {
         for (Product product : products) {
             if (product.getId() == id) {
                 return true;
@@ -33,6 +34,7 @@ public class Basket {
         }
         return false;
     }
+
     public List<Product> getProducts() {
         return products;
     }

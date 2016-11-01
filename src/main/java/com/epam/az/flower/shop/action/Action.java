@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface Action {
     int PAGE_SIZE = 12;
-    String PRODUCT_ID = "id";
     String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
     String JSP_PAGE_NAME_PRODUCT = "product-inf";
@@ -28,7 +27,6 @@ public interface Action {
     String JSP_PAGE_NAME_PROFILE = "profile";
     String JSP_PAGE_NAME_TRANSACTION = "transaction";
     String JSP_PAGE_NAME_REGISTRATION = "registration";
-    String JSP_PAGE_NAME_EDIT_USER = "edit-user";
 
     String REQUEST_ATTRIBUTE_NAME_PRODUCT_ID = "productId";
     String REQUEST_ATTRIBUTE_NAME_PRODUCT = "product";

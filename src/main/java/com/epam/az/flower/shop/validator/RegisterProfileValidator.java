@@ -2,7 +2,6 @@ package com.epam.az.flower.shop.validator;
 
 import com.epam.az.flower.shop.service.ServiceException;
 import com.epam.az.flower.shop.service.UserService;
-import com.epam.az.flower.shop.util.StringAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

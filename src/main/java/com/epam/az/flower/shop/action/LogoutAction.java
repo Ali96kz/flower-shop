@@ -11,13 +11,11 @@ import javax.servlet.http.HttpSession;
 
 public class LogoutAction implements Action {
     private UserService userService = new UserService();
-    private Logger logger = LoggerFactory.getLogger(LogoutAction.class);
+
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
         Integer userId = (Integer) session.getAttribute(SESSION_PARAMETER_USER_ID);
-        System.out.println("user with id {} logout"+ userId.intValue());
-
 
         try {
             userService.logout(userId.intValue());

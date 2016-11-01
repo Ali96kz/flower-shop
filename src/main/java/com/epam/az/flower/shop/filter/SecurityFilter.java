@@ -21,8 +21,8 @@ public class SecurityFilter implements Filter {
     public static final String USER_ROLE_ADMIN = "admin";
     public static final String USER_ROLE_MANAGER = "manager";
     public static final String USER_ROLE_CUSTOMER = "customer";
-    private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
     public static final String SESSION_ATTRIBUTE_USER_ID = "userId";
+    private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
     private List<String> anonymousUserViews;
     private List<String> userViews;
     private List<String> managerViews;
