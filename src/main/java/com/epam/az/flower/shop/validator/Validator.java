@@ -15,7 +15,7 @@ public interface Validator {
     int FLOWER_NAME_MAX_LENGTH = 16;
 
     String NUMBER_REGEX = "[0-9]+";
-    String ERROR_CASH_INCORRECT_MONEY = "error.cash.incorrect.money";
+    String ERROR_MSG_CASH_INCORRECT_MONEY = "error.cash.incorrect.money";
 
     String PARAMETER_NAME_PRICE = "price";
     String PARAMETER_NAME_DESCRIPTION = "description";
@@ -65,5 +65,4 @@ public interface Validator {
     String ERROR_ATTRIBUTE_NAME_PASSWORD = "registration.page.error.incorrect.password";
 
     List<String> isValidate(HttpServletRequest request) throws ValidatorException;
-
 }
