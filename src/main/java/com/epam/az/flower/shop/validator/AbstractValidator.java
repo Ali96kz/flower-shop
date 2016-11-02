@@ -22,44 +22,44 @@ public abstract class AbstractValidator implements Validator {
         }
 
     }
-    protected void validatePositiveNumber(List<String> errorMsg, String number, String name) {
+    protected void validatePositiveNumber(List<String> errorMsg, String number, String message) {
         if (number == null || number.replaceAll(WHITESPACE_REGEX, EMPTY_STRING).equals(EMPTY_STRING)) {
-            errorMsg.add(YOU_DIDN_T_INSERT + name);
+            errorMsg.add(message);
             return;
         }
 
         if (!number.matches(NUMBER_REGEX)) {
-            errorMsg.add(PLEASE_INSERT + name);
+            errorMsg.add(message);
             return;
         }
 
         int value = stringAdapter.toInt(number);
 
         if (value <= 0) {
-            errorMsg.add(name + COULDN_T_BE_BELOW_ZERO);
+            errorMsg.add(message);
         }
     }
 
-    protected void validateString(List<String> errorMsg, String parameter, String name) {
+    protected void validateString(List<String> errorMsgs, String parameter, String message) {
         if (parameter.replaceAll(WHITESPACE_REGEX, EMPTY_STRING).equals(EMPTY_STRING)) {
-            errorMsg.add(name + CAN_T_CONTAIN_JUST_WHITE_SPACE);
+            errorMsgs.add(message);
         }
 
         if (parameter.matches(W_REGEX)) {
-            errorMsg.add(INCORRECT + name + NAME_MUST_CONTAIN_ERROR);
+            errorMsgs.add(message);
         }
 
         if (parameter.matches(D_REGEX)) {
-            errorMsg.add(name + CAN_T_CONTAIN_A_NUMBER);
+            errorMsgs.add(message);
         }
     }
 
-    protected void validateString(List<String> errorMsg, String parameter, String name, int minLength, int maxLength) {
-        validateString(errorMsg, parameter, name);
+    protected void validateString(List<String> errorMsg, String parameter, String message, int minLength, int maxLength) {
+        validateString(errorMsg, parameter, message);
         if (parameter.length() < minLength) {
-            errorMsg.add(name + MUST_CONTAIN_MIN + minLength + MAX + maxLength);
+            errorMsg.add(message);
         } else if (parameter.length() > maxLength) {
-            errorMsg.add(name + MUST_CONTAIN_MIN + minLength + MAX + maxLength);
+            errorMsg.add(message);
         }
     }
 }

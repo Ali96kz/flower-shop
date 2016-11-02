@@ -28,7 +28,7 @@ public class BuyProductValidator extends AbstractValidator {
         HttpSession session = request.getSession();
 
         if (session.getAttribute(PARAMETER_USER_ID) == null) {
-            errorMsg.add(SIGN_IN_ERROR_MSG);
+            errorMsg.add(SIGN_IN_ERROR);
             return errorMsg;
         }
 
@@ -51,7 +51,7 @@ public class BuyProductValidator extends AbstractValidator {
             Product product = productService.findById(productId);
 
             if (user.getBalance() < product.getPrice()) {
-                errorMsg.add(HANVEN_T_ENOUGH_MONEY_ERROR);
+                errorMsg.add(HAVEN_T_ENOUGH_MONEY_ERROR);
             }
 
 

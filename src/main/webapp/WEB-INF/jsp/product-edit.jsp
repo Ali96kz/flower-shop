@@ -22,7 +22,7 @@
     <fmt:message key="add.product.growing.condition" var="growingConditionWord"/>
     <fmt:message key="add.product.price" var="price"/>
     <fmt:message key="add.product.growing.help" var="growingHelp"/>
-    <fmt:message key="add.product.flowe.type" var="flowerTypeWord"/>
+    <fmt:message key="add.product.flower.type" var="flowerTypeWord"/>
     <fmt:message key="add.product.made.place" var="madePlace"/>
     <fmt:message key="edit.product.button.name" var="editProduct"/>
 

@@ -9,7 +9,7 @@ public class AddMoneyValidator extends AbstractValidator {
     @Override
     public List<String> isValidate(HttpServletRequest request) {
         List<String> errorMsg = new ArrayList<>();
-        validatePositiveNumber(errorMsg, request.getParameter(PARAMETER_MONEY), FIELD_MENU_NAME_MONEY);
+        validatePositiveNumber(errorMsg, request.getParameter(PARAMETER_MONEY), ERROR_CASH_INCORRECT_MONEY);
         return errorMsg;
     }
 }

@@ -18,13 +18,11 @@ public class RegisterProfileValidator extends AbstractValidator {
     private static final int LAST_NAME_MIN_LENGTH = 3;
     private static final int FIRST_NAME_MAX_LENGTH = 16;
     private static final int FIRST_NAME_MIN_LENGTH = 3;
-
     private static Logger logger = LoggerFactory.getLogger(RegisterProfileValidator.class);
     private UserService userService = new UserService();
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {
         List<String> errorMsg = new ArrayList<>();
-
         String name = request.getParameter(PARAMETER_FIRST_NAME);
         String nickName = request.getParameter(PARAMETER_NICK_NAME);
         String lastName = request.getParameter(PARAMETER_LAST_NAME);
@@ -35,11 +33,11 @@ public class RegisterProfileValidator extends AbstractValidator {
         equalsPassword(errorMsg, confirmPassword, password);
         isNicknameFree(nickName, errorMsg);
         validateDate(errorMsg, date);
-        validateString(errorMsg, name, ATTRIBUTE_FIRST_NAME, FIRST_NAME_MIN_LENGTH, FIRST_NAME_MAX_LENGTH);
-        validateString(errorMsg, lastName, ATTRIBUTE_NAME_LAST_NAME, LAST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH);
-        validateString(errorMsg, nickName, ATTRIBUTE_NAME_NICK_NAME, NICKNAME_MIN_LENGTH, NICKNAME_MAX_LENGTH);
-        validateString(errorMsg, password, ATTRIBUTE_NAME_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
-        validateString(errorMsg, confirmPassword, ATTRIBUTE_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+        validateString(errorMsg, name, ERROR_ATTRIBUTE_FIRST_NAME, FIRST_NAME_MIN_LENGTH, FIRST_NAME_MAX_LENGTH);
+        validateString(errorMsg, lastName, ERROR_ATTRIBUTE_NAME_LAST_NAME, LAST_NAME_MIN_LENGTH, LAST_NAME_MAX_LENGTH);
+        validateString(errorMsg, nickName, ERROR_ATTRIBUTE_NAME_NICK_NAME, NICKNAME_MIN_LENGTH, NICKNAME_MAX_LENGTH);
+        validateString(errorMsg, password, ERROR_ATTRIBUTE_NAME_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
+        validateString(errorMsg, confirmPassword, ERROR_ATTRIBUTE_NAME_CONFIRM_PASSWORD, PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH);
 
         return errorMsg;
     }

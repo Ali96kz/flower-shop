@@ -14,6 +14,7 @@ import java.util.List;
 
 public class BuyBasketValidator implements Validator {
     private static Logger logger = LoggerFactory.getLogger(BuyBasketValidator.class);
+    private static String HAVENT_ENOUGH_MONEY_ERROR = "error.havent.enough.money";
     private UserService userService = new UserService();
 
 
