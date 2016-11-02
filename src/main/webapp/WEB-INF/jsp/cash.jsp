@@ -12,11 +12,11 @@
             <button type="submit" name="add">
                 <value>add money</value>
             </button>
-        </form>
-
-
+            <br>
             <c:forEach items="${errorMsg}" var="msg">
                 <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
             </c:forEach>
+        </form>
+
     </jsp:attribute>
 </t:autorized-user-template>
