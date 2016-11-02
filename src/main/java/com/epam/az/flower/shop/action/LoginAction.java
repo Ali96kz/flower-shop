@@ -33,8 +33,8 @@ public class LoginAction implements Action {
             String password = req.getParameter(PARAMETER_PASSWORD);
 
             int userId = userService.getUserIdByCredentials(nickName, hasher.hash(password));
-
             session.setAttribute(SESSION_PARAMETER_USER_ID, userId);
+
             logger.info("put user id into session {}", String.valueOf(session.getAttribute(SESSION_PARAMETER_USER_ID)));
             return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
         } catch (ServiceException e) {

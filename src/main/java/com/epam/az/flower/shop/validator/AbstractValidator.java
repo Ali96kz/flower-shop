@@ -5,10 +5,25 @@ import com.epam.az.flower.shop.util.StringAdapter;
 import java.util.List;
 
 public abstract class AbstractValidator implements Validator {
+    private static final String WHITESPACE_REGEX = "\\s";
+    private static final String EMPTY_STRING = "";
+    private static final String W_REGEX = "\\W";
+    private static final String D_REGEX = "\\d";
     private StringAdapter stringAdapter = new StringAdapter();
 
+    protected void validateDate(List<String> errorMsg, String date){
+        if (date == null) {
+            errorMsg.add(INCORRECT_DATE_ERROR_MSG);
+            return ;
+        }
+
+        if (!date.toString().matches(MATCH_DATE_REGEX)) {
+            errorMsg.add(INCORRECT_DATE_ERROR_MSG);
+        }
+
+    }
     protected void validatePositiveNumber(List<String> errorMsg, String number, String name) {
-        if (number == null || number.replaceAll("\\s", "").equals("")) {
+        if (number == null || number.replaceAll(WHITESPACE_REGEX, EMPTY_STRING).equals(EMPTY_STRING)) {
             errorMsg.add(YOU_DIDN_T_INSERT + name);
             return;
         }
@@ -26,15 +41,15 @@ public abstract class AbstractValidator implements Validator {
     }
 
     protected void validateString(List<String> errorMsg, String parameter, String name) {
-        if (parameter.replaceAll("\\s", "").equals("")) {
+        if (parameter.replaceAll(WHITESPACE_REGEX, EMPTY_STRING).equals(EMPTY_STRING)) {
             errorMsg.add(name + CAN_T_CONTAIN_JUST_WHITE_SPACE);
         }
 
-        if (parameter.matches("\\W")) {
-            errorMsg.add(INCORRECT + name + NAME_MUST_CONTAIN);
+        if (parameter.matches(W_REGEX)) {
+            errorMsg.add(INCORRECT + name + NAME_MUST_CONTAIN_ERROR);
         }
 
-        if (parameter.matches("\\d")) {
+        if (parameter.matches(D_REGEX)) {
             errorMsg.add(name + CAN_T_CONTAIN_A_NUMBER);
         }
     }

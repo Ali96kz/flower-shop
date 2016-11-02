@@ -47,8 +47,8 @@ public class ConnectionPool implements DataSource {
         try {
             properties = propertyManager.readProperty(DATABASE_PROPERTIES);
         } catch (UtilClassException e) {
+            logger.error("couldn't get properties", e);
             throw new ConnectionPoolException("Could not load properties", e);
-
         }
         if (properties != null) {
             this.driver = properties.getProperty(DB_DRIVER);

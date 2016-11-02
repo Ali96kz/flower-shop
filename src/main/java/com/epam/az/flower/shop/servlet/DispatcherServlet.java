@@ -26,7 +26,6 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Action action = actionFactory.getAction(req);
-
         try {
             ActionResult result = action.execute(req, resp);
             doForwardOrRedirect(result, req, resp);

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,6 +6,6 @@
     <title>Flower Shop</title>
 </head>
 <body>
-${word}
+<c:redirect url="/flower-shop/login"/>
 </body>
 </html>

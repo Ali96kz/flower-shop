@@ -24,6 +24,7 @@ public class LocaleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
+
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(COOKIE_ATTRIBUTE_LANGUAGE)) {
                 Locale locale = new Locale(cookie.getValue());

@@ -51,7 +51,7 @@ public class BuyProductValidator extends AbstractValidator {
             Product product = productService.findById(productId);
 
             if (user.getBalance() < product.getPrice()) {
-                errorMsg.add(HANVEN_T_ENOUGH_MONEY);
+                errorMsg.add(HANVEN_T_ENOUGH_MONEY_ERROR);
             }
 
 
