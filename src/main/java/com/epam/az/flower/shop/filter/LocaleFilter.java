@@ -25,10 +25,12 @@ public class LocaleFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         Cookie[] cookies = req.getCookies();
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(COOKIE_ATTRIBUTE_LANGUAGE)) {
-                Locale locale = new Locale(cookie.getValue());
-                Config.set(req.getSession(), Config.FMT_LOCALE, locale);
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(COOKIE_ATTRIBUTE_LANGUAGE)) {
+                    Locale locale = new Locale(cookie.getValue());
+                    Config.set(req.getSession(), Config.FMT_LOCALE, locale);
+                }
             }
         }
         filterChain.doFilter(req, resp);

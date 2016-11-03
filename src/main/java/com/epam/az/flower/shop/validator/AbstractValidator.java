@@ -51,8 +51,10 @@ public abstract class AbstractValidator implements Validator {
 
     protected void validateString(List<String> errorMsg, String parameter, String message, int minLength, int maxLength) {
         validateString(errorMsg, parameter, message);
+
         if(errorMsg.size() > 0)
             return;
+
         if (parameter.length() < minLength) {
             errorMsg.add(message);
         } else if (parameter.length() > maxLength) {

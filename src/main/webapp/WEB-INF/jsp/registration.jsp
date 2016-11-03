@@ -22,7 +22,6 @@
     <fmt:message key="register.help.for.date" var="helpDate"/>
     <fmt:message key="register.help.for.password" var="helpPassword"/>
     <fmt:message key="register.help.for.confirm.password" var="helpConfirmPassword"/>
-    <%--<fmt:message key="userprofile.last.name" var="userprofile.last.name"/>--%>
     <fmt:message key="usernick.name"/>
     <fmt:message key="registration.page.error.incorrect.password" var="registration.page.error.incorrect.password"/>
 
@@ -98,7 +97,58 @@
                                 <p class="help-block">${helpConfirmPassword}</p>
                             </div>
                         </div>
-1
+                        <div class="control-group">
+                            <label class="control-label" for="password_confirm"></label>
+                            <div class="controls">
+                                <fmt:bundle basename="i18n">
+                                    <c:forEach items="${errorMsg}" var="msg">
+                                        <c:choose>
+                                            <c:when test="${msg eq 'registration.page.error.busy.nickname'}">
+                                                <font size="3" color="red"> <fmt:message
+                                                        key="registration.page.error.busy.nickname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.lastname'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="registration.page.error.incorrect.lastname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.nickname'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="registration.page.error.incorrect.nickname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.firstname'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="registration.page.error.incorrect.firstname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.password'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="registration.page.error.incorrect.password"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.confirm.password'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="registration.page.error.incorrect.confirm.password"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.date'}">
+                                                <font size="3" color="red"><fmt:message key="registration.page.error.incorrect.date"/></font>
+                                            </c:when>
+
+
+                                            <c:when test="${msg eq 'registration.page.error.different.password'}">
+                                                <font size="3" color="red"><fmt:message key="registration.page.error.different.password"/></font>
+                                            </c:when>
+                                        </c:choose>
+                                        <br>
+                                    </c:forEach>
+                                </fmt:bundle>
+                            </div>
+                        </div>
+
+
 
                         <div class="control-group">
                             <!-- Button -->
