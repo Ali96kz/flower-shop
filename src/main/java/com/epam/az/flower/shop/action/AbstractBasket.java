@@ -5,6 +5,7 @@ import com.epam.az.flower.shop.entity.Basket;
 import javax.servlet.http.HttpSession;
 
 public abstract class AbstractBasket implements Action {
+
     public Basket getBasket(HttpSession session) {
         Basket basket;
 
