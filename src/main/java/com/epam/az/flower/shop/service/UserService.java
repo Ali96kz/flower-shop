@@ -58,14 +58,17 @@ public class UserService {
         proxyService.delete(userId);
     }
 
-    public User registerUser(User user) throws ServiceException {
+    public User registerUserCustomer(User user) throws ServiceException {
         UserRole userRole = userRoleService.getUserRoleByName(CUSTOMER_USER_ROLE);
         user.setUserRole(userRole);
-        int userId = proxyService.insert(user);
-        user.setId(userId);
+        registerUser(user);
         return user;
     }
+    public void registerUser(User user) throws ServiceException {
+        int userId = proxyService.insert(user);
+        user.setId(userId);
 
+    }
     public User findById(int id) throws ServiceException {
         User user = (User) proxyService.findById(id);
         UserRole userRole = userRoleService.findById(user.getUserRole().getId());

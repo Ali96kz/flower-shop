@@ -8,11 +8,13 @@ import java.util.GregorianCalendar;
 
 public class OrderService {
     private static final Class<UserOrderDAO> USER_ORDER_DAO_CLASS = UserOrderDAO.class;
+    private static final String TRANSACTION_NAME_BUY_PRODUCT = "buy product";
+
     private UserService userService = new UserService();
     private UserTransactionService userTransactionService = new UserTransactionService();
     private Transaction transaction = new Transaction();
     private ProxyService proxyService = new ProxyService(USER_ORDER_DAO_CLASS);
-
+    private TransactionService transactionService = new TransactionService();
     public void createOrder(User user, Product product) throws ServiceException {
         insertIntoUserTransaction(user, product);
         UserOrder userOrder = fillUserOrder(user, product);
@@ -38,14 +40,13 @@ public class OrderService {
     }
 
     private void insertIntoUserTransaction(User user, Product product) throws ServiceException {
-        transaction.setId(2);
+        Transaction buyProductTransaction = transactionService.getTransactionByName(TRANSACTION_NAME_BUY_PRODUCT);
         UserTransaction userTransaction = new UserTransaction();
-        userTransaction.setTransaction(transaction);
+        userTransaction.setTransaction(buyProductTransaction);
         userTransaction.setUser(user);
         userTransaction.setSum(product.getPrice());
         userTransaction.setTransactionDate(getDate());
         userTransactionService.insert(userTransaction);
-
     }
 
 }

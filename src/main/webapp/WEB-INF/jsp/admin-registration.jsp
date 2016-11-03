@@ -35,25 +35,28 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${firstName}</label>
                             <div class="controls">
-                                <input id="firstName" name="firstName" placeholder="" class="form-control input-lg"
+                                <input id="firstName" name="firstName" value="${user.firstName}" placeholder=""
+                                       class="form-control input-lg"
                                        type="text">
-                                <p class="help-block"></p>
+                                <p class="help-block">${helpCom}</p>
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label class="control-label" for="username">${lastName}</label>
                             <div class="controls">
-                                <input id="lastName" name="lastName" placeholder="" class="form-control input-lg"
+                                <input id="lastName" name="lastName" placeholder="" value="${user.lastName}"
+                                       class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                                <p class="help-block">${helpCom}</p>
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label class="control-label" for="username">${nickName}</label>
                             <div class="controls">
-                                <input id="username" name="nickName" placeholder="" class="form-control input-lg"
+                                <input id="username" name="nickName" value="${user.nickName}" placeholder=""
+                                       class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">date</p>
                             </div>
@@ -63,28 +66,29 @@
                             <label class="control-label" for="username">${birhday}</label>
                             <div class="controls">
                                 <input id="dateBirthday" name="dateBirthday" placeholder=""
-                                       class="form-control input-lg" type="text">
-                                <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                                       class="form-control input-lg" value="${user.dateBirthday}" type="text">
+                                <p class="help-block">${helpDate}</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password">Password</label>
+                            <label class="control-label" for="password">${password}</label>
                             <div class="controls">
                                 <input id="password" name="password" placeholder="" class="form-control input-lg"
                                        type="password">
-                                <p class="help-block">Password should be at least 6 characters</p>
+                                <p class="help-block">${helpPassword}</p>
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password_confirm">Password (Confirm)</label>
+                            <label class="control-label" for="password_confirm">${confirmPassword}</label>
                             <div class="controls">
                                 <input id="password_confirm" name="confirmPassword" placeholder=""
                                        class="form-control input-lg" type="password">
-                                <p class="help-block">Please confirm password</p>
+                                <p class="help-block">${helpConfirmPassword}</p>
                             </div>
                         </div>
+
                         <div class="control-group">
                             <label class="control-label" for="password_confirm">Choose user role</label>
                             <div class="controls">

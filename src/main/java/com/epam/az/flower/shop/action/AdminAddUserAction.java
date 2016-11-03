@@ -19,6 +19,12 @@ public class AdminAddUserAction extends AddUser {
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
         if (!isValidate(request)) {
+            try {
+                request.setAttribute(ATTRIBUTE_USER_ROLES, userRoleService.getAll());
+            } catch (ServiceException e) {
+                log.error("", e);
+                throw new ActionException("can't get all user", e);
+            }
 
             return new ActionResult(JSP_PAGE_ADMIN_REGISTRATION);
         }
@@ -33,7 +39,6 @@ public class AdminAddUserAction extends AddUser {
             log.error("can't get user from service", e);
             throw new ActionException("can't execute action", e);
         }
-
     }
 
     @Override
@@ -41,12 +46,12 @@ public class AdminAddUserAction extends AddUser {
         try {
             int userRoleId = stringAdapter.toInt(request.getParameter(ATTRIBUTE_NAME_USER_ROLE_ID));
             UserRole userRole = userRoleService.findById(userRoleId);
+            userRole.setId(userRoleId);
             user.setUserRole(userRole);
         } catch (ServiceException e) {
             log.error("can't get userRole from service", e);
             throw new ActionException("can't find user by id", e);
         }
     }
-
 }
 

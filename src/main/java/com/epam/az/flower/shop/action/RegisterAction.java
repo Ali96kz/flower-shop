@@ -16,9 +16,8 @@ public class RegisterAction extends AddUser {
             if (!isValidate(request)) {
                 return new ActionResult(JSP_PAGE_NAME_REGISTRATION);
             }
-
             User user = fillUser(request, new User());
-            user = userService.registerUser(user);
+            user = userService.registerUserCustomer(user);
             putInSession(user, request);
 
             return new ActionResult(JSP_PAGE_NAME_PROFILE, true);
