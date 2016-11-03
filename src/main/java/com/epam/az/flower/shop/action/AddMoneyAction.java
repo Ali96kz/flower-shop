@@ -45,7 +45,7 @@ public class AddMoneyAction implements Action {
         }
     }
 
-    public boolean isValidate(List<String> errorMsg, HttpServletRequest req, User user){
+    public boolean isValidate(List<String> errorMsg, HttpServletRequest req, User user) {
         if (errorMsg.size() > 0) {
             req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
             req.setAttribute(ATTRIBUTE_NAME_USER, user);

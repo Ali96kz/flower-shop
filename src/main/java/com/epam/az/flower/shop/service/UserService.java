@@ -64,11 +64,13 @@ public class UserService {
         registerUser(user);
         return user;
     }
+
     public void registerUser(User user) throws ServiceException {
         int userId = proxyService.insert(user);
         user.setId(userId);
 
     }
+
     public User findById(int id) throws ServiceException {
         User user = (User) proxyService.findById(id);
         UserRole userRole = userRoleService.findById(user.getUserRole().getId());

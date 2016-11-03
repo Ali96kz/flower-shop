@@ -2,7 +2,6 @@ package com.epam.az.flower.shop.service;
 
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
-import com.epam.az.flower.shop.dao.manager.AbstractDAO;
 import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;

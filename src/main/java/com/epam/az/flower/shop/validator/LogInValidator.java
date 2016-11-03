@@ -33,7 +33,7 @@ public class LogInValidator extends AbstractValidator {
         return errorMsg;
     }
 
-    private void isUserExist(List<String> errorMsg,String nickName, String password) throws ValidatorException {
+    private void isUserExist(List<String> errorMsg, String nickName, String password) throws ValidatorException {
         UserService userService;
         try {
             Integer userId;
