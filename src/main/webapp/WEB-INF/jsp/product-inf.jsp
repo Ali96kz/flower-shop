@@ -13,6 +13,18 @@
     <fmt:message key="manager.product.edit" var="editProduct" />
     <fmt:message key="product.buy.product" var="buyProduct" />
     <fmt:message key="product.add.into.basket" var="addToBasket" />
+
+    <fmt:message key="product.page.average.height" var="averageHeight" />
+    <fmt:message key="product.page.temperature" var="temperature" />
+    <fmt:message key="product.page.water.in.week" var="waterInWeek" />
+    <fmt:message key="product.page.price" var="price" />
+    <fmt:message key="product.page.lova.light" var="isLoveLight" />
+    <fmt:message key="product.page.made.place" var="madePlace" />
+    <fmt:message key="product.page.growing.condition" var="growingCondition" />
+    <fmt:message key="product.page.visual.parameters" var="visualParameters" />
+    <fmt:message key="product.page.leaf.color" var="leafColor" />
+    <fmt:message key="product.page.steam.color" var="steamColor" />
+
 </fmt:bundle>
 
 
@@ -27,17 +39,17 @@
                             <h4 class="pull-right">${product.price} KZT</h4>
                             <h4><a href="#">${product.flower.name}</a>
                             </h4>
-                            <p>Made place : ${product.origin.country} - ${product.origin.province}</p>
-                            <p>Price : ${product.price}</p>
-                            <p>VisualParameters: </p>
-                            <p>Leaves color : ${product.flower.visualParameters.colorLeaves}</p>
-                            <p>Steam color : ${product.flower.visualParameters.colorSteam}</p>
-                            <p>Average height : ${product.flower.averageHeight}</p>
+                            <p>${madePlace}: ${product.origin.country} - ${product.origin.province}</p>
+                            <p>${price}: ${product.price}</p>
+                            <p>${visualParameters}: </p>
+                            <p>${leafColor}: ${product.flower.visualParameters.colorLeaves}</p>
+                            <p>${steamColor} : ${product.flower.visualParameters.colorSteam}</p>
+                            <p>${averageHeight}: ${product.flower.averageHeight}</p>
 
-                            <p>Growing condition: </p>
-                            <p>Love light: ${product.flower.growingCondition.lovelight}</p>
-                            <p>Temperature: ${product.flower.growingCondition.temperature.tmin} - ${product.flower.growingCondition.temperature.tmax}</p>
-                            <p>Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}</p>
+                            <p>${growingCondition}: </p>
+                            <p>${isLoveLight}: ${product.flower.growingCondition.lovelight}</p>
+                            <p>${temperature}: ${product.flower.growingCondition.temperature.tmin} - ${product.flower.growingCondition.temperature.tmax}</p>
+                            <p>${waterInWeek}: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}</p>
 
                             <p>${product.description}</p>
                             <p>

@@ -28,6 +28,7 @@ public class BuyBasketAction extends AbstractBasket {
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         HttpSession session = req.getSession();
         if (!isValidate(req)) {
+
             return actionResult;
         }
 

@@ -24,6 +24,7 @@
     <fmt:message key="register.help.for.confirm.password" var="helpConfirmPassword"/>
     <fmt:message key="usernick.name"/>
     <fmt:message key="registration.page.error.incorrect.password" var="registration.page.error.incorrect.password"/>
+    <fmt:message key="registration.page.error.incorrect.nickname" var="helpNickName"/>
 
 </fmt:bundle>
 <style>
@@ -67,7 +68,7 @@
                                 <input id="username" name="nickName" value="${user.nickName}" placeholder=""
                                        class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">date</p>
+                                <p class="help-block">${helpNickName}</p>
                             </div>
                         </div>
 
@@ -97,6 +98,8 @@
                                 <p class="help-block">${helpConfirmPassword}</p>
                             </div>
                         </div>
+
+
                         <div class="control-group">
                             <label class="control-label" for="password_confirm"></label>
                             <div class="controls">

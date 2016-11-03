@@ -14,6 +14,9 @@
         <fmt:message key="template.sign.in" var="signIn"/>
         <fmt:message key="template.sign.up" var="signUp"/>
         <fmt:message key="template.contact" var="contact"/>
+        <fmt:message key="eng.template.english" var="english"/>
+        <fmt:message key="ru.template.russian" var="russian"/>
+
     </fmt:bundle>
 
     <style>
@@ -44,10 +47,10 @@
                     <a href="vitrine">${vitrine}</a>
                 </li>
                 <li>
-                    <a href="set-language?lang=ru">Russian</a>
+                    <a href="set-language?lang=ru">${russian}</a>
                 </li>
                 <li>
-                    <a href="set-language?lang=en">English</a>
+                    <a href="set-language?lang=en">${english}</a>
                 </li>
             </ul>
         </div>

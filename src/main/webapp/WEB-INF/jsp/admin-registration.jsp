@@ -15,6 +15,26 @@
     <fmt:message key="register.confirm.passsword" var="confirmPassword"/>
     <fmt:message key="register.birth.day.date" var="birhday"/>
     <fmt:message key="register.sign.up" var="signUpButton"/>
+    <fmt:message key="register.label.register" var="labelReg"/>
+    <fmt:message key="register.label.register" var="labelReg"/>
+    <fmt:message key="register.help.for.string" var="helpCom"/>
+    <fmt:message key="register.help.for.date" var="helpDate"/>
+    <fmt:message key="register.help.for.password" var="helpPassword"/>
+    <fmt:message key="register.help.for.confirm.password" var="helpConfirmPassword"/>
+    <fmt:message key="usernick.name"/>
+    <fmt:message key="registration.page.error.incorrect.password" var="registration.page.error.incorrect.password"/>
+    <fmt:message key="registration.page.error.incorrect.nickname" var="helpNickName"/>
+    <fmt:message key="admin.register.choose.user.role" var="chooseUserRole"/>
+
+    <fmt:message key="register.sign.title" var="title"/>
+    <fmt:message key="register.nick.name" var="nickName"/>
+    <fmt:message key="register.first.name" var="firstName"/>
+    <fmt:message key="register.lastname" var="lastName"/>
+    <fmt:message key="register.passsword" var="password"/>
+    <fmt:message key="register.confirm.passsword" var="confirmPassword"/>
+    <fmt:message key="register.birth.day.date" var="birhday"/>
+    <fmt:message key="register.sign.up" var="signUpButton"/>
+    <fmt:message key="admin.register" var="register"/>
 </fmt:bundle>
 
 <style>
@@ -29,7 +49,7 @@
                 <form class="form-horizontal" method="POST">
                     <fieldset>
                         <div id="legend">
-                            <legend class="">Register</legend>
+                            <legend class="">${register}</legend>
                         </div>
 
                         <div class="control-group">
@@ -58,7 +78,7 @@
                                 <input id="username" name="nickName" value="${user.nickName}" placeholder=""
                                        class="form-control input-lg"
                                        type="text">
-                                <p class="help-block">date</p>
+                                <p class="help-block">${helpNickName}</p>
                             </div>
                         </div>
 
@@ -90,7 +110,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password_confirm">Choose user role</label>
+                            <label class="control-label" for="password_confirm">${chooseUserRole}</label>
                             <div class="controls">
                                 <p>
                                     <select name="userRoleId">

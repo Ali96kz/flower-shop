@@ -8,7 +8,8 @@
     <fmt:message key="basket.bill" var="operationBill"/>
     <fmt:message key="basket.delete.product" var="deleteProduct"/>
     <fmt:message key="basket.buy" var="buyBasket"/>
-    <fmt:message key="basket.buy" var="buyBasket"/>
+    <fmt:message key="basket.buy.all.basket" var="buyBasket"/>
+    <fmt:message key="basket.buy.product" var="buyThisProduct"/>
 
 </fmt:bundle>
 <t:autorized-user-template>
@@ -31,12 +32,12 @@
 
                             <br>
                         <a href="buy-product?productId=${product.id}">
-                            <c:out value="buy this product"/><br>
+                            <c:out value="${buyThisProduct}"/><br>
                         </a>
                             </c:forEach>
                         <br>
                         <a href="buy-all-basket">
-                            <c:out value="buy all basket"/><br>
+                            <c:out value="${buyBasket}"/><br>
                         </a>
                         <br>
                         <fmt:bundle basename="i18n">

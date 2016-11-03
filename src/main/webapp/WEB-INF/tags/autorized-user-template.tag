@@ -13,6 +13,8 @@
         <fmt:message key="template.cash" var="cash"/>
         <fmt:message key="template.logout" var="logout"/>
         <fmt:message key="template.transaction" var="transaction"/>
+        <fmt:message key="eng.template.english" var="english"/>
+        <fmt:message key="ru.template.russian" var="russian"/>
     </fmt:bundle>
 
     <meta charset="UTF-8">
@@ -43,10 +45,10 @@
                     <a href="contact">${contact}</a>
                 </li>
                 <li>
-                    <a href="set-language?lang=ru">Russian</a>
+                    <a href="set-language?lang=ru">${russian}</a>
                 </li>
                 <li>
-                    <a href="set-language?lang=en">English</a>
+                    <a href="set-language?lang=en">${english}</a>
                 </li>
                 <li>
                 <a href="about-project">${aboutMyProject}</a>
