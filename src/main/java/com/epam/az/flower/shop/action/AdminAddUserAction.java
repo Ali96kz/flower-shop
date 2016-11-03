@@ -22,7 +22,7 @@ public class AdminAddUserAction extends AddUser {
             try {
                 request.setAttribute(ATTRIBUTE_USER_ROLES, userRoleService.getAll());
             } catch (ServiceException e) {
-                log.error("", e);
+                log.error("can't get all user", e);
                 throw new ActionException("can't get all user", e);
             }
 

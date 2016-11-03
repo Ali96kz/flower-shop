@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractProduct implements Action {
     private static Logger logger = LoggerFactory.getLogger(AbstractProduct.class);
-
     protected ProductService productService = new ProductService();
     protected OriginService originService = new OriginService();
     protected VisualParametersService visualParametersService = new VisualParametersService();

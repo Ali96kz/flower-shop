@@ -21,7 +21,7 @@ public class LogoutAction implements Action {
             userService.logout(userId.intValue());
         } catch (ServiceException e) {
 
-            throw new ActionException("", e);
+            throw new ActionException("user can't logout", e);
         }
         session.invalidate();
 
