@@ -19,7 +19,7 @@ import java.util.List;
 
 public class BuyBasketAction extends AbstractBasket {
     private static Logger logger = LoggerFactory.getLogger(BuyBasketAction.class);
-    private final ActionResult actionResult = new ActionResult(JSP_PAGE_NAME_BASKET, true);
+    private final ActionResult actionResult = new ActionResult(JSP_PAGE_NAME_BASKET);
     private UserService userService = new UserService();
     private Validator validator = new BuyBasketValidator();
     private OrderService orderService = new OrderService();

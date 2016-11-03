@@ -18,6 +18,9 @@
                             <font size="3" color="red"> <fmt:message
                                     key="error.havent.enough.money"/></font>
                         </c:when>
+                          <c:when test="${msg eq 'error.buy.sign.in'}">
+                              <font size="3" color="red"> <fmt:message key="error.buy.sign.in"/></font>
+                          </c:when>
                     </c:choose>
                     <br>
                 </c:forEach>

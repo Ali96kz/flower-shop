@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowAdminRegisterNewPAge implements Action {
+public class ShowAdminRegisterNewPage implements Action {
     private static final String JSP_ADMIN_REGISTRATION = "admin-registration";
-    private static Logger logger = LoggerFactory.getLogger(ShowAdminRegisterNewPAge.class);
+    private static Logger logger = LoggerFactory.getLogger(ShowAdminRegisterNewPage.class);
     private UserRoleService userRoleService = new UserRoleService();
 
     @Override

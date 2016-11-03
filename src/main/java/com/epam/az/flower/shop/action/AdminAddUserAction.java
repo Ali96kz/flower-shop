@@ -19,6 +19,7 @@ public class AdminAddUserAction extends AddUser {
     @Override
     public ActionResult execute(HttpServletRequest request, HttpServletResponse resp) throws ActionException {
         if (!isValidate(request)) {
+
             return new ActionResult(JSP_PAGE_ADMIN_REGISTRATION);
         }
 

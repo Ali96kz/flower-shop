@@ -43,7 +43,6 @@ public interface Validator {
 
     String PARAMETER_MONEY = "money";
     String ADD_PRODUCT_INTO_BASKET_ERROR_MSG = "error.basket.empty";
-    String EMPTY_BASKET_ERROR = "error.basket.empty";
     String SIGN_IN_ERROR = "error.buy.sign.in";
     String HAVEN_T_ENOUGH_MONEY_ERROR = "error.havent.enough.money";
 
@@ -63,6 +62,7 @@ public interface Validator {
     String ERROR_ATTRIBUTE_NAME_NICK_NAME = "registration.page.error.incorrect.nickname";
     String ERROR_ATTRIBUTE_NAME_CONFIRM_PASSWORD = "registration.page.error.incorrect.confirm.password";
     String ERROR_ATTRIBUTE_NAME_PASSWORD = "registration.page.error.incorrect.password";
+    String HAVENT_ENOUGH_MONEY_ERROR = "error.havent.enough.money";
 
     List<String> isValidate(HttpServletRequest request) throws ValidatorException;
 }

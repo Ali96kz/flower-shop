@@ -30,7 +30,7 @@ public class ActionFactory {
         actions.put("GET/contact", new ShowPageAction("contact"));
         actions.put("GET/delete-product", new DeleteProductAction());
         actions.put("GET/add-product", new ShowAddProductPageAction());
-        actions.put("GET/admin-registration", new ShowAdminRegisterNewPAge());
+        actions.put("GET/admin-registration", new ShowAdminRegisterNewPage());
         actions.put("GET/edit-product", new ShowProductEditPageAction());
         actions.put("GET/profile", new ShowProfileAction());
         actions.put("GET/vitrine", new ShowOnlineVitrineAction());

@@ -19,7 +19,7 @@
                 <div class="row">
                         ${numberProducts}:${basket.products.size()}<br>
                         ${operationBill}:${bill}<br>
-                    <a href="buy-all-basket">
+                    <a href="buy-all-basket"></a>
 
                         <c:forEach items="${basket.products}" var="product">
                         <br><c:out value="${product.flower.name}"/><br>
@@ -28,23 +28,33 @@
                         <a href="delete-product-basket?productId=${product.id}">
                                 ${deleteProduct}
                         </a>
+
+                            <br>
                         <a href="buy-product?productId=${product.id}">
                             <c:out value="buy this product"/><br>
                         </a>
-
+                            </c:forEach>
                         <br>
-                            <a href="buy-all-basket">
-                                <c:out value="buy all basket"/><br>
-                            </a>
-
+                        <a href="buy-all-basket">
+                            <c:out value="buy all basket"/><br>
+                        </a>
                         <br>
-                        </c:forEach>
-                        <c:forEach items="${errorMsg}" var="msg">
-                            <c:out value="${msg}"/><br>
-                        </c:forEach>
+                        <fmt:bundle basename="i18n">
+                            <c:forEach items="${errorMsg}" var="msg">
+                                <c:choose>
+                                    <c:when test="${msg eq 'error.basket.empty'}">
+                                        <font size="3" color="red"> <fmt:message key="error.basket.empty"/></font>
+                                    </c:when>
+
+                                    <c:when test="${msg eq 'error.havent.enough.money'}">
+                                        <font size="3" color="red"> <fmt:message key="error.havent.enough.money"/></font>
+                                    </c:when>
+                                </c:choose>
+                                <br>
+                            </c:forEach>
+                        </fmt:bundle>
                 </div>
             </div>
-
         </div>
     </div>
 
