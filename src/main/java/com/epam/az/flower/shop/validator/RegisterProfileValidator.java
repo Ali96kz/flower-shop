@@ -19,6 +19,7 @@ public class RegisterProfileValidator extends AbstractValidator {
     private static final int FIRST_NAME_MAX_LENGTH = 16;
     private static final int FIRST_NAME_MIN_LENGTH = 3;
     private static Logger logger = LoggerFactory.getLogger(RegisterProfileValidator.class);
+
     private UserService userService = new UserService();
 
     public List<String> isValidate(HttpServletRequest request) throws ValidatorException {

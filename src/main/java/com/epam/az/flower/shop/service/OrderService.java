@@ -12,15 +12,14 @@ public class OrderService {
 
     private UserService userService = new UserService();
     private UserTransactionService userTransactionService = new UserTransactionService();
-    private Transaction transaction = new Transaction();
     private ProxyService proxyService = new ProxyService(USER_ORDER_DAO_CLASS);
     private TransactionService transactionService = new TransactionService();
+
     public void createOrder(User user, Product product) throws ServiceException {
         insertIntoUserTransaction(user, product);
         UserOrder userOrder = fillUserOrder(user, product);
         proxyService.insert(userOrder);
         userService.update(user);
-
     }
 
     private UserOrder fillUserOrder(User user, Product product) {
@@ -29,6 +28,7 @@ public class OrderService {
         userOrder.setProduct(product);
         userOrder.setOrderDate(getDate());
         user.setBalance(user.getBalance() - product.getPrice());
+
         return userOrder;
     }
 
@@ -36,6 +36,7 @@ public class OrderService {
         Calendar c = new GregorianCalendar();
         java.util.Date utilDate = c.getTime();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
         return sqlDate;
     }
 
