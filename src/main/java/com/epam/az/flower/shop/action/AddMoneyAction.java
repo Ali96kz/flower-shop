@@ -25,20 +25,17 @@ public class AddMoneyAction implements Action {
             HttpSession session = req.getSession();
             List<String> errorMsg = validator.isValidate(req);
             int userId = (int) session.getAttribute(SESSION_PARAMETER_USER_ID);
-
             User user = userService.findById(userId);
 
-            if (errorMsg.size() > 0) {
-                req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
-                req.setAttribute(ATTRIBUTE_NAME_USER, user);
-                return ACTION_RESULT_CASH_REDIRECT_TRUE;
+            if (!isValidate(errorMsg, req, user)) {
+                return ACTION_RESULT_CASH;
             }
 
             int money = Integer.parseInt(req.getParameter(PARAMETER_NAME_MONEY));
             userService.addMoneyToBalance(user, money);
+            req.setAttribute(ATTRIBUTE_NAME_USER, user);
 
-            return ACTION_RESULT_CASH_REDIRECT_TRUE;
-
+            return new ActionResult(JSP_PAGE_NAME_CASH, true);
         } catch (ServiceException e) {
             log.error("can't get entity from service", e);
             throw new ActionException("can't get user from service", e);
@@ -46,5 +43,14 @@ public class AddMoneyAction implements Action {
             log.error("can't isValidate", e);
             throw new ActionException("can't isValidate", e);
         }
+    }
+
+    public boolean isValidate(List<String> errorMsg, HttpServletRequest req, User user){
+        if (errorMsg.size() > 0) {
+            req.setAttribute(ATTRIBUTE_ERROR_MSG, errorMsg);
+            req.setAttribute(ATTRIBUTE_NAME_USER, user);
+            return false;
+        }
+        return true;
     }
 }

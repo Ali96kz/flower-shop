@@ -4,7 +4,6 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 
-
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
         <div class="container">
@@ -21,7 +20,10 @@
                             <br>
                         </form>
                         <c:forEach items="${errorMsg}" var="msg">
-
+                             <fmt:bundle basename="i18n">
+                                 <c:if test="${msg == error.cash.incorrect.money}"/>
+                                 <font size="3" color="red"><fmt:message key="error.cash.incorrect.money"/></font><br/>
+                             </fmt:bundle>
                         </c:forEach>
                     </div>
                 </div>

@@ -9,6 +9,21 @@
 
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
-    ${buyProduct}
+        <c:choose>
+            <c:when test="${errorMsg ne null}">
+            <fmt:bundle basename="i18n">
+                <c:forEach items="${errorMsg}" var="msg">
+                    <c:choose>
+                        <c:when test="${msg eq 'error.havent.enough.money'}">
+                            <font size="3" color="red"> <fmt:message
+                                    key="error.havent.enough.money"/></font>
+                        </c:when>
+                    </c:choose>
+                    <br>
+                </c:forEach>
+            </fmt:bundle>
+            </c:when>
+            <c:otherwise>${buyProduct}</c:otherwise>
+    </c:choose>
     </jsp:attribute>
 </t:autorized-user-template>

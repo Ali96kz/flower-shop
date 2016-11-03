@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="display" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <fmt:bundle basename="i18n">
     <fmt:message key="register.sign.title" var="title"/>
@@ -21,6 +22,10 @@
     <fmt:message key="register.help.for.date" var="helpDate"/>
     <fmt:message key="register.help.for.password" var="helpPassword"/>
     <fmt:message key="register.help.for.confirm.password" var="helpConfirmPassword"/>
+    <%--<fmt:message key="userprofile.last.name" var="userprofile.last.name"/>--%>
+    <fmt:message key="usernick.name"/>
+    <fmt:message key="registration.page.error.incorrect.password" var="registration.page.error.incorrect.password"/>
+
 </fmt:bundle>
 <style>
     <jsp:directive.include file="/WEB-INF/css/registration.css"/>
@@ -40,7 +45,8 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${firstName}</label>
                             <div class="controls">
-                                <input id="firstName" name="firstName"  value="${user.firstName}" placeholder="" class="form-control input-lg"
+                                <input id="firstName" name="firstName" value="${user.firstName}" placeholder=""
+                                       class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">${helpCom}</p>
                             </div>
@@ -49,7 +55,8 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${lastName}</label>
                             <div class="controls">
-                                <input id="lastName" name="lastName" placeholder=""  value="${user.lastName}" class="form-control input-lg"
+                                <input id="lastName" name="lastName" placeholder="" value="${user.lastName}"
+                                       class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">${helpCom}</p>
                             </div>
@@ -58,7 +65,8 @@
                         <div class="control-group">
                             <label class="control-label" for="username">${nickName}</label>
                             <div class="controls">
-                                <input id="username" name="nickName"  value="${user.nickName}" placeholder="" class="form-control input-lg"
+                                <input id="username" name="nickName" value="${user.nickName}" placeholder=""
+                                       class="form-control input-lg"
                                        type="text">
                                 <p class="help-block">date</p>
                             </div>
@@ -74,7 +82,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="password" >${password}</label>
+                            <label class="control-label" for="password">${password}</label>
                             <div class="controls">
                                 <input id="password" name="password" placeholder="" class="form-control input-lg"
                                        type="password">
@@ -90,13 +98,55 @@
                                 <p class="help-block">${helpConfirmPassword}</p>
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label" for="password_confirm">${confirmPassword}</label>
-                            <div class="controls">
 
-                                <c:forEach items="${errorMsg}" var="msg">
-                                    <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
-                                </c:forEach>
+                        <div class="control-group">
+                            <label class="control-label" for="password_confirm"></label>
+                            <div class="controls">
+                                <fmt:bundle basename="i18n">
+                                    <c:forEach items="${errorMsg}" var="msg">
+                                        <c:choose>
+                                            <c:when test="${msg eq 'registration.page.error.busy.nickname'}">
+                                                <font size="3" color="red"> <fmt:message
+                                                    key="registration.page.error.busy.nickname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.lastname'}">
+                                                <font size="3" color="red"><fmt:message
+                                                    key="registration.page.error.incorrect.lastname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.nickname'}">
+                                                <font size="3" color="red"><fmt:message
+                                                    key="registration.page.error.incorrect.nickname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.firstname'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="registration.page.error.incorrect.firstname"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.password'}">
+                                                <font size="3" color="red"><fmt:message
+                                                            key="registration.page.error.incorrect.password"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.confirm.password'}">
+                                                <font size="3" color="red"><fmt:message
+                                                                key="registration.page.error.incorrect.confirm.password"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'registration.page.error.incorrect.date'}">
+                                                <font size="3" color="red"><fmt:message key="registration.page.error.incorrect.date"/></font>
+                                            </c:when>
+
+
+                                            <c:when test="${msg eq 'registration.page.error.different.password'}">
+                                                <font size="3" color="red"><fmt:message key="registration.page.error.different.password"/></font>
+                                            </c:when>
+                                        </c:choose>
+                                        <br>
+                                    </c:forEach>
+                                </fmt:bundle>
                             </div>
                         </div>
 

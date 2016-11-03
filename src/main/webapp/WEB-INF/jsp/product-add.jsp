@@ -125,10 +125,32 @@
                         </div>
                         <div class="control-group">
                             <div class="controls">
+                                <fmt:bundle basename="i18n">
+                                    <c:forEach items="${errorMsg}" var="msg">
+                                        <c:choose>
+                                            <c:when test="${msg eq 'error.add.product.flower.name'}">
+                                                <font size="3" color="red"> <fmt:message
+                                                        key="error.add.product.flower.name"/></font>
+                                            </c:when>
 
-                                <c:forEach items="${errorMsg}" var="msg">
-                                    <font size="3" color="red"><c:out value="${msg}"></c:out></font><br>
-                                </c:forEach>
+                                            <c:when test="${msg eq 'error.add.description'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="error.add.description"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'error.add.product.average.height'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="error.add.product.average.height"/></font>
+                                            </c:when>
+
+                                            <c:when test="${msg eq 'error.add.product.price'}">
+                                                <font size="3" color="red"><fmt:message
+                                                        key="error.add.product.price"/></font>
+                                            </c:when>
+                                        </c:choose>
+                                        <br>
+                                    </c:forEach>
+                                </fmt:bundle>
                             </div>
                         </div>
 

@@ -41,7 +41,6 @@ public class SecurityFilter implements Filter {
         anonymousUserViews.add("/registration");
         anonymousUserViews.add("/product-inf");
         anonymousUserViews.add("/product-in-basket");
-        anonymousUserViews.add("/add-product");
     }
 
     public void initUser() {

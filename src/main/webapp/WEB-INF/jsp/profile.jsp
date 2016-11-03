@@ -5,17 +5,17 @@
 <%--@elvariable id="user" type="com.epam.az.flower.shop.entity.User"--%>
 
 <fmt:bundle basename="i18n">
-    <fmt:message key="user.profile.balance" var="balance"/>
-    <fmt:message key="user.profile.birthday.day" var="bitrthdayDay"/>
-    <fmt:message key="user.profile.last.name" var="lastName"/>
-    <fmt:message key="user.profile.delete" var="deleteAccount"/>
-    <fmt:message key="user.profile.role" var="role"/>
-    <fmt:message key="user.profile.first.name" var="name"/>
-    <fmt:message key="user.profile.edit.account" var="editAccount"/>
-    <fmt:message key="user.profile.logout" var="logout"/>
-    <fmt:message key="user.profile.online.vitrine" var="vitrine"/>
-    <fmt:message key="user.profile.cash" var="cash"/>
-    <fmt:message key="user.profile.my.basket" var="basket"/>
+    <fmt:message key="userprofile.balance" var="balance"/>
+    <fmt:message key="userprofile.birthday.day" var="bitrthdayDay"/>
+    <fmt:message key="userprofile.last.name" var="lastName"/>
+    <fmt:message key="userprofile.delete" var="deleteAccount"/>
+    <fmt:message key="userprofile.role" var="role"/>
+    <fmt:message key="userprofile.first.name" var="name"/>
+    <fmt:message key="userprofile.edit.account" var="editAccount"/>
+    <fmt:message key="userprofile.logout" var="logout"/>
+    <fmt:message key="userprofile.online.vitrine" var="vitrine"/>
+    <fmt:message key="userprofile.cash" var="cash"/>
+    <fmt:message key="userprofile.my.basket" var="basket"/>
 </fmt:bundle>
 <t:autorized-user-template>
     <jsp:attribute name="navbar">

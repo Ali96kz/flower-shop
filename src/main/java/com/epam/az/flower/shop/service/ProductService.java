@@ -7,6 +7,7 @@ import com.epam.az.flower.shop.entity.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService {
@@ -24,15 +25,16 @@ public class ProductService {
     public List<Product> getAllNotDeleteProduct() throws ServiceException {
         List<Product> products = proxyService.getAll();
         logger.info("get {} products from data", products.size());
-
+        List<Product> notDeleteProduct = new ArrayList<>();
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getDeleteDay() == null) {
                 fillProduct(products.get(i));
+                notDeleteProduct.add(products.get(i));
             }
         }
-        return products;
-    }
 
+        return notDeleteProduct;
+    }
 
     public int addNewProduct(Product product) throws ServiceException {
         int flowerId = flowerService.insert(product.getFlower());

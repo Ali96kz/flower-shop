@@ -3,6 +3,7 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.manager.AbstractDAO;
+import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @param <E>
  */
-public class ProxyService<E extends AbstractDAO> {
+public class ProxyService<E extends CachedDAO> {
     private static Logger logger = LoggerFactory.getLogger(ProxyService.class);
 
     private DAOFactory daoFactory = DAOFactory.getInstance();

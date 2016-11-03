@@ -29,7 +29,8 @@ public class BuyProductAction implements Action {
     @Override
     public ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException {
         if (!isValidate(req)) {
-            return new ActionResult(JSP_PAGE_NAME_VITRINE, true);
+
+            return new ActionResult(JSP_PAGE_NAME_BILL);
         }
 
         try {

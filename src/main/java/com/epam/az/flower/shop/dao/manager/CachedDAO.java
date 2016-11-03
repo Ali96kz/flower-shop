@@ -45,7 +45,8 @@ public abstract class CachedDAO<E extends BaseEntity> extends AbstractDAO<E> {
             logger.error("can't insert object", e);
             throw new DAOException("can't insert", e);
         }
-        cache.put(item.getId(), item);
+        item.setId(id);
+        cache.put(id, item);
         return id;
     }
 

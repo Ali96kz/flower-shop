@@ -34,12 +34,12 @@ public interface Validator {
     String PARAMETER_LAST_NAME = "lastName";
     String PARAMETER_DATE_BIRTHDAY = "dateBirthday";
     String PARAMETER_PASSWORD = "password";
-
     String PARAMETER_CONFIRM_PASSWORD = "confirmPassword";
-    String FIELD_MENU_FLOWER_NAME = "error.add.product.flower.name";
-    String FIELD_MENU_DESCRIPTION = "error.add.description";
-    String FIELD_MENU_AVERAGE_HEIGHT = "error.add.product.average.height";
-    String FIELD_MENU_PRICE = "error.add.product.price";
+
+    String ERROR_FIELD_FLOWER_NAME = "error.add.product.flower.name";
+    String ERROR_FIELD_DESCRIPTION = "error.add.description";
+    String ERROR_AVERAGE_HEIGHT = "error.add.product.average.height";
+    String ERROR_MENU_PRICE = "error.add.product.price";
 
     String PARAMETER_MONEY = "money";
     String ADD_PRODUCT_INTO_BASKET_ERROR_MSG = "error.basket.empty";
@@ -58,9 +58,9 @@ public interface Validator {
     String INCORRECT_DATE_ERROR_MSG = "registration.page.error.incorrect.date";
     String DIFFERENT_PASSWORD_ERROR_MSG = "registration.page.error.different.password";
     String BUSY_NICKNAME_ERROR_MSG = "registration.page.error.busy.nickname";
-    String ERROR_ATTRIBUTE_FIRST_NAME = "user.profile.first.name";
-    String ERROR_ATTRIBUTE_NAME_LAST_NAME = "user.profile.last.name";
-    String ERROR_ATTRIBUTE_NAME_NICK_NAME = "user.nick.name";
+    String ERROR_ATTRIBUTE_FIRST_NAME = "registration.page.error.incorrect.firstname";
+    String ERROR_ATTRIBUTE_NAME_LAST_NAME = "registration.page.error.incorrect.lastname";
+    String ERROR_ATTRIBUTE_NAME_NICK_NAME = "registration.page.error.incorrect.nickname";
     String ERROR_ATTRIBUTE_NAME_CONFIRM_PASSWORD = "registration.page.error.incorrect.confirm.password";
     String ERROR_ATTRIBUTE_NAME_PASSWORD = "registration.page.error.incorrect.password";
 

@@ -6,7 +6,7 @@
 <fmt:bundle basename="i18n">
     <fmt:message key="admin.title" var="title"/>
     <fmt:message key="admin.register" var="register"/>
-    <fmt:message key="user.nick.name" var="nickName"/>
+    <fmt:message key="usernick.name" var="nickName"/>
     <fmt:message key="admin.delete.user" var="deleteUser"/>
 </fmt:bundle>
 

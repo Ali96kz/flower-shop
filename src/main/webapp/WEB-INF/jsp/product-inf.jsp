@@ -18,42 +18,41 @@
 
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
-<div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="thumbnail">
+                        <img class="img-responsive" src="http://placehold.it/800x300" alt="">
+                        <div class="caption-full">
+                            <h4 class="pull-right">${product.price} KZT</h4>
+                            <h4><a href="#">${product.flower.name}</a>
+                            </h4>
+                            <p>Made place : ${product.origin.country} - ${product.origin.province}</p>
+                            <p>Price : ${product.price}</p>
+                            <p>VisualParameters: </p>
+                            <p>Leaves color : ${product.flower.visualParameters.colorLeaves}</p>
+                            <p>Steam color : ${product.flower.visualParameters.colorSteam}</p>
+                            <p>Average height : ${product.flower.averageHeight}</p>
 
-    <div class="row">
-        <div class="col-md-9">
+                            <p>Growing condition: </p>
+                            <p>Love light: ${product.flower.growingCondition.lovelight}</p>
+                            <p>Temperature: ${product.flower.growingCondition.temperature.tmin} - ${product.flower.growingCondition.temperature.tmax}</p>
+                            <p>Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}</p>
 
-            <div class="thumbnail">
-                <img class="img-responsive" src="http://placehold.it/800x300" alt="">
-                <div class="caption-full">
-                    <h4 class="pull-right">${product.price} KZT</h4>
-                    <h4><a href="#">${product.flower.name}</a>
-                    </h4>
-                    <p>Made place : ${product.origin.country} - ${product.origin.province}</p>
-                    <p>Price : ${product.price}</p>
-                    <p>VisualParameters: </p>
-                    <p>Leaves color : ${product.flower.visualParameters.colorLeaves}</p>
-                    <p>Steam color : ${product.flower.visualParameters.colorSteam}</p>
-                    <p>Average height : ${product.flower.averageHeight}</p>
+                            <p>${product.description}</p>
+                            <p>
+                                <a href="product-in-basket?productId=${product.id}">
+                                <c:out value="${addToBasket}"/><br>
+                                </a>
+                                <a href="buy-product?productId=${product.id}">
+                                    <c:out value="${buyProduct}"/><br>
+                                </a>
+                            </p>
 
-                    <p>Growing condition: </p>
-                    <p>Love light: ${product.flower.growingCondition.lovelight}</p>
-                    <p>Temperature: ${product.flower.growingCondition.temperature.tmin} - ${product.flower.growingCondition.temperature.tmax}</p>
-                    <p>Water in week: ${product.flower.growingCondition.waterInWeek.min} - ${product.flower.growingCondition.waterInWeek.max}</p>
-
-                    <p>${product.description}</p>
-                    <p>
-                        <a href="product-in-basket?productId=${product.id}">
-                        <c:out value="${addToBasket}"/><br>
-                        </a>
-                        <a href="buy-product?productId=${product.id}">
-                            <c:out value="${buyProduct}"/><br>
-                        </a>
-                    </p>
-        </div>
-        </div>
-        </div>
-    </div>
+                </div>
+                </div>
+                </div>
+            </div>
 
     </jsp:attribute>
 </t:autorized-user-template>

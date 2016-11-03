@@ -68,7 +68,7 @@ public interface Action {
     String ATTRIBUTE_NAME_USER = "user";
     String SESSION_PARAMETER_USER_ID = "userId";
 
-    ActionResult ACTION_RESULT_CASH_REDIRECT_TRUE = new ActionResult(JSP_PAGE_NAME_CASH);
+    ActionResult ACTION_RESULT_CASH = new ActionResult(JSP_PAGE_NAME_CASH);
     ActionResult ACTION_RESULT_ADD_PRODUCT_REDIRECT_FALSE = new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
 
 

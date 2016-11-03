@@ -34,6 +34,7 @@ public class BuyProductValidator extends AbstractValidator {
 
         try {
             validatePositiveNumber(errorMsg, request.getParameter(PARAMETER_PRODUCT_ID), PRODUCT_ID);
+
             if (errorMsg.size() > 0) {
                 return errorMsg;
             }

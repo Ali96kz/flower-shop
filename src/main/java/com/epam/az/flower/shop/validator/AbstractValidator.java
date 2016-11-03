@@ -11,10 +11,10 @@ public abstract class AbstractValidator implements Validator {
     private static final String D_REGEX = "\\d";
     private StringAdapter stringAdapter = new StringAdapter();
 
-    protected void validateDate(List<String> errorMsg, String date){
+    protected void validateDate(List<String> errorMsg, String date) {
         if (date == null) {
             errorMsg.add(INCORRECT_DATE_ERROR_MSG);
-            return ;
+            return;
         }
 
         if (!date.toString().matches(MATCH_DATE_REGEX)) {
@@ -22,13 +22,12 @@ public abstract class AbstractValidator implements Validator {
         }
 
     }
+
     protected void validatePositiveNumber(List<String> errorMsg, String number, String message) {
         if (number == null || number.replaceAll(WHITESPACE_REGEX, EMPTY_STRING).equals(EMPTY_STRING)) {
             errorMsg.add(message);
             return;
-        }
-
-        if (!number.matches(NUMBER_REGEX)) {
+        } else if (!number.matches(NUMBER_REGEX)) {
             errorMsg.add(message);
             return;
         }
@@ -43,19 +42,17 @@ public abstract class AbstractValidator implements Validator {
     protected void validateString(List<String> errorMsgs, String parameter, String message) {
         if (parameter.replaceAll(WHITESPACE_REGEX, EMPTY_STRING).equals(EMPTY_STRING)) {
             errorMsgs.add(message);
-        }
-
-        if (parameter.matches(W_REGEX)) {
+        } else if (parameter.matches(W_REGEX)) {
             errorMsgs.add(message);
-        }
-
-        if (parameter.matches(D_REGEX)) {
+        } else if (parameter.matches(D_REGEX)) {
             errorMsgs.add(message);
         }
     }
 
     protected void validateString(List<String> errorMsg, String parameter, String message, int minLength, int maxLength) {
         validateString(errorMsg, parameter, message);
+        if(errorMsg.size() > 0)
+            return;
         if (parameter.length() < minLength) {
             errorMsg.add(message);
         } else if (parameter.length() > maxLength) {
