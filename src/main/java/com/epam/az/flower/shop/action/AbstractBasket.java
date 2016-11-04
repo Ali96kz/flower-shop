@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 public abstract class AbstractBasket implements Action {
 
-    public Basket getBasket(HttpSession session) {
+    protected Basket getBasket(HttpSession session) {
         Basket basket;
 
         if (session.getAttribute(ATTRIBUTE_BASKET) == null) {
