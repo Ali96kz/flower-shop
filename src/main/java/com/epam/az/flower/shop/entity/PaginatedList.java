@@ -28,9 +28,16 @@ public class PaginatedList {
 
 
     public int getPageNumber() {
+        int size = productList.size();
+        int result = 0;
         if (productList.size() % pageSize == 0) {
             return productList.size() / pageSize;
         }
-        return productList.size() / pageSize;
+
+        while(size > 0){
+            size -= pageSize;
+            result++;
+        }
+        return result;
     }
 }

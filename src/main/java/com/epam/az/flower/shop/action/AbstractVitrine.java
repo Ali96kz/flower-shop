@@ -54,7 +54,7 @@ public abstract class AbstractVitrine implements Action {
         if (pageNumbers == null || pageNumbers.size() != paginatedList.getPageNumber()) {
             pageNumbers = new ArrayList<>();
             for (int i = 0; i < paginatedList.getPageNumber(); i++) {
-                pageNumbers.add(i + 1);
+                pageNumbers.add(i);
             }
         }
         req.setAttribute(REQUEST_ATTRIBUTE_PAGE_LIST, pageNumbers);

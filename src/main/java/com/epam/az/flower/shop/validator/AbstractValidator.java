@@ -9,6 +9,7 @@ public abstract class AbstractValidator implements Validator {
     private static final String EMPTY_STRING = "";
     private static final String W_REGEX = "\\W";
     private static final String D_REGEX = "\\d";
+    private static final int NUMBER_MAX_VALUE = 9;
     private StringAdapter stringAdapter = new StringAdapter();
 
     protected void validateDate(List<String> errorMsg, String date) {
@@ -28,6 +29,9 @@ public abstract class AbstractValidator implements Validator {
             errorMsg.add(message);
             return;
         } else if (!number.matches(NUMBER_REGEX)) {
+            errorMsg.add(message);
+            return;
+        } else if (number.length() > NUMBER_MAX_VALUE) {
             errorMsg.add(message);
             return;
         }
