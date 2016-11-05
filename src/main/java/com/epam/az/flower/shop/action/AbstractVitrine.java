@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractVitrine implements Action {
+public abstract class AbstractVitrine extends AbstractProduct {
     private static final Logger logger = LoggerFactory.getLogger(AbstractVitrine.class);
     private List<Integer> pageNumbers;
     private ProductService productService = new ProductService();

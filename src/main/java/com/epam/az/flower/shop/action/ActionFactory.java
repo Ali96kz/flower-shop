@@ -21,7 +21,9 @@ public class ActionFactory {
         actions.put("POST/registration", new RegisterAction());
         actions.put("POST/admin-registration", new AdminAddUserAction());
         actions.put("POST/edit-product", new EditProductAction());
+        actions.put("POST/vitrine-visual-parameter", new ShowSortedByVisualParameter());
 
+        actions.put("GET/vitrine-visual-parameter", new ShowVitrineParameterVisual());
         actions.put("GET/delete-profile", new ShowPageAction("delete-profile"));
         actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/set-language", new SelectLanguageAction());

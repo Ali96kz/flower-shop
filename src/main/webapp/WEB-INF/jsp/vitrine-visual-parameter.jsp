@@ -10,10 +10,16 @@
 
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
-        <a href="vitrine-visual-parameter">
-            <c:out value="sort visual parameter"/><br>
-        </a>
-
+        <form method="POST">
+            <p>
+                <select name="visualParametersId">
+                    <c:forEach items="${visualParameters}" var="visualParameter">
+                        <option value="${visualParameter.id}">${visualParameter.colorLeaves}- ${visualParameter.colorSteam}</option>
+                    </c:forEach>
+                </select>
+                <button>find</button>
+            </p>
+        </form>
 <!-- Page Content -->
 <div class="container">
 

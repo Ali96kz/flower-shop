@@ -1,8 +1,11 @@
 package com.epam.az.flower.shop.service;
 
+import com.epam.az.flower.shop.dao.DAOException;
+import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.ProductDAO;
 import com.epam.az.flower.shop.entity.Flower;
 import com.epam.az.flower.shop.entity.Origin;
+import com.epam.az.flower.shop.entity.PaginatedList;
 import com.epam.az.flower.shop.entity.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +19,40 @@ public class ProductService {
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
     private ProxyService proxyService = new ProxyService(PRODUCT_DAO_CLASS);
+    DAOFactory daoFactory;
+    private ProductDAO productDAO ;
 
+    public void init() throws ServiceException {
+        try {
+            daoFactory = DAOFactory.getInstance();
+            productDAO = daoFactory.getDao(PRODUCT_DAO_CLASS);
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
+
+    }
     public void update(Product product) throws ServiceException {
         flowerService.update(product.getFlower());
         proxyService.update(product);
+    }
+
+    public PaginatedList getAllByVisualParameter(int id) throws ServiceException {
+        init();
+        try {
+            daoFactory.startOperation(productDAO);
+            List<Integer> productIds = productDAO.getAllByVisual(id);
+            daoFactory.endOperation(productDAO);
+            PaginatedList paginatedList = new PaginatedList(12);
+
+            for (Integer productId : productIds) {
+                logger.info("size {}", productIds.size());
+                paginatedList.addProduct(findById(productId));
+            }
+
+            return paginatedList;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
     }
 
     public List<Product> getAllNotDeleteProduct() throws ServiceException {

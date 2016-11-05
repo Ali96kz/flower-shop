@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaginatedList {
-    public List<Product> productList;
-    private int pageNumber;
+    public List<Product> productList = new ArrayList<>();
     private int pageSize;
 
     public PaginatedList(int pageSize, List<Product> products) {
         this.pageSize = pageSize;
         this.productList = products;
 
+    }
+
+    public PaginatedList(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public List<Product> getPage(int id) {
@@ -26,6 +29,9 @@ public class PaginatedList {
         return result;
     }
 
+    public void addProduct(Product product){
+        productList.add(product);
+    }
 
     public int getPageNumber() {
         int size = productList.size();

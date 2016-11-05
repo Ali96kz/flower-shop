@@ -31,6 +31,7 @@ public class SecurityFilter implements Filter {
     public void initAnonymousUser() {
         anonymousUserViews = new ArrayList<>();
         anonymousUserViews.add("/vitrine");
+        anonymousUserViews.add("/vitrine-visual-parameter");
         anonymousUserViews.add("/set-language");
         anonymousUserViews.add("/basket");
         anonymousUserViews.add("/main");
