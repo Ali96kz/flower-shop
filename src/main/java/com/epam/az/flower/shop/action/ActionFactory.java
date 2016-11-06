@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.action;
 
+import com.epam.az.flower.shop.action.vitrine.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,6 @@ public class ActionFactory {
     private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private Map<String, Action> actions;
 
-
     public void initActions() {
         actions = new HashMap<>();
         actions.put("POST/registration", new RegisterAction());
@@ -22,8 +22,12 @@ public class ActionFactory {
         actions.put("POST/admin-registration", new AdminAddUserAction());
         actions.put("POST/edit-product", new EditProductAction());
         actions.put("POST/vitrine-visual-parameter", new ShowSortedByVisualParameter());
+        actions.put("POST/growing-condition-parameter", new ShowSortedByGrowing());
+        actions.put("POST/flower-type-parameter", new SortedByFlowerType());
 
+        actions.put("GET/flower-type-parameter", new ShowVitrineParameterFlowerType());
         actions.put("GET/vitrine-visual-parameter", new ShowVitrineParameterVisual());
+        actions.put("GET/growing-condition-parameter", new ShowVitrineGrowingParameter());
         actions.put("GET/delete-profile", new ShowPageAction("delete-profile"));
         actions.put("GET/registration", new ShowPageAction("registration"));
         actions.put("GET/set-language", new SelectLanguageAction());

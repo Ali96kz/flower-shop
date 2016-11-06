@@ -1,7 +1,7 @@
 package com.epam.az.flowershop.actions;
 
 import com.epam.az.flower.shop.action.ActionException;
-import com.epam.az.flower.shop.action.ShowOnlineVitrineAction;
+import com.epam.az.flower.shop.action.vitrine.ShowOnlineVitrineAction;
 import com.epam.az.flower.shop.entity.Product;
 import com.epam.az.flowershop.TestHttpRequest;
 import com.epam.az.flowershop.TestHttpResponse;

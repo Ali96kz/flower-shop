@@ -35,7 +35,6 @@ public class ProductService {
         flowerService.update(product.getFlower());
         proxyService.update(product);
     }
-
     public PaginatedList getAllByVisualParameter(int id) throws ServiceException {
         init();
         try {
@@ -46,6 +45,39 @@ public class ProductService {
 
             for (Integer productId : productIds) {
                 logger.info("size {}", productIds.size());
+                paginatedList.addProduct(findById(productId));
+            }
+
+            return paginatedList;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
+    }
+    public PaginatedList getAllByGrowingConditionId(int id) throws ServiceException {
+        init();
+        try {
+            daoFactory.startOperation(productDAO);
+            List<Integer> productIds = productDAO.getAllByGrowingCondition(id);
+            daoFactory.endOperation(productDAO);
+            PaginatedList paginatedList = new PaginatedList(12);
+
+            for (Integer productId : productIds) {
+                paginatedList.addProduct(findById(productId));
+            }
+
+            return paginatedList;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
+    }
+    public PaginatedList getAllByFLowerType(int id) throws ServiceException {
+        init();
+        try {
+            daoFactory.startOperation(productDAO);
+            List<Integer> productIds = productDAO.getAllByFlowerType(id);
+            daoFactory.endOperation(productDAO);
+            PaginatedList paginatedList = new PaginatedList(12);
+            for (Integer productId : productIds) {
                 paginatedList.addProduct(findById(productId));
             }
 

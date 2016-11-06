@@ -10,25 +10,18 @@
 
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
-        <a href="vitrine-visual-parameter">
-            <c:out value="filter visual parameter"/><br>
-        </a>
-        <a href="growing-condition-parameter">
-            <c:out value="filter growing parameter"/><br>
-        </a>
+            <form method="POST">
+                <p><select name="growingConditionId">
+                    Price min
+                    <input type="text" size="16" value="${product.price}" name="priceMin"
+                           class="form-control input-lg">
 
-        <a href="vitrine-average-height">
-            <c:out value="filter average height"/><br>
-        </a>
-
-        <a href="flower-type-parameter">
-            <c:out value="filter flower type"/><br>
-        </a>
-
-        <a href="price-parameter">
-            <c:out value="filter price parameter"/><br>
-        </a>
-
+                    Price max
+                    <input type="text" size="16" value="${product.price}" name="priceMax"
+                           class="form-control input-lg">
+                </select></p>
+                <button>filter</button>
+            </form>
 <!-- Page Content -->
 <div class="container">
 

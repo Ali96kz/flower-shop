@@ -1,4 +1,8 @@
-package com.epam.az.flower.shop.action;
+package com.epam.az.flower.shop.action.vitrine;
+
+import com.epam.az.flower.shop.action.AbstractVitrine;
+import com.epam.az.flower.shop.action.ActionException;
+import com.epam.az.flower.shop.action.ActionResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
