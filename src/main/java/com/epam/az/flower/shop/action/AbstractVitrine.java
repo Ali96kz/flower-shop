@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class AbstractVitrine extends AbstractProduct {
     private static final Logger logger = LoggerFactory.getLogger(AbstractVitrine.class);
     private List<Integer> pageNumbers;
-    private ProductService productService = new ProductService();
+    protected ProductService productService = new ProductService();
     private OnlineVitrineValidator onlineVitrineValidator = new OnlineVitrineValidator();
     private StringAdapter stringAdapter = new StringAdapter();
     private PaginatedList paginatedList;

@@ -3,10 +3,7 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.ProductDAO;
-import com.epam.az.flower.shop.entity.Flower;
-import com.epam.az.flower.shop.entity.Origin;
-import com.epam.az.flower.shop.entity.PaginatedList;
-import com.epam.az.flower.shop.entity.Product;
+import com.epam.az.flower.shop.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +16,9 @@ public class ProductService {
     private FlowerService flowerService = new FlowerService();
     private OriginService originService = new OriginService();
     private ProxyService proxyService = new ProxyService(PRODUCT_DAO_CLASS);
-    DAOFactory daoFactory;
+    private DAOFactory daoFactory;
     private ProductDAO productDAO ;
-
+    private FlowerTypeService flowerTypeService = new FlowerTypeService();
     public void init() throws ServiceException {
         try {
             daoFactory = DAOFactory.getInstance();
@@ -35,6 +32,39 @@ public class ProductService {
         flowerService.update(product.getFlower());
         proxyService.update(product);
     }
+
+    public PaginatedList getAllByPrice(int min, int max) throws ServiceException {
+        init();
+        try {
+            daoFactory.startOperation(productDAO);
+            List<Integer> productIds = productDAO.getAllByPrice(min, max);
+            daoFactory.endOperation(productDAO);
+            PaginatedList paginatedList = new PaginatedList(12);
+            for (Integer productId : productIds) {
+                paginatedList.addProduct(findById(productId));
+            }
+            return paginatedList;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
+    }
+    public PaginatedList getAllByHeight(int min, int max) throws ServiceException {
+        init();
+        try {
+            daoFactory.startOperation(productDAO);
+            List<Integer> productIds = productDAO.getAllByAverageHeight(min, max);
+            daoFactory.endOperation(productDAO);
+
+            PaginatedList paginatedList = new PaginatedList(12);
+            for (Integer productId : productIds) {
+                paginatedList.addProduct(findById(productId));
+            }
+            return paginatedList;
+        } catch (DAOException e) {
+            throw new ServiceException("", e);
+        }
+    }
+
     public PaginatedList getAllByVisualParameter(int id) throws ServiceException {
         init();
         try {
@@ -120,6 +150,8 @@ public class ProductService {
         if (product != null) {
             Origin origin = originService.findById(product.getOrigin().getId());
             Flower flower = flowerService.findById(product.getFlower().getId());
+            FlowerType flowerType = flowerTypeService.findById(flower.getFlowerType().getId());
+            flower.setFlowerType(flowerType);
             product.setFlower(flower);
             product.setOrigin(origin);
         }

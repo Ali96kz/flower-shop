@@ -45,7 +45,7 @@
                             <p>${leafColor}: ${product.flower.visualParameters.colorLeaves}</p>
                             <p>${steamColor} : ${product.flower.visualParameters.colorSteam}</p>
                             <p>${averageHeight}: ${product.flower.averageHeight}</p>
-
+                            <p>Flower type: ${product.flower.flowerType.name}</p>
                             <p>${growingCondition}: </p>
                             <p>${isLoveLight}: ${product.flower.growingCondition.lovelight}</p>
                             <p>${temperature}: ${product.flower.growingCondition.temperature.tmin} - ${product.flower.growingCondition.temperature.tmax}</p>

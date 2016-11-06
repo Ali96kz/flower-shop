@@ -11,7 +11,7 @@
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
         <form method="POST">
-            <p><select name="growingConditionId">
+            <p>
                 Height min
                 <input type="text" size="16" value="${product.price}" name="heightMin"
                        class="form-control input-lg">

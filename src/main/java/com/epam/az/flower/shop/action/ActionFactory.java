@@ -24,8 +24,12 @@ public class ActionFactory {
         actions.put("POST/vitrine-visual-parameter", new ShowSortedByVisualParameter());
         actions.put("POST/growing-condition-parameter", new ShowSortedByGrowing());
         actions.put("POST/flower-type-parameter", new SortedByFlowerType());
+        actions.put("POST/price-parameter", new ShowSortedByPrice());
+        actions.put("POST/vitrine-average-height", new SortedByAverageHeight());
 
         actions.put("GET/flower-type-parameter", new ShowVitrineParameterFlowerType());
+        actions.put("GET/price-parameter", new ShowPriceParameter());
+        actions.put("GET/vitrine-average-height", new AverageHeightParamter());
         actions.put("GET/vitrine-visual-parameter", new ShowVitrineParameterVisual());
         actions.put("GET/growing-condition-parameter", new ShowVitrineGrowingParameter());
         actions.put("GET/delete-profile", new ShowPageAction("delete-profile"));

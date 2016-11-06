@@ -11,7 +11,7 @@
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
             <form method="POST">
-                <p><select name="growingConditionId">
+                <p>
                     Price min
                     <input type="text" size="16" value="${product.price}" name="priceMin"
                            class="form-control input-lg">
@@ -19,7 +19,7 @@
                     Price max
                     <input type="text" size="16" value="${product.price}" name="priceMax"
                            class="form-control input-lg">
-                </select></p>
+                </p>
                 <button>filter</button>
             </form>
 <!-- Page Content -->

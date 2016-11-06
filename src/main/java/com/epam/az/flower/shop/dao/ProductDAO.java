@@ -35,7 +35,7 @@ public class ProductDAO extends CachedDAO<Product> {
     public List<Integer> getAllByAverageHeight(int min, int max) throws DAOException {
         try {
             String sql = "SELECT Product.id FROM Product " +
-                    "INNER JOIN Flower ON Product.flowerId = Flower.id AND Flower.growingConditionId < "+max + " and Flower.averageHeight > " + min;
+                    "INNER JOIN Flower ON Product.flowerId = Flower.id AND Flower.averageHeight < "+max + " and Flower.averageHeight > " + min;
 
             ResultSet resultSet = executeSQL(sql);
             return parserResultSet(resultSet);
