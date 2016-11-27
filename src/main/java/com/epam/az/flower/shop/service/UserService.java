@@ -3,11 +3,14 @@ package com.epam.az.flower.shop.service;
 import com.epam.az.flower.shop.dao.DAOException;
 import com.epam.az.flower.shop.dao.DAOFactory;
 import com.epam.az.flower.shop.dao.UserDAO;
+import com.epam.az.flower.shop.dao.UserOrderDAO;
 import com.epam.az.flower.shop.entity.User;
+import com.epam.az.flower.shop.entity.UserOrder;
 import com.epam.az.flower.shop.entity.UserRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Date;
 import java.util.List;
 
 public class UserService {
@@ -53,7 +56,10 @@ public class UserService {
             daoFactory.endOperation(userDAO);
         }
     }
-
+    public List<User> getAll() throws ServiceException {
+        List<User> users = proxyService.getAll();
+        return users;
+    }
     public void delete(int userId) throws ServiceException {
         proxyService.delete(userId);
     }
@@ -79,13 +85,20 @@ public class UserService {
     }
 
     public List<User> getAllActiveUsers() throws ServiceException {
-        List<User> users = proxyService.getAll();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getDeleteDay() != null)
-                users.remove(i);
+        try {
+            init();
+            daoFactory.startOperation(userDAO);
+            List<User> users = userDAO.getAllCustomerProcedure();
+            return users;
+        } catch (DAOException e) {
+            logger.error("can't find object by id", e);
+            throw new ServiceException("can't find user by credentials", e);
+        } finally {
+            daoFactory.endOperation(userDAO);
         }
-        return users;
     }
+
+
 
     public void logout(int id) throws ServiceException {
         init();
@@ -109,4 +122,5 @@ public class UserService {
             daoFactory.endOperation(userDAO);
         }
     }
+
 }

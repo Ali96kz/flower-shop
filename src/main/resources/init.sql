@@ -95,8 +95,8 @@ CREATE TABLE Flower
     averageHeight INT(11),
     CONSTRAINT FlowerType_fk FOREIGN KEY (visualParametersId) REFERENCES VisualParameters (id),
     CONSTRAINT FlowerType___fk FOREIGN KEY (growingConditionId) REFERENCES GrowingCondition (id),
-    CONSTRAINT Flower___fk FOREIGN KEY (flowerTypeId) REFERENCES FlowerType (id)
-);
+        CONSTRAINT Flower___fk FOREIGN KEY (flowerTypeId) REFERENCES FlowerType (id)
+        );
 CREATE TABLE Product
 (
     id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,

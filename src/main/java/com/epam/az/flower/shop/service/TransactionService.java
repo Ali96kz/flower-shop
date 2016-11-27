@@ -7,6 +7,8 @@ import com.epam.az.flower.shop.entity.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class TransactionService {
     private static final Class<TransactionDAO> TRANSACTION_DAO_CLASS = TransactionDAO.class;
     private Logger logger = LoggerFactory.getLogger(TransactionService.class);
@@ -44,4 +46,8 @@ public class TransactionService {
         return transaction;
     }
 
+    public List<Transaction> getAll() throws ServiceException {
+        List<Transaction> transactions = proxyService.getAll();
+        return transactions;
+    }
 }

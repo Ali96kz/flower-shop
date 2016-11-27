@@ -31,6 +31,9 @@ public class SecurityFilter implements Filter {
     public void initAnonymousUser() {
         anonymousUserViews = new ArrayList<>();
         anonymousUserViews.add("/vitrine");
+        anonymousUserViews.add("/count-user-transaction-sum");
+        anonymousUserViews.add("/origin-procedure");
+        anonymousUserViews.add("/choose-order");
         anonymousUserViews.add("/vitrine-average-height");
         anonymousUserViews.add("/flower-type-parameter");
         anonymousUserViews.add("/price-parameter");
@@ -54,7 +57,6 @@ public class SecurityFilter implements Filter {
 
         userViews.remove("/registration");
         userViews.remove("/login");
-
         userViews.add("/delete-account");
         userViews.add("/profile");
         userViews.add("/delete-profile");
@@ -75,7 +77,6 @@ public class SecurityFilter implements Filter {
         managerViews.add("/delete-product");
         managerViews.add("/manager");
         managerViews.add("/add-product");
-
     }
 
     public void initAdminViews() {

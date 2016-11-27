@@ -2,12 +2,16 @@ package com.epam.az.flower.shop.dao;
 
 import com.epam.az.flower.shop.dao.manager.CachedDAO;
 import com.epam.az.flower.shop.entity.User;
+import com.epam.az.flower.shop.entity.UserOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO extends CachedDAO<User> {
     public static final Class<User> USER_CLASS = User.class;
@@ -16,6 +20,22 @@ public class UserDAO extends CachedDAO<User> {
     private static final String FIND_BY_NAME_AND_PASSWORD_SQL = "Select User.id, User.password from User where " +
             "User.nickName = ? and User.password = ?";
     private static final String USER_ID = "User.id";
+
+    public List<User> getAllCustomerProcedure() throws DAOException {
+        try {
+            String sqlCall = "{call chooseUser()}";
+            CallableStatement cstmt = getConnection().prepareCall(sqlCall);
+            ResultSet resultSet =  cstmt.executeQuery();
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                users.add(findById(resultSet.getInt("User.id")));
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new DAOException("", e);
+        }
+
+    }
 
     public int findByCredentials(String name, String password) throws DAOException {
         setGenericClass(USER_CLASS);

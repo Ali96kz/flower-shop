@@ -1,16 +1,20 @@
 package com.epam.az.flower.shop.action;
 
+import com.epam.az.flower.shop.util.UtilClassException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface Action {
     int PAGE_SIZE = 12;
+    String CHOOSE_ORDER = "choose-order";
+
     String ATTRIBUTE_NAME_ERROR_MSG = "errorMsg";
     String JSP_PAGE_NAME_EDIT_PRODUCT = "product-edit";
     String JSP_PAGE_NAME_PRODUCT = "product-inf";
     String ATTRIBUTE_NAME_PRODUCT_ID = "?productId=";
     String ATTRIBUTE_NAME_USERS = "users";
-
+    String JSP_COUNT_ADD_MONEY = "count-add-money";
     String JSP_PAGE_NAME_CASH = "cash";
     String JSP_PAGE_NAME_BASKET = "basket";
     String JSP_PAGE_NAME_MANAGER = "manager";
@@ -48,6 +52,7 @@ public interface Action {
     String ATTRIBUTE_PRODUCTS = "products";
     String PARAMETER_NAME_PAGE = "page";
     String PARAMETER_USER_ID = "id";
+    String PARAMETER_USER_IDS = "userId";
     String ATTRIBUTE_NAME_SUM = "sum";
     String ATTRIBUTE_ERROR_MSG = "errorMsg";
     String ATTRIBUTE_NAME_PRICE = "price";
@@ -64,6 +69,7 @@ public interface Action {
     String ATTRIBUTE_NAME_BILL = "bill";
     String ATTRIBUTE_NAME_PRODUCT = "product";
     String ATTRIBUTE_NAME_TRANSACTION_LIST = "transactions";
+    String ATTRIBUTE_NAME_TRANSACTION_ID = "transactionId";
     String ATTRIBUTE_NAME_ORIGIN_LIST = "origins";
     String ATTRIBUTE_NAME_USER = "user";
     String SESSION_PARAMETER_USER_ID = "userId";
@@ -72,5 +78,5 @@ public interface Action {
     ActionResult ACTION_RESULT_ADD_PRODUCT_REDIRECT_FALSE = new ActionResult(JSP_PAGE_NAME_PRODUCT_ADD);
 
 
-    ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException;
+    ActionResult execute(HttpServletRequest req, HttpServletResponse resp) throws ActionException, UtilClassException;
 }

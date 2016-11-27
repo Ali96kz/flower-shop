@@ -1,5 +1,6 @@
 package com.epam.az.flower.shop.pool;
 
+import com.epam.az.flower.shop.service.UserService;
 import com.epam.az.flower.shop.util.PropertyManager;
 import com.epam.az.flower.shop.util.UtilClassException;
 import com.mysql.cj.jdbc.ConnectionImpl;

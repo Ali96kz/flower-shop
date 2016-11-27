@@ -26,8 +26,14 @@ public class ActionFactory {
         actions.put("POST/flower-type-parameter", new SortedByFlowerType());
         actions.put("POST/price-parameter", new ShowSortedByPrice());
         actions.put("POST/vitrine-average-height", new SortedByAverageHeight());
+        actions.put("POST/origin-procedure", new OriginProcedureAction());
+        actions.put("POST/count-user-transaction-sum", new CountUsersAndTransactions());
+        actions.put("POST/choose-order", new PostChooseOrder());
 
         actions.put("GET/flower-type-parameter", new ShowVitrineParameterFlowerType());
+        actions.put("GET/choose-order", new ShowChooSeOrderPage());
+        actions.put("GET/count-user-transaction-sum", new ShowUserCountPageActio());
+        actions.put("GET/origin-procedure", new ShowPageAction("insertIntoOriginProcedure"));
         actions.put("GET/price-parameter", new ShowPriceParameter());
         actions.put("GET/vitrine-average-height", new AverageHeightParamter());
         actions.put("GET/vitrine-visual-parameter", new ShowVitrineParameterVisual());

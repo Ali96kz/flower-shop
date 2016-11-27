@@ -13,15 +13,12 @@
 <t:autorized-user-template>
     <jsp:attribute name="navbar">
 <div class="container">
-
     <div class="row">
         <div class="col-md-9">
             <div class="row">
                 <a href="admin-registration">
                     <c:out value="${register}"/><br>
                 </a>
-
-
             <c:forEach items="${users}" var="user">
                 ${nickName}<c:out value="${user.nickName}"/><br>
                 <br>
@@ -30,6 +27,5 @@
         </div>
     </div>
 </div>
-
     </jsp:attribute>
 </t:autorized-user-template>
